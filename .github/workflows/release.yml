@@ -20,45 +20,46 @@ jobs:
           zip -r video-factory-${{ steps.version.outputs.VERSION }}.zip . \
             -x ".git/*" -x ".github/*" -x "__pycache__/*" -x "*.pyc"
 
-      - name: Register/Login to Xiaping
-        id: auth
-        run: |
-          # Try to register if no key stored
-          RESPONSE=$(curl -s -X POST https://xiaping.coze.com/api/auth/register \
-            -H "Content-Type: application/json" \
-            -d '{"name":"XiaoShan-CI"}')
-          API_KEY=$(echo "$RESPONSE" | jq -r '.data.api_key // empty')
-          if [ -z "$API_KEY" ]; then
-            echo "Registration failed, trying stored key"
-            API_KEY="${{ secrets.XIAPING_API_KEY }}"
-          fi
-          echo "XIAPING_KEY=$API_KEY" >> $GITHUB_OUTPUT
-
       - name: Publish to Xiaping
         env:
-          XIAPING_KEY: ${{ steps.auth.outputs.XIAPING_KEY }}
+          XIAPING_KEY: ${{ secrets.XIAPING_API_KEY }}
         run: |
-          RESPONSE=$(curl -s -X POST https://xiaping.coze.com/api/skills \
-            -H "Authorization: Bearer $XIAPING_KEY" \
-            -F "name=video-factory" \
-            -F "description=15-skill autonomous video production pipeline: topic research, script generation, voice cloning with VoxCPM2, BGM composition with ACE-Step, HyperFrames HTML rendering, and final MP4 synthesis. Powered by Xiaomi MiMo LLM." \
-            -F 'trigger=["video factory","短视频制作","视频生产线","autonomous video"]' \
-            -F 'category=["自媒体"]' \
-            -F 'tags=["video","pipeline","automation","ai-video","hyperframes"]' \
-            -F "version=${{ steps.version.outputs.VERSION }}" \
-            -F "requires_api_key=true" \
-            -F 'pledge={"agreed":true}' \
-            -F "eval_strategy=auto" \
-            -F "file=@video-factory-${{ steps.version.outputs.VERSION }}.zip")
+          python3 << 'PYEOF'
+          import requests, json, os
           
-          echo "$RESPONSE" | jq .
-          SUCCESS=$(echo "$RESPONSE" | jq -r '.success')
-          if [ "$SUCCESS" != "true" ]; then
-            echo "::warning::Xiaping publish may have failed: $(echo "$RESPONSE" | jq -r '.error')"
-          fi
+          key = os.environ.get("XIAPING_KEY", "")
+          version = os.environ.get("VERSION", "3.0.0")
+          zip_file = f"video-factory-{version}.zip"
+          
+          with open(zip_file, "rb") as f:
+              r = requests.post(
+                  "https://xiaping.coze.com/api/skills",
+                  headers={"Authorization": f"Bearer {key}"},
+                  data={
+                      "name": "video-factory",
+                      "description": "15-skill autonomous video production pipeline: topic research, script generation, voice cloning with VoxCPM2, BGM composition with ACE-Step, HyperFrames HTML rendering, and final MP4 synthesis. Powered by Xiaomi MiMo LLM.",
+                      "trigger": json.dumps(["video factory", "短视频制作", "视频生产线"]),
+                      "category": json.dumps(["自媒体"]),
+                      "tags": json.dumps(["video", "pipeline", "automation"]),
+                      "version": version,
+                      "requires_api_key": "true",
+                      "pledge": json.dumps({"agreed": True}),
+                      "eval_strategy": "auto",
+                  },
+                  files={"file": (zip_file, f, "application/zip")},
+              )
+          
+          print(f"Status: {r.status_code}")
+          print(r.text[:1000])
+          
+          if r.status_code in [200, 201]:
+              print("✅ Published to Xiaping!")
+          else:
+              print(f"⚠️ Xiaping publish issue (non-blocking)")
+          PYEOF
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: video-factory-${{ steps.version.outputs.VERSION }}.zip
-          generate_release_notes: true
+          name: video-factory-${{ steps.version.outputs.VERSION }}
+          path: video-factory-${{ steps.version.outputs.VERSION }}.zip
