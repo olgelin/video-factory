@@ -1,0 +1,36 @@
+{
+  "name": "@xiaoshan/video-factory",
+  "version": "3.0.0",
+  "description": "15-skill autonomous video production pipeline — topic → script → voice → BGM → HyperFrames render → MP4",
+  "keywords": ["openclaw", "skill", "video", "pipeline", "automation", "short-video", "hyperframes", "ai-video", "tts", "bgm"],
+  "author": "xiaoshan",
+  "license": "MIT",
+  "openclaw": {
+    "skill": true,
+    "triggers": ["video factory", "短视频制作", "视频生产线", "autonomous video", "视频工厂"],
+    "capabilities": [
+      "topic-research",
+      "script-generation",
+      "voice-cloning",
+      "bgm-generation",
+      "html-rendering",
+      "video-synthesis",
+      "subtitle-sync"
+    ],
+    "requirements": {
+      "bins": ["python3", "ffmpeg", "node", "npx"],
+      "env": {
+        "XIAOMI_API_KEY": "Xiaomi MiMo API key (required)",
+        "DEEPSEEK_API_KEY": "DeepSeek API key (optional fallback)"
+      },
+      "python": ">=3.11"
+    }
+  },
+  "files": [
+    "SKILL.md",
+    "scripts/",
+    "skills/",
+    "references/",
+    "templates/"
+  ]
+}

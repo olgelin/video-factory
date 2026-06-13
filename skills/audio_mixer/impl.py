@@ -1,0 +1,112 @@
+"""
+audio_mixer/skill.py — 音频混合
+功能：合并配音+BGM+视频
+输出：mixed.mp4
+
+基于原step11改进。
+"""
+
+import os
+import subprocess
+from pathlib import Path
+
+# 输出路径
+OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
+MIXED_PATH = OUTPUT_DIR / "step11_final.mp4"
+
+
+def run_ffmpeg(cmd: str, timeout: int = 120) -> bool:
+    """运行ffmpeg命令"""
+    try:
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
+        if result.returncode == 0:
+            return True
+        else:
+            print(f"  ❌ ffmpeg失败: {result.stderr[:200]}")
+            return False
+    except Exception as e:
+        print(f"  ❌ ffmpeg错误: {e}")
+        return False
+
+
+def run(context: dict) -> dict:
+    """主入口：音频混合"""
+
+    topic = context.get("topic", "未知话题")
+    print(f"  [audio-mixer] 混合 '{topic}' 的音频...")
+
+    # 获取输入文件
+    project_root = Path(context.get("project_root", "."))
+    video_path = context.get("video_path") or str(project_root / "hf_render_project" / "rendered.mp4")
+    if not os.path.exists(video_path):
+        # fallback: 旧路径
+        video_path = str(OUTPUT_DIR / "step10_video.mp4")
+    voice_path = context.get("voice_path") or str(OUTPUT_DIR / "step05_voice.wav")
+    bgm_path = context.get("bgm_path") or str(OUTPUT_DIR / "bgm.wav")
+
+    # 检查文件
+    if not os.path.exists(video_path):
+        print(f"  ❌ [audio-mixer] 视频不存在: {video_path}")
+        return context
+
+    if not os.path.exists(voice_path):
+        print(f"  ❌ [audio-mixer] 配音不存在: {voice_path}")
+        return context
+
+    # 创建输出目录
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # 如果没有BGM，直接用配音
+    if not os.path.exists(bgm_path):
+        print(f"  ⚠️ [audio-mixer] BGM不存在，只用配音")
+
+        # 合并视频+配音
+        cmd = f"""ffmpeg -y -i {video_path} -i {voice_path} \
+            -c:v copy -c:a aac -b:a 128k \
+            -map 0:v:0 -map 1:a:0 \
+            {MIXED_PATH}"""
+
+        if run_ffmpeg(cmd):
+            context["mixed_path"] = str(MIXED_PATH)
+            print(f"  [audio-mixer] ✅ 混合完成（无BGM）")
+        else:
+            print(f"  ❌ [audio-mixer] 混合失败")
+    else:
+        # 有BGM：混合配音+BGM
+        print(f"  [audio-mixer] 混合配音+BGM...")
+
+        # 先混合音频
+        mixed_audio = OUTPUT_DIR / "mixed_audio.wav"
+        cmd = f"""ffmpeg -y -i {voice_path} -i {bgm_path} \
+            -filter_complex "[0:a]volume=1.5[voice];[1:a]volume=0.2[bgm];[voice][bgm]amix=inputs=2:duration=first[out]" \
+            -map "[out]" {mixed_audio}"""
+
+        if not run_ffmpeg(cmd):
+            print(f"  ❌ [audio-mixer] 音频混合失败")
+            return context
+
+        # 再合并视频+混合音频
+        cmd = f"""ffmpeg -y -i {video_path} -i {mixed_audio} \
+            -c:v copy -c:a aac -b:a 128k \
+            -map 0:v:0 -map 1:a:0 \
+            {MIXED_PATH}"""
+
+        if run_ffmpeg(cmd):
+            context["mixed_path"] = str(MIXED_PATH)
+            print(f"  [audio-mixer] ✅ 混合完成（有BGM）")
+        else:
+            print(f"  ❌ [audio-mixer] 混合失败")
+
+    return context
+
+
+if __name__ == "__main__":
+    # 测试
+    test_context = {
+        "topic": "2026高考第一批显眼包出现了",
+        "video_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step10_video.mp4",
+        "voice_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step05_voice.wav",
+    }
+    result = run(test_context)
+    print(f"\n✅ 测试完成")
+    print(f"  混合路径: {result.get('mixed_path')}")

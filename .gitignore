@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+*.egg-info/
+dist/
+build/
+output/
+deliverables/
+hf_render_project/
+*.wav
+*.mp4
+*.mp3
+models/
+.venv/
+*.log

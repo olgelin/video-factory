@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "storyboard.schema.json",
+  "title": "Storyboard",
+  "type": "object",
+  "required": ["title", "scenes"],
+  "properties": {
+    "title": {"type": "string"},
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "duration_sec"],
+        "properties": {
+          "id": {"type": "string"},
+          "text": {"type": "string"},
+          "duration_sec": {"type": "number"},
+          "visual_hint": {"type": "string"},
+          "asset_ref": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
