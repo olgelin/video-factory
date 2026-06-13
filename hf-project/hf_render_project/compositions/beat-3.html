@@ -3,437 +3,123 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; font-family: 'Inter','Noto Sans SC',sans-serif;">
-    <div class="scene" style="background:#1a1a2e; position: relative; width: 1920px; height: 1080px; background: #1a1a2e; padding: 80px 120px; box-sizing: border-box;">
-        
-        <!-- Background decorative layers -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: 
-            radial-gradient(circle at 30% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 70% 50%, rgba(255, 64, 129, 0.05) 0%, transparent 50%);
-            opacity: 0.5;">
-        </div>
-        
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: 
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.7;">
-        </div>
-        
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 212, 255, 0.02) 2px,
-                rgba(0, 212, 255, 0.02) 4px
-            );">
-        </div>
-        
-        <!-- Ghost text watermark -->
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            font-size: 200px; font-weight: bold; color: rgba(255, 255, 255, 0.03); 
-            font-family: 'JetBrains Mono',monospace; letter-spacing: 20px;
-            pointer-events: none; z-index: 0;">
-            TRANSFER
-        </div>
-        
-        <!-- Main title with PUNCHES animation -->
-        <div id="title" style="position: absolute; top: 100px; left: 120px; 
-            font-size: 96px; font-weight: bold; color: #FFFFFF; 
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 212, 255, 0.4);
-            z-index: 10;">
-            第一去向
-        </div>
-        
-        <!-- Subtitle -->
-        <div id="subtitle" style="position: absolute; top: 210px; left: 120px; 
-            font-size: 32px; color: #999999; 
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-            z-index: 10;">
-            提前还房贷
-        </div>
-        
-        <!-- Golden deposit cube -->
-        <div id="cube-container" style="position: absolute; left: 400px; top: 350px; width: 300px; height: 300px; 
-            perspective: 1000px; z-index: 20;">
-            <div id="cube" style="width: 100%; height: 100%; position: relative; 
-                transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-30deg);">
-                <!-- Front face -->
-                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
-                    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-                    border: 2px solid rgba(255, 215, 0, 0.8);
-                    box-shadow: 
-                        0 0 30px rgba(255, 215, 0, 0.4),
-                        inset 0 0 30px rgba(255, 255, 255, 0.2);
-                    transform: translateZ(125px);">
-                </div>
-                <!-- Back face -->
-                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
-                    background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-                    border: 2px solid rgba(218, 165, 32, 0.6);
-                    transform: translateZ(-125px);">
-                </div>
-                <!-- Right face -->
-                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
-                    background: linear-gradient(135deg, #FFC800 0%, #E6AC00 100%);
-                    border: 2px solid rgba(255, 200, 0, 0.6);
-                    transform: rotateY(90deg) translateZ(125px);">
-                </div>
-                <!-- Left face -->
-                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
-                    background: linear-gradient(135deg, #FFAA00 0%, #CC8800 100%);
-                    border: 2px solid rgba(255, 170, 0, 0.6);
-                    transform: rotateY(-90deg) translateZ(125px);">
-                </div>
-                <!-- Top face -->
-                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
-                    background: linear-gradient(135deg, #FFE44D 0%, #FFD700 100%);
-                    border: 2px solid rgba(255, 228, 77, 0.6);
-                    transform: rotateX(90deg) translateZ(125px);">
-                </div>
-                <!-- Bottom face -->
-                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
-                    background: linear-gradient(135deg, #DAA520 0%, #CD853F 100%);
-                    border: 2px solid rgba(218, 165, 32, 0.6);
-                    transform: rotateX(-90deg) translateZ(125px);">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Neon blue data flow particles -->
-        <div id="data-particles" style="position: absolute; left: 700px; top: 400px; width: 400px; height: 200px; z-index: 15;">
-            <!-- Particle 1 -->
-            <div class="particle" style="position: absolute; left: 0; top: 50px; 
-                width: 40px; height: 20px; background: rgba(0, 212, 255, 0.8); 
-                border-radius: 4px; box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
-                font-size: 16px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
-                font-family: 'JetBrains Mono',monospace;">
-                ¥¥
-            </div>
-            <!-- Particle 2 -->
-            <div class="particle" style="position: absolute; left: 80px; top: 80px; 
-                width: 30px; height: 18px; background: rgba(0, 212, 255, 0.7); 
-                border-radius: 3px; box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
-                font-size: 14px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
-                font-family: 'JetBrains Mono',monospace;">
-                $$$
-            </div>
-            <!-- Particle 3 -->
-            <div class="particle" style="position: absolute; left: 160px; top: 60px; 
-                width: 50px; height: 22px; background: rgba(0, 212, 255, 0.9); 
-                border-radius: 5px; box-shadow: 0 0 18px rgba(0, 212, 255, 0.7);
-                font-size: 18px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
-                font-family: 'JetBrains Mono',monospace;">
-                01
-            </div>
-            <!-- Particle 4 -->
-            <div class="particle" style="position: absolute; left: 240px; top: 100px; 
-                width: 35px; height: 16px; background: rgba(0, 212, 255, 0.6); 
-                border-radius: 4px; box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
-                font-size: 12px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
-                font-family: 'JetBrains Mono',monospace;">
-                10
-            </div>
-            <!-- Particle 5 -->
-            <div class="particle" style="position: absolute; left: 320px; top: 40px; 
-                width: 45px; height: 20px; background: rgba(0, 212, 255, 0.8); 
-                border-radius: 4px; box-shadow: 0 0 14px rgba(0, 212, 255, 0.6);
-                font-size: 16px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
-                font-family: 'JetBrains Mono',monospace;">
-                ¥¥¥
-            </div>
-        </div>
-        
-        <!-- Neon blue glowing track -->
-        <div id="track" style="position: absolute; left: 750px; top: 500px; width: 350px; height: 8px; 
-            background: linear-gradient(90deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.8) 50%, rgba(0, 212, 255, 0.1) 100%);
-            border-radius: 4px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); z-index: 10;">
-        </div>
-        
-        <!-- 3D Mortgage building model -->
-        <div id="building-container" style="position: absolute; right: 300px; top: 300px; width: 400px; height: 500px; 
-            perspective: 1000px; z-index: 20;">
-            <div id="building" style="width: 100%; height: 100%; position: relative; 
-                transform-style: preserve-3d; transform: rotateY(20deg) rotateX(-10deg);">
-                <!-- Building base -->
-                <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
-                    width: 300px; height: 350px; 
-                    background: linear-gradient(180deg, #2a2a4a 0%, #1a1a3a 100%);
-                    border: 2px solid rgba(0, 212, 255, 0.3);
-                    box-shadow: 
-                        0 0 40px rgba(0, 212, 255, 0.2),
-                        inset 0 0 30px rgba(0, 0, 0, 0.5);">
-                    <!-- Windows -->
-                    <div style="position: absolute; top: 40px; left: 30px; width: 60px; height: 80px; 
-                        background: rgba(0, 212, 255, 0.3); border: 1px solid rgba(0, 212, 255, 0.6);
-                        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);">
-                    </div>
-                    <div style="position: absolute; top: 40px; left: 120px; width: 60px; height: 80px; 
-                        background: rgba(0, 212, 255, 0.4); border: 1px solid rgba(0, 212, 255, 0.7);
-                        box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);">
-                    </div>
-                    <div style="position: absolute; top: 40px; left: 210px; width: 60px; height: 80px; 
-                        background: rgba(0, 212, 255, 0.3); border: 1px solid rgba(0, 212, 255, 0.6);
-                        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);">
-                    </div>
-                    <div style="position: absolute; top: 160px; left: 30px; width: 60px; height: 80px; 
-                        background: rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.5);
-                        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);">
-                    </div>
-                    <div style="position: absolute; top: 160px; left: 120px; width: 60px; height: 80px; 
-                        background: rgba(0, 212, 255, 0.3); border: 1px solid rgba(0, 212, 255, 0.6);
-                        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);">
-                    </div>
-                    <div style="position: absolute; top: 160px; left: 210px; width: 60px; height: 80px; 
-                        background: rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.5);
-                        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);">
-                    </div>
-                </div>
-                <!-- Building roof -->
-                <div style="position: absolute; bottom: 350px; left: 50%; transform: translateX(-50%); 
-                    width: 320px; height: 50px; 
-                    background: linear-gradient(90deg, #2a2a4a 0%, #3a3a5a 100%);
-                    border: 2px solid rgba(0, 212, 255, 0.4);
-                    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);">
-                </div>
-                <!-- Building antenna -->
-                <div style="position: absolute; bottom: 400px; left: 50%; transform: translateX(-50%); 
-                    width: 10px; height: 100px; 
-                    background: linear-gradient(180deg, rgba(0, 212, 255, 0.8) 0%, rgba(0, 212, 255, 0.2) 100%);
-                    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);">
-                </div>
-                <!-- Building fill effect -->
-                <div id="building-fill" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
-                    width: 300px; height: 0%; 
-                    background: linear-gradient(0deg, rgba(0, 212, 255, 0.6) 0%, rgba(0, 212, 255, 0.2) 100%);
-                    transition: height 2s ease-out;">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Rate comparison data panels -->
-        <div id="rate-panel-old" style="position: absolute; right: 250px; top: 180px; 
-            width: 180px; height: 120px; background: rgba(0, 0, 0, 0.6); 
-            border: 2px solid rgba(255, 64, 129, 0.6); border-radius: 16px;
-            box-shadow: 0 0 30px rgba(255, 64, 129, 0.3);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 25;">
-            <div style="font-size: 20px; color: #999999; margin-bottom: 8px;">存量房贷利率</div>
-            <div style="font-size: 48px; font-weight: bold; color: #FF4081; 
-                font-family: 'JetBrains Mono',monospace;
-                text-shadow: 0 0 15px rgba(255, 64, 129, 0.6);">
-                -2%
-            </div>
-        </div>
-        
-        <div id="rate-panel-new" style="position: absolute; right: 250px; top: 320px; 
-            width: 180px; height: 120px; background: rgba(0, 0, 0, 0.6); 
-            border: 2px solid rgba(0, 212, 255, 0.6); border-radius: 16px;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 25;">
-            <div style="font-size: 20px; color: #999999; margin-bottom: 8px;">新房贷利率</div>
-            <div style="font-size: 48px; font-weight: bold; color: #00D4FF; 
-                font-family: 'JetBrains Mono',monospace;
-                text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);">
-                4%
-            </div>
-        </div>
-        
-        <!-- Quote card with口播内容 -->
-        <div id="quote-card" style="position: absolute; left: 120px; bottom: 150px; 
-            width: 800px; padding: 40px; 
-            background: rgba(0, 0, 0, 0.7); 
-            border: 2px solid rgba(0, 212, 255, 0.3); border-radius: 24px;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
-            z-index: 30;">
-            <div style="font-size: 28px; color: #FFFFFF; line-height: 1.6;">
-                现在存量房贷利率和新房贷利差太大，很多人算完账发现，拿着钱存银行那点利息，还不如赶紧把贷款还了，省下的利息更多。于是，一大波存款就搬到了银行的还款账户。
-            </div>
-        </div>
-        
-        <!-- Progress bar -->
-        <div id="progress-container" style="position: absolute; left: 120px; bottom: 100px; 
-            width: 800px; height: 20px; background: rgba(0, 0, 0, 0.5); 
-            border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden; z-index: 30;">
-            <div id="progress-bar" style="width: 0%; height: 100%; 
-                background: linear-gradient(90deg, #FFD700 0%, #00D4FF 100%);
-                border-radius: 10px;
-                transition: width 2s ease-out;">
-            </div>
-        </div>
-        
-        <!-- Labels -->
-        <div id="label-1" style="position: absolute; left: 120px; bottom: 130px; 
-            font-size: 20px; color: #FFD700; 
-            font-family: 'JetBrains Mono',monospace;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            z-index: 30;">
-            存款流出 → 2万亿
-        </div>
-        
-        <div id="label-2" style="position: absolute; right: 250px; bottom: 200px; 
-            font-size: 20px; color: #00D4FF; 
-            font-family: 'JetBrains Mono',monospace;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-            z-index: 30;">
-            提前还款潮
-        </div>
-        
-        <!-- Decorative particles -->
-        <div class="deco-particle" style="position: absolute; left: 150px; top: 300px; 
-            width: 8px; height: 8px; background:#1a1a2e; border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); z-index: 5;">
-        </div>
-        
-        <div class="deco-particle" style="position: absolute; left: 250px; top: 450px; 
-            width: 6px; height: 6px; background: #00D4FF; border-radius: 50%;
-            box-shadow: 0 0 12px rgba(0, 212, 255, 0.6); z-index: 5;">
-        </div>
-        
-        <div class="deco-particle" style="position: absolute; right: 200px; top: 500px; 
-            width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%;
-            box-shadow: 0 0 18px rgba(255, 64, 129, 0.6); z-index: 5;">
-        </div>
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
+<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;">
+    <!-- Decorative Layers -->
+    <div id="deco-grid" style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(0,212,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.06) 1px,transparent 1px);background-size:100px 100px;opacity:0;"></div>
+    <div id="deco-glow" style="position:absolute;top:250px;left:250px;width:800px;height:800px;background:radial-gradient(circle,rgba(0,212,255,0.12) 0%,transparent 70%);opacity:0;"></div>
+    <div id="ghost-text" style="position:absolute;top:200px;left:300px;font-size:250px;font-weight:bold;color:rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;opacity:0;">2万亿</div>
+    <div id="deco-scanline" style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.2),transparent);opacity:0;"></div>
+    <!-- Main Title -->
+    <div id="main-title" style="position:absolute;top:100px;left:100px;font-size:90px;font-weight:bold;color:#00D4FF;text-shadow:0 0 30px rgba(0,212,255,0.5),0 0 60px rgba(0,212,255,0.2);opacity:0;">储蓄破裂，资金流向提前还贷</div>
+    <!-- Left Core Content (60%) -->
+    <div style="position:absolute;top:200px;left:100px;width:1152px;height:550px;">
+        <!-- Broken Bag Icon -->
+        <div id="broken-bag" style="position:absolute;top:50px;left:50px;width:200px;height:200px;background:linear-gradient(135deg,rgba(0,212,255,0.3),rgba(0,212,255,0.1));border-radius:50%;border:2px dashed rgba(0,212,255,0.5);opacity:0;"></div>
+        <!-- Flow Arrow -->
+        <div id="flow-arrow" style="position:absolute;top:150px;left:280px;width:400px;height:4px;background:linear-gradient(90deg,rgba(0,212,255,0.8),rgba(255,64,129,0.8));box-shadow:0 0 10px rgba(0,212,255,0.5);opacity:0;"></div>
+        <!-- Burning House Model -->
+        <div id="burning-house" style="position:absolute;top:100px;left:700px;width:250px;height:300px;background:linear-gradient(180deg,rgba(255,64,129,0.3),rgba(255,64,129,0.1));border-radius:16px 16px 0 0;border:1px solid rgba(255,64,129,0.4);opacity:0;"></div>
+        <!-- Fire Particles -->
+        <div class="fire-particle" style="position:absolute;top:80px;left:720px;width:8px;height:8px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
+        <div class="fire-particle" style="position:absolute;top:90px;left:750px;width:6px;height:6px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
+        <div class="fire-particle" style="position:absolute;top:70px;left:780px;width:10px;height:10px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
+        <!-- Data Flow Particles (Coins + Code) -->
+        <div class="data-particle" style="position:absolute;top:140px;left:350px;width:12px;height:12px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
+        <div class="data-particle" style="position:absolute;top:160px;left:400px;font-size:16px;color:#00D4FF;font-family:'JetBrains Mono',monospace;opacity:0;">01</div>
+        <div class="data-particle" style="position:absolute;top:130px;left:450px;width:10px;height:10px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
+        <!-- Rate Difference Formula -->
+        <div id="rate-formula" style="position:absolute;top:350px;left:100px;font-size:36px;color:#FFD700;font-family:'JetBrains Mono',monospace;text-shadow:0 0 10px rgba(255,215,0,0.3);opacity:0;">δ = 5.5% - 4.0% = 1.5%</div>
+        <!-- Math Symbol Particles -->
+        <div class="math-symbol" style="position:absolute;top:400px;left:200px;font-size:40px;color:rgba(255,255,255,0.1);opacity:0;">δ</div>
+        <div class="math-symbol" style="position:absolute;top:420px;left:300px;font-size:30px;color:rgba(255,255,255,0.08);opacity:0;">∫</div>
+        <!-- Process Light Band -->
+        <div id="light-band" style="position:absolute;top:150px;left:280px;width:420px;height:2px;background:linear-gradient(90deg,rgba(0,212,255,0.6),transparent);opacity:0;"></div>
     </div>
-    
-    <script>
-        // Register timeline
-        window.__timelines = window.__timelines || {};
-        
-        // Create timeline
-        const timeline = gsap.timeline({ paused: true });
-        
-        // Animate elements with stagger
-        timeline.from("#title", {
-            duration: 0.8,
-            y: -50,
-            opacity: 0,
-            scale: 1.2,
-            ease: "expo.out"
-        });
-        
-        timeline.from("#subtitle", {
-            duration: 0.6,
-            y: -30,
-            opacity: 0,
-            ease: "expo.out"
-        }, "-=0.4");
-        
-        timeline.from("#cube-container", {
-            duration: 1,
-            x: -100,
-            opacity: 0,
-            rotation: -20,
-            ease: "expo.out"
-        }, "-=0.3");
-        
-        timeline.from(".particle", {
-            duration: 0.5,
-            x: -50,
-            opacity: 0,
-            stagger: 0.15,
-            ease: "power4.out"
-        }, "-=0.7");
-        
-        timeline.from("#track", {
-            duration: 0.8,
-            scaleX: 0,
-            opacity: 0,
-            transformOrigin: "left center",
-            ease: "expo.out"
-        }, "-=0.6");
-        
-        timeline.from("#building-container", {
-            duration: 1,
-            x: 100,
-            opacity: 0,
-            rotation: 15,
-            ease: "expo.out"
-        }, "-=0.5");
-        
-        timeline.from("#rate-panel-old", {
-            duration: 0.6,
-            y: 50,
-            opacity: 0,
-            ease: "expo.out"
-        }, "-=0.4");
-        
-        timeline.from("#rate-panel-new", {
-            duration: 0.6,
-            y: 50,
-            opacity: 0,
-            ease: "expo.out"
-        }, "-=0.3");
-        
-        timeline.from("#quote-card", {
-            duration: 0.8,
-            y: 80,
-            opacity: 0,
-            ease: "expo.out"
-        }, "-=0.5");
-        
-        timeline.from("#progress-container", {
-            duration: 0.6,
-            x: -100,
-            opacity: 0,
-            ease: "expo.out"
-        }, "-=0.4");
-        
-        timeline.from("#label-1", {
-            duration: 0.5,
-            y: 20,
-            opacity: 0,
-            ease: "power4.out"
-        }, "-=0.3");
-        
-        timeline.from("#label-2", {
-            duration: 0.5,
-            y: 20,
-            opacity: 0,
-            ease: "power4.out"
-        }, "-=0.3");
-        
-        timeline.from(".deco-particle", {
-            duration: 0.4,
-            scale: 0,
-            opacity: 0,
-            stagger: 0.1,
-            ease: "back.out(1.7)"
-        }, "-=0.2");
-        
-        // Animate building fill and progress bar
-        timeline.to("#building-fill", {
-            duration: 2,
-            height: "70%",
-            ease: "power2.out"
-        }, "-=1.5");
-        
-        timeline.to("#progress-bar", {
-            duration: 2,
-            width: "100%",
-            ease: "power2.out"
-        }, "-=2");
-        
-        // Add breathing animation to quote card
-        gsap.to("#quote-card", {
-            scale: 1.02,
-            duration: 2.5,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        // Register timeline
-        window.__timelines["beat-3"] = timeline;
-        
-        // Auto play after a short delay
-        setTimeout(() => {
-            timeline.play();
-        }, 500);
-    </script>
+    <!-- Right Supplementary Content (40%) -->
+    <div style="position:absolute;top:200px;right:100px;width:768px;height:550px;">
+        <!-- Data Card 1 -->
+        <div id="card1" style="position:absolute;top:50px;left:50px;width:300px;height:180px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;">
+            <div style="font-size:16px;color:#999999;">提前还贷规模</div>
+            <div style="font-size:60px;font-weight:bold;color:#FFD700;font-family:'JetBrains Mono',monospace;margin-top:10px;">2.1万亿</div>
+            <div style="width:100%;height:4px;background:rgba(0,212,255,0.2);margin-top:20px;border-radius:2px;">
+                <div id="progress-bar" style="width:0%;height:100%;background:linear-gradient(90deg,#00D4FF,#FF4081);border-radius:2px;"></div>
+            </div>
+        </div>
+        <!-- Data Card 2 -->
+        <div id="card2" style="position:absolute;top:260px;left:50px;width:300px;height:180px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,64,129,0.3);border-radius:16px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;">
+            <div style="font-size:16px;color:#999999;">利差驱动</div>
+            <div style="font-size:60px;font-weight:bold;color:#FF4081;font-family:'JetBrains Mono',monospace;margin-top:10px;">1.5%</div>
+            <div style="font-size:20px;color:#FFFFFF;margin-top:20px;">存量 vs 新贷利率</div>
+        </div>
+        <!-- Tag Pills -->
+        <div id="tag1" style="position:absolute;top:480px;left:50px;padding:8px 20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.4);border-radius:20px;font-size:20px;color:#00D4FF;opacity:0;">提前还贷</div>
+        <div id="tag2" style="position:absolute;top:480px;left:180px;padding:8px 20px;background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.4);border-radius:20px;font-size:20px;color:#FF4081;opacity:0;">资金迁移</div>
+        <!-- Neon Lines Decoration -->
+        <div id="neon-line1" style="position:absolute;top:100px;right:0;width:200px;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.3));opacity:0;"></div>
+        <div id="neon-line2" style="position:absolute;top:300px;right:0;width:150px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,64,129,0.3));opacity:0;"></div>
+    </div>
+    <!-- Bottom Info Area -->
+    <div style="position:absolute;bottom:100px;left:100px;width:1720px;height:100px;">
+        <div id="bottom-text" style="font-size:28px;color:#FFFFFF;line-height:1.5;opacity:0;">第一个大头，就是提前还房贷。现在存量房贷利率和新房贷利差太大，很多人算完账发现，拿着钱存银行那点利息，还不如赶紧把贷款还了，省下的利息更多。</div>
+        <div id="bottom-label" style="margin-top:10px;font-size:20px;color:#666666;opacity:0;">口播内容 · 数据来源: 央行报告</div>
+    </div>
+    <!-- Radial Glow Focus -->
+    <div id="radial-glow" style="position:absolute;top:300px;left:500px;width:600px;height:600px;background:radial-gradient(circle,rgba(255,64,129,0.1) 0%,transparent 70%);opacity:0;"></div>
+    <!-- Corner Decorations -->
+    <div id="corner-tl" style="position:absolute;top:80px;left:80px;width:50px;height:50px;border-top:2px solid rgba(0,212,255,0.3);border-left:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
+    <div id="corner-tr" style="position:absolute;top:80px;right:80px;width:50px;height:50px;border-top:2px solid rgba(0,212,255,0.3);border-right:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
+    <div id="corner-bl" style="position:absolute;bottom:80px;left:80px;width:50px;height:50px;border-bottom:2px solid rgba(0,212,255,0.3);border-left:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
+    <div id="corner-br" style="position:absolute;bottom:80px;right:80px;width:50px;height:50px;border-bottom:2px solid rgba(0,212,255,0.3);border-right:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
+</div>
+<script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({paused: true});
+    window.__timelines["beat-3"] = tl;
+
+    // Entry Animations with stagger
+    tl.from("#deco-grid", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
+    tl.from("#deco-glow", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
+    tl.from("#ghost-text", {opacity: 0, duration: 1.5, ease: "power2.inOut"}, 0.3);
+    tl.from("#deco-scanline", {opacity: 0, y: -1080, duration: 4, ease: "none", repeat: 0}, 0.45);
+    tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.6);
+    tl.from("#broken-bag", {opacity: 0, scale: 0.8, duration: 0.7, ease: "back.out(1.7)"}, 0.75);
+    tl.from("#flow-arrow", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 1, ease: "power2.inOut"}, 0.9);
+    tl.from("#burning-house", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.05);
+    tl.from(".fire-particle", {opacity: 0, scale: 0, duration: 0.5, stagger: 0.1, ease: "power2.out"}, 1.2);
+    tl.from(".data-particle", {opacity: 0, x: -30, duration: 0.5, stagger: 0.1, ease: "power2.out"}, 1.35);
+    tl.from("#rate-formula", {opacity: 0, y: 20, duration: 0.6, ease: "power2.out"}, 1.5);
+    tl.from(".math-symbol", {opacity: 0, duration: 1, stagger: 0.2, ease: "power1.inOut"}, 1.65);
+    tl.from("#light-band", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 1.2, ease: "power2.inOut"}, 1.8);
+    tl.from("#card1", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.95);
+    tl.from("#progress-bar", {scaleX: 0, transformOrigin: "left", duration: 1.5, ease: "power2.inOut"}, 2.1);
+    tl.from("#card2", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.25);
+    tl.from("#tag1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.4);
+    tl.from("#tag2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.55);
+    tl.from("#neon-line1", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 0.8, ease: "power2.inOut"}, 2.7);
+    tl.from("#neon-line2", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 0.8, ease: "power2.inOut"}, 2.85);
+    tl.from("#bottom-text", {opacity: 0, y: 20, duration: 0.8, ease: "power2.out"}, 3.0);
+    tl.from("#bottom-label", {opacity: 0, duration: 0.6, ease: "power2.out"}, 3.15);
+    tl.from("#radial-glow", {opacity: 0, scale: 0.5, duration: 1.5, ease: "power1.inOut"}, 3.3);
+    tl.from(".corner-decoration", {opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out"}, 3.45);
+
+    // Breathing Animations (repeat: 0)
+    gsap.to("#card1", {scale: 1.015, duration: 3, ease: "sine.inOut", repeat: 0, yoyo: true, transformOrigin: "center"});
+    gsap.to("#main-title", {textShadow: "0 0 40px rgba(0,212,255,0.7),0 0 80px rgba(0,212,255,0.3)", duration: 2.5, repeat: 0, yoyo: true, ease: "sine.inOut"});
+    gsap.to("#deco-glow", {x: 50, y: 30, duration: 10, repeat: 0, yoyo: true, ease: "none"});
+    gsap.to("#tag1", {borderColor: "rgba(0,212,255,0.7)", duration: 2, repeat: 0, yoyo: true, ease: "sine.inOut"});
+
+    // Fire Breathing Animation
+    gsap.to(".fire-particle", {y: -20, opacity: 0.8, duration: 1.5, repeat: 0, yoyo: true, ease: "power1.inOut", stagger: 0.3});
+
+    // Data Flow Animation
+    gsap.to(".data-particle", {x: 350, opacity: 0.7, duration: 4, repeat: 0, ease: "none", stagger: 0.5});
+
+    // Scanline Continuous Movement
+    gsap.to("#deco-scanline", {y: 1080, duration: 5, repeat: 0, ease: "none"});
+
+    // Start timeline
+    tl.play();
+</script>
 </body>
 </html>

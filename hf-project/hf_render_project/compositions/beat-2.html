@@ -1,108 +1,192 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-2" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin:0; padding:0; overflow:hidden; background:#0a0a0a; width:1920px; height:1080px; position:relative; font-family:'Inter','Noto Sans SC',sans-serif;">
-<div class="scene" style="background:#1a1a2e; position:absolute; top:0; left:0; width:100%; height:100%; padding:100px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; align-items:center; overflow:hidden;">
-    <!-- Background Decorative Layers -->
-    <div id="data-grid-bg" style="position:absolute; top:0; left:0; width:100%; height:100%; background-image: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px; opacity:0.4; z-index:0;"></div>
-    <div id="glow-effect" style="position:absolute; top:50%; left:50%; width:800px; height:800px; background:radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%); transform:translate(-50%,-50%); z-index:1; pointer-events:none;"></div>
-    <div id="ghost-text" style="position:absolute; top:15%; left:5%; font-size:200px; font-weight:900; color:rgba(255,255,255,0.03); transform:rotate(-5deg); white-space:nowrap; z-index:1; user-select:none;">DEPOSIT CHANGE DATA</div>
-
-    <!-- HUD Overlay Title -->
-    <div id="hud-title" style="position:absolute; top:80px; left:50%; transform:translateX(-50%); padding:12px 40px; background:rgba(0, 212, 255, 0.1); border:1px solid rgba(0, 212, 255, 0.3); border-radius:16px; color:#00D4FF; font-family:'JetBrains Mono', monospace; font-size:28px; font-weight:bold; letter-spacing:4px; text-transform:uppercase; z-index:10; backdrop-filter: blur(5px); box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);">
-        央行最新数据
-    </div>
-
-    <!-- Core Data Display -->
-    <div id="core-data-card" style="position:relative; margin-top: 60px; padding: 40px 80px; background: rgba(26, 26, 46, 0.8); border: 2px solid rgba(255, 215, 0, 0.4); border-radius:24px; text-align:center; z-index:5; box-shadow: 0 0 40px rgba(255, 215, 0, 0.15), inset 0 0 30px rgba(255, 215, 0, 0.05);">
-        <div id="change-label" style="font-size:32px; color:#999999; margin-bottom:20px; letter-spacing:2px;">存款总额净减少</div>
-        <div id="main-number" style="font-family:'JetBrains Mono', monospace; font-size:120px; font-weight:bold; color:#FFD700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3); line-height:1.1;">
-            -2.05万亿
+<body style="margin:0; padding:0; overflow:hidden; background:#0a0a0a; font-family:'Inter','Noto Sans SC',sans-serif;">
+<div class="scene" style="background:#1a1a2e;position:relative; width:1920px; height:1080px; overflow:hidden; background:#0a0a0a;">
+    <!-- Decorative Grid -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(rgba(0,212,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px); background-size:100px 100px; opacity:0;"></div>
+    
+    <!-- Ghost Text Watermark -->
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:300px; font-weight:bold; color:rgba(255,255,255,0.03); white-space:nowrap; pointer-events:none; opacity:0;">2万亿</div>
+    
+    <!-- Background Glow -->
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:600px; background:radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%); opacity:0;"></div>
+    
+    <!-- Central Bank Logo Glow -->
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:400px; height:400px; border:2px solid rgba(0,212,255,0.1); border-radius:50%; opacity:0;"></div>
+    
+    <!-- Left Panel - 2011 -->
+    <div style="position:absolute; left:100px; top:200px; width:700px; height:450px; background:rgba(20,20,40,0.8); backdrop-filter:blur(10px); border:1px solid rgba(255,215,0,0.2); border-radius:24px; padding:40px; box-shadow:0 8px 32px rgba(0,0,0,0.4); overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #FFD700, transparent);"></div>
+        <div style="font-size:24px; color:#FFD700; margin-bottom:20px; opacity:0;">2011年 · 旧数据</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:72px; color:#FFD700; font-weight:bold; text-shadow:0 0 30px rgba(255,215,0,0.5); margin-bottom:20px; opacity:0;">-2.1万亿</div>
+        <div style="font-size:20px; color:#999; margin-bottom:30px; opacity:0;">首次出现存款连续两月下降</div>
+        <div style="position:absolute; bottom:40px; left:40px; right:40px; height:20px; background:rgba(255,215,0,0.1); border-radius:10px; overflow:hidden;">
+            <div style="height:100%; width:0%; background:linear-gradient(90deg, #FFD700, #FFA500); border-radius:10px;"></div>
         </div>
-        <div id="time-span" style="font-size:28px; color:#FF4081; margin-top:20px; letter-spacing:3px;">连续两个月 (2024.3 - 2024.4)</div>
-    </div>
-
-    <!-- Timeline Visualization -->
-    <div id="timeline-container" style="position:relative; width:80%; max-width:1200px; height:120px; margin-top: 80px; z-index:5;">
-        <!-- Main Timeline Line -->
-        <div id="timeline-line" style="position:absolute; top:50%; left:5%; right:5%; height:4px; background:linear-gradient(90deg, #999999, #00D4FF, #FF4081, #FFD700); transform:translateY(-50%); border-radius:2px;"></div>
-        <!-- Animated Pulse Line Connection -->
-        <div id="pulse-connection" style="position:absolute; top:50%; left:60%; width:35%; height:4px; background: linear-gradient(90deg, #FF4081, #FFD700); transform:translateY(-50%); border-radius:2px; opacity:0; filter: drop-shadow(0 0 10px #FF4081);"></div>
-
-        <!-- Timeline Nodes -->
-        <div id="node-2011" style="position:absolute; top:50%; left:10%; transform:translate(-50%, -50%); width:20px; height:20px; border-radius:50%; background:#999999; border:3px solid #999999; box-shadow: 0 0 10px #999999; z-index:2;">
-            <div style="position:absolute; top:30px; left:50%; transform:translateX(-50%); color:#999999; font-family:'JetBrains Mono', monospace; font-size:20px; white-space:nowrap;">2011年</div>
-            <div style="position:absolute; top:55px; left:50%; transform:translateX(-50%); color:#FF4081; font-size:16px; white-space:nowrap;">上一次两连跌</div>
-        </div>
-
-        <div id="node-2024-3" style="position:absolute; top:50%; left:60%; transform:translate(-50%, -50%); width:24px; height:24px; border-radius:50%; background:#1a1a2e; border:3px solid #FF4081; box-shadow: 0 0 15px #FF4081; z-index:2;">
-            <div style="position:absolute; top:30px; left:50%; transform:translateX(-50%); color:#FF4081; font-family:'JetBrains Mono', monospace; font-size:22px; font-weight:bold; white-space:nowrap;">2024.3</div>
-            <div class="pulse-ring" style="position:absolute; top:50%; left:50%; width:100%; height:100%; border:2px solid #FF4081; border-radius:50%; transform:translate(-50%,-50%) scale(1.5); opacity:0;"></div>
-        </div>
-
-        <div id="node-2024-4" style="position:absolute; top:50%; left:90%; transform:translate(-50%, -50%); width:24px; height:24px; border-radius:50%; background:#1a1a2e; border:3px solid #FFD700; box-shadow: 0 0 15px #FFD700; z-index:2;">
-            <div style="position:absolute; top:30px; left:50%; transform:translateX(-50%); color:#FFD700; font-family:'JetBrains Mono', monospace; font-size:22px; font-weight:bold; white-space:nowrap;">2024.4</div>
-            <div class="pulse-ring" style="position:absolute; top:50%; left:50%; width:100%; height:100%; border:2px solid #FFD700; border-radius:50%; transform:translate(-50%,-50%) scale(1.5); opacity:0;"></div>
+        <div style="position:absolute; top:20px; right:20px; width:60px; height:60px; border:2px solid rgba(255,215,0,0.3); border-radius:8px; display:flex; align-items:center; justify-content:center; opacity:0;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2">
+                <path d="M18 15l-6-6-6 6"/>
+            </svg>
         </div>
     </div>
-
+    
+    <!-- Right Panel - 2024 -->
+    <div style="position:absolute; right:100px; top:200px; width:700px; height:450px; background:rgba(10,10,30,0.9); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:24px; padding:40px; box-shadow:0 8px 32px rgba(0,0,0,0.6); overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
+        <div style="font-size:24px; color:#00D4FF; margin-bottom:20px; opacity:0;">2024年 · 实时数据</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:72px; color:#FF4081; font-weight:bold; text-shadow:0 0 30px rgba(255,64,129,0.5); margin-bottom:20px; opacity:0;">-2.3万亿</div>
+        <div style="font-size:20px; color:#999; margin-bottom:30px; opacity:0;">连续两个月净减少</div>
+        <div style="position:absolute; bottom:40px; left:40px; right:40px; height:20px; background:rgba(0,212,255,0.1); border-radius:10px; overflow:hidden;">
+            <div style="height:100%; width:0%; background:linear-gradient(90deg, #00D4FF, #00FF88); border-radius:10px;"></div>
+        </div>
+        <div style="position:absolute; top:20px; right:20px; width:60px; height:60px; border:2px solid rgba(0,212,255,0.3); border-radius:8px; display:flex; align-items:center; justify-content:center; opacity:0;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2">
+                <path d="M18 15l-6-6-6 6"/>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Central Stamp -->
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:200px; height:200px; display:flex; align-items:center; justify-content:center; opacity:0;">
+        <div style="width:180px; height:180px; border:4px solid #FF4081; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(255,64,129,0.5);">
+            <div style="font-size:48px; color:#FF4081; font-weight:bold; text-shadow:0 0 20px rgba(255,64,129,0.7);">首次</div>
+        </div>
+    </div>
+    
+    <!-- Trend Arrow -->
+    <div style="position:absolute; top:420px; left:850px; width:200px; height:10px; background:linear-gradient(90deg, #FFD700, #00D4FF); border-radius:5px; opacity:0;"></div>
+    <div style="position:absolute; top:410px; left:1040px; width:0; height:0; border-left:20px solid #00D4FF; border-top:10px solid transparent; border-bottom:10px solid transparent; opacity:0;"></div>
+    
+    <!-- Time Labels -->
+    <div style="position:absolute; top:180px; left:450px; font-size:32px; color:#FFD700; text-align:center; opacity:0;">2011</div>
+    <div style="position:absolute; top:180px; right:450px; font-size:32px; color:#00D4FF; text-align:center; opacity:0;">2024</div>
+    
+    <!-- Main Title -->
+    <div style="position:absolute; top:80px; left:50%; transform:translateX(-50%); text-align:center;">
+        <h1 style="font-size:80px; font-weight:bold; color:#00D4FF; text-shadow:0 0 30px rgba(0,212,255,0.7); margin:0; opacity:0;">居民存款数据对比</h1>
+        <div style="font-size:32px; color:#FFFFFF; margin-top:20px; opacity:0;">两连跌现象重现</div>
+    </div>
+    
+    <!-- Data Cards -->
+    <div style="position:absolute; bottom:150px; left:100px; width:400px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:30px; box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:0;">
+        <div style="font-size:20px; color:#999; margin-bottom:15px;">时间跨度</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:48px; color:#FFD700; font-weight:bold; text-shadow:0 0 20px rgba(255,215,0,0.5);">13年</div>
+    </div>
+    
+    <div style="position:absolute; bottom:150px; right:100px; width:400px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,64,129,0.3); border-radius:16px; padding:30px; box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:0;">
+        <div style="font-size:20px; color:#999; margin-bottom:15px;">下降幅度</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:48px; color:#FF4081; font-weight:bold; text-shadow:0 0 20px rgba(255,64,129,0.5);">+10%</div>
+    </div>
+    
     <!-- Tag Pills -->
-    <div id="tags-container" style="display:flex; gap:24px; margin-top:50px; z-index:5;">
-        <div class="tag-pill" style="padding:10px 30px; background:rgba(255, 64, 129, 0.1); border:1px solid rgba(255, 64, 129, 0.3); border-radius:50px; color:#FF4081; font-size:24px; font-weight:bold;">存款缩水</div>
-        <div class="tag-pill" style="padding:10px 30px; background:rgba(255, 215, 0, 0.1); border:1px solid rgba(255, 215, 0, 0.3); border-radius:50px; color:#FFD700; font-size:24px; font-weight:bold;">历史首次</div>
-        <div class="tag-pill" style="padding:10px 30px; background:rgba(0, 212, 255, 0.1); border:1px solid rgba(0, 212, 255, 0.3); border-radius:50px; color:#00D4FF; font-size:24px; font-weight:bold;">数据冲击</div>
+    <div style="position:absolute; bottom:80px; left:50%; transform:translateX(-50%); display:flex; gap:20px;">
+        <div style="background:rgba(0,212,255,0.2); border:1px solid rgba(0,212,255,0.4); border-radius:20px; padding:10px 25px; font-size:20px; color:#00D4FF; opacity:0;">央行数据</div>
+        <div style="background:rgba(255,64,129,0.2); border:1px solid rgba(255,64,129,0.4); border-radius:20px; padding:10px 25px; font-size:20px; color:#FF4081; opacity:0;">权威认证</div>
+        <div style="background:rgba(255,215,0,0.2); border:1px solid rgba(255,215,0,0.4); border-radius:20px; padding:10px 25px; font-size:20px; color:#FFD700; opacity:0;">趋势分析</div>
     </div>
-
-    <!-- Narrative Text -->
-    <div id="narrative-text" style="position:absolute; bottom:120px; left:100px; right:100px; display:flex; flex-direction:column; gap:15px; z-index:5;">
-        <div class="narrative-line" style="font-size:32px; color:#FFFFFF; opacity:0; text-align:center;">“我翻遍了央行最新的数据，没错，不是谣言。”</div>
-        <div class="narrative-line" style="font-size:32px; color:#FFFFFF; opacity:0; text-align:center;">“连续两个月，存款总额净减少超过二万亿。”</div>
-        <div class="narrative-line" style="font-size:32px; color:#FFFFFF; opacity:0; text-align:center;">“上一次出现这种‘两连跌’，还是2011年。”</div>
-        <div class="narrative-line" style="font-size:32px; color:#FF4081; font-weight:bold; opacity:0; text-align:center;">“你品品，这次跌得够狠。”</div>
-    </div>
-
-    <!-- Scan Lines Overlay -->
-    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events:none; z-index:9;"></div>
+    
+    <!-- Particle Dots -->
+    <div style="position:absolute; top:300px; left:300px; width:4px; height:4px; background:#00D4FF; border-radius:50%; box-shadow:0 0 10px rgba(0,212,255,0.5); opacity:0;"></div>
+    <div style="position:absolute; top:600px; left:800px; width:6px; height:6px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 10px rgba(255,64,129,0.5); opacity:0;"></div>
+    <div style="position:absolute; top:200px; right:300px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 10px rgba(255,215,0,0.5); opacity:0;"></div>
+    <div style="position:absolute; top:700px; left:200px; width:5px; height:5px; background:#00D4FF; border-radius:50%; box-shadow:0 0 10px rgba(0,212,255,0.5); opacity:0;"></div>
+    
+    <!-- Scan Line -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent); opacity:0;"></div>
+    
+    <!-- Corner Decorations -->
+    <div style="position:absolute; top:100px; left:100px; width:40px; height:40px; border-top:2px solid rgba(0,212,255,0.3); border-left:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+    <div style="position:absolute; top:100px; right:100px; width:40px; height:40px; border-top:2px solid rgba(0,212,255,0.3); border-right:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+    <div style="position:absolute; bottom:100px; left:100px; width:40px; height:40px; border-bottom:2px solid rgba(0,212,255,0.3); border-left:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+    <div style="position:absolute; bottom:100px; right:100px; width:40px; height:40px; border-bottom:2px solid rgba(0,212,255,0.3); border-right:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
 </div>
 
 <script>
-window.__timelines = window.__timelines || {};
-const tl = gsap.timeline({paused: true});
-
 // Register timeline
-window.__timelines["beat-2"] = tl;
+window.__timelines = window.__timelines || {};
+window.__timelines["beat-2"] = gsap.timeline({paused: true});
 
-// Entry animations for all visible elements (stagger 0.15s)
-tl.from("#hud-title", {y: -50, opacity: 0, duration: 0.8, ease: "expo.out"}, 0.1)
-  .from("#core-data-card", {scale: 0.8, opacity: 0, duration: 0.8, ease: "back.out(1.7)"}, 0.25)
-  .from("#change-label", {opacity: 0, y: 20, duration: 0.6}, 0.4)
-  .from("#main-number", {scale: 0.7, opacity: 0, duration: 1, ease: "elastic.out(1, 0.5)"}, 0.55)
-  .from("#time-span", {opacity: 0, y: 10, duration: 0.5}, 0.7)
-  .from("#timeline-container", {opacity: 0, x: -50, duration: 0.8, ease: "power2.out"}, 0.85)
-  .from("#timeline-line", {scaleX: 0, transformOrigin: "left center", duration: 0.8, ease: "power3.out"}, 0.95)
-  .from("#node-2011", {scale: 0, opacity: 0, duration: 0.5}, 1.1)
-  .from("#node-2024-3", {scale: 0, opacity: 0, duration: 0.5}, 1.25)
-  .from("#node-2024-4", {scale: 0, opacity: 0, duration: 0.5}, 1.4)
-  .from("#tags-container", {opacity: 0, y: 30, duration: 0.6, ease: "back.out(1.7)"}, 1.55)
-  .from(".tag-pill", {scale: 0.5, opacity: 0, duration: 0.5, stagger: 0.1}, 1.55)
-  .from(".narrative-line", {y: 40, opacity: 0, duration: 0.6, ease: "power3.out", stagger: 0.2}, 1.8)
-  .from("#ghost-text", {opacity: 0, duration: 1.5}, 0)
-  .from("#glow-effect", {scale: 0.5, opacity: 0, duration: 1.2}, 0.3);
+// Background layers
+window.__timelines["beat-2"].to(".scene > div:nth-child(1)", {opacity: 1, duration: 1.2, ease: "power1.inOut"}, 0)
+    .to(".scene > div:nth-child(2)", {opacity: 1, duration: 1.2, ease: "power1.inOut"}, 0.15)
+    .to(".scene > div:nth-child(3)", {opacity: 1, duration: 1.2, ease: "power1.inOut"}, 0.3)
+    .to(".scene > div:nth-child(4)", {opacity: 1, duration: 1.2, ease: "power1.inOut"}, 0.45)
+    
+    // Left Panel
+    .from(".scene > div:nth-child(5)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.6)
+    
+    // Right Panel
+    .from(".scene > div:nth-child(6)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.75)
+    
+    // Central Stamp
+    .from(".scene > div:nth-child(7)", {scale: 2, opacity: 0, duration: 0.5, ease: "power4.out"}, 0.9)
+    
+    // Trend Arrow
+    .from(".scene > div:nth-child(8)", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 1.05)
+    .from(".scene > div:nth-child(9)", {x: -20, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.25)
+    
+    // Time Labels
+    .from(".scene > div:nth-child(10)", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.6)
+    .from(".scene > div:nth-child(11)", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.75)
+    
+    // Main Title
+    .from(".scene > div:nth-child(12) > h1", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.45)
+    .from(".scene > div:nth-child(12) > div", {y: -30, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.6)
+    
+    // Data Cards
+    .from(".scene > div:nth-child(13)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.2)
+    .from(".scene > div:nth-child(14)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.35)
+    
+    // Tag Pills
+    .from(".scene > div:nth-child(15) > div:nth-child(1)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.5)
+    .from(".scene > div:nth-child(15) > div:nth-child(2)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.65)
+    .from(".scene > div:nth-child(15) > div:nth-child(3)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.8)
+    
+    // Particle Dots
+    .from(".scene > div:nth-child(16)", {x: -20, y: -20, opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.3)
+    .from(".scene > div:nth-child(17)", {x: 20, y: 20, opacity: 0, duration: 2, ease: "power1.inOut"}, 0.5)
+    .from(".scene > div:nth-child(18)", {x: 20, y: -20, opacity: 0, duration: 1.8, ease: "power1.inOut"}, 0.7)
+    .from(".scene > div:nth-child(19)", {x: -20, y: 20, opacity: 0, duration: 2.2, ease: "power1.inOut"}, 0.9)
+    
+    // Scan Line
+    .to(".scene > div:nth-child(20)", {top: "100%", duration: 4, ease: "none", repeat: 0}, 0)
+    
+    // Corner Decorations
+    .from(".scene > div:nth-child(21)", {opacity: 0, duration: 1, ease: "power1.inOut"}, 0.3)
+    .from(".scene > div:nth-child(22)", {opacity: 0, duration: 1, ease: "power1.inOut"}, 0.45)
+    .from(".scene > div:nth-child(23)", {opacity: 0, duration: 1, ease: "power1.inOut"}, 0.6)
+    .from(".scene > div:nth-child(24)", {opacity: 0, duration: 1, ease: "power1.inOut"}, 0.75);
 
-// Pulse animations for timeline nodes (repeat: 0, yoyo:true)
-gsap.to("#node-2024-3 .pulse-ring", {scale: 2.5, opacity: 0, duration: 1.5, repeat: 0, yoyo: true, ease: "power1.inOut"});
-gsap.to("#node-2024-4 .pulse-ring", {scale: 2.5, opacity: 0, duration: 1.5, repeat: 0, yoyo: true, ease: "power1.inOut", delay: 0.3});
+// Breathing animations for select elements
+gsap.to(".scene > div:nth-child(5)", {
+    scale: 1.015,
+    duration: 3,
+    repeat: 0,
+    yoyo: true,
+    ease: "sine.inOut"
+});
 
-// Animated connection line
-gsap.to("#pulse-connection", {opacity: 1, duration: 1, delay: 2.5, ease: "power2.inOut"});
-gsap.fromTo("#pulse-connection", {backgroundPosition: "0% 50%"}, {backgroundPosition: "100% 50%", duration: 2, delay: 2.5, repeat: 0, ease: "linear"});
+gsap.to(".scene > div:nth-child(6)", {
+    scale: 1.015,
+    duration: 3,
+    repeat: 0,
+    yoyo: true,
+    ease: "sine.inOut"
+});
 
-// Card breathing effect
-gsap.to("#core-data-card", {scale: 1.02, duration: 2.5, repeat: 0, yoyo: true, ease: "sine.inOut"});
+gsap.to(".scene > div:nth-child(12) > h1", {
+    textShadow: "0 0 30px rgba(0,212,255,0.7), 0 0 60px rgba(0,212,255,0.4)",
+    duration: 2.5,
+    repeat: 0,
+    yoyo: true,
+    ease: "sine.inOut"
+});
+
+// Start the timeline
+window.__timelines["beat-2"].play();
 </script>
 </body>
 </html>

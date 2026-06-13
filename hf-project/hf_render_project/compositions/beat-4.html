@@ -1,223 +1,247 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-4" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin: 0; padding: 0; background: #1a1a2e; font-family: 'Inter','Noto Sans SC',sans-serif; overflow: hidden;">
-    <div class="scene" style="background:#1a1a2e; width: 100vw; height: 100vh; position: relative; padding: 80px;">
+<body style="margin: 0; padding: 0; overflow: hidden; background: #0a0a0a; font-family: 'Inter','Noto Sans SC',sans-serif;">
+    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; background: #1a1a2e; overflow: hidden;">
         <!-- Background Grid -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.03;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(90deg, #00D4FF 0px, transparent 1px, transparent 80px);"></div>
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, #00D4FF 0px, transparent 1px, transparent 80px);"></div>
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(0,212,255,0.05) 100px, rgba(0,212,255,0.05) 101px), repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(0,212,255,0.05) 100px, rgba(0,212,255,0.05) 101px); opacity: 0.4;"></div>
+        
+        <!-- Radial Glow -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1200px; height: 1200px; background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, rgba(0,212,255,0.02) 50%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        
+        <!-- Ghost Text Background -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 300px; font-weight: bold; color: rgba(255,255,255,0.03); pointer-events: none; user-select: none;">DATA</div>
+        
+        <!-- Scan Line -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent); opacity: 0.6;"></div>
+        
+        <!-- Corner Decorations -->
+        <div style="position: absolute; top: 80px; left: 80px; width: 60px; height: 2px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; top: 80px; left: 80px; width: 2px; height: 60px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; top: 80px; right: 80px; width: 60px; height: 2px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; top: 80px; right: 80px; width: 2px; height: 60px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; bottom: 80px; left: 80px; width: 60px; height: 2px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; bottom: 80px; left: 80px; width: 2px; height: 60px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; bottom: 80px; right: 80px; width: 60px; height: 2px; background: rgba(0,212,255,0.3);"></div>
+        <div style="position: absolute; bottom: 80px; right: 80px; width: 2px; height: 60px; background: rgba(0,212,255,0.3);"></div>
+        
+        <!-- Title Section -->
+        <div style="position: absolute; top: 80px; left: 100px; right: 100px; text-align: center;">
+            <h1 style="font-size: 96px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 30px rgba(0,212,255,0.6); margin: 0; line-height: 1.2;">利率下行，资金搬家</h1>
+            <p style="font-size: 32px; color: rgba(255,255,255,0.7); margin: 20px 0 0;">存款利率一降再降，资金流向何处？</p>
         </div>
         
-        <!-- Neon Glow Background -->
-        <div style="position: absolute; top: 50%; left: 50%; width: 600px; height: 600px; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, rgba(255,64,129,0.05) 50%, transparent 70%); border-radius: 50%;"></div>
-        
-        <!-- Scan Lines -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px); pointer-events: none;"></div>
-        
-        <!-- Ghost Text -->
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 200px; font-weight: bold; color: rgba(255,255,255,0.03); letter-spacing: 20px;">DIVERSION</div>
-        
-        <!-- Title -->
-        <div id="title" style="position: absolute; top: 40px; left: 80px; font-size: 80px; font-weight: bold; color: #FFFFFF; text-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 40px rgba(0,212,255,0.4);">
-            <span style="color: #FFD700;">第二</span>去向
+        <!-- Main Balance Visualization -->
+        <div style="position: absolute; top: 240px; left: 100px; right: 100px; height: 500px; display: flex; align-items: center; justify-content: center;">
+            <!-- Balance Beam -->
+            <div style="position: absolute; top: 200px; left: 50%; transform: translateX(-50%); width: 1400px; height: 4px; background: linear-gradient(90deg, rgba(255,215,0,0.8), rgba(255,64,129,0.8)); border-radius: 2px; box-shadow: 0 0 20px rgba(0,212,255,0.3);"></div>
+            
+            <!-- Fulcrum -->
+            <div style="position: absolute; top: 180px; left: 50%; transform: translateX(-50%); width: 60px; height: 80px; background: linear-gradient(180deg, #00D4FF, rgba(0,212,255,0.3)); clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%); box-shadow: 0 0 30px rgba(0,212,255,0.5);"></div>
+            
+            <!-- Left Side - Savings -->
+            <div style="position: absolute; left: 200px; top: 100px; width: 300px; height: 400px;">
+                <!-- Savings Cube -->
+                <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 200px; background: linear-gradient(135deg, #FFD700, #FFA000); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 40px rgba(255,215,0,0.3); transform: translateX(-50%) rotate(5deg);">
+                    <div style="font-size: 48px; font-weight: bold; color: #1a1a2e; font-family: 'JetBrains Mono', monospace;">1.5%</div>
+                </div>
+                <!-- Label -->
+                <div style="position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #FFD700; text-align: center; width: 200px;">银行存款</div>
+            </div>
+            
+            <!-- Right Side - Investments -->
+            <div style="position: absolute; right: 200px; top: 100px; width: 400px; height: 400px;">
+                <!-- Investment Cubes Group -->
+                <div style="position: absolute; bottom: 0; left: 20%; width: 120px; height: 120px; background: linear-gradient(135deg, #FF4081, #C2185B); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 40px rgba(255,64,129,0.4);">
+                    <div style="font-size: 28px; font-weight: bold; color: #ffffff; font-family: 'JetBrains Mono', monospace;">3.2%</div>
+                </div>
+                <div style="position: absolute; bottom: 0; left: 50%; width: 140px; height: 140px; background: linear-gradient(135deg, #00D4FF, #0091EA); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 40px rgba(0,212,255,0.4);">
+                    <div style="font-size: 32px; font-weight: bold; color: #ffffff; font-family: 'JetBrains Mono', monospace;">3.8%</div>
+                </div>
+                <div style="position: absolute; bottom: 0; right: 20%; width: 100px; height: 100px; background: linear-gradient(135deg, #FFD700, #FF6D00); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 40px rgba(255,215,0,0.4);">
+                    <div style="font-size: 24px; font-weight: bold; color: #1a1a2e; font-family: 'JetBrains Mono', monospace;">4.1%</div>
+                </div>
+                <!-- Labels -->
+                <div style="position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #00D4FF; text-align: center; width: 400px;">理财/债市</div>
+                <div style="position: absolute; bottom: -120px; left: 50%; transform: translateX(-50%); font-size: 20px; color: rgba(255,255,255,0.7); text-align: center; width: 400px;">银行理财 · 国债 · 其他</div>
+            </div>
+            
+            <!-- Floating Particles -->
+            <div class="particle" style="position: absolute; top: 300px; left: 400px; width: 8px; height: 8px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700;"></div>
+            <div class="particle" style="position: absolute; top: 250px; left: 450px; width: 6px; height: 6px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700;"></div>
+            <div class="particle" style="position: absolute; top: 350px; left: 380px; width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700;"></div>
+            <div class="particle" style="position: absolute; top: 280px; left: 420px; width: 5px; height: 5px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700;"></div>
+            
+            <!-- Arrow Indicators -->
+            <div style="position: absolute; top: 300px; left: 600px; width: 300px; height: 4px; background: linear-gradient(90deg, rgba(255,215,0,0.8), rgba(0,212,255,0.8)); transform: rotate(-5deg); opacity: 0.7;"></div>
+            <div style="position: absolute; top: 280px; left: 850px; font-size: 20px; color: rgba(0,212,255,0.9); font-weight: bold;">资金流向 →</div>
         </div>
         
-        <!-- Deposit Pool -->
-        <div id="deposit-pool" style="position: absolute; left: 200px; top: 300px; width: 200px; height: 200px; background: rgba(255,215,0,0.1); border: 2px solid #FFD700; border-radius: 24px; display: flex; align-items: center; justify-content: center;">
-            <div style="font-size: 36px; font-weight: bold; color: #FFD700;">存款池</div>
-            <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #999999;">2万亿</div>
-        </div>
-        
-        <!-- Main Flow Path -->
-        <svg id="main-flow" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
-            <path d="M 400 400 Q 600 400 700 350" stroke="url(#gold-gradient)" stroke-width="8" fill="none" stroke-dasharray="1000" stroke-dashoffset="1000"/>
-            <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#FFD700"/>
-                <stop offset="100%" style="stop-color:#FF4081"/>
-            </linearGradient>
-        </svg>
-        
-        <!-- Diversion Point -->
-        <div id="diversion-point" style="position: absolute; left: 680px; top: 330px; width: 60px; height: 60px; background: rgba(255,64,129,0.2); border: 2px solid #FF4081; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <div style="font-size: 24px; color: #FF4081;">分流</div>
-        </div>
-        
-        <!-- Rainbow Flow to Financial Products -->
-        <svg id="rainbow-flow" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
-            <path d="M 740 360 Q 900 300 1000 350" stroke="url(#rainbow-gradient)" stroke-width="6" fill="none" stroke-dasharray="800" stroke-dashoffset="800"/>
-            <linearGradient id="rainbow-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#FF4081"/>
-                <stop offset="25%" style="stop-color:#FFD700"/>
-                <stop offset="50%" style="stop-color:#00D4FF"/>
-                <stop offset="75%" style="stop-color:#FF4081"/>
-                <stop offset="100%" style="stop-color:#FFD700"/>
-            </linearGradient>
-        </svg>
-        
-        <!-- Blue Flow to Bond Market -->
-        <svg id="blue-flow" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
-            <path d="M 740 380 Q 850 450 950 420" stroke="#00D4FF" stroke-width="6" fill="none" stroke-dasharray="600" stroke-dashoffset="600"/>
-        </svg>
-        
-        <!-- Financial Products Matrix -->
-        <div id="financial-products" style="position: absolute; right: 200px; top: 200px; width: 300px; height: 300px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 20px;">
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(255,64,129,0.2); border: 1px solid #FF4081; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(0deg);">
-                <div style="font-size: 24px; color: #FF4081;">¥</div>
+        <!-- Data Cards -->
+        <div style="position: absolute; top: 780px; left: 100px; right: 100px; display: flex; gap: 40px;">
+            <!-- Card 1 - Savings Decrease -->
+            <div class="card" style="flex: 1; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid rgba(255,215,0,0.3); padding: 40px; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top, rgba(255,215,0,0.08) 0%, transparent 70%);"></div>
+                <div style="font-size: 20px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">存款利率</div>
+                <div style="font-size: 80px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 20px;">1.5%</div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 24px; color: rgba(255,64,129,0.9);">▼ 持续下降</div>
+                    <div style="font-size: 18px; color: rgba(255,255,255,0.5);">近10年最低</div>
+                </div>
             </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(255,215,0,0.2); border: 1px solid #FFD700; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(45deg);">
-                <div style="font-size: 24px; color: #FFD700;">$</div>
+            
+            <!-- Card 2 - Investment Returns -->
+            <div class="card" style="flex: 1; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid rgba(0,212,255,0.3); padding: 40px; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 70%);"></div>
+                <div style="font-size: 20px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">理财/债市收益</div>
+                <div style="font-size: 80px; font-weight: bold; color: #00D4FF; font-family: 'JetBrains Mono', monospace; margin-bottom: 20px;">3.8%</div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 24px; color: rgba(0,212,255,0.9);">▲ 相对更高</div>
+                    <div style="font-size: 18px; color: rgba(255,255,255,0.5);">吸引力更强</div>
+                </div>
             </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(0,212,255,0.2); border: 1px solid #00D4FF; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(90deg);">
-                <div style="font-size: 24px; color: #00D4FF;">€</div>
-            </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(255,64,129,0.2); border: 1px solid #FF4081; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(135deg);">
-                <div style="font-size: 24px; color: #FF4081;">£</div>
-            </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(255,215,0,0.2); border: 1px solid #FFD700; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(180deg);">
-                <div style="font-size: 24px; color: #FFD700;">¥</div>
-            </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(0,212,255,0.2); border: 1px solid #00D4FF; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(225deg);">
-                <div style="font-size: 24px; color: #00D4FF;">$</div>
-            </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(255,64,129,0.2); border: 1px solid #FF4081; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(270deg);">
-                <div style="font-size: 24px; color: #FF4081;">€</div>
-            </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(255,215,0,0.2); border: 1px solid #FFD700; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(315deg);">
-                <div style="font-size: 24px; color: #FFD700;">£</div>
-            </div>
-            <div class="product-icon" style="width: 70px; height: 70px; background: rgba(0,212,255,0.2); border: 1px solid #00D4FF; border-radius: 16px; display: flex; align-items: center; justify-content: center; transform: rotate(360deg);">
-                <div style="font-size: 24px; color: #00D4FF;">¥</div>
+            
+            <!-- Card 3 - Fund Transfer -->
+            <div class="card" style="flex: 1; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid rgba(255,64,129,0.3); padding: 40px; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top, rgba(255,64,129,0.08) 0%, transparent 70%);"></div>
+                <div style="font-size: 20px; color: rgba(255,255,255,0.7); margin-bottom: 20px;">资金转移规模</div>
+                <div style="font-size: 80px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace; margin-bottom: 20px;">2.1万亿</div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 24px; color: rgba(255,64,129,0.9);">短期大额</div>
+                    <div style="font-size: 18px; color: rgba(255,255,255,0.5);">近10年首次</div>
+                </div>
             </div>
         </div>
         
-        <!-- Financial Products Label -->
-        <div id="financial-label" style="position: absolute; right: 280px; top: 520px; font-size: 36px; font-weight: bold; color: #FF4081; text-shadow: 0 0 10px rgba(255,64,129,0.5);">银行理财</div>
-        
-        <!-- Bond Market Chart -->
-        <div id="bond-chart" style="position: absolute; right: 200px; bottom: 200px; width: 300px; height: 200px; background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 20px; overflow: hidden;">
-            <svg viewBox="0 0 260 160" style="width: 100%; height: 100%;">
-                <path d="M 10 150 Q 30 140 50 130 T 90 110 T 130 90 T 170 70 T 210 50 T 250 30" stroke="#00D4FF" stroke-width="3" fill="none"/>
-                <path d="M 10 150 Q 30 140 50 130 T 90 110 T 130 90 T 170 70 T 210 50 T 250 30 V 160 H 10 Z" fill="url(#bond-gradient)" opacity="0.3"/>
-                <linearGradient id="bond-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.4"/>
-                    <stop offset="100%" style="stop-color:#00D4FF;stop-opacity:0"/>
-                </linearGradient>
-            </svg>
+        <!-- Bottom Tags -->
+        <div style="position: absolute; bottom: 100px; left: 100px; right: 100px; display: flex; justify-content: center; gap: 30px;">
+            <div class="tag" style="padding: 15px 30px; border: 1px solid rgba(0,212,255,0.5); border-radius: 50px; color: #00D4FF; font-size: 20px; font-weight: bold; background: rgba(0,212,255,0.1);">收益更高</div>
+            <div class="tag" style="padding: 15px 30px; border: 1px solid rgba(255,215,0,0.5); border-radius: 50px; color: #FFD700; font-size: 20px; font-weight: bold; background: rgba(255,215,0,0.1);">避险需求</div>
+            <div class="tag" style="padding: 15px 30px; border: 1px solid rgba(255,64,129,0.5); border-radius: 50px; color: #FF4081; font-size: 20px; font-weight: bold; background: rgba(255,64,129,0.1);">利率下行</div>
+            <div class="tag" style="padding: 15px 30px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; color: rgba(255,255,255,0.8); font-size: 20px; font-weight: bold; background: rgba(255,255,255,0.05);">资产配置</div>
         </div>
         
-        <!-- Bond Market Label -->
-        <div id="bond-label" style="position: absolute; right: 280px; bottom: 160px; font-size: 36px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 10px rgba(0,212,255,0.5);">债券市场</div>
-        
-        <!-- Interest Rate Down Arrow -->
-        <div id="rate-arrow" style="position: absolute; left: 100px; top: 550px; display: flex; flex-direction: column; align-items: center;">
-            <div style="font-size: 24px; color: #FF4081; margin-bottom: 10px;">存款利率下降</div>
-            <svg width="60" height="80" viewBox="0 0 60 80">
-                <path d="M 30 5 L 55 60 L 5 60 Z" fill="#FF4081"/>
-            </svg>
-            <div style="font-size: 36px; font-weight: bold; font-family: 'JetBrains Mono', monospace; color: #FF4081; margin-top: 10px;">2.5%</div>
-            <div style="font-size: 20px; color: #999999; margin-top: 5px;">→ 1.5%</div>
+        <!-- Timeline Indicator -->
+        <div style="position: absolute; bottom: 60px; left: 100px; right: 100px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 70%; background: linear-gradient(90deg, #00D4FF, #FF4081); border-radius: 2px;"></div>
+            <div style="position: absolute; top: -10px; left: 65%; width: 24px; height: 24px; background:#1a1a2e; border: 3px solid #ffffff; border-radius: 50%; box-shadow: 0 0 15px rgba(255,64,129,0.8);"></div>
         </div>
-        
-        <!-- Data Card 1 -->
-        <div id="data-card-1" style="position: absolute; left: 80px; bottom: 200px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; width: 300px;">
-            <div style="font-size: 28px; color: #999999; margin-bottom: 15px;">口播内容</div>
-            <div style="font-size: 32px; color: #FFFFFF; line-height: 1.5;">钱在往"理财"和"债市"里搬家</div>
-        </div>
-        
-        <!-- Data Card 2 -->
-        <div id="data-card-2" style="position: absolute; left: 80px; bottom: 100px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; width: 300px;">
-            <div style="font-size: 28px; color: #999999; margin-bottom: 15px;">目标</div>
-            <div style="font-size: 32px; color: #FFFFFF; line-height: 1.5;">找比存款利息高一点、风险又不太大的地方</div>
-        </div>
-        
-        <!-- Particles Container -->
-        <div id="particles" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></div>
+        <div style="position: absolute; bottom: 30px; left: 100px; font-size: 16px; color: rgba(255,255,255,0.5);">2023年1月 - 2023年2月</div>
+        <div style="position: absolute; bottom: 30px; right: 100px; font-size: 16px; color: rgba(255,255,255,0.5); text-align: right;">数据来源：中国人民银行</div>
     </div>
 
     <script>
-        // Register timeline
-        if (!window.__timelines) window.__timelines = {};
+        // Initialize timeline
+        window.__timelines = window.__timelines || {};
         window.__timelines["beat-4"] = gsap.timeline({paused: true});
         
-        // Create particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.width = '4px';
-            particle.style.height = '4px';
-            particle.style.borderRadius = '50%';
-            particle.style.background = 0.5 > 0.5 ? '#FFD700' : '#00D4FF';
-            particle.style.left = '400px';
-            particle.style.top = '400px';
-            particle.style.opacity = '0';
-            particlesContainer.appendChild(particle);
-        }
-        
-        // Timeline animations
+        // Entrance animations with stagger
         const tl = window.__timelines["beat-4"];
         
-        // Title animation
-        tl.from("#title", {duration: 1, y: -50, opacity: 0, ease: "expo.out"});
+        // Background decorations first
+        tl.from(".scene > div:first-child", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
         
-        // Deposit pool animation
-        tl.from("#deposit-pool", {duration: 1, scale: 0.5, opacity: 0, ease: "expo.out"}, "-=0.85");
+        // Ghost text
+        tl.from(".scene > div:nth-child(2)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
         
-        // Main flow animation
-        tl.from("#main-flow path", {duration: 1.5, strokeDashoffset: 0, ease: "power4.in"}, "-=0.7");
+        // Title
+        tl.from("h1", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.3);
+        tl.from("h1 + p", {y: -30, opacity: 0, duration: 0.7, ease: "power3.out"}, 0.45);
         
-        // Diversion point animation
-        tl.from("#diversion-point", {duration: 0.8, scale: 0, opacity: 0, ease: "expo.out"}, "-=1.3");
+        // Balance visualization
+        tl.from(".scene > div:nth-child(7) > div:first-child", {scaleX: 0, transformOrigin: "center", duration: 1, ease: "power2.inOut"}, 0.6);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(2)", {opacity: 0, scale: 0.5, duration: 0.8, ease: "back.out(1.7)"}, 0.75);
         
-        // Rainbow flow animation
-        tl.from("#rainbow-flow path", {duration: 1.2, strokeDashoffset: 0, ease: "power4.in"}, "-=0.5");
+        // Savings cube
+        tl.from(".scene > div:nth-child(7) > div:nth-child(3) > div:first-child", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.9);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(3) > div:nth-child(2)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.05);
         
-        // Blue flow animation
-        tl.from("#blue-flow path", {duration: 1.2, strokeDashoffset: 0, ease: "power4.in"}, "-=1.2");
+        // Investment cubes
+        tl.from(".scene > div:nth-child(7) > div:nth-child(4) > div:first-child", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.2);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(4) > div:nth-child(2)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.35);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(4) > div:nth-child(3)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.5);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(4) > div:nth-child(4)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.65);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(4) > div:nth-child(5)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.8);
         
-        // Financial products animation
-        tl.from(".product-icon", {duration: 0.8, scale: 0, rotation: 0, opacity: 0, stagger: 0.15, ease: "expo.out"}, "-=0.8");
+        // Particles
+        tl.from(".particle", {opacity: 0, duration: 1, ease: "power1.inOut"}, 1.95);
         
-        // Financial label animation
-        tl.from("#financial-label", {duration: 0.8, x: 50, opacity: 0, ease: "expo.out"}, "-=0.6");
+        // Arrow indicators
+        tl.from(".scene > div:nth-child(7) > div:nth-child(6)", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 2.1);
+        tl.from(".scene > div:nth-child(7) > div:nth-child(7)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.25);
         
-        // Bond chart animation
-        tl.from("#bond-chart", {duration: 1, scaleY: 0, opacity: 0, transformOrigin: "bottom", ease: "expo.out"}, "-=0.4");
+        // Data cards
+        tl.from(".card", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)", stagger: 0.15}, 2.4);
         
-        // Bond label animation
-        tl.from("#bond-label", {duration: 0.8, x: 50, opacity: 0, ease: "expo.out"}, "-=0.6");
+        // Tags
+        tl.from(".tag", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out", stagger: 0.15}, 3.1);
         
-        // Rate arrow animation
-        tl.from("#rate-arrow", {duration: 1, y: -30, opacity: 0, ease: "expo.out"}, "-=0.8");
+        // Timeline indicator
+        tl.from(".scene > div:nth-child(11)", {scaleX: 0, transformOrigin: "left", duration: 1.2, ease: "power2.inOut"}, 3.55);
+        tl.from(".scene > div:nth-child(11) > div:nth-child(2)", {scale: 0, duration: 0.5, ease: "back.out(1.7)"}, 3.85);
+        tl.from(".scene > div:nth-child(12)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 4.0);
+        tl.from(".scene > div:nth-child(13)", {x: 30, opacity: 0, duration: 0.5, ease: "power2.out"}, 4.15);
         
-        // Data cards animation
-        tl.from("#data-card-1", {duration: 0.8, y: 50, opacity: 0, ease: "expo.out"}, "-=0.6");
-        tl.from("#data-card-2", {duration: 0.8, y: 50, opacity: 0, ease: "expo.out"}, "-=0.65");
-        
-        // Particles animation
-        tl.from("#particles div", {duration: 0.5, opacity: 0, scale: 0, stagger: 0.05, ease: "expo.out"}, "-=0.5");
-        
-        // Card breathing animation (repeat: 0)
-        gsap.to("#data-card-1", {duration: 2.5, scale: 1.02, repeat: 0, yoyo: true, ease: "power1.inOut"});
-        gsap.to("#data-card-2", {duration: 2.5, scale: 1.02, repeat: 0, yoyo: true, ease: "power1.inOut", delay: 0.3});
-        
-        // Product icons rotation animation (repeat: 0)
-        gsap.to(".product-icon", {duration: 8, rotation: "+=360", repeat: 0, ease: "none", stagger: 0.2});
-        
-        // Particles drift animation
-        gsap.to("#particles div", {
-            duration: 15.3,
-            x: "random(-200, 200)",
-            y: "random(-100, 100)",
-            opacity: 0.7,
+        // Breathing animations for key elements
+        gsap.to(".card", {
+            scale: 1.015,
+            duration: 3,
             repeat: 0,
             yoyo: true,
-            ease: "power1.inOut",
-            stagger: 0.3
+            ease: "sine.inOut"
         });
+        
+        gsap.to("h1", {
+            textShadow: "0 0 40px rgba(0,212,255,0.8)",
+            opacity: 0.9,
+            duration: 2.5,
+            repeat: 0,
+            yoyo: true
+        });
+        
+        // Particle drift animation
+        gsap.to(".particle", {
+            x: 150,
+            y: -200,
+            duration: 6,
+            repeat: 0,
+            yoyo: true,
+            ease: "none",
+            stagger: {
+                each: 1.5,
+                from: "random"
+            }
+        });
+        
+        // Scan line animation
+        gsap.to(".scene > div:nth-child(5)", {
+            y: 1080,
+            duration: 5,
+            repeat: 0,
+            ease: "none"
+        });
+        
+        // Tag border color pulse
+        gsap.to(".tag", {
+            borderColor: "rgba(0,212,255,0.8)",
+            duration: 2,
+            repeat: 0,
+            yoyo: true,
+            stagger: {
+                each: 0.5,
+                from: "random"
+            }
+        });
+        
+        // Start the timeline
+        window.__timelines["beat-4"].play();
     </script>
 </body>
 </html>

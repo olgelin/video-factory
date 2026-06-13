@@ -1,337 +1,239 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-5" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <style>
-        /* base reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            width: 1920px;
-            height: 1080px;
-            overflow: hidden;
-            background-color: #1a1a2e;
-            font-family: 'Inter', 'Noto Sans SC', sans-serif;
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
-    <div class="scene" style="background:#1a1a2e; position: relative; width: 1920px; height: 1080px; background-color: #1a1a2e; overflow: hidden;">
-        <!-- Background Elements -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(255, 64, 129, 0.15) 0%, rgba(0, 212, 255, 0.08) 40%, rgba(26, 26, 46, 1) 70%); z-index: 0;"></div>
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px); background-size: 60px 60px; z-index: 1;"></div>
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1400px; height: 1400px; background: radial-gradient(circle, rgba(255, 64, 129, 0.1) 0%, rgba(255, 153, 102, 0.05) 40%, transparent 70%); z-index: 2;"></div>
+<body style="margin:0; padding:0; background:#1a1a2e; font-family:'Inter','Noto Sans SC',sans-serif; overflow:hidden;">
+    <div class="scene" style="position:relative; width:1920px; height:1080px; overflow:hidden;">
+        <!-- Background grid -->
+        <div id="bg-grid" style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,255,0.07) 1px, transparent 1px),linear-gradient(90deg, rgba(0,212,255,0.07) 1px, transparent 1px); background-size:100px 100px; opacity:0;"></div>
         
-        <!-- Ghost Text Watermark -->
-        <div style="position: absolute; top: 15%; left: 5%; font-family: 'JetBrains Mono', monospace; font-size: 240px; font-weight: bold; color: rgba(0, 212, 255, 0.03); letter-spacing: 20px; transform: rotate(-5deg); z-index: 3; user-select: none;">RECOVERY</div>
-        <div style="position: absolute; bottom: 10%; right: 8%; font-family: 'JetBrains Mono', monospace; font-size: 180px; font-weight: bold; color: rgba(255, 64, 129, 0.03); letter-spacing: 15px; transform: rotate(3deg); z-index: 3; user-select: none;">CONSUMPTION</div>
+        <!-- Radial glow -->
+        <div id="radial-glow" style="position:absolute; top:200px; left:50%; transform:translateX(-50%); width:1200px; height:600px; background:radial-gradient(ellipse, rgba(0,212,255,0.12) 0%, transparent 70%); opacity:0;"></div>
         
-        <!-- Main Content Container -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; padding: 80px;">
-            
-            <!-- Title -->
-            <div id="title-consumption" style="font-family: 'Noto Sans SC', 'PingFang SC', sans-serif; font-size: 96px; font-weight: bold; color: #FFD700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 64, 129, 0.3); margin-bottom: 60px; text-align: center; line-height: 1.2; letter-spacing: 8px;">
-                消费复苏
-            </div>
-            
-            <!-- Central Diagram -->
-            <div style="position: relative; width: 800px; height: 500px; display: flex; justify-content: center; align-items: center;">
-                
-                <!-- Savings Account Icon -->
-                <div id="savings-icon" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 180px; height: 220px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%); border: 2px solid rgba(0, 212, 255, 0.4); border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 28px; color: #00D4FF; margin-bottom: 15px;">储蓄</div>
-                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.5">
-                        <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
-                        <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
-                        <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
-                    </svg>
-                </div>
-                
-                <!-- Money Flow Animation -->
-                <div id="money-flow" style="position: absolute; left: 180px; top: 50%; transform: translateY(-50%); width: 200px; height: 80px; display: flex; align-items: center;">
-                    <div class="money-particle" style="position: absolute; width: 40px; height: 25px; background: linear-gradient(90deg, rgba(255, 215, 0, 0.9) 0%, rgba(255, 153, 102, 0.8) 100%); border-radius: 12px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); opacity: 0;"></div>
-                    <div class="money-particle" style="position: absolute; width: 35px; height: 22px; background: linear-gradient(90deg, rgba(255, 215, 0, 0.8) 0%, rgba(255, 102, 153, 0.7) 100%); border-radius: 10px; box-shadow: 0 0 12px rgba(255, 215, 0, 0.5); opacity: 0;"></div>
-                    <div class="money-particle" style="position: absolute; width: 45px; height: 28px; background: linear-gradient(90deg, rgba(255, 215, 0, 0.7) 0%, rgba(255, 64, 129, 0.6) 100%); border-radius: 14px; box-shadow: 0 0 18px rgba(255, 215, 0, 0.7); opacity: 0;"></div>
-                    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, rgba(255, 215, 0, 0.6) 0%, rgba(255, 64, 129, 0.3) 100%); position: absolute; top: 50%; transform: translateY(-50%);"></div>
-                    <svg style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);" width="40" height="40" viewBox="0 0 24 24" fill="rgba(255, 215, 0, 0.8)">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </div>
-                
-                <!-- Central Consumption Ring -->
-                <div id="consumption-ring" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 350px; height: 350px; border: 3px solid rgba(255, 64, 129, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle, rgba(255, 64, 129, 0.1) 0%, transparent 70%);">
-                    <!-- Consumption Icons -->
-                    <div class="consumption-icon" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: rgba(0, 212, 255, 0.1); border: 2px solid rgba(0, 212, 255, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2">
-                            <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
-                        </svg>
-                    </div>
-                    <div class="consumption-icon" style="position: absolute; top: 30px; right: -30px; width: 60px; height: 60px; background: rgba(255, 64, 129, 0.1); border: 2px solid rgba(255, 64, 129, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FF4081" stroke-width="2">
-                            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
-                            <path d="M7 2v20"/>
-                            <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
-                        </svg>
-                    </div>
-                    <div class="consumption-icon" style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: rgba(255, 215, 0, 0.1); border: 2px solid rgba(255, 215, 0, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2">
-                            <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
-                            <path d="M12 18h.01"/>
-                        </svg>
-                    </div>
-                    <div class="consumption-icon" style="position: absolute; bottom: 30px; left: -30px; width: 60px; height: 60px; background: rgba(0, 212, 255, 0.1); border: 2px solid rgba(0, 212, 255, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2">
-                            <path d="M6 8a6 6 0 0 1 12 0c0 7-3 9-3 9H9s-3-2-3-9"/>
-                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-                        </svg>
-                    </div>
-                    
-                    <!-- Growth Curve in Center -->
-                    <div id="growth-curve" style="position: absolute; width: 200px; height: 100px; opacity: 0;">
-                        <svg width="200" height="100" viewBox="0 0 200 100">
-                            <path d="M 10 90 Q 50 80, 80 60 T 150 30 T 190 10" stroke="url(#curveGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-                            <defs>
-                                <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#00D4FF"/>
-                                    <stop offset="100%" style="stop-color:#FF4081"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Data Cards -->
-            <div style="display: flex; gap: 40px; margin-top: 60px;">
-                <div id="card-1" style="width: 280px; padding: 30px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 212, 255, 0.03) 100%); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 24px; backdrop-filter: blur(5px); text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #00D4FF; margin-bottom: 10px;">+12.5%</div>
-                    <div style="font-size: 24px; color: rgba(255, 255, 255, 0.7);">旅游消费</div>
-                </div>
-                <div id="card-2" style="width: 280px; padding: 30px; background: linear-gradient(135deg, rgba(255, 64, 129, 0.08) 0%, rgba(255, 64, 129, 0.03) 100%); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 24px; backdrop-filter: blur(5px); text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FF4081; margin-bottom: 10px;">+8.7%</div>
-                    <div style="font-size: 24px; color: rgba(255, 255, 255, 0.7);">餐饮消费</div>
-                </div>
-                <div id="card-3" style="width: 280px; padding: 30px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 215, 0, 0.03) 100%); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 24px; backdrop-filter: blur(5px); text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FFD700; margin-bottom: 10px;">+15.2%</div>
-                    <div style="font-size: 24px; color: rgba(255, 255, 255, 0.7);">数码消费</div>
-                </div>
-            </div>
-            
-            <!-- Secondary Info -->
-            <div id="info-text" style="margin-top: 40px; font-size: 32px; color: rgba(255, 255, 255, 0.6); text-align: center; max-width: 900px; line-height: 1.5;">
-                消费在悄悄复苏，旅游、下馆子、换新手机，钱从储蓄账户流进了消费市场
-            </div>
-            
-            <!-- Decorative Particles -->
-            <div id="particles-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
-                <div class="particle" style="position: absolute; width: 6px; height: 6px; background: rgba(0, 212, 255, 0.6); border-radius: 50%; box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);"></div>
-                <div class="particle" style="position: absolute; width: 4px; height: 4px; background: rgba(255, 64, 129, 0.5); border-radius: 50%; box-shadow: 0 0 8px rgba(255, 64, 129, 0.3);"></div>
-                <div class="particle" style="position: absolute; width: 5px; height: 5px; background: rgba(255, 215, 0, 0.4); border-radius: 50%; box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);"></div>
-                <div class="particle" style="position: absolute; width: 3px; height: 3px; background: rgba(0, 212, 255, 0.4); border-radius: 50%; box-shadow: 0 0 6px rgba(0, 212, 255, 0.2);"></div>
-                <div class="particle" style="position: absolute; width: 7px; height: 7px; background: rgba(255, 64, 129, 0.3); border-radius: 50%; box-shadow: 0 0 15px rgba(255, 64, 129, 0.2);"></div>
-                <div class="particle" style="position: absolute; width: 4px; height: 4px; background: rgba(255, 215, 0, 0.3); border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);"></div>
-            </div>
-            
-            <!-- Scan Lines -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 3px, rgba(0, 212, 255, 0.02) 3px, rgba(0, 212, 255, 0.02) 4px); pointer-events: none; z-index: 20;"></div>
+        <!-- Ghost text -->
+        <div id="ghost-text" style="position:absolute; top:300px; left:100px; font-size:280px; font-weight:bold; color:rgba(255,255,255,0.03); font-family:'JetBrains Mono',monospace; opacity:0; user-select:none;">CONSUME</div>
+        
+        <!-- Scan line -->
+        <div id="scan-line" style="position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent); opacity:0;"></div>
+        
+        <!-- Corner decorations -->
+        <div style="position:absolute; top:80px; left:80px; width:60px; height:60px; border-top:2px solid rgba(0,212,255,0.3); border-left:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+        <div style="position:absolute; top:80px; right:80px; width:60px; height:60px; border-top:2px solid rgba(0,212,255,0.3); border-right:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+        <div style="position:absolute; bottom:80px; left:80px; width:60px; height:60px; border-bottom:2px solid rgba(0,212,255,0.3); border-left:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+        <div style="position:absolute; bottom:80px; right:80px; width:60px; height:60px; border-bottom:2px solid rgba(0,212,255,0.3); border-right:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+        
+        <!-- Main title -->
+        <div id="main-title" style="position:absolute; top:100px; left:100px; font-size:88px; font-weight:bold; color:#00D4FF; text-shadow:0 0 30px rgba(0,212,255,0.6); opacity:0;">
+            消费复苏仪表盘
         </div>
         
-        <!-- Progress Bar -->
-        <div style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 800px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; z-index: 15;">
-            <div id="progress-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00D4FF 0%, #FF4081 100%); border-radius: 4px;"></div>
+        <!-- Subtitle -->
+        <div id="subtitle" style="position:absolute; top:200px; left:100px; font-size:32px; color:rgba(0,212,255,0.5); opacity:0;">
+            社会消费品零售总额趋势分析
         </div>
-        <div style="position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 20px; color: rgba(255, 255, 255, 0.5); z-index: 15;">
-            00:00 / 00:15
+        
+        <!-- Center chart container -->
+        <div id="chart-container" style="position:absolute; top:250px; left:120px; width:900px; height:450px; background:rgba(26,26,46,0.7); border-radius:24px; border:1px solid rgba(0,212,255,0.3); padding:40px; backdrop-filter:blur(10px); box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:0;">
+            <!-- Chart glow top -->
+            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
+            <!-- Chart title -->
+            <div style="font-size:28px; color:#FFFFFF; margin-bottom:20px;">社会消费品零售总额（万亿元）</div>
+            <!-- Chart area -->
+            <div style="position:relative; width:100%; height:300px; border-bottom:1px solid rgba(0,212,255,0.2); border-left:1px solid rgba(0,212,255,0.2);">
+                <!-- Grid lines -->
+                <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,255,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px); background-size:100px 100px;"></div>
+                <!-- Chart line -->
+                <svg id="chart-line" style="position:absolute; top:0; left:0; width:100%; height:100%;" viewBox="0 0 800 300">
+                    <defs>
+                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#00D4FF; stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#FF4081; stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,280 L100,250 L200,220 L300,180 L400,150 L500,120 L600,80 L700,40 L800,0" stroke="url(#lineGradient)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Data points -->
+                    <circle cx="0" cy="280" r="6" fill="#00D4FF"/>
+                    <circle cx="100" cy="250" r="6" fill="#00D4FF"/>
+                    <circle cx="200" cy="220" r="6" fill="#00D4FF"/>
+                    <circle cx="300" cy="180" r="6" fill="#00D4FF"/>
+                    <circle cx="400" cy="150" r="6" fill="#00D4FF"/>
+                    <circle cx="500" cy="120" r="6" fill="#00D4FF"/>
+                    <circle cx="600" cy="80" r="6" fill="#00D4FF"/>
+                    <circle cx="700" cy="40" r="6" fill="#00D4FF"/>
+                    <circle cx="800" cy="0" r="6" fill="#FF4081"/>
+                </svg>
+                <!-- Current value -->
+                <div style="position:absolute; bottom:10px; right:20px; font-size:48px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace;">12.8万亿</div>
+                <!-- Growth indicator -->
+                <div style="position:absolute; bottom:10px; right:180px; font-size:24px; color:#00FF88;">↑ 8.2%</div>
+            </div>
         </div>
+        
+        <!-- Metric modules container -->
+        <div style="position:absolute; top:250px; right:120px; width:500px; display:flex; flex-direction:column; gap:30px;">
+            <!-- Tourism module -->
+            <div id="tourism-module" class="metric-card" style="background:rgba(26,26,46,0.7); border-radius:16px; border:1px solid rgba(0,212,255,0.3); padding:30px; backdrop-filter:blur(10px); box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:0;">
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="width:60px; height:60px; background:rgba(0,212,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                        <div style="width:40px; height:40px; border:2px solid #00D4FF; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                            <div style="width:20px; height:20px; background:#00D4FF; border-radius:50%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size:24px; color:#FFFFFF;">旅游人次</div>
+                        <div style="font-size:48px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace;">3.2亿</div>
+                    </div>
+                </div>
+                <div style="margin-top:20px; background:rgba(0,212,255,0.1); border-radius:8px; height:8px; width:100%;">
+                    <div style="width:78%; height:100%; background:linear-gradient(90deg, #00D4FF, #FF4081); border-radius:8px;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                    <div style="font-size:18px; color:#999999;">同比增长</div>
+                    <div style="font-size:24px; color:#00FF88;">↑ 12.5%</div>
+                </div>
+            </div>
+            
+            <!-- Dining module -->
+            <div id="dining-module" class="metric-card" style="background:rgba(26,26,46,0.7); border-radius:16px; border:1px solid rgba(0,212,255,0.3); padding:30px; backdrop-filter:blur(10px); box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:0;">
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="width:60px; height:60px; background:rgba(255,64,129,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                        <div style="width:30px; height:20px; border:2px solid #FF4081; border-top:0; border-radius:0 0 15px 15px;"></div>
+                    </div>
+                    <div>
+                        <div style="font-size:24px; color:#FFFFFF;">餐饮收入</div>
+                        <div style="font-size:48px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace;">4.8万亿</div>
+                    </div>
+                </div>
+                <div style="margin-top:20px; background:rgba(255,64,129,0.1); border-radius:8px; height:8px; width:100%;">
+                    <div style="width:65%; height:100%; background:linear-gradient(90deg, #FF4081, #FFD700); border-radius:8px;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                    <div style="font-size:18px; color:#999999;">同比增长</div>
+                    <div style="font-size:24px; color:#00FF88;">↑ 9.8%</div>
+                </div>
+            </div>
+            
+            <!-- Phone module -->
+            <div id="phone-module" class="metric-card" style="background:rgba(26,26,46,0.7); border-radius:16px; border:1px solid rgba(0,212,255,0.3); padding:30px; backdrop-filter:blur(10px); box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:0;">
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="width:60px; height:60px; background:rgba(255,215,0,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                        <div style="width:24px; height:40px; border:2px solid #FFD700; border-radius:4px; position:relative;">
+                            <div style="position:absolute; top:4px; left:4px; width:16px; height:24px; background:rgba(255,215,0,0.3);"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size:24px; color:#FFFFFF;">手机销量</div>
+                        <div style="font-size:48px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace;">2.1亿</div>
+                    </div>
+                </div>
+                <div style="margin-top:20px; background:rgba(255,215,0,0.1); border-radius:8px; height:8px; width:100%;">
+                    <div style="width:52%; height:100%; background:linear-gradient(90deg, #FFD700, #00D4FF); border-radius:8px;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                    <div style="font-size:18px; color:#999999;">同比增长</div>
+                    <div style="font-size:24px; color:#00FF88;">↑ 6.3%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom info area -->
+        <div style="position:absolute; bottom:120px; left:100px; width:1720px; display:flex; justify-content:space-between; align-items:center;">
+            <!-- Left side - key metrics -->
+            <div id="bottom-metrics" style="display:flex; gap:40px; opacity:0;">
+                <div style="background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.3); border-radius:50px; padding:12px 24px; font-size:20px; color:#00D4FF;">
+                    消费信心指数: <span style="font-weight:bold; color:#FFD700;">108.5</span>
+                </div>
+                <div style="background:rgba(255,64,129,0.1); border:1px solid rgba(255,64,129,0.3); border-radius:50px; padding:12px 24px; font-size:20px; color:#FF4081;">
+                    储蓄率: <span style="font-weight:bold; color:#FFD700;">32.1%</span>
+                </div>
+                <div style="background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.3); border-radius:50px; padding:12px 24px; font-size:20px; color:#FFD700;">
+                    消费支出占比: <span style="font-weight:bold; color:#FFFFFF;">67.9%</span>
+                </div>
+            </div>
+            
+            <!-- Right side - timestamp -->
+            <div id="timestamp" style="font-size:20px; color:#999999; font-family:'JetBrains Mono',monospace; opacity:0;">
+                数据更新: 2024年第三季度 | 来源: 国家统计局
+            </div>
+        </div>
+        
+        <!-- Floating particles -->
+        <div class="particle" style="position:absolute; top:300px; left:300px; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
+        <div class="particle" style="position:absolute; top:500px; left:700px; width:3px; height:3px; background:#00D4FF; border-radius:50%; opacity:0;"></div>
+        <div class="particle" style="position:absolute; top:400px; left:1200px; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
+        <div class="particle" style="position:absolute; top:600px; left:1600px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
+        <div class="particle" style="position:absolute; top:200px; left:900px; width:4px; height:4px; background:#00D4FF; border-radius:50%; opacity:0;"></div>
+        
+        <!-- Ghost text foreground -->
+        <div style="position:absolute; top:400px; left:800px; font-size:120px; font-weight:bold; color:rgba(255,255,255,0.04); font-family:'JetBrains Mono',monospace; user-select:none; opacity:0;">敢花钱</div>
+        
+        <!-- Neon connection lines -->
+        <svg style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; opacity:0;">
+            <line x1="1050" y1="400" x2="1150" y2="350" stroke="#00D4FF" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="4,4"/>
+            <line x1="1050" y1="450" x2="1150" y2="500" stroke="#FF4081" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="4,4"/>
+            <line x1="1050" y1="500" x2="1150" y2="650" stroke="#FFD700" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="4,4"/>
+        </svg>
     </div>
 
     <script>
         // Register timeline
         window.__timelines = window.__timelines || {};
-        window.__timelines["beat-5"] = gsap.timeline({paused: true});
-        
-        // Initialize particles with fixed positions
-        const particles = document.querySelectorAll('.particle');
-        const particlePositions = [
-            {x: 150, y: 200}, {x: 1700, y: 150}, {x: 300, y: 800},
-            {x: 1600, y: 900}, {x: 500, y: 400}, {x: 1400, y: 600}
-        ];
-        
-        particles.forEach((particle, index) => {
-            const pos = particlePositions[index % particlePositions.length];
-            gsap.set(particle, {x: pos.x, y: pos.y});
-        });
-        
-        // Create entrance animations with stagger
-        const tl = window.__timelines["beat-5"];
-        
-        // Background elements entrance
-        tl.from("body > div:nth-child(2) > div:first-child", {
-            opacity: 0,
-            scale: 1.5,
-            duration: 2,
-            ease: "expo.out"
-        }, 0);
-        
-        tl.from("body > div:nth-child(2) > div:nth-child(2)", {
-            opacity: 0,
-            duration: 1.5,
-            ease: "expo.out"
-        }, 0.2);
-        
-        // Ghost text
-        tl.from("[style*='font-size: 240px']", {
-            opacity: 0,
-            x: -100,
-            duration: 2,
-            ease: "expo.out"
-        }, 0.3);
-        
-        tl.from("[style*='font-size: 180px']", {
-            opacity: 0,
-            x: 100,
-            duration: 2,
-            ease: "expo.out"
-        }, 0.4);
-        
-        // Main content entrance
-        tl.from("#title-consumption", {
-            opacity: 0,
-            y: 50,
-            scale: 0.9,
-            duration: 1.5,
-            ease: "back.out(1.7)"
-        }, 0.5);
-        
-        // Savings icon
-        tl.from("#savings-icon", {
-            opacity: 0,
-            x: -100,
-            scale: 0.8,
-            duration: 1.2,
-            ease: "expo.out"
-        }, 0.7);
-        
-        // Money flow particles
-        tl.from(".money-particle", {
-            opacity: 0,
-            x: -200,
-            stagger: 0.2,
-            duration: 1.5,
-            ease: "power4.out"
-        }, 0.9);
-        
-        // Consumption ring and icons
-        tl.from("#consumption-ring", {
-            opacity: 0,
-            x: 100,
-            scale: 0.8,
-            duration: 1.3,
-            ease: "expo.out"
-        }, 0.8);
-        
-        tl.from(".consumption-icon", {
-            opacity: 0,
-            scale: 0,
-            rotation: 30,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: "back.out(2)"
-        }, 1.1);
-        
-        // Growth curve
-        tl.from("#growth-curve", {
-            opacity: 0,
-            scale: 0.5,
-            duration: 1.2,
-            ease: "expo.out"
-        }, 1.5);
-        
-        // Data cards
-        tl.from("#card-1", {
-            opacity: 0,
-            y: 50,
-            scale: 0.9,
-            duration: 0.8,
-            ease: "back.out(1.5)"
-        }, 1.6);
-        
-        tl.from("#card-2", {
-            opacity: 0,
-            y: 50,
-            scale: 0.9,
-            duration: 0.8,
-            ease: "back.out(1.5)"
-        }, 1.75);
-        
-        tl.from("#card-3", {
-            opacity: 0,
-            y: 50,
-            scale: 0.9,
-            duration: 0.8,
-            ease: "back.out(1.5)"
-        }, 1.9);
-        
-        // Info text
-        tl.from("#info-text", {
-            opacity: 0,
-            y: 30,
-            duration: 1,
-            ease: "expo.out"
-        }, 2.1);
-        
-        // Particles
-        tl.from(".particle", {
-            opacity: 0,
-            scale: 0,
-            stagger: 0.1,
-            duration: 0.6,
-            ease: "back.out(2)"
-        }, 1.4);
-        
-        // Progress bar
-        tl.from("#progress-fill", {
-            width: "0%",
-            duration: 15.2,
-            ease: "none"
-        }, 0);
-        
-        // Add breathing animation to cards (with repeat: 0)
-        gsap.to("#card-1, #card-2, #card-3", {
-            scale: 1.02,
-            duration: 2.5,
+        const tl = gsap.timeline({paused: true});
+        window.__timelines["beat-5"] = tl;
+
+        // Background elements (first to appear)
+        tl.from("#bg-grid", {opacity:0, duration:1.2, ease:"power1.inOut"}, 0)
+          .from("#radial-glow", {opacity:0, duration:1.2, ease:"power1.inOut"}, 0.15)
+          .from("#ghost-text", {opacity:0, duration:1.2, ease:"power1.inOut"}, 0.3)
+          .from("#scan-line", {opacity:0, y:-1080, duration:6, ease:"none", repeat: 0}, 0.45)
+          .from(".corner-decoration", {opacity:0, duration:0.8, ease:"power2.out"}, 0.6);
+
+        // Main title
+        tl.from("#main-title", {y:-50, opacity:0, duration:0.8, ease:"power3.out"}, 0.75)
+          .to("#main-title", {
+              textShadow: "0 0 40px rgba(0,212,255,0.8)",
+              duration: 2.5,
+              repeat: 0,
+              yoyo: true,
+              ease: "sine.inOut"
+          }, 1.55);
+
+        // Subtitle
+        tl.from("#subtitle", {x:-30, opacity:0, duration:0.5, ease:"power2.out"}, 0.9);
+
+        // Chart container
+        tl.from("#chart-container", {y:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.05);
+
+        // Metric modules with stagger
+        tl.from("#tourism-module", {y:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.2)
+          .from("#dining-module", {y:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.35)
+          .from("#phone-module", {y:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.5);
+
+        // Add breathing to metric cards
+        gsap.to(".metric-card", {
+            scale: 1.015,
+            duration: 3,
             repeat: 0,
             yoyo: true,
-            ease: "sine.inOut"
+            ease: "sine.inOut",
+            stagger: 0.5
         });
-        
-        // Add particle drift animations
-        particles.forEach((particle, index) => {
-            const pos = particlePositions[index % particlePositions.length];
-            gsap.to(particle, {
-                x: pos.x + (index % 2 === 0 ? 50 : -50),
-                y: pos.y + (index % 3 === 0 ? 40 : -40),
-                duration: 8 + index * 2,
-                repeat: 0,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
-        });
-        
-        // Add rotation to consumption icons
-        gsap.to(".consumption-icon", {
-            rotation: 360,
-            duration: 20,
-            repeat: 0,
-            ease: "none"
-        });
-        
-        // Start the timeline
+
+        // Bottom elements
+        tl.from("#bottom-metrics", {y:30, opacity:0, duration:0.6, ease:"power2.out"}, 1.65)
+          .from("#timestamp", {opacity:0, duration:0.5}, 1.8);
+
+        // Floating particles
+        tl.from(".particle", {opacity:0, y:20, duration:1, ease:"power2.out"}, 1.9);
+
+        // Foreground ghost text
+        tl.from("div:contains('敢花钱')", {opacity:0, duration:1.2, ease:"power1.inOut"}, 2.0);
+
+        // Neon lines
+        tl.from("svg:last-of-type", {opacity:0, duration:0.8, ease:"power2.out"}, 2.1);
+
+        // Start timeline
         tl.play();
     </script>
 </body>

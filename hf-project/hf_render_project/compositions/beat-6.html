@@ -2,154 +2,217 @@
 <html data-composition-id="beat-6" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
 <meta charset="UTF-8">
-<title>Scene 6 - 根本原因</title>
+<title>经济系统诊断HUD</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;"><div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
-<div id="scene-6" style="width: 1920px; height: 1080px; background-color: #0a0a0a; position: relative; overflow: hidden; font-family: 'Noto Sans SC', 'PingFang SC', sans-serif; color: #FFFFFF;">
-  <!-- 背景数据网格 -->
-  <div id="background-grid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.3;">
-    <div id="grid-left" style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; background-image: linear-gradient(to right, rgba(0,212,255,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,212,255,0.2) 1px, transparent 1px); background-size: 80px 80px; animation: gridFlow 20s linear 3;"></div>
-    <div id="grid-right" style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; background-image: linear-gradient(to right, rgba(255,64,129,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,64,129,0.2) 1px, transparent 1px); background-size: 80px 80px;"></div>
-  </div>
-
-  <!-- 标题 "根本原因" -->
-  <div id="title" style="position: absolute; top: 80px; left: 50%; transform: translateX(-50%); font-size: 120px; font-weight: bold; text-shadow: 0 0 30px #00D4FF, 0 0 60px #00D4FF, 0 0 90px #00D4FF; color: #FFFFFF; opacity: 0; z-index: 10;">根本原因</div>
-
-  <!-- 左侧区域：利率下行 -->
-  <div id="left-section" style="position: absolute; left: 0; top: 200px; width: 50%; height: 880px; display: flex; justify-content: center; align-items: flex-end;">
-    <!-- 利率柱状图 -->
-    <div id="interest-rate-chart" style="position: relative; width: 300px; height: 0; background: linear-gradient(to bottom, #00D4FF, #0066FF); border-radius: 16px 16px 0 0; box-shadow: 0 0 20px rgba(0,212,255,0.5);">
-      <!-- 流动箭头 -->
-      <div class="arrow" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid rgba(255,255,255,0.8);"></div>
-      <div class="arrow" style="position: absolute; top: 100px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid rgba(255,255,255,0.8);"></div>
-      <div class="arrow" style="position: absolute; top: 180px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid rgba(255,255,255,0.8);"></div>
-      <!-- 利率数值 -->
-      <div id="rate-value" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 80px; font-weight: bold; color: #FFD700; text-shadow: 0 0 10px #FFD700;">3.5%</div>
+<body style="margin: 0; padding: 0; overflow: hidden; background: #0a0a0a;">
+<div class="scene" style="background:#1a1a2e;width: 1920px; height: 1080px; position: relative; overflow: hidden; font-family: 'Inter','Noto Sans SC', sans-serif;">
+    <!-- Background Layer -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(0deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size: 100px 100px; opacity: 0; z-index: 1;"></div>
+    <!-- Radial Glow -->
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1200px; height: 800px; background: radial-gradient(ellipse at center, rgba(0,212,255,0.12) 0%, transparent 70%); opacity: 0; z-index: 2;"></div>
+    <!-- Ghost Text Watermark -->
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 280px; font-weight: bold; color: rgba(255,255,255,0.04); letter-spacing: 20px; opacity: 0; z-index: 3; pointer-events: none; font-family: 'JetBrains Mono', monospace;">2万亿</div>
+    <!-- Main HUD Frame -->
+    <div style="position: absolute; top: 100px; left: 100px; right: 100px; bottom: 100px; border: 1px solid rgba(0,212,255,0.2); border-radius: 24px; opacity: 0; z-index: 10; pointer-events: none;">
+        <!-- Corner Decorations -->
+        <div style="position: absolute; top: -1px; left: -1px; width: 40px; height: 40px; border-left: 3px solid rgba(0,212,255,0.5); border-top: 3px solid rgba(0,212,255,0.5);"></div>
+        <div style="position: absolute; top: -1px; right: -1px; width: 40px; height: 40px; border-right: 3px solid rgba(0,212,255,0.5); border-top: 3px solid rgba(0,212,255,0.5);"></div>
+        <div style="position: absolute; bottom: -1px; left: -1px; width: 40px; height: 40px; border-left: 3px solid rgba(0,212,255,0.5); border-bottom: 3px solid rgba(0,212,255,0.5);"></div>
+        <div style="position: absolute; bottom: -1px; right: -1px; width: 40px; height: 40px; border-right: 3px solid rgba(0,212,255,0.5); border-bottom: 3px solid rgba(0,212,255,0.5);"></div>
     </div>
-    <!-- 数据卡片 -->
-    <div id="rate-card" style="position: absolute; top: 300px; left: 50%; transform: translateX(-50%); width: 400px; padding: 30px; background: rgba(26,26,46,0.9); border: 2px solid #00D4FF; border-radius: 24px; box-shadow: 0 0 30px rgba(0,212,255,0.3); opacity: 0;">
-      <div style="font-size: 36px; color: #999999; margin-bottom: 15px;">利率趋势</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FFD700;">下行中</div>
-      <!-- 进度条 -->
-      <div style="width: 100%; height: 10px; background: #333; border-radius: 5px; margin-top: 20px;">
-        <div id="progress-bar" style="width: 80%; height: 100%; background: linear-gradient(to right, #00D4FF, #FF4081); border-radius: 5px; box-shadow: 0 0 10px #00D4FF;"></div>
-      </div>
-      <div style="font-size: 28px; color: #FFFFFF; margin-top: 10px;">吸引力暴跌</div>
+    <!-- Scanline -->
+    <div style="position: absolute; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent); opacity: 0; z-index: 50;"></div>
+    <!-- Particle Drifts -->
+    <div style="position: absolute; top: 20%; left: 15%; width: 4px; height: 4px; border-radius: 50%; background: rgba(0,212,255,0.6); opacity: 0; z-index: 5;"></div>
+    <div style="position: absolute; top: 70%; left: 85%; width: 3px; height: 3px; border-radius: 50%; background: rgba(255,64,129,0.6); opacity: 0; z-index: 5;"></div>
+    <div style="position: absolute; top: 40%; left: 75%; width: 3px; height: 3px; border-radius: 50%; background: rgba(255,215,0,0.5); opacity: 0; z-index: 5;"></div>
+    <!-- Main Title -->
+    <div style="position: absolute; top: 80px; left: 100px; z-index: 20;">
+        <div style="font-size: 108px; font-weight: bold; color: #FFFFFF; text-shadow: 0 0 30px rgba(0,212,255,0.7), 0 0 60px rgba(0,212,255,0.4); opacity: 0;">存款缩水之谜</div>
+        <div style="font-size: 32px; color: rgba(0,212,255,0.6); margin-top: 10px; letter-spacing: 8px; opacity: 0;">SYSTEM DIAGNOSIS: CAPITAL OUTFLOW ANALYSIS</div>
     </div>
-  </div>
-
-  <!-- 右侧区域：资产荒 -->
-  <div id="right-section" style="position: absolute; right: 0; top: 200px; width: 50%; height: 880px; display: flex; justify-content: center; align-items: center;">
-    <!-- 空洞网格 -->
-    <div id="asset-scarce-grid" style="width: 600px; height: 600px; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); border: 2px solid rgba(255,64,129,0.5); border-radius: 16px; background: rgba(26,26,46,0.8);">
-      <!-- 网格单元格 -->
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">稀缺</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
-      <div class="grid-cell" style="border: 1px solid rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px #FF4081;">?</div>
+    <!-- Core Data Cards - Left Column (60%) -->
+    <div style="position: absolute; top: 220px; left: 100px; width: 60%; display: flex; gap: 40px;">
+        <!-- Card 1: Shrinkage -->
+        <div style="flex: 1; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; opacity: 0; z-index: 20;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top, rgba(255,64,129,0.08) 0%, transparent 60%);"></div>
+            <div style="font-size: 24px; color: #999999; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace;">COMPRESSION INDEX</div>
+            <div style="font-size: 120px; font-weight: bold; color: #FFD700; line-height: 1; font-family: 'JetBrains Mono', monospace;">2万亿+</div>
+            <div style="font-size: 24px; color: #FF4081; margin-top: 20px;">▼ 连续双月下跌</div>
+            <!-- Mini particles inside card -->
+            <div style="position: absolute; bottom: 40px; right: 40px; width: 100px; height: 60px; opacity: 0.5;">
+                <div style="position: absolute; top: 10px; left: 10px; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50;"></div>
+                <div style="position: absolute; top: 30px; left: 40px; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%;"></div>
+                <div style="position: absolute; top: 20px; left: 70px; width: 2px; height: 2px; background: #00D4FF; border-radius: 50%;"></div>
+            </div>
+        </div>
+        <!-- Card 2: Rate -->
+        <div style="flex: 1; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; opacity: 0; z-index: 20;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 60%);"></div>
+            <div style="font-size: 24px; color: #999999; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace;">INTEREST RATE GAUGE</div>
+            <!-- Dial Visualization -->
+            <div style="width: 200px; height: 200px; margin: 0 auto; position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 180px; border: 4px solid rgba(0,212,255,0.2); border-radius: 50%; border-top-color: #00D4FF;"></div>
+                <div style="position: absolute; top: 50%; left: 50%; width: 4px; height: 80px; background:#1a1a2e; transform-origin: bottom center; transform: translate(-50%, -100%) rotate(-45deg); box-shadow: 0 0 10px rgba(255,64,129,0.8);"></div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 15px rgba(255,64,129,0.8);"></div>
+                <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 36px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace;">1.5%</div>
+            </div>
+            <div style="font-size: 24px; color: #FF4081; text-align: center; margin-top: 30px;">吸引力暴跌</div>
+        </div>
     </div>
-    <!-- 数据卡片 -->
-    <div id="scarce-card" style="position: absolute; top: 300px; right: 50%; transform: translateX(50%); width: 400px; padding: 30px; background: rgba(26,26,46,0.9); border: 2px solid #FF4081; border-radius: 24px; box-shadow: 0 0 30px rgba(255,64,129,0.3); opacity: 0;">
-      <div style="font-size: 36px; color: #999999; margin-bottom: 15px;">资产状态</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FFD700;">稀缺</div>
-      <div style="font-size: 28px; color: #FFFFFF; margin-top: 20px;">好渠道少</div>
+    <!-- Core Analysis Module - Right Column (40%) -->
+    <div style="position: absolute; top: 220px; right: 100px; width: 35%; z-index: 20;">
+        <!-- Funnel Model -->
+        <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.3); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; opacity: 0;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top, rgba(255,215,0,0.08) 0%, transparent 60%);"></div>
+            <div style="font-size: 24px; color: #999999; margin-bottom: 30px; font-family: 'JetBrains Mono', monospace;">ASSET DROUGHT MODEL</div>
+            <!-- Funnel Visualization -->
+            <div style="position: relative; height: 250px;">
+                <!-- Funnel Top -->
+                <div style="position: absolute; top: 0; left: 10%; width: 80%; height: 80px; background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(0,212,255,0.15)); border-radius: 16px 16px 0 0; border: 1px solid rgba(255,215,0,0.2);"></div>
+                <!-- Funnel Middle -->
+                <div style="position: absolute; top: 80px; left: 20%; width: 60%; height: 90px; background: linear-gradient(90deg, rgba(255,64,129,0.15), rgba(255,215,0,0.15)); border-left: 1px solid rgba(255,64,129,0.2); border-right: 1px solid rgba(255,64,129,0.2);"></div>
+                <!-- Funnel Bottom -->
+                <div style="position: absolute; top: 170px; left: 35%; width: 30%; height: 80px; background: linear-gradient(90deg, rgba(0,212,255,0.15), rgba(255,64,129,0.15)); border-radius: 0 0 16px 16px; border: 1px solid rgba(0,212,255,0.2); border-top: none;"></div>
+                <!-- Particles stuck at top -->
+                <div style="position: absolute; top: 20px; left: 25%; width: 5px; height: 5px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px rgba(255,215,0,0.6);"></div>
+                <div style="position: absolute; top: 35px; left: 40%; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px rgba(255,215,0,0.6);"></div>
+                <div style="position: absolute; top: 25px; left: 55%; width: 6px; height: 6px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px rgba(255,215,0,0.6);"></div>
+                <div style="position: absolute; top: 40px; left: 65%; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px rgba(255,215,0,0.6);"></div>
+                <!-- One particle in middle -->
+                <div style="position: absolute; top: 120px; left: 45%; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px rgba(255,64,129,0.6);"></div>
+                <!-- One particle at bottom -->
+                <div style="position: absolute; top: 200px; left: 48%; width: 3px; height: 3px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 8px rgba(0,212,255,0.6);"></div>
+                <!-- Labels -->
+                <div style="position: absolute; top: 30px; left: 50%; transform: translateX(-50%); font-size: 18px; color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.5);">资金堆积</div>
+                <div style="position: absolute; top: 115px; left: 50%; transform: translateX(-50%); font-size: 18px; color: #FF4081; text-shadow: 0 0 10px rgba(255,64,129,0.5);">犹豫徘徊</div>
+                <div style="position: absolute; top: 195px; left: 50%; transform: translateX(-50%); font-size: 18px; color: #00D4FF; text-shadow: 0 0 10px rgba(0,212,255,0.5);">优质出口</div>
+            </div>
+            <div style="text-align: center; margin-top: 20px; font-size: 20px; color: #FF4081;">▼ 优质资产极度稀缺</div>
+        </div>
+        <!-- Warning Tags -->
+        <div style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 16px; opacity: 0;">
+            <div style="background: rgba(255,64,129,0.15); border: 1px solid rgba(255,64,129,0.4); border-radius: 20px; padding: 10px 20px; font-size: 22px; color: #FF4081;">波动大</div>
+            <div style="background: rgba(255,64,129,0.15); border: 1px solid rgba(255,64,129,0.4); border-radius: 20px; padding: 10px 20px; font-size: 22px; color: #FF4081;">资产荒</div>
+            <div style="background: rgba(255,64,129,0.15); border: 1px solid rgba(255,64,129,0.4); border-radius: 20px; padding: 10px 20px; font-size: 22px; color: #FF4081;">防御操作</div>
+        </div>
     </div>
-  </div>
-
-  <!-- 中间天平 -->
-  <div id="balance" style="position: absolute; top: 500px; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; z-index: 5;">
-    <!-- 支点 -->
-    <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 30px; height: 150px; background: linear-gradient(to bottom, #444, #222); border-radius: 10px;"></div>
-    <!-- 横梁 -->
-    <div id="beam" style="position: absolute; top: 80px; left: 0; width: 100%; height: 15px; background: linear-gradient(to right, #00D4FF, #FF4081); border-radius: 10px; transform-origin: center; transform: rotate(15deg);"></div>
-    <!-- 左侧托盘 -->
-    <div id="left-pan" style="position: absolute; top: 95px; left: 30px; width: 120px; height: 120px; border: 3px solid #00D4FF; border-radius: 50%; background: rgba(0,212,255,0.1); display: flex; justify-content: center; align-items: center;">
-      <div style="font-size: 36px; color: #00D4FF;">利率</div>
+    <!-- Bottom Information Area -->
+    <div style="position: absolute; bottom: 100px; left: 100px; right: 100px; z-index: 20; opacity: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <!-- System Diagnostics -->
+            <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.2); border-radius: 16px; padding: 25px 40px;">
+                <div style="font-size: 20px; color: #999999; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;">SYSTEM STATUS</div>
+                <div style="font-size: 24px; color: #FF4081; font-family: 'JetBrains Mono', monospace;">
+                    <span style="margin-right: 30px;">ERR: 0x5A7B</span>
+                    <span>ERR: 0xF2D1</span>
+                </div>
+                <div style="font-size: 24px; color: #FFD700; margin-top: 10px; font-family: 'JetBrains Mono', monospace;">CRITICAL WARNING: SYSTEMIC RISK DETECTED</div>
+            </div>
+            <!-- Data Stream -->
+            <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.2); border-radius: 16px; padding: 25px 40px; font-family: 'JetBrains Mono', monospace;">
+                <div style="font-size: 20px; color: #999999; margin-bottom: 15px;">ANALYSIS FEED</div>
+                <div style="font-size: 28px; color: #FFD700;">▶ 还贷优先</div>
+                <div style="font-size: 28px; color: #00D4FF; margin-top: 10px;">▶ 低风险理财</div>
+            </div>
+            <!-- Timestamp -->
+            <div style="font-size: 24px; color: #666666; font-family: 'JetBrains Mono', monospace;">BEAT: 6 / TIME: 15.4s</div>
+        </div>
     </div>
-    <!-- 右侧托盘 -->
-    <div id="right-pan" style="position: absolute; top: 95px; right: 30px; width: 120px; height: 120px; border: 3px solid #FF4081; border-radius: 50%; background: rgba(255,64,129,0.3); display: flex; justify-content: center; align-items: center;">
-      <div style="font-size: 36px; color: #FF4081;">资产荒</div>
+    <!-- HUD Title Bar -->
+    <div style="position: absolute; top: 100px; right: 120px; z-index: 20; opacity: 0;">
+        <div style="font-size: 24px; color: #999999; font-family: 'JetBrains Mono', monospace; letter-spacing: 4px;">HUD://ECONOMY.FLOW.ANALYSIS</div>
     </div>
-  </div>
-
-  <!-- 关键文本 -->
-  <div id="text-slogan1" style="position: absolute; bottom: 150px; left: 300px; font-size: 48px; font-weight: bold; color: #FFD700; text-shadow: 0 0 15px #FFD700; opacity: 0;">吸引力暴跌</div>
-  <div id="text-slogan2" style="position: absolute; bottom: 150px; right: 300px; font-size: 48px; font-weight: bold; color: #FFD700; text-shadow: 0 0 15px #FFD700; opacity: 0;">好渠道少</div>
-
-  <!-- 光晕装饰 -->
-  <div id="glow-left" style="position: absolute; top: 300px; left: 200px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,212,255,0.2), transparent); border-radius: 50%;"></div>
-  <div id="glow-right" style="position: absolute; top: 300px; right: 200px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,64,129,0.2), transparent); border-radius: 50%;"></div>
 </div>
-
 <script>
-// 注册 timeline 到 window
-window.__timelines = window.__timelines || {};
-const tl = gsap.timeline();
-window.__timelines["beat-6"] = tl;
-
-// 标题 SLAMS 入场
-tl.from("#title", { y: -150, opacity: 0, duration: 0.8, ease: "back.out(1.7)" });
-
-// 左侧利率柱状图入场
-tl.from("#interest-rate-chart", { height: 0, duration: 2, ease: "power3.out" }, 0.5);
-tl.from(".arrow", { y: -200, opacity: 0, stagger: 0.15, duration: 0.6, ease: "power2.out" }, 0.8);
-// 箭头流动动画
-gsap.to(".arrow", { y: 400, duration: 2, repeat: 0, ease: "linear", stagger: { each: 0.2, repeat: 0 } });
-
-// 右侧网格单元格入场
-tl.from(".grid-cell", { scale: 0, opacity: 0, stagger: 0.1, duration: 0.5, ease: "back.out(1.7)" }, 1.2);
-// 网格单元格呼吸感动画
-gsap.to(".grid-cell", { scale: 1.05, duration: 2, repeat: 0, yoyo: true, ease: "power1.inOut", stagger: { each: 0.1, repeat: 0, yoyo: true } });
-
-// 中间天平入场
-tl.from("#balance", { opacity: 0, scale: 0.5, duration: 1, ease: "elastic.out(1, 0.5)" }, 1.5);
-// 天平倾斜动画
-tl.to("#beam", { rotation: 15, duration: 2, ease: "power2.inOut" }, 2);
-tl.to("#left-pan", { y: 50, duration: 2, ease: "power2.inOut" }, 2);
-tl.to("#right-pan", { y: -30, duration: 2, ease: "power2.inOut" }, 2);
-
-// 数据卡片入场
-tl.from("#rate-card", { x: -100, opacity: 0, duration: 1, ease: "power2.out" }, 2.5);
-tl.from("#scarce-card", { x: 100, opacity: 0, duration: 1, ease: "power2.out" }, 2.7);
-
-// 进度条动画
-tl.to("#progress-bar", { width: "30%", duration: 3, ease: "power1.inOut" }, 3);
-
-// 关键文本浮动入场
-tl.from("#text-slogan1", { y: 100, opacity: 0, duration: 1, ease: "power2.out" }, 3.2);
-tl.from("#text-slogan2", { y: 100, opacity: 0, duration: 1, ease: "power2.out" }, 3.4);
-// 文本持续浮动
-gsap.to("#text-slogan1", { y: 10, duration: 2, repeat: 0, yoyo: true, ease: "sine.inOut" });
-gsap.to("#text-slogan2", { y: 10, duration: 2, repeat: 0, yoyo: true, ease: "sine.inOut" });
-
-// 光晕脉动
-gsap.to("#glow-left", { scale: 1.2, opacity: 0.4, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut" });
-gsap.to("#glow-right", { scale: 1.2, opacity: 0.4, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut" });
-
-// 背景网格流动动画（左侧）
-gsap.to("#grid-left", { backgroundPosition: "100px 100px", duration: 20, repeat: 0, ease: "linear" });
+    window.__timelines = window.__timelines || {};
+    window.__timelines["beat-6"] = gsap.timeline({paused: true});
+    const tl = window.__timelines["beat-6"];
+    // Entry animations with 0.15s stagger
+    tl.from('.scene > div:nth-child(1)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0)
+      .from('.scene > div:nth-child(2)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15)
+      .from('.scene > div:nth-child(3)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3)
+      .from('.scene > div:nth-child(4)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.45)
+      .from('.scene > div:nth-child(5)', {opacity: 0, y: -20, duration: 1.5, ease: "power2.out"}, 0.6)
+      .from('.scene > div:nth-child(6)', {opacity: 0, y: -50, duration: 0.8, ease: "power3.out"}, 0.9)
+      .from('.scene > div:nth-child(7)', {opacity: 0, y: -50, duration: 0.8, ease: "power3.out"}, 1.05)
+      .from('.scene > div:nth-child(8)', {opacity: 0, y: 60, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.5)
+      .from('.scene > div:nth-child(9)', {opacity: 0, y: 60, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.65)
+      .from('.scene > div:nth-child(10)', {opacity: 0, y: 60, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.8)
+      .from('.scene > div:nth-child(11)', {opacity: 0, x: -30, duration: 0.5, ease: "power2.out"}, 2.2)
+      .from('.scene > div:nth-child(12)', {opacity: 0, y: 40, duration: 0.6, ease: "power2.out"}, 2.5)
+      .from('.scene > div:nth-child(13)', {opacity: 0, y: 40, duration: 0.6, ease: "power2.out"}, 2.7);
+    // Scanline animation
+    gsap.to('.scene > div:nth-child(5)', {
+        top: '100%',
+        duration: 5,
+        ease: "none",
+        repeat: 0,
+        delay: 2
+    });
+    // Particle drift animations
+    gsap.to('.scene > div:nth-child(6)', {
+        y: -50,
+        x: 30,
+        duration: 12,
+        ease: "none",
+        repeat: 0,
+        yoyo: true
+    });
+    gsap.to('.scene > div:nth-child(7)', {
+        y: 40,
+        x: -20,
+        duration: 8,
+        ease: "none",
+        repeat: 0,
+        yoyo: true
+    });
+    gsap.to('.scene > div:nth-child(8)', {
+        y: -30,
+        duration: 15,
+        ease: "none",
+        repeat: 0,
+        yoyo: true
+    });
+    // Breathing animations for specific elements
+    gsap.to('.scene > div:nth-child(9)', {
+        scale: 1.015,
+        duration: 3,
+        ease: "sine.inOut",
+        repeat: 0,
+        yoyo: true
+    });
+    gsap.to('.scene > div:nth-child(10)', {
+        scale: 1.015,
+        duration: 3,
+        ease: "sine.inOut",
+        repeat: 0,
+        yoyo: true,
+        delay: 1
+    });
+    // Dial pointer drop animation
+    gsap.fromTo('.scene > div:nth-child(10) div:nth-child(4)', 
+        {rotation: 45, transformOrigin: "bottom center"},
+        {rotation: -45, duration: 2, ease: "power2.inOut", delay: 2.5}
+    );
+    // Funnel particles animation
+    const particles = document.querySelectorAll('.scene > div:nth-child(11) div:nth-child(3) div');
+    particles.forEach((particle, index) => {
+        gsap.to(particle, {
+            y: 10 + index * 2,
+            duration: 2 + index * 0.5,
+            ease: "sine.inOut",
+            repeat: 0,
+            yoyo: true,
+            delay: 3 + index * 0.3
+        });
+    });
+    // Start timeline
+    tl.play();
 </script>
-</div></body>
+</body>
 </html>
