@@ -1,0 +1,362 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "古代海上巨无霸",
+      "size": 52,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "明朝宝船尺寸对比",
+      "size": 24,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "150",
+        "unit": "米",
+        "label": "宝船长度",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "100",
+        "unit": "%",
+        "label": "宝船尺寸",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "60米宽",
+        "unit": "",
+        "label": "船体宽度",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "≈7倍",
+        "unit": "",
+        "label": "是哥伦布帆船的",
+        "color": "#ff6b35",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "郑和宝船",
+      "数据可视化",
+      "尺寸对比"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "史诗远航的开端",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "郑和首次下西洋",
+      "size": 22,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "icon_stat",
+        "value": "1405",
+        "unit": "年",
+        "label": "启程年份",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "27,000人",
+        "unit": "",
+        "label": "首次航行规模",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "200+艘",
+        "unit": "",
+        "label": "船队数量",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "七次",
+        "unit": "",
+        "label": "史诗远航",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "郑和下西洋",
+      "时间轴",
+      "历史事件"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "跨越万里的航迹",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "郑和船队的全球覆盖",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "gauge",
+        "value": "15000+",
+        "unit": "海里",
+        "label": "最远航程",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "木骨都束",
+        "unit": "",
+        "label": "非洲东海岸",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "东南亚→东非",
+        "unit": "",
+        "label": "覆盖区域",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "跨国航行",
+        "unit": "",
+        "label": "历史壮举",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "航海范围",
+      "地理数据",
+      "仪表盘布局"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "造船技术的巅峰",
+      "size": 46,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "领先欧洲半个世纪",
+      "size": 22,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "50",
+        "unit": "年",
+        "label": "技术领先",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "水密隔舱",
+        "unit": "",
+        "label": "核心造船技术",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "星象导航",
+        "unit": "",
+        "label": "先进航海技术",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "明朝造船",
+        "unit": "",
+        "label": "科技巅峰",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "造船技术",
+      "模块展示",
+      "技术对比"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "和平外交的丰碑",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "构建全球贸易网络",
+      "size": 22,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "30+",
+        "unit": "个国家",
+        "label": "贸易伙伴",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "瓷器、丝绸",
+        "unit": "",
+        "label": "主要贸易品",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "文明交流",
+        "unit": "",
+        "label": "核心影响",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "全球流通",
+        "unit": "",
+        "label": "贸易范围",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "和平外交",
+      "国际贸易",
+      "环形图"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "永载史册的辉煌",
+      "size": 50,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "中华文明的海上丰碑",
+      "size": 22,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "card",
+        "value": "开放与自信的巅峰",
+        "unit": "",
+        "label": "文明特征",
+        "color": "#ffffff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "以和平力量重塑世界",
+        "unit": "",
+        "label": "历史定位",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "明朝海上霸权",
+        "unit": "",
+        "label": "核心结论",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "永载史册",
+        "unit": "",
+        "label": "历史意义",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "总结陈词",
+      "文明高度",
+      "对角线布局"
+    ]
+  }
+]

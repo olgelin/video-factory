@@ -1,0 +1,394 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "巨舰远航：郑和的非洲奇迹",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "比哥伦布早87年的史诗航行",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "87",
+        "unit": "年",
+        "label": "历史领先",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "200+",
+        "unit": "艘",
+        "label": "舰船数量",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "2.7万",
+        "unit": "名",
+        "label": "船员规模",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "规模空前的庞大船队",
+        "unit": "",
+        "label": "关键点1",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "早于欧洲的远航记录",
+        "unit": "",
+        "label": "关键点2",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "规模",
+      "记录",
+      "国力"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "三十年航海史诗",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "七下西洋，十万里航程",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "7",
+        "unit": "次",
+        "label": "航行次数",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "100000+",
+        "unit": "公里",
+        "label": "总航程",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "近30",
+        "unit": "年",
+        "label": "持续时间",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "频率与持续性空前绝后",
+        "unit": "",
+        "label": "关键点1",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "频率",
+      "航程",
+      "国家意志"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "海上移动堡垒：宝船雄姿",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "44丈巨舰，造船技术巅峰",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "gauge",
+        "value": "44",
+        "unit": "丈",
+        "label": "船长",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "当时最大",
+        "unit": "",
+        "label": "世界地位",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "尺寸与规模冠绝当世",
+        "unit": "",
+        "label": "技术领先",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "舰队与国力的象征",
+        "unit": "",
+        "label": "象征意义",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "尺寸",
+      "工艺",
+      "象征"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "足迹遍海疆，威仪达四方",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "航行覆盖亚非，构建国际秩序",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "icon_stat",
+        "value": "30+",
+        "unit": "个",
+        "label": "访问国家",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "4",
+        "unit": "大地区",
+        "label": "覆盖范围",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "朝贡",
+        "unit": "体系",
+        "label": "建立体系",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "建立广泛的外交与贸易网络",
+        "unit": "",
+        "label": "外交影响",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "彰显明朝无与伦比的影响力",
+        "unit": "",
+        "label": "国威彰显",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "外交",
+      "贸易",
+      "影响力"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "早熟的霸权与历史的叹息",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "比欧洲早一个世纪，为何戛然而止？",
+      "size": 20,
+      "color": "#ff6b35"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "~1",
+        "unit": "世纪",
+        "label": "时间领先",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "更大",
+        "unit": "",
+        "label": "规模对比",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "中止",
+        "unit": "",
+        "label": "最终结局",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "航海成就的巅峰与断崖",
+        "unit": "",
+        "label": "关键点1",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "历史转折的深刻反思",
+        "unit": "",
+        "label": "关键点2",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "对比",
+      "转折",
+      "反思"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "开放与封闭：海权的终极启示",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "从辉煌巅峰到固步自封的警示",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "辉煌",
+        "unit": "巅峰",
+        "label": "霸权性质",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "开放 vs 封闭",
+        "unit": "",
+        "label": "路径对比",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "开放繁荣",
+        "unit": "闭关落后",
+        "label": "核心教训",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "封闭必然导致落后",
+        "unit": "",
+        "label": "衰落原因",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "总结明朝海权的双重遗产",
+        "unit": "",
+        "label": "历史意义",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "开放",
+      "封闭",
+      "启示"
+    ]
+  }
+]

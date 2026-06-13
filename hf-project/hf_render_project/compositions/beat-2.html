@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html data-composition-id="beat-2" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperFrames Beat 2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
+    <div class="scene" style="width:1920px; height:1080px; background:#1a1a2e; overflow:hidden; position:relative; font-family:'Inter','Noto Sans SC',sans-serif;">
+        <!-- Background Data Grid -->
+        <div id="bg-grid" style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size:40px 40px; opacity:0; z-index:0;"></div>
+        
+        <!-- Scan Line -->
+        <div id="scan-line" style="position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg, transparent, #00D4FF, transparent); opacity:0; z-index:1;"></div>
+        
+        <!-- Neon Lines Dashboard Outline -->
+        <div id="neon-outline" style="position:absolute; top:80px; left:80px; width:1760px; height:920px; border:2px solid rgba(0,212,255,0.3); border-radius:16px; box-shadow:0 0 10px rgba(0,212,255,0.2), inset 0 0 10px rgba(0,212,255,0.1); opacity:0; z-index:2;"></div>
+        
+        <!-- Ghost Text Watermark -->
+        <div id="ghost-text" style="position:absolute; top:200px; left:400px; font-size:120px; font-weight:bold; color:rgba(255,255,255,0.03); white-space:nowrap; opacity:0; z-index:3;">BREAKING NEWS</div>
+        
+        <!-- Title -->
+        <div id="title" style="position:absolute; top:120px; left:120px; font-size:88px; font-weight:bold; color:#FFFFFF; text-shadow:0 0 10px #00D4FF, 0 0 20px #00D4FF, 0 0 30px #00D4FF; opacity:0; z-index:4;">甘肃一特警大队长因公牺牲，年仅44岁</div>
+        
+        <!-- Subtitle / Voiceover Text -->
+        <div id="subtitle" style="position:absolute; top:240px; left:120px; font-size:32px; color:#999999; opacity:0; z-index:5;">说白了，这不是电影，是甘肃真实发生的英雄故事。特警大队长，年仅四四岁，在执行救援任务时因公牺牲了，热度值都爆了。</div>
+        
+        <!-- Hot Value Gauge Card -->
+        <div id="hot-card" style="position:absolute; top:340px; left:120px; width:400px; height:200px; background:rgba(0,0,0,0.5); border:1px solid #00D4FF; border-radius:16px; box-shadow:0 0 15px rgba(0,212,255,0.3); opacity:0; z-index:6;">
+            <div style="padding:20px; text-align:center;">
+                <div style="font-size:24px; color:#00D4FF; margin-bottom:10px;">热度值仪表盘</div>
+                <div id="hot-value" style="font-family:'JetBrains Mono',monospace; font-size:72px; font-weight:bold; color:#FF4081; text-shadow:0 0 10px #FF4081, 0 0 20px #FF4081;">99999+</div>
+                <div style="font-size:16px; color:#FFD700;">爆表!</div>
+            </div>
+        </div>
+        
+        <!-- Confidence Meter Card -->
+        <div id="conf-card" style="position:absolute; top:340px; left:560px; width:300px; height:200px; background:rgba(0,0,0,0.5); border:1px solid #00D4FF; border-radius:16px; box-shadow:0 0 15px rgba(0,212,255,0.3); opacity:0; z-index:7;">
+            <div style="padding:20px; text-align:center;">
+                <div style="font-size:24px; color:#00D4FF; margin-bottom:10px;">置信度</div>
+                <div id="conf-value" style="font-family:'JetBrains Mono',monospace; font-size:80px; font-weight:bold; color:#FFD700; text-shadow:0 0 10px #FFD700, 0 0 20px #FFD700;">9</div>
+                <div style="font-size:16px; color:#FFFFFF;">精确度高</div>
+            </div>
+        </div>
+        
+        <!-- Map Pin -->
+        <div id="map-pin" style="position:absolute; top:380px; left:920px; width:200px; height:150px; opacity:0; z-index:8;">
+            <div style="width:0; height:0; border-left:20px solid transparent; border-right:20px solid transparent; border-bottom:30px solid #FF4081; margin:0 auto; box-shadow:0 0 10px #FF4081;"></div>
+            <div style="text-align:center; color:#FFFFFF; font-size:20px; margin-top:10px;">甘肃 · 事件地点</div>
+        </div>
+        
+        <!-- Sound Wave Frequency Chart -->
+        <div id="sound-wave" style="position:absolute; top:340px; left:1160px; width:300px; height:200px; opacity:0; z-index:9;">
+            <svg width="300" height="200" viewBox="0 0 300 200">
+                <path d="M0,100 Q75,30 150,100 T300,100" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.8"/>
+                <path d="M0,100 Q75,170 150,100 T300,100" fill="none" stroke="#FF4081" stroke-width="2" opacity="0.8"/>
+                <circle cx="150" cy="100" r="5" fill="#FFD700">
+                    <animate attributeName="r" values="5;10;5" dur="1s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+        </div>
+        
+        <!-- Holographic Label -->
+        <div id="holo-label" style="position:absolute; top:580px; left:120px; padding:10px 24px; background:rgba(0,212,255,0.2); border:1px solid #00D4FF; border-radius:24px; color:#00D4FF; font-size:20px; font-weight:bold; opacity:0; z-index:10;">突发重大新闻</div>
+        
+        <!-- Pulse Highlight Border -->
+        <div id="pulse-border" style="position:absolute; top:560px; left:460px; width:500px; height:150px; border:2px solid #FF4081; border-radius:16px; box-shadow:0 0 15px rgba(255,64,129,0.5); opacity:0; z-index:11;">
+            <div style="padding:20px; color:#FFFFFF; font-size:18px;">事件引发全网关注，社会热度持续攀升。</div>
+        </div>
+        
+        <!-- Rolling News Summary Bar -->
+        <div id="news-bar" style="position:absolute; top:740px; left:80px; width:1760px; height:60px; background:rgba(0,0,0,0.7); border-top:1px solid #00D4FF; border-bottom:1px solid #00D4FF; overflow:hidden; opacity:0; z-index:12;">
+            <div id="news-text" style="white-space:nowrap; font-size:24px; color:#FFFFFF; padding-top:15px; animation:none;">最新报道：甘肃特警大队长因公牺牲，官方确认细节。社会各界深切悼念。事件热度值飙升，网友自发悼念英雄。救援任务细节曝光，英雄事迹感动全国。</div>
+        </div>
+        
+        <!-- Data Fragments Particles -->
+        <div id="particles" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:13;">
+            <div style="position:absolute; top:200px; left:300px; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0; box-shadow:0 0 6px #FFD700;"></div>
+            <div style="position:absolute; top:500px; left:700px; width:6px; height:6px; background:#00D4FF; border-radius:50%; opacity:0; box-shadow:0 0 6px #00D4FF;"></div>
+            <div style="position:absolute; top:300px; left:1400px; width:5px; height:5px; background:#1a1a2e; border-radius:50%; opacity:0; box-shadow:0 0 6px #FF4081;"></div>
+            <div style="position:absolute; top:650px; left:1600px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
+            <div style="position:absolute; top:150px; left:1100px; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0; box-shadow:0 0 6px #FFD700;"></div>
+        </div>
+        
+        <!-- Additional Decorative Data Window -->
+        <div id="data-window" style="position:absolute; top:580px; left:1360px; width:350px; height:200px; background:rgba(0,0,0,0.5); border:1px solid #00D4FF; border-radius:16px; box-shadow:0 0 15px rgba(0,212,255,0.3); opacity:0; z-index:14;">
+            <div style="padding:15px; font-family:'JetBrains Mono',monospace;">
+                <div style="color:#00D4FF; font-size:16px; margin-bottom:10px;">实时数据流</div>
+                <div style="color:#FFFFFF; font-size:14px; line-height:1.8;">热度指数: <span style="color:#FF4081;">98.7%</span><br>置信评分: <span style="color:#FFD700;">9.0</span><br>报道数量: <span style="color:#00D4FF;">1,247</span><br>更新频率: <span style="color:#FFFFFF;">实时</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize GSAP Timeline
+        window.__timelines = window.__timelines || {};
+        window.__timelines["beat-2"] = gsap.timeline({paused: true});
+        var tl = window.__timelines["beat-2"];
+        
+        // Entry animations for all elements with stagger 0.15s
+        var elements = [
+            "#bg-grid", "#scan-line", "#neon-outline", "#ghost-text", "#title",
+            "#subtitle", "#hot-card", "#conf-card", "#map-pin", "#sound-wave",
+            "#holo-label", "#pulse-border", "#news-bar", "#data-window",
+            "#particles div", "#news-text"
+        ];
+        
+        elements.forEach(function(selector, index) {
+            var delay = index * 0.15;
+            tl.from(selector, {
+                opacity: 0,
+                duration: 1,
+                ease: "expo.out",
+                stagger: 0.15
+            }, delay);
+        });
+        
+        // Specific entry animations
+        tl.from("#title", { y: -50, duration: 1, ease: "expo.out" }, 0);
+        tl.from("#subtitle", { y: 30, duration: 1, ease: "expo.out" }, 0.15);
+        tl.from("#hot-value", { scale: 0.5, duration: 0.8, ease: "expo.out" }, 0.45);
+        tl.from("#conf-value", { scale: 0.5, duration: 0.8, ease: "expo.out" }, 0.6);
+        tl.from("#map-pin", { y: 20, duration: 0.8, ease: "expo.out" }, 0.75);
+        
+        // Card breathing animation
+        function addBreathingAnimation(selector) {
+            gsap.to(selector, {
+                scale: 1.02,
+                duration: 2.5,
+                yoyo: true,
+                repeat: 0,
+                ease: "sine.inOut",
+                delay: 1.5
+            });
+        }
+        
+        addBreathingAnimation("#hot-card");
+        addBreathingAnimation("#conf-card");
+        addBreathingAnimation("#pulse-border");
+        addBreathingAnimation("#data-window");
+        
+        // Continuous subtle animation for sound wave path (not repeat: 0, but simple)
+        gsap.to("#sound-wave path", {
+            attr: { d: "M0,100 Q75,150 150,100 T300,100" },
+            duration: 2,
+            yoyo: true,
+            repeat: 3,
+            ease: "sine.inOut",
+            delay: 1
+        });
+        
+        // Scroll news text
+        gsap.to("#news-text", {
+            x: -1000,
+            duration: 8,
+            ease: "none",
+            delay: 2
+        });
+        
+        // Particle floating (simple fade in and slight movement)
+        gsap.to("#particles div", {
+            opacity: 1,
+            y: -20,
+            duration: 2,
+            stagger: 0.3,
+            ease: "power2.out",
+            delay: 2
+        });
+        
+        // Start timeline
+        tl.play();
+    </script>
+</body>
+</html>

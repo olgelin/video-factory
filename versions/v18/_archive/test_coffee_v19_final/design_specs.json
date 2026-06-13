@@ -1,0 +1,370 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "全球25亿人正被咖啡因“绑架”",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "地球上三分之一人口每天都在摄入咖啡因，清醒靠它，疲惫也因它。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "25",
+        "unit": "亿",
+        "label": "全球每日摄入人数",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "33.3",
+        "unit": "%",
+        "label": "占全球人口比例",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "ring_chart",
+        "value": "90",
+        "unit": "%",
+        "label": "成年人日依赖比例",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "你以为在享受咖啡，实则在服从咖啡因的指令。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "全球数据",
+      "依赖比例",
+      "控制感"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "15分钟，你的大脑被劫持",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "咖啡因快速渗透大脑，强行制造清醒假象，代价是加倍的疲惫。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "15",
+        "unit": "分钟",
+        "label": "穿透血脑屏障时间",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "阻断",
+        "unit": "腺苷受体",
+        "label": "作用机制",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "progress_bar",
+        "value": "2-3",
+        "unit": "小时",
+        "label": "效果持续时间",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "它抢走了你大脑中本该休息的信号。",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "短暂的清醒后，是更深的能量低谷。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "快速作用",
+      "神经机制",
+      "能量透支"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "7天，你将不再自由",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "每天300毫克，连续一周，你的身体将被咖啡因锁上枷锁。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "7",
+        "unit": "天",
+        "label": "形成依赖所需天数",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "300",
+        "unit": "毫克/日",
+        "label": "形成依赖的每日摄入量",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "你以为是习惯，身体已将它识别为必需品。",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "icon_stat",
+        "value": "47%",
+        "unit": "",
+        "label": "戒断时头痛发生率",
+        "color": "#ef4444",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "依赖形成",
+      "戒断反应",
+      "数据警示"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "过量=慢性毒药",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "超过400毫克的日常摄入，正在悄悄侵蚀你的心脏与睡眠。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "400",
+        "unit": "毫克+",
+        "label": "高风险每日摄入阈值",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "15",
+        "unit": "%",
+        "label": "心脏病风险增幅",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "bar_chart",
+        "value": "25",
+        "unit": "%",
+        "label": "深度睡眠减少幅度",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "在寻求清醒的同时，你可能正在透支健康。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "健康风险",
+      "剂量阈值",
+      "长期代价"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "隐形无处不在",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "从拿铁到能量饮料，再到绿茶巧克力，你早已被咖啡因包围。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "控制你的不是咖啡，是其中的特定成分。",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "它藏在你喜欢的各种风味背后。",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "bar_chart",
+        "value": "225",
+        "unit": "毫克",
+        "label": "大杯拿铁含量",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "bar_chart",
+        "value": "300",
+        "unit": "毫克",
+        "label": "能量饮料含量",
+        "color": "#ff6b35",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "隐藏来源",
+      "日常饮品",
+      "无意识摄入"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "认清它，夺回控制权",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "唯有看清这个隐形控制者，你才能打破循环，重获生活自主权。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "“从被控制到主动选择，始于一次清醒的认知。”",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "100",
+        "unit": "%",
+        "label": "打破循环，重获自由",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "认清",
+        "unit": "",
+        "label": "解决方案关键词",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "真正的自由，是不依赖任何物质来维持状态。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "觉醒",
+      "自主权",
+      "解决方案"
+    ]
+  }
+]

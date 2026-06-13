@@ -1,0 +1,527 @@
+{
+  "topic": "人工智能的伦理困境",
+  "output_dir": "test_ai_v19_full",
+  "scenes": [],
+  "video": "test_ai_v19_full\\rendered.mp4",
+  "frames": [
+    "test_ai_v19_full\\frame_01.jpg",
+    "test_ai_v19_full\\frame_02.jpg",
+    "test_ai_v19_full\\frame_03.jpg",
+    "test_ai_v19_full\\frame_04.jpg",
+    "test_ai_v19_full\\frame_05.jpg",
+    "test_ai_v19_full\\frame_06.jpg"
+  ],
+  "video_size_kb": 1128.6064453125,
+  "storyboard": [
+    {
+      "scene_id": 1,
+      "narration": "震惊！2023年全球报告了1500起AI伦理事故，但只有不到10%被追责。技术跑得快，法律跟不上！",
+      "duration": 5.0,
+      "visual_type": "alert",
+      "title": "震惊！2023年全球报告了15",
+      "subtitle": "00起AI伦理事故，但只有不到10%被追",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "震惊！2023年全球报告了1500起AI伦理事故，但只有不到10%被追责。技术跑得快，法律跟不上！"
+      ],
+      "tags": [
+        "人工智能"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 2,
+      "narration": "想想你的医疗记录：AI系统处理时，数据泄露风险高达20%。去年，有500万份健康信息被非法访问。",
+      "duration": 5.0,
+      "visual_type": "data",
+      "title": "想想你的医疗记录：AI系统处理",
+      "subtitle": "时，数据泄露风险高达20%。去年，有50",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "想想你的医疗记录：AI系统处理时，数据泄露风险高达20%。去年，有500万份健康信息被非法访问。"
+      ],
+      "tags": [
+        "人工智能"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 3,
+      "narration": "算法偏见无处不在：AI招聘工具对女性简历的评分平均低15%。这不公，正在固化社会差距。",
+      "duration": 5.0,
+      "visual_type": "comparison",
+      "title": "算法偏见无处不在：AI招聘工具",
+      "subtitle": "对女性简历的评分平均低15%。这不公，正",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "算法偏见无处不在：AI招聘工具对女性简历的评分平均低15%。这不公，正在固化社会差距。"
+      ],
+      "tags": [
+        "人工智能"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 4,
+      "narration": "当AI决策出错，谁背锅？调查显示，70%的自动驾驶事故中，责任方不明确。法律空白，风险巨大。",
+      "duration": 5.0,
+      "visual_type": "timeline",
+      "title": "当AI决策出错，谁背锅？调查显",
+      "subtitle": "示，70%的自动驾驶事故中，责任方不明确",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "当AI决策出错，谁背锅？调查显示，70%的自动驾驶事故中，责任方不明确。法律空白，风险巨大。"
+      ],
+      "tags": [
+        "人工智能"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 5,
+      "narration": "AI在教育中普及，但40%的学校未进行伦理评估。技术便利背后，是隐私和公平的隐患。",
+      "duration": 5.0,
+      "visual_type": "highlight",
+      "title": "AI在教育中普及，但40%的学",
+      "subtitle": "校未进行伦理评估。技术便利背后，是隐私和",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "AI在教育中普及，但40%的学校未进行伦理评估。技术便利背后，是隐私和公平的隐患。"
+      ],
+      "tags": [
+        "人工智能"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 6,
+      "narration": "记住：人工智能是工具，不是主宰。设定伦理边界，否则我们都在悬崖边行走。",
+      "duration": 5.0,
+      "visual_type": "quote",
+      "title": "记住：人工智能是工具，不是主宰",
+      "subtitle": "。设定伦理边界，否则我们都在悬崖边行走。",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "记住：人工智能是工具，不是主宰。设定伦理边界，否则我们都在悬崖边行走。"
+      ],
+      "tags": [
+        "人工智能"
+      ],
+      "quote_text": ""
+    }
+  ],
+  "designs": [
+    {
+      "scene_id": 1,
+      "bg": {
+        "type": "particle_tech",
+        "color": "#0a0a1a"
+      },
+      "layout": {
+        "type": "diagonal"
+      },
+      "title": {
+        "text": "AI伦理事故激增",
+        "size": 56,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "技术狂奔，法律滞后",
+        "size": 22,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "1500",
+          "unit": "起",
+          "label": "2023年全球报告",
+          "color": "#ff6b35",
+          "size": "large"
+        },
+        {
+          "type": "ring_chart",
+          "value": "<10%",
+          "unit": "",
+          "label": "事故追责率",
+          "color": "#ef4444",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "核心问题：技术发展速度远超监管与法律框架",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "2023",
+          "unit": "年",
+          "label": "数据年份",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "#AI伦理",
+        "#法律监管",
+        "#数据警示"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "bg": {
+        "type": "geometric_lines",
+        "color": "#111827"
+      },
+      "layout": {
+        "type": "asymmetric"
+      },
+      "title": {
+        "text": "医疗AI：数据泄露危机",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "你的健康信息，安全吗？",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "progress_bar",
+          "value": "20%",
+          "unit": "",
+          "label": "数据泄露风险概率",
+          "color": "#ef4444",
+          "size": "large"
+        },
+        {
+          "type": "bar_chart",
+          "value": "5M",
+          "unit": "份",
+          "label": "去年被非法访问的健康信息",
+          "color": "#ff6b35",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "高风险场景：AI系统处理、存储、传输敏感医疗记录",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "后果：隐私侵犯、身份盗窃、保险歧视",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "#数据安全",
+        "#医疗隐私",
+        "#AI风险"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "bg": {
+        "type": "subtle_glow",
+        "color": "#0f172a"
+      },
+      "layout": {
+        "type": "split_h"
+      },
+      "title": {
+        "text": "算法偏见：招聘中的隐形歧视",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "AI在复制甚至放大人类社会的不平等",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "bar_chart",
+          "value": "-15%",
+          "unit": "",
+          "label": "AI对女性简历评分平均偏低",
+          "color": "#ef4444",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "现象：AI招聘工具基于历史数据训练，继承了历史偏见",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "影响：固化社会差距，阻碍女性职业发展",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "!",
+          "unit": "",
+          "label": "警示",
+          "color": "#ff6b35",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "#算法公平",
+        "#性别平等",
+        "#AI伦理"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "bg": {
+        "type": "minimal_gradient",
+        "color": "#1a1a2e"
+      },
+      "layout": {
+        "type": "timeline"
+      },
+      "title": {
+        "text": "AI出错，谁来负责？",
+        "size": 52,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "自动驾驶事故中的责任迷宫",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "ring_chart",
+          "value": "70%",
+          "unit": "",
+          "label": "责任方不明确的自动驾驶事故",
+          "color": "#ff6b35",
+          "size": "large"
+        },
+        {
+          "type": "timeline",
+          "value": "AI决策 → 事故 → ？",
+          "unit": "",
+          "label": "责任追究链条断裂",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "挑战：AI决策是‘黑箱’，法律主体不明确",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "风险：巨大的法律与道德空白",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "#自动驾驶",
+        "#AI责任",
+        "#法律挑战"
+      ]
+    },
+    {
+      "scene_id": 5,
+      "bg": {
+        "type": "particle_tech",
+        "color": "#0a0a1a"
+      },
+      "layout": {
+        "type": "dashboard"
+      },
+      "title": {
+        "text": "AI进校园，伦理评估缺席",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "便利背后的隐私与公平隐患",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "progress_bar",
+          "value": "40%",
+          "unit": "",
+          "label": "未进行伦理评估的学校比例",
+          "color": "#ef4444",
+          "size": "large"
+        },
+        {
+          "type": "gauge",
+          "value": "普及",
+          "unit": "",
+          "label": "AI在教育中的渗透率",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "隐私风险：学生数据被过度收集与分析",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "公平风险：AI评分/推荐可能加剧教育资源不均",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "#AI教育",
+        "#学生隐私",
+        "#伦理评估"
+      ]
+    },
+    {
+      "scene_id": 6,
+      "bg": {
+        "type": "subtle_glow",
+        "color": "#0a0a1a"
+      },
+      "layout": {
+        "type": "full_bleed"
+      },
+      "title": {
+        "text": "设定伦理边界",
+        "size": 72,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "人工智能是工具，不是主宰",
+        "size": 28,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "icon_stat",
+          "value": "“”",
+          "unit": "",
+          "label": "核心观点",
+          "color": "#ff6b35",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "警告：否则我们都在悬崖边行走",
+          "color": "#ef4444",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "呼吁：为技术发展划定清晰的伦理红线",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "",
+          "unit": "",
+          "label": "未来：在创新与伦理间取得平衡",
+          "color": "#00d4ff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "#AI伦理",
+        "#人类控制",
+        "#未来"
+      ]
+    }
+  ],
+  "layout_types": [
+    "diagonal",
+    "asymmetric",
+    "split_h",
+    "timeline",
+    "dashboard",
+    "full_bleed"
+  ],
+  "bg_types": [
+    "particle_tech",
+    "geometric_lines",
+    "subtle_glow",
+    "minimal_gradient",
+    "particle_tech",
+    "subtle_glow"
+  ]
+}

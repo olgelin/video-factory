@@ -1,0 +1,380 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "百舰对三百，谁主沉浮？",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "明朝海军实力颠覆欧洲，成就真正的海上霸主。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "300+",
+        "unit": "艘",
+        "label": "明朝战舰",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "300:100",
+        "unit": "",
+        "label": "对欧洲压倒性优势",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "鼎盛时期",
+        "unit": "",
+        "label": "对比时期",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "被低估的海洋历史",
+        "unit": "",
+        "label": "关键点",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "数据颠覆",
+      "海上霸主"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "两百宝船，万人船队",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "郑和首次下西洋，开启人类航海史无前例的壮举。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "icon_stat",
+        "value": "200+",
+        "unit": "艘宝船",
+        "label": "舰队规模",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "27000",
+        "unit": "名船员",
+        "label": "船员总数",
+        "color": "#3b82f6",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "1405年",
+        "unit": "",
+        "label": "首次远航",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "非洲东海岸",
+        "unit": "",
+        "label": "远航终点",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "人类航海新纪录",
+        "unit": "",
+        "label": "历史意义",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "郑和下西洋",
+      "航海奇迹"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "百米巨舰，领先百年",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "明朝宝船尺寸与技术，全面碾压同期世界航海水平。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "120m",
+        "unit": "",
+        "label": "宝船长度",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "100",
+        "unit": "年",
+        "label": "技术领先",
+        "color": "#3b82f6",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "排水量超千吨",
+        "unit": "",
+        "label": "规模参数",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "比哥伦布船大4倍",
+        "unit": "",
+        "label": "尺寸对比",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "水密隔舱技术",
+        "unit": "",
+        "label": "核心科技",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "宝船技术",
+      "世界领先"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "二十八年，七下西洋",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "郑和航行连接亚非三十国，开辟伟大海上丝绸之路。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "icon_stat",
+        "value": "7",
+        "unit": "次",
+        "label": "下西洋次数",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "30+",
+        "unit": "国家",
+        "label": "访问国",
+        "color": "#3b82f6",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "1405-1433年",
+        "unit": "",
+        "label": "航行时间",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "28年",
+        "unit": "",
+        "label": "航行总时长",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "亚非海上丝路",
+        "unit": "",
+        "label": "历史影响",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "郑和航线",
+      "亚非丝路"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "百万白银，瓷丝之路",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "明朝海洋贸易规模巨大，是推动早期全球化的重要引擎。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "progress_bar",
+        "value": "数百万两",
+        "unit": "白银",
+        "label": "年贸易额",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "瓷器、丝绸",
+        "unit": "",
+        "label": "主要出口",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "香料、珍宝",
+        "unit": "",
+        "label": "主要进口",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "早期全球化",
+        "unit": "",
+        "label": "历史影响",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "海上贸易",
+      "全球引擎"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "三百宝船，帝国记忆",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "明朝的海上霸权，铭刻了一个全球领袖时代的辉煌传奇。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "300",
+        "unit": "艘",
+        "label": "宝船舰队",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "quote",
+        "value": "征服海洋，书写传奇",
+        "unit": "",
+        "label": "核心宣言",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "海上霸权",
+        "unit": "",
+        "label": "帝国象征",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "全球领袖",
+        "unit": "",
+        "label": "历史地位",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "帝国记忆",
+      "全球领袖"
+    ]
+  }
+]

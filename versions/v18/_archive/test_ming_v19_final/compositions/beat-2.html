@@ -1,0 +1,160 @@
+<template id="beat-2-template">
+  <div data-composition-id="beat-2" data-width="1920" data-height="1080">
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;
+      background:linear-gradient(135deg,#111827 0%,#111827 100%);"></div>
+    <div style="position:absolute;top:0;right:0;width:50%;height:50%;
+      background:radial-gradient(circle,rgba(0,212,255,0.03) 0%,transparent 70%);filter:blur(60px);"></div>
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;">
+      <div class="anim-light-flow" style="position:absolute;top:25%;left:0;width:60%;height:2px;
+        background:linear-gradient(90deg,transparent,rgba(0,212,255,0.25),transparent);
+        filter:blur(2px);"></div>
+      <div class="anim-light-flow" style="position:absolute;top:55%;left:0;width:50%;height:2px;
+        background:linear-gradient(90deg,transparent,rgba(59,130,246,0.2),transparent);
+        filter:blur(2px);animation-delay:1.5s;"></div>
+      <div class="anim-light-flow" style="position:absolute;top:80%;left:0;width:40%;height:1px;
+        background:linear-gradient(90deg,transparent,rgba(0,212,255,0.15),transparent);
+        filter:blur(1px);animation-delay:0.8s;"></div>
+    </div>
+    <style>
+  /* === 入场动画 === */
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeInDown {
+    from { opacity:0; transform:translateY(-30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity:0; transform:translateX(-40px); }
+    to { opacity:1; transform:translateX(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity:0; transform:translateX(40px); }
+    to { opacity:1; transform:translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity:0; transform:scale(0.8); }
+    to { opacity:1; transform:scale(1); }
+  }
+
+  /* === 呼吸/脉冲动画 === */
+  @keyframes breathe {
+    0%,100% { transform:scale(1); opacity:0.9; }
+    50% { transform:scale(1.02); opacity:1; }
+  }
+  @keyframes glowPulse {
+    0%,100% { filter:drop-shadow(0 0 8px var(--glow-color)); }
+    50% { filter:drop-shadow(0 0 20px var(--glow-color)); }
+  }
+  @keyframes softFloat {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-4px); }
+  }
+
+  /* === 流光效果 === */
+  @keyframes lightFlow {
+    0% { transform:translateX(-100%); }
+    100% { transform:translateX(100%); }
+  }
+  @keyframes lightFlowVertical {
+    0% { transform:translateY(-100%); }
+    100% { transform:translateY(100%); }
+  }
+
+  /* === 进度条生长 === */
+  @keyframes barGrow {
+    from { width:0%; }
+  }
+
+  /* === 应用类 === */
+  .anim-fade-up { animation: fadeInUp 0.6s ease-out both; }
+  .anim-fade-down { animation: fadeInDown 0.6s ease-out both; }
+  .anim-fade-left { animation: fadeInLeft 0.5s ease-out both; }
+  .anim-fade-right { animation: fadeInRight 0.5s ease-out both; }
+  .anim-scale { animation: scaleIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+  .anim-breathe { animation: breathe 3s ease-in-out infinite; }
+  .anim-glow { animation: glowPulse 2.5s ease-in-out infinite; }
+  .anim-float { animation: softFloat 4s ease-in-out infinite; }
+  .anim-bar-grow { animation: barGrow 1s ease-out both; }
+  .anim-light-flow {
+    animation: lightFlow 3s linear infinite;
+  }
+  .anim-light-flow-v {
+    animation: lightFlowVertical 4s linear infinite;
+  }
+
+  /* === 延迟类 === */
+  .d1 { animation-delay: 0.1s; }
+  .d2 { animation-delay: 0.2s; }
+  .d3 { animation-delay: 0.3s; }
+  .d4 { animation-delay: 0.4s; }
+  .d5 { animation-delay: 0.5s; }
+  .d6 { animation-delay: 0.6s; }
+</style>
+    
+    <div class="clip anim-fade-up" data-start="0.1" data-duration="4.9" data-track-index="1"
+         style="position:absolute;top:5%;left:50%;transform:translateX(-50%);text-align:center;z-index:10;">
+      <div style="font-size:44px;font-weight:900;color:#ffffff;letter-spacing:2px;line-height:1.2;">两百宝船，万人船队</div>
+      <div style="width:60px;height:2px;background:linear-gradient(90deg,#ffffff60,transparent);margin-top:8px;border-radius:1px;"></div>
+    </div>
+    
+    <div class="clip anim-fade-up d1" data-start="0.2" data-duration="4.8" data-track-index="2"
+         style="position:absolute;top:12%;left:50%;transform:translateX(-50%);text-align:center;z-index:10;">
+      <div style="font-size:20px;color:#00d4ff;">郑和首次下西洋，开启人类航海史无前例的壮举。</div>
+    </div>
+    
+    <div class="clip anim-scale" data-start="0.3" data-duration="4.7" data-track-index="3"
+         style="position:absolute;top:22%;left:4%;z-index:10;display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;border-radius:10px;background:#00d4ff15;
+        display:flex;align-items:center;justify-content:center;border:1px solid #00d4ff30;">
+        <div style="font-size:18px;">舰</div>
+      </div>
+      <div>
+        <div style="font-size:32px;font-weight:900;color:#00d4ff;line-height:1;">200+艘宝船</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);">舰队规模</div>
+      </div>
+    </div>
+    <div class="clip anim-fade-up" data-start="0.44999999999999996" data-duration="4.55" data-track-index="4"
+         style="position:absolute;top:42%;left:10%;width:40%;z-index:10;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:14px;color:rgba(255,255,255,0.7);">船员总数</span>
+        <span style="font-size:18px;color:#3b82f6;font-weight:900;">27000名船员</span>
+      </div>
+      <div style="height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;">
+        <div class="anim-bar-grow" style="height:100%;width:100%;background:linear-gradient(90deg,#3b82f6,#3b82f680);
+          border-radius:4px;box-shadow:0 0 8px #3b82f660;animation-delay:0.44999999999999996s;"></div>
+      </div>
+    </div>
+    <div class="clip anim-fade-up" data-start="0.6" data-duration="4.4" data-track-index="5"
+         style="position:absolute;top:22%;left:52%;width:30%;z-index:10;
+         border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;
+         background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);">
+      <div style="font-size:12px;color:#ffffff88;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">首次远航</div>
+      <div style="font-size:16px;color:#ffffff;line-height:1.5;">1405年</div>
+    </div>
+    <div class="clip anim-fade-up" data-start="0.75" data-duration="4.25" data-track-index="6"
+         style="position:absolute;top:42%;left:58%;width:30%;z-index:10;
+         border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;
+         background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);">
+      <div style="font-size:12px;color:#ffffff88;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">远航终点</div>
+      <div style="font-size:16px;color:#ffffff;line-height:1.5;">非洲东海岸</div>
+    </div>
+    <div class="clip anim-fade-up" data-start="0.8999999999999999" data-duration="4.1" data-track-index="7"
+         style="position:absolute;top:62%;left:52%;width:30%;z-index:10;
+         border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;
+         background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);">
+      <div style="font-size:12px;color:#ffffff88;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">历史意义</div>
+      <div style="font-size:16px;color:#ffffff;line-height:1.5;">人类航海新纪录</div>
+    </div>
+    
+    <style>[data-composition-id="beat-2"] { font-family:"Inter","Noto Sans SC",sans-serif; }</style>
+    <script>
+      (function() {
+        if (!window.__timelines) window.__timelines = {};
+        var tl = gsap.timeline({paused:true});
+        window.__timelines["beat-2"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "script.schema.json",
+  "title": "Narration Script",
+  "type": "object",
+  "required": ["title", "narration"],
+  "properties": {
+    "title": {"type": "string"},
+    "hook": {"type": "string"},
+    "narration": {"type": "string"},
+    "style": {"type": "string"},
+    "aspect_ratio": {"type": "string", "enum": ["16:9", "9:16"], "default": "16:9"},
+    "template_id": {"type": "string"}
+  },
+  "additionalProperties": false
+}

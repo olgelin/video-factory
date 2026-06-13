@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "render-config.schema.json",
+  "title": "Render Config",
+  "type": "object",
+  "required": ["composition", "aspect_ratio", "fps", "output_path"],
+  "properties": {
+    "composition": {"type": "string"},
+    "aspect_ratio": {"type": "string", "enum": ["16:9", "9:16"]},
+    "fps": {"type": "integer", "minimum": 1},
+    "width": {"type": "integer", "minimum": 1},
+    "height": {"type": "integer", "minimum": 1},
+    "props_path": {"type": "string"},
+    "output_path": {"type": "string"}
+  },
+  "additionalProperties": false
+}

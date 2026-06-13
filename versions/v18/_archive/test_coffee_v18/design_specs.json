@@ -1,0 +1,396 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "被咖啡因劫持的地球",
+      "size": 56,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "全球80%人口每天摄入，你以为提神，其实生物钟已被悄然控制。",
+      "size": 22,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "80%",
+        "unit": "全球人口",
+        "label": "每日受影响",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "你以为是自愿提神，实为化学劫持。",
+        "unit": "",
+        "label": "观点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "每天",
+        "unit": "频率",
+        "label": "摄入",
+        "color": "#ff6b35",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "生物钟悄然失守，自律功能被篡改。",
+        "unit": "",
+        "label": "机制",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "全球现象",
+      "生物钟劫持",
+      "80%人口"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "一杯咖啡，一场剂量博弈",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "普通咖啡与能量饮料的咖啡因含量差异巨大，你可能早已超标。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "",
+        "unit": "毫克",
+        "label": "咖啡因含量对比",
+        "color": "#00d4ff",
+        "size": "large",
+        "data": [
+          {
+            "label": "普通咖啡",
+            "value": 95
+          },
+          {
+            "label": "能量饮料",
+            "value": 300
+          }
+        ]
+      },
+      {
+        "type": "card",
+        "value": "看似日常一杯，实为剂量陷阱。",
+        "unit": "",
+        "label": "陷阱",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "300",
+        "unit": "毫克",
+        "label": "能量炸弹",
+        "color": "#ff6b35",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "意料之外的超标，悄然发生的依赖。",
+        "unit": "",
+        "label": "后果",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "剂量陷阱",
+      "能量饮料",
+      "超标风险"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "解渴？不，是上瘾的累积",
+      "size": 42,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "茶、可乐甚至巧克力中都藏着咖啡因，你以为解渴，其实在累积依赖。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "40",
+        "unit": "毫克/杯",
+        "label": "茶",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "ring_chart",
+        "value": "30",
+        "unit": "毫克/罐",
+        "label": "可乐",
+        "color": "#3b82f6",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "常见饮品伪装成解渴饮料。",
+        "unit": "",
+        "label": "伪装",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "微量咖啡因在日常中悄然累积。",
+        "unit": "",
+        "label": "累积",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "形成",
+        "unit": "依赖",
+        "label": "不知不觉",
+        "color": "#ff6b35",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "隐藏咖啡因",
+      "日常累积",
+      "依赖循环"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0f172a"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "午后的咖啡，深夜的窃贼",
+      "size": 40,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "咖啡因半衰期长达5小时，下午摄入，深夜仍在干扰你的深度睡眠。",
+      "size": 18,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "5",
+        "unit": "小时",
+        "label": "半衰期",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "50%",
+        "unit": "残留",
+        "label": "晚间体内",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "下午",
+        "unit": "摄入",
+        "label": "典型",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "深度睡眠周期被悄然破坏。",
+        "unit": "",
+        "label": "后果",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "你以为效用已过，实则深夜仍在作用。",
+        "unit": "",
+        "label": "错觉",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "半衰期",
+      "睡眠窃贼",
+      "延迟效应"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "400毫克：焦虑与失眠的临界点",
+      "size": 46,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "每日超400毫克，焦虑风险激增，失眠概率翻倍，这是FDA警告的健康债。",
+      "size": 20,
+      "color": "#ff6b35"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "400",
+        "unit": "毫克",
+        "label": "每日上限",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "40%",
+        "unit": "增加",
+        "label": "焦虑风险",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "翻倍",
+        "unit": "失眠",
+        "label": "概率",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "权威机构警告：此为隐形健康债。",
+        "unit": "",
+        "label": "FDA警告",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "焦虑与失眠是身体发出的警告信号。",
+        "unit": "",
+        "label": "身体信号",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "400毫克临界点",
+      "健康负债",
+      "FDA警告"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "你不是在喝咖啡，是在被咖啡喝",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "咖啡因不是能量，而是隐形控制。摄入越多，身体越被它牵着鼻子走。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "card",
+        "value": "错把依赖当能量，实则交出控制权。",
+        "unit": "",
+        "label": "本质揭露",
+        "color": "#ffffff",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "非能量",
+        "unit": "来源",
+        "label": "真相",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "隐形",
+        "unit": "控制",
+        "label": "机制",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "摆脱错觉，才能重获身体自主权。",
+        "unit": "",
+        "label": "解决方案",
+        "color": "#00d4ff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "本质揭露",
+      "控制权",
+      "自主权"
+    ]
+  }
+]

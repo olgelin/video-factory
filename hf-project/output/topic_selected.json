@@ -1,0 +1,63 @@
+{
+  "selected_topic": "甘肃一特警大队长因公牺牲，年仅44岁",
+  "angle": "聚焦特警队长的英雄事迹和牺牲细节，强调责任感与警示意义",
+  "hook": "44岁，生命定格在救援一线——这位特警队长最后的24小时经历了什么？",
+  "scores": {
+    "hot_score": 7,
+    "timeliness": 8,
+    "audience_fit": 9,
+    "content_feasibility": 8,
+    "uniqueness": 7,
+    "emotional_value": 9,
+    "total": 48
+  },
+  "reason": "这是交叉验证的热点（置信度高），具体事件有故事性和情感共鸣，适合短视频讲述正能量故事，同时能引发观众对公共安全的思考。",
+  "target_audience": "18-35岁，关注社会新闻、正能量内容的用户，痛点为对英雄事迹的敬佩和对安全话题的关心。",
+  "key_points": [
+    {
+      "point": "甘肃特警大队长因公牺牲，年仅44岁，是交叉验证热点",
+      "source": "今日头条、百度热搜",
+      "source_url": "https://www.toutiao.com/trending/76497727831193846...",
+      "data": "热度值2124204，置信度9"
+    }
+  ],
+  "reference_sources": [
+    {
+      "type": "新闻热点",
+      "platform": "今日头条",
+      "title": "甘肃一特警大队长因公牺牲年仅44岁",
+      "url": "https://www.toutiao.com/trending/76497727831193846..."
+    },
+    {
+      "type": "热搜",
+      "platform": "百度热搜",
+      "title": "甘肃一特警大队长因公牺牲年仅44岁",
+      "url": "https://top.baidu.com/board?tab=realtime..."
+    }
+  ],
+  "screenshot_targets": [
+    {
+      "url": "https://www.toutiao.com/trending/76497727831193846...",
+      "description": "今日头条热点详情页面",
+      "purpose": "展示热度和话题讨论，用于视频开头或背景引用"
+    },
+    {
+      "url": "https://top.baidu.com/board?tab=realtime...",
+      "description": "百度热搜实时榜单",
+      "purpose": "验证交叉来源，增强内容可信度"
+    }
+  ],
+  "alternative_topics": [
+    {
+      "topic": "“迷你摩托”上路，多少安全关口失守",
+      "angle": "揭露迷你摩托的安全隐患和监管漏洞，呼吁加强管理",
+      "total_score": 46
+    },
+    {
+      "topic": "肥料被判不合格仅担9%减产责任",
+      "angle": "解析法律案例中的责任比例争议，探讨农民权益保护",
+      "total_score": 44
+    }
+  ],
+  "topic": "甘肃一特警大队长因公牺牲，年仅44岁"
+}

@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+*.env
+.env.local
+
+# Outputs (large files, don't commit)
+output/*.mp4
+output/*.wav
+output/*.mp3
+output/*.json
+output/*.srt
+*.zip
+
+# Temp
+*.tmp
+*.bak
+*.log
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+venv/
+video-factory-clawhub/
+hf-project/deliverables/
+hf-project/models/
+*.mp4
+*.wav
+*.mp3
+*.zip
+hf-project/.cache/

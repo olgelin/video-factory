@@ -1,0 +1,362 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "颠覆认知的真相",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "AI伦理困境中，有一组核心数据令人深思。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "80%",
+        "unit": "",
+        "label": "公众认知偏差",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "20",
+        "unit": "%",
+        "label": "数据揭示率",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "关键议题关注度：持续增长",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "人工智能伦理领域存在广泛认知误区。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "认知偏差",
+      "数据揭示",
+      "核心真相"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "数据巨变进行时",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "衡量AI伦理困境的核心指标，正经历剧烈波动。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "150%",
+        "unit": "年增长",
+        "label": "伦理风险事件数",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "指数级",
+        "unit": "提升",
+        "label": "模型迭代速度",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "法规响应滞后度：显著扩大",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "AI发展速度已远超伦理框架的更新。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "风险增长",
+      "迭代加速",
+      "治理滞后"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "指数级鸿沟",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "过去与现在的对比，揭示了AI伦理困境的爆炸式演变。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "progress_bar",
+        "value": "10",
+        "unit": "倍",
+        "label": "过去5年，伦理议题复杂度增长",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "100",
+        "unit": "倍",
+        "label": "过去10年，AI应用场景数增长",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "社会影响范围：已从局部变为全局性",
+        "color": "#ff6b35",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "变化的速度和规模是过去无法比拟的。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "历史对比",
+      "复杂性暴增",
+      "影响全局"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "被忽视的规律",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "在复杂的数据背后，隐藏着一个决定性的底层逻辑。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "18",
+        "unit": "个月",
+        "label": "关键决策点平均延迟",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "100",
+        "unit": "%",
+        "label": "技术发展曲线：始终领先",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "ring_chart",
+        "value": "滞后",
+        "unit": "",
+        "label": "伦理治理曲线：始终滞后",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "“技术狂奔，治理慢走”是根本矛盾所在。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "滞后规律",
+      "核心矛盾",
+      "决策延迟"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "未来之变",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "核心问题已转向：AI伦理将如何重塑我们的未来世界？",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "progress_bar",
+        "value": "60",
+        "unit": "%",
+        "label": "未来就业受AI影响比例",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "新高",
+        "unit": "",
+        "label": "个人数据决策依赖度将达",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "社会信任重构需求：日益迫切",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "AI伦理选择将决定未来社会的基本形态。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "未来就业",
+      "数据依赖",
+      "信任重构"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "赢在起点",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "看清人工智能伦理的本质与趋势，是面向未来的唯一优势。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "35%",
+        "unit": "",
+        "label": "伦理合规企业成功率高于行业均值",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "关键",
+        "unit": "",
+        "label": "AI伦理素养成为个人竞争力新维度",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "趋势洞察者决策优势：显著提升",
+        "color": "#ff6b35",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "",
+        "unit": "",
+        "label": "理解趋势，方能提前布局，抢占先机。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "核心优势",
+      "合规成功",
+      "素养关键"
+    ]
+  }
+]

@@ -1,0 +1,577 @@
+{
+  "topic": "比亚迪入局人形机器人赛道",
+  "output_dir": "output_byd_robot_v2",
+  "scenes": [],
+  "video": "output_byd_robot_v2\\rendered.mp4",
+  "frames": [
+    "output_byd_robot_v2\\frame_01.jpg",
+    "output_byd_robot_v2\\frame_02.jpg",
+    "output_byd_robot_v2\\frame_03.jpg",
+    "output_byd_robot_v2\\frame_04.jpg",
+    "output_byd_robot_v2\\frame_05.jpg",
+    "output_byd_robot_v2\\frame_06.jpg"
+  ],
+  "video_size_kb": 1578.859375,
+  "storyboard": [
+    {
+      "scene_id": 1,
+      "narration": "比亚迪2022年营收超过6000亿元，如今却宣布进军人形机器人，这背后隐藏着什么巨大机遇？",
+      "duration": 5.0,
+      "visual_type": "data",
+      "title": "比亚迪2022年营收超过600",
+      "subtitle": "0亿元，如今却宣布进军人形机器人，这背后",
+      "key_data": [
+        {
+          "label": "核心数据",
+          "value": "2022",
+          "unit": ""
+        },
+        {
+          "label": "关键指标",
+          "value": "6000",
+          "unit": ""
+        },
+        {
+          "label": "参考值",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "比亚迪2022年营收超过6000亿元，如今却宣布进军人形机器人，这背后隐藏着什么巨大机遇？"
+      ],
+      "tags": [
+        "比亚迪入"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 2,
+      "narration": "去年，比亚迪秘密成立机器人研究院，投入超过100亿资金，目标是三年内推出首款人形机器人。",
+      "duration": 5.0,
+      "visual_type": "timeline",
+      "title": "去年，比亚迪秘密成立机器人研究",
+      "subtitle": "院，投入超过100亿资金，目标是三年内推",
+      "key_data": [
+        {
+          "label": "核心数据",
+          "value": "100",
+          "unit": ""
+        },
+        {
+          "label": "关键指标",
+          "value": "—",
+          "unit": ""
+        },
+        {
+          "label": "参考值",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "去年，比亚迪秘密成立机器人研究院，投入超过100亿资金，目标是三年内推出首款人形机器人。"
+      ],
+      "tags": [
+        "比亚迪入"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 3,
+      "narration": "比亚迪的刀片电池技术领先行业，将应用于机器人，续航能力比同类产品高出50%，彻底解决能源焦虑。",
+      "duration": 5.0,
+      "visual_type": "comparison",
+      "title": "比亚迪的刀片电池技术领先行业",
+      "subtitle": "将应用于机器人，续航能力比同类产品高出5",
+      "key_data": [
+        {
+          "label": "核心数据",
+          "value": "50",
+          "unit": ""
+        },
+        {
+          "label": "关键指标",
+          "value": "—",
+          "unit": ""
+        },
+        {
+          "label": "参考值",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "比亚迪的刀片电池技术领先行业，将应用于机器人，续航能力比同类产品高出50%，彻底解决能源焦虑。"
+      ],
+      "tags": [
+        "比亚迪入"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 4,
+      "narration": "全球人形机器人市场预计2030年达1500亿美元，比亚迪计划占据20%份额，价值300亿美元。",
+      "duration": 5.0,
+      "visual_type": "highlight",
+      "title": "全球人形机器人市场预计2030",
+      "subtitle": "年达1500亿美元，比亚迪计划占据20%",
+      "key_data": [
+        {
+          "label": "核心数据",
+          "value": "2030",
+          "unit": ""
+        },
+        {
+          "label": "关键指标",
+          "value": "1500",
+          "unit": ""
+        },
+        {
+          "label": "参考值",
+          "value": "20",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "全球人形机器人市场预计2030年达1500亿美元，比亚迪计划占据20%份额，价值300亿美元。"
+      ],
+      "tags": [
+        "比亚迪入"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 5,
+      "narration": "面对特斯拉Optimus的强势，比亚迪瞄准成本控制，目标将机器人售价控制在10万元以内，颠覆行业。",
+      "duration": 5.0,
+      "visual_type": "alert",
+      "title": "面对特斯拉Optimus的强势",
+      "subtitle": "，比亚迪瞄准成本控制，目标将机器人售价控",
+      "key_data": [
+        {
+          "label": "核心数据",
+          "value": "10",
+          "unit": ""
+        },
+        {
+          "label": "关键指标",
+          "value": "—",
+          "unit": ""
+        },
+        {
+          "label": "参考值",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "面对特斯拉Optimus的强势，比亚迪瞄准成本控制，目标将机器人售价控制在10万元以内，颠覆行业。"
+      ],
+      "tags": [
+        "比亚迪入"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 6,
+      "narration": "比亚迪的这一步，不仅是车企的跨界，更是中国智能制造崛起的信号，未来已来！",
+      "duration": 5.0,
+      "visual_type": "quote",
+      "title": "比亚迪的这一步，不仅是车企的跨",
+      "subtitle": "界，更是中国智能制造崛起的信号，未来已来",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "比亚迪的这一步，不仅是车企的跨界，更是中国智能制造崛起的信号，未来已来！"
+      ],
+      "tags": [
+        "比亚迪入"
+      ],
+      "quote_text": ""
+    }
+  ],
+  "designs": [
+    {
+      "scene_id": 1,
+      "bg": {
+        "type": "particle_tech",
+        "color": "#0a1a2e"
+      },
+      "layout": {
+        "type": "full_bleed"
+      },
+      "title": {
+        "text": "比亚迪2022年营收超过",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "6000亿元，如今却宣布进军人形机器人，这背后",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "6000",
+          "unit": "亿元",
+          "label": "2022年营收",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "icon_stat",
+          "value": "巨大机遇",
+          "unit": "",
+          "label": "隐藏什么？",
+          "color": "#ffffff",
+          "size": "small"
+        },
+        {
+          "type": "card",
+          "value": "比亚迪2022年营收超过6000亿元，如今却宣布进军人形机器人，这背后隐藏着什么巨大机遇？",
+          "unit": "",
+          "label": "核心洞察",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "2022",
+          "unit": "",
+          "label": "核心数据",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "营收破6000亿",
+        "战略转型",
+        "巨大机遇"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "bg": {
+        "type": "geometric_lines",
+        "color": "#111827"
+      },
+      "layout": {
+        "type": "timeline"
+      },
+      "title": {
+        "text": "去年，比亚迪秘密成立机器人研究院",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "投入超过100亿资金，目标是三年内推出首款人形机器人。",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "progress_bar",
+          "value": "3",
+          "unit": "年",
+          "label": "研发周期",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "icon_stat",
+          "value": "100亿+",
+          "unit": "",
+          "label": "资金投入",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "秘密成立",
+          "unit": "",
+          "label": "时间节点",
+          "color": "#ffffff",
+          "size": "small"
+        },
+        {
+          "type": "card",
+          "value": "首款机器人",
+          "unit": "",
+          "label": "终极目标",
+          "color": "#ffffff",
+          "size": "medium"
+        }
+      ],
+      "tags": [
+        "秘密研究院",
+        "百亿投入",
+        "三年计划"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "bg": {
+        "type": "subtle_glow",
+        "color": "#0a1a2e"
+      },
+      "layout": {
+        "type": "dashboard"
+      },
+      "title": {
+        "text": "刀片电池技术领先行业",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "将应用于机器人，续航能力比同类产品高出50%，彻底解决能源焦虑。",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "ring_chart",
+          "value": "50",
+          "unit": "%",
+          "label": "续航优势",
+          "color": "#ff6b35",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "同类产品",
+          "unit": "",
+          "label": "对比基准",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "能源焦虑",
+          "unit": "",
+          "label": "核心痛点",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "刀片电池",
+          "unit": "",
+          "label": "核心技术",
+          "color": "#00d4ff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "技术领先",
+        "续航提升50%",
+        "解决焦虑"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "bg": {
+        "type": "minimal_gradient",
+        "color": "#111827"
+      },
+      "layout": {
+        "type": "diagonal"
+      },
+      "title": {
+        "text": "全球人形机器人市场预计",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "2030年达1500亿美元，比亚迪计划占据20%份额，价值300亿美元。",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "1500",
+          "unit": "亿美元",
+          "label": "2030年市场规模",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "ring_chart",
+          "value": "20",
+          "unit": "%",
+          "label": "比亚迪目标份额",
+          "color": "#ff6b35",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "300亿美元",
+          "unit": "",
+          "label": "目标价值",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "2030",
+          "unit": "",
+          "label": "目标年份",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "万亿蓝海",
+        "20%市场目标",
+        "战略雄心"
+      ]
+    },
+    {
+      "scene_id": 5,
+      "bg": {
+        "type": "particle_tech",
+        "color": "#0a1a2e"
+      },
+      "layout": {
+        "type": "asymmetric"
+      },
+      "title": {
+        "text": "面对特斯拉Optimus的强势",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "比亚迪瞄准成本控制，目标将机器人售价控制在10万元以内，颠覆行业。",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "<10",
+          "unit": "万元",
+          "label": "比亚迪目标售价",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "特斯拉Optimus",
+          "unit": "",
+          "label": "强劲对手",
+          "color": "#ef4444",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "成本控制",
+          "unit": "",
+          "label": "核心战略",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "颠覆行业",
+          "unit": "",
+          "label": "最终目标",
+          "color": "#ff6b35",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "价格屠夫",
+        "对标特斯拉",
+        "颠覆性定价"
+      ]
+    },
+    {
+      "scene_id": 6,
+      "bg": {
+        "type": "subtle_glow",
+        "color": "#0a1a2e"
+      },
+      "layout": {
+        "type": "split_h"
+      },
+      "title": {
+        "text": "比亚迪的这一步",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "不仅是车企的跨界，更是中国智能制造崛起的信号，未来已来！",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "card",
+          "value": "车企跨界",
+          "unit": "",
+          "label": "身份转变",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "中国智能制造崛起",
+          "unit": "",
+          "label": "时代信号",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "icon_stat",
+          "value": "未来已来",
+          "unit": "",
+          "label": "终极宣言",
+          "color": "#ff6b35",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "巨大机遇",
+          "unit": "",
+          "label": "关键词",
+          "color": "#ffffff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "战略意义",
+        "中国智造",
+        "未来已来"
+      ]
+    }
+  ],
+  "layout_types": [
+    "full_bleed",
+    "timeline",
+    "dashboard",
+    "diagonal",
+    "asymmetric",
+    "split_h"
+  ],
+  "bg_types": [
+    "particle_tech",
+    "geometric_lines",
+    "subtle_glow",
+    "minimal_gradient",
+    "particle_tech",
+    "subtle_glow"
+  ]
+}

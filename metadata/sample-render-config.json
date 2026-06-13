@@ -1,0 +1,9 @@
+{
+  "composition": "VoiceoverExplainer",
+  "aspect_ratio": "9:16",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "props_path": "../inputs/sample-script.json",
+  "output_path": "../renders/sample-output.mp4"
+}

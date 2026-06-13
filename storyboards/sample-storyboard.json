@@ -1,0 +1,26 @@
+{
+  "title": "龙虾自动化发布测试",
+  "scenes": [
+    {
+      "id": "scene-1",
+      "text": "为什么你的短视频自动化总是卡在最后一步？",
+      "duration_sec": 3,
+      "visual_hint": "hook-title",
+      "asset_ref": null
+    },
+    {
+      "id": "scene-2",
+      "text": "先把任务拆成场景，再把字幕、配音和画面统一进渲染模板。",
+      "duration_sec": 5,
+      "visual_hint": "workflow-diagram",
+      "asset_ref": null
+    },
+    {
+      "id": "scene-3",
+      "text": "最后再把成品交给发布系统和验证系统。",
+      "duration_sec": 4,
+      "visual_hint": "handoff-summary",
+      "asset_ref": null
+    }
+  ]
+}

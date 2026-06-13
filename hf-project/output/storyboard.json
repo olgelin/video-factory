@@ -1,0 +1,274 @@
+[
+  {
+    "scene_id": 1,
+    "visual_type": "data_impact",
+    "concept": "以一个巨大、闪烁的数字「44」作为开场核心，如同生命最后的读数。观众仿佛看到一个生命倒计时系统，数字背后是救援现场的模糊影像和快速闪现的时间戳「00:00」，瞬间营造出强烈的紧迫感与悬念，为整个故事定下沉重的基调。",
+    "mood": "数字纪念碑、生命倒计时",
+    "depth_layers": {
+      "background": "radial-glow focused behind number, subtle data-grid",
+      "midground": "Giant number '44', flickering timecode '00:00'",
+      "foreground": "particle-drift (ash/embers), ghost-text 'LIFE' 'TIME'"
+    },
+    "density_target": 8,
+    "key_elements": [
+      "巨型数字'44'",
+      "闪烁的时间戳'00:00'",
+      "脉冲式的生命体征线",
+      "快速闪现的救援现场模糊帧",
+      "警徽剪影",
+      "倒计时进度条",
+      "霓虹色光晕",
+      "扫描线"
+    ],
+    "narration": "四四岁，生命定格在救援一线——这位特警队长最后的二四小时经历了什么？",
+    "duration": 5.8,
+    "animations": {
+      "title": "SLAMS INTO FRAME",
+      "subtitle": "FLICKERS ON",
+      "data": "COUNTS DOWN RAPIDLY, THEN FREEZES",
+      "decorative": "PULSES like a weak heartbeat"
+    },
+    "transition": {
+      "in": "FLASH CUT",
+      "out": "GLITCH WIPE"
+    }
+  },
+  {
+    "scene_id": 2,
+    "visual_type": "dashboard",
+    "concept": "一个高科技新闻监控仪表盘在黑色背景中展开，核心数据「热度值」如熔岩般飙升并爆表，「置信度9」则像精密仪器一样稳定闪烁。多个数据窗口实时滚动着报道摘要和地点信息，让观众如同身处一个追踪突发重大新闻的指挥中心，直观感受到事件爆炸性的社会关注度。",
+    "mood": "新闻指挥中心、数据监控室",
+    "depth_layers": {
+      "background": "moving data-grid, neon-lines outlining dashboard",
+      "midground": "Dashboard panels: Hot value gauge, confidence meter, map pin, text crawl",
+      "foreground": "particle-drift (data fragments)"
+    },
+    "density_target": 9,
+    "key_elements": [
+      "热度值仪表盘（数字爆表）",
+      "置信度数字'9'",
+      "事件地图定位点",
+      "滚动新闻摘要条",
+      "声波频率图",
+      "脉冲式高亮边框",
+      "全息投影标签",
+      "数据网格背景"
+    ],
+    "narration": "说白了，这不是电影，是甘肃真实发生的英雄故事。特警大队长，年仅四四岁，在执行救援任务时因公牺牲了，热度值都爆了。",
+    "duration": 10.4,
+    "animations": {
+      "title": "SLIDES IN FROM TOP",
+      "subtitle": "CASCADES DOWN",
+      "data": "UPDATES LIVE, BAR FILLS RAPIDLY",
+      "decorative": "DATA-GRID SCROLLS SLOWLY"
+    },
+    "transition": {
+      "in": "SCALE UP FROM POINT",
+      "out": "DISSOLVE INTO GRID"
+    }
+  },
+  {
+    "scene_id": 3,
+    "visual_type": "flow",
+    "concept": "一条发光的时间线在黑暗中被点亮，从「深夜出动」延伸到「生命终点」。每个关键节点像伤疤一样依次亮起，伴随地点坐标、简短描述和危险等级指示。时间线旁，环境元素从平静的数据网格变为紊乱的红色警告网格，视觉化地铺陈出那段惊心动魄、充满牺牲的24小时历程。",
+    "mood": "作战时间轴、生命轨迹图",
+    "depth_layers": {
+      "background": "shifting grid color, radial-glow at endpoint",
+      "midground": "Glowing timeline with nodes, text labels, location icons",
+      "foreground": "ghost-text ('RISK', 'DUTY'), particle-drift (rain/sparks)"
+    },
+    "density_target": 10,
+    "key_elements": [
+      "发光时间轴",
+      "事件节点（带图标和文字）",
+      "危险等级指示条",
+      "地点坐标标记",
+      "网格颜色变化",
+      "关联因果链箭头",
+      "半透明人物剪影",
+      "环境光污染效果"
+    ],
+    "narration": "我翻遍全网报道，他最后的二四小时，从深夜紧急出动到连续奋战，每一步都是和危险死磕。细节越扒，越让人揪心。",
+    "duration": 8.8,
+    "animations": {
+      "title": "MATERIALIZES",
+      "subtitle": "LINKS appear sequentially",
+      "data": "NODES GLOW BRIGHTER as mentioned",
+      "decorative": "GRID shifts from blue to red along the line"
+    },
+    "transition": {
+      "in": "LINE DRAWING",
+      "out": "NODES EXPLODE INTO PARTICLES"
+    }
+  },
+  {
+    "scene_id": 4,
+    "visual_type": "compare",
+    "concept": "画面被一道垂直的霓虹光线分割。左侧是「生的希望」——闪烁的、充满活力的蓝色数据流和模糊的获救者轮廓；右侧是「沉重的代价」——沉重、缓慢、金色的数据块和英雄坚定的背影剪影。两种画面和数据形成强烈对比，无声地讲述着特警队长将生命天平倾向他人的伟大选择。",
+    "mood": "天平两端、生命抉择",
+    "depth_layers": {
+      "background": "divergent color fields (blue/gold)",
+      "midground": "Split composition: Left - hopeful data/scenery; Right - solemn data/figure silhouette",
+      "foreground": "particle-drift (sparks on right, light motes on left)"
+    },
+    "density_target": 8,
+    "key_elements": [
+      "垂直霓虹分割线",
+      "左右对比面板",
+      "英雄背影剪影",
+      "希望/代价数据对比块",
+      "象征性图标（盾牌/心）",
+      "色温对比（冷/暖）",
+      "力量方向箭头",
+      "情感光晕"
+    ],
+    "narration": "真相是，特警队长的工作，就是把最重的责任扛在肩上。他带队冲在最前面，把生的希望留给别人，自己倒在了救援路上。",
+    "duration": 9.8,
+    "animations": {
+      "title": "SLAMS DOWN, splitting screen",
+      "subtitle": "SPLITS APART to each side",
+      "data": "LEFT: FLOATS gently; RIGHT: MORPHS into heavy block",
+      "decorative": "CENTER LINE PULSES with energy"
+    },
+    "transition": {
+      "in": "SPLIT FROM CENTER",
+      "out": "SCREEN FADES TO RIGHT SIDE"
+    }
+  },
+  {
+    "scene_id": 5,
+    "visual_type": "data_impact",
+    "concept": "一个金色的、由无数微小光点组成的巨大数字「1,200,000+」从屏幕中央爆发式增长出来，如同星云诞生。数字下方，一条陡峭的热度趋势线如同山峰拔地而起。周围环绕着无数快速掠过的、代表公众评论的光带，视觉化地呈现了「刷屏」和全民共鸣的震撼场景。",
+    "mood": "星云爆发、全民共振",
+    "depth_layers": {
+      "background": "dark void with distant stars",
+      "midground": "Giant number, trend line graph, comment stream",
+      "foreground": "particle-drift (like a galaxy of light points)"
+    },
+    "density_target": 9,
+    "key_elements": [
+      "超大数字'1,200,000+'",
+      "陡峭的热度趋势线",
+      "快速流动的光带（代表评论）",
+      "共鸣波纹",
+      "社交媒体图标矩阵",
+      "金色数据网格",
+      "光芒放射线",
+      "情感峰值指示器"
+    ],
+    "narration": "你可能不知道，这个新闻的热度值超过二一二万，置信度九。为什么刷屏？因为大家都懂，这背后是多少家庭的牺牲和付出。",
+    "duration": 10.6,
+    "animations": {
+      "title": "CRASHES as light explosion",
+      "subtitle": "Emerges from explosion",
+      "data": "COUNTS UP extremely fast, then pulses with light",
+      "decorative": "comment streaks flow continuously"
+    },
+    "transition": {
+      "in": "LIGHT EXPLOSION",
+      "out": "NUMBER MORPHS into a memorial star"
+    }
+  },
+  {
+    "scene_id": 6,
+    "visual_type": "list_alert",
+    "concept": "黑暗的背景上，几行醒目的警示文字以警报列表的形式逐条闪现。每条文字都带有霓虹红的边框和闪烁的感叹号图标，如同系统发出的最高级别警告。背景的网格线条变成红色并微微震颤，配合文字逐条弹出的音效感，让观众产生必须立即注意、严肃对待的心理暗示。",
+    "mood": "系统警报、清醒剂",
+    "depth_layers": {
+      "background": "vibrating red data-grid",
+      "midground": "Alert list items with icons",
+      "foreground": "Red scan line, floating warning symbols"
+    },
+    "density_target": 8,
+    "key_elements": [
+      "警示语列表（带红色边框）",
+      "闪烁的感叹号图标",
+      "震动的数据网格",
+      "红色扫描线",
+      "破碎又重组的标题效果",
+      "警告符号（三角形）",
+      "关键动词高亮",
+      "心跳波形图"
+    ],
+    "narration": "但问题是，我们不能只感动，还得清醒。安全不是天上掉下来的，是有人用命换来的。这提醒我们，要珍惜，更要警惕。",
+    "duration": 11.1,
+    "animations": {
+      "title": "CRACKLES and SHATTERS into pieces that reform as text",
+      "subtitle": "DROPS in line by line",
+      "data": "N/A (text-based alerts)",
+      "decorative": "GRID VIBRATES subtly, red scan line passes"
+    },
+    "transition": {
+      "in": "ERROR SCREEN FLASH",
+      "out": "LIST FADES but last item stays as focus"
+    }
+  },
+  {
+    "scene_id": 7,
+    "visual_type": "quote_hero",
+    "concept": "画面中心，英雄的名字和「44年」以超大字体、纪念碑式的排版浮现，散发着稳定的白色光芒。背景是深邃的星空，无数光点汇聚成一个模糊而坚定的人物剪影。没有复杂的动画，只有文字如浮雕般被光线慢慢照亮，创造出一个庄严、肃穆、供人凝视和致敬的瞬间。",
+    "mood": "数字丰碑、星空下的致敬",
+    "depth_layers": {
+      "background": "star field with subtle nebula",
+      "midground": "Hero's name, '44年', and large silhouette",
+      "foreground": "Focused light beam on text, subtle particles"
+    },
+    "density_target": 6,
+    "key_elements": [
+      "英雄姓名（超大字体）",
+      "'44年'数字",
+      "纪念碑式文字排版",
+      "星空背景",
+      "人物剪影",
+      "神圣光晕",
+      "稳定呼吸的光效",
+      "极简装饰线条"
+    ],
+    "narration": "记住这个名字，记住这份牺牲。英雄不是超人，是普通人选择了非凡的路，用四四年生命诠释了担当。",
+    "duration": 7.8,
+    "animations": {
+      "title": "MATERIALIZES slowly, like carving in stone",
+      "subtitle": "FADES IN with a soft glow",
+      "data": "HOLDS steadily, gentle light pulse",
+      "decorative": "STAR FIELD twinkles slowly, silhouette GLOWS"
+    },
+    "transition": {
+      "in": "FADE THROUGH LIGHT",
+      "out": "LIGHT RAYS CONVERGE and fade"
+    }
+  },
+  {
+    "scene_id": 8,
+    "visual_type": "compare",
+    "concept": "最终画面呈现一个面向未来的对比与选择。左侧是冰冷的、由纯粹代码和工具构成的路径；右侧是温暖的、由无数微光（代表责任与守护）汇聚成的道路。两条路径在远方交汇于一个光明的终点。英雄的剪影站在交汇处，作为指引，视觉化地传达出「工具理性」与「价值理性」的抉择，以及传递责任的核心信息。",
+    "mood": "未来岔路、价值指引",
+    "depth_layers": {
+      "background": "distant horizon with convergence light",
+      "midground": "Two diverging paths with contrasting elements, silhouette at fork",
+      "foreground": "particle-drift (light motes on right path), data-stream on left"
+    },
+    "density_target": 8,
+    "key_elements": [
+      "两条对比路径",
+      "左侧：代码、工具、冰冷蓝光",
+      "右侧：责任、守护、温暖金光",
+      "交汇处的光点（未来）",
+      "英雄指引剪影",
+      "传递的箭头符号",
+      "标语文字",
+      "希望之光"
+    ],
+    "narration": "未来不是选择更聪明的工具，而是选择更值得信任的方向。致敬每一位守护者，愿我们都能传递这份责任。",
+    "duration": 10.3,
+    "animations": {
+      "title": "FLIES IN from both sides and merges",
+      "subtitle": "Appears at the fork",
+      "data": "N/A",
+      "decorative": "LEFT path: CODE flows; RIGHT path: PARTICLES converge; FUTURE POINT glows"
+    },
+    "transition": {
+      "in": "PATHS DRAW THEMSELVES",
+      "out": "CONVERGENCE POINT BLOOMS into a final logo/emblem"
+    }
+  }
+]

@@ -1,0 +1,344 @@
+[
+  {
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "比亚迪去年卖出超过300万辆新",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "能源车，但它突然宣布造人形机器人了！这反",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "75",
+        "unit": "%",
+        "label": "完成度",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "比亚迪去年卖出超过300万辆新能源车，但它突然宣布造人形机器",
+        "unit": "",
+        "label": "要点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#ff6b35",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "比亚迪入"
+    ]
+  },
+  {
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "2023年，比亚迪投资10亿元",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "成立智能机器人公司，正式入局人形机器人赛",
+      "size": 20,
+      "color": "#3b82f6"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#3b82f6",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "75",
+        "unit": "%",
+        "label": "完成度",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "2023年，比亚迪投资10亿元成立智能机器人公司，正式入局人",
+        "unit": "",
+        "label": "要点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#ef4444",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "比亚迪入"
+    ]
+  },
+  {
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "比亚迪的刀片电池技术全球领先，",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "能提升机器人续航能力50%以上，安全性也",
+      "size": 20,
+      "color": "#06b6d4"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#06b6d4",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "75",
+        "unit": "%",
+        "label": "完成度",
+        "color": "#f59e0b",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "比亚迪的刀片电池技术全球领先，能提升机器人续航能力50%以上",
+        "unit": "",
+        "label": "要点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#f59e0b",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "比亚迪入"
+    ]
+  },
+  {
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "全球人形机器人市场正爆发，预计",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "2030年规模超1500亿美元，年增长率",
+      "size": 20,
+      "color": "#8b5cf6"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#8b5cf6",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "75",
+        "unit": "%",
+        "label": "完成度",
+        "color": "#10b981",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "全球人形机器人市场正爆发，预计2030年规模超1500亿美元",
+        "unit": "",
+        "label": "要点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#10b981",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "比亚迪入"
+    ]
+  },
+  {
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "比亚迪整合汽车供应链，电机、电",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "控技术可快速移植，预计能将机器人制造成本",
+      "size": 20,
+      "color": "#ec4899"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#ec4899",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "75",
+        "unit": "%",
+        "label": "完成度",
+        "color": "#6366f1",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "比亚迪整合汽车供应链，电机、电控技术可快速移植，预计能将机器",
+        "unit": "",
+        "label": "要点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#6366f1",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "比亚迪入"
+    ]
+  },
+  {
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "从轮子到双脚，比亚迪用技术重新",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "定义未来——机器人时代，它不是在跟风，而",
+      "size": 20,
+      "color": "#14b8a6"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#14b8a6",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "75",
+        "unit": "%",
+        "label": "完成度",
+        "color": "#f97316",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "从轮子到双脚，比亚迪用技术重新定义未来——机器人时代，它不是",
+        "unit": "",
+        "label": "要点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "—",
+        "unit": "",
+        "label": "数据",
+        "color": "#f97316",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "比亚迪入"
+    ]
+  }
+]

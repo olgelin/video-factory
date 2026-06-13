@@ -1,0 +1,362 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "数据偏见，AI招聘的性别黑箱",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "当算法学会歧视，公平招聘成空中楼阁。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "80",
+        "unit": "%",
+        "label": "存在性别偏见的AI招聘系统",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "80",
+        "unit": "%",
+        "label": "全球AI招聘系统偏见比例（2023年研究）",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "核心要点",
+        "unit": "",
+        "label": "AI系统的偏见源于有偏见的历史数据。",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "结论",
+        "unit": "",
+        "label": "技术中立的神话被数据彻底打破。",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "数据偏见",
+      "AI招聘",
+      "伦理困境"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "95%准确，15%致命",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "医疗AI的高光与阴影，数据偏差关乎生命。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "gauge",
+        "value": "95",
+        "unit": "%",
+        "label": "诊断准确率",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "15",
+        "unit": "%",
+        "label": "误诊比例（数据偏差导致）",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "风险",
+        "unit": "",
+        "label": "误诊直接威胁患者生命",
+        "color": "#ef4444",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "双刃剑",
+        "unit": "",
+        "label": "效率与风险并存",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "医疗AI",
+      "诊断",
+      "数据质量"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "算法生死抉择，仅四成‘合格’",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "自动驾驶的道德难题：机器决策与人类伦理的鸿沟。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "40",
+        "unit": "%",
+        "label": "事故决策符合人类伦理标准",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "60",
+        "unit": "%",
+        "label": "决策不符合伦理标准",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "挑战",
+        "unit": "",
+        "label": "将伦理编码为算法是前所未有的挑战。",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "后果",
+        "unit": "",
+        "label": "引发公众信任危机",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "自动驾驶",
+      "道德困境",
+      "公众信任"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0f172a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "8500万岗位消失，仅20%企业准备好了",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "AI带来的就业海啸，与社会的缓慢转身。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "8500",
+        "unit": "万",
+        "label": "预计被AI取代的工作岗位（2030年）",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "20",
+        "unit": "%",
+        "label": "有伦理应对计划的企业",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "差距",
+        "unit": "",
+        "label": "技术替代速度远超社会适应能力。",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "现状",
+        "unit": "",
+        "label": "企业伦理规划严重滞后于技术部署。",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "就业冲击",
+      "AI替代",
+      "社会风险"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "12国立法 vs 300%滥用增长",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "全球AI治理步履蹒跚，法律真空滋生乱象。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "12",
+        "unit": "国",
+        "label": "制定AI伦理法规",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "300",
+        "unit": "%",
+        "label": "技术滥用案例增长",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "根源",
+        "unit": "",
+        "label": "监管缺失是技术滥用的温床。",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "差距",
+        "unit": "",
+        "label": "立法速度严重跟不上AI发展步伐。",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "AI治理",
+      "立法滞后",
+      "技术滥用"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "伦理困境，人类之镜",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "我们发明的不是问题，而是照见自我的工具。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "",
+        "unit": "",
+        "label": "技术的善恶，是人性善恶的投射。",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "镜子",
+        "unit": "",
+        "label": "技术的角色",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "核心命题",
+        "unit": "",
+        "label": "人工智能的伦理困境，是人类的选择。",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "未来",
+        "unit": "",
+        "label": "选择如何发展AI，是在定义我们的未来。",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "哲学反思",
+      "人性镜子",
+      "未来选择"
+    ]
+  }
+]

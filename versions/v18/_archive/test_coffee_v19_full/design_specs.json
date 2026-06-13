@@ -1,0 +1,378 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "全球每天有超过25亿杯咖啡被喝掉",
+      "size": 44,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "但90%的人没察觉，咖啡因在15分钟内就开始控制你的大脑反应。",
+      "size": 18,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "25",
+        "unit": "亿杯/天",
+        "label": "每日全球咖啡消耗量",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "90",
+        "unit": "%",
+        "label": "未察觉咖啡因控制的人群比例",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "15",
+        "unit": "分钟",
+        "label": "咖啡因起效时间",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "开场",
+        "unit": "",
+        "label": "认知唤醒",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "数据冲击",
+      "全球规模",
+      "起效迅速"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "咖啡因通过阻断腺苷受体来欺骗你的身体",
+      "size": 40,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "研究显示它在30分钟内达到峰值，让你误以为精力充沛。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "gauge",
+        "value": "30",
+        "unit": "分钟",
+        "label": "咖啡因血液浓度峰值时间",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "阻断",
+        "unit": "腺苷受体",
+        "label": "咖啡因作用机制",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "欺骗",
+        "unit": "神经系统",
+        "label": "让你误以为精力充沛",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "机制",
+        "unit": "解析",
+        "label": "生化反应",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "作用机制",
+      "生化欺骗",
+      "峰值效应"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "每天摄入300毫克咖啡因，持续一周后身体就会产生依赖",
+      "size": 42,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "相当于三杯咖啡，戒断时头痛概率高达50%。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "300",
+        "unit": "毫克/天",
+        "label": "产生依赖的阈值摄入量",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "50",
+        "unit": "%",
+        "label": "戒断时头痛发生率",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "3",
+        "unit": "杯咖啡",
+        "label": "等价摄入量",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "1",
+        "unit": "周",
+        "label": "依赖形成周期",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "依赖阈值",
+      "戒断反应",
+      "剂量关系"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "隐形咖啡因无处不在",
+      "size": 46,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "这些来源正悄悄加剧你的控制链。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "200",
+        "unit": "毫克",
+        "label": "能量饮料（约250ml）",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "95",
+        "unit": "毫克",
+        "label": "速溶咖啡（约1杯）",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "35",
+        "unit": "毫克",
+        "label": "可乐（约330ml）",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "~10",
+        "unit": "毫克",
+        "label": "黑巧克力（约28g）",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "对比",
+        "unit": "分析",
+        "label": "隐藏来源",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "隐形摄入",
+      "饮料对比",
+      "剂量分布"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#0a1a2e"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "长期过量摄入超过400毫克每天，健康代价巨大",
+      "size": 42,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "会增加30%的焦虑风险，并导致睡眠效率下降40%。",
+      "size": 20,
+      "color": "#ef4444"
+    },
+    "elements": [
+      {
+        "type": "gauge",
+        "value": "400+",
+        "unit": "毫克/天",
+        "label": "过量摄入警戒线",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "+30%",
+        "unit": "",
+        "label": "焦虑症风险增加",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "40",
+        "unit": "%",
+        "label": "睡眠效率下降幅度",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "警示",
+        "unit": "",
+        "label": "长期健康风险",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "健康警告",
+      "焦虑风险",
+      "睡眠损伤"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "咖啡因不是你的盟友，而是隐形的控制器",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "在短暂兴奋中，它正悄悄夺走你的自由与健康。",
+      "size": 24,
+      "color": "#ff6b35"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "控制器",
+        "unit": "",
+        "label": "咖啡因的本质",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "短暂",
+        "unit": "兴奋",
+        "label": "虚假回报",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "icon_stat",
+        "value": "长期",
+        "unit": "代价",
+        "label": "自由与健康",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "结论",
+        "unit": "",
+        "label": "核心观点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "觉醒",
+        "unit": "",
+        "label": "认知重构",
+        "color": "#00d4ff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "本质揭露",
+      "代价警示",
+      "认知觉醒"
+    ]
+  }
+]

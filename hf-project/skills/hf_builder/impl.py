@@ -1,0 +1,730 @@
+#!/usr/bin/env python3
+"""
+hf_builder v5 — HyperFrames 原生方式 + 视觉丰富度保证
+
+核心理念（来自 HyperFrames best practices）：
+- HTML 是视频的源码，每个场景是一个完整的 HTML composition
+- Layout Before Animation：先写静态终态，再加 gsap.from() 入场动画
+- storyboard 的 depth_layers 决定每个场景的视觉元素
+- design.md 决定配色/字体/风格
+- 不用模板，LLM 根据上游数据原创构建每个场景
+"""
+import os
+import sys
+import json
+import re
+import subprocess
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# ============================================================
+# LLM
+# ============================================================
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+from llm_utils import call_llm as _shared_call_llm
+
+def call_llm(prompt: str, system_prompt: str = "", max_tokens: int = 12000) -> str:
+    return _shared_call_llm(prompt, system_prompt, max_tokens, timeout=300)
+
+
+# ============================================================
+# 加载上游数据
+# ============================================================
+
+def load_design_system(project_root: Path) -> str:
+    p = project_root / "output" / "design.md"
+    if p.exists():
+        return p.read_text(encoding="utf-8")
+    return ""
+
+def load_design_specs(project_root: Path) -> dict:
+    p = project_root / "output" / "design_specs.json"
+    if not p.exists():
+        return {}
+    with open(p, encoding="utf-8") as f:
+        specs = json.load(f)
+    return {s.get("scene_id", i+1): s for i, s in enumerate(specs)}
+
+
+# ============================================================
+# 场景 HTML 生成 — LLM 原创构建
+# ============================================================
+
+SCENE_PROMPT = """你是 HyperFrames 视频合成专家。为以下场景编写完整 HTML。
+
+## 设计系统配色
+{design_md}
+
+## 场景
+- ID: {scene_id} | 类型: {visual_type} | 时长: {duration}s
+- 概念: {concept}
+- 口播（可融入标题/卡片/引用，但不要底部字幕）: {narration}
+- 关键数据: {key_elements}
+- 可视化层次: {depth_layers}
+- 元素密度: 至少 {density_target} 个 | 动画: {animations}
+
+## 硬性规则（违反=渲染失败）
+1. 输出完整 <!DOCTYPE html>，html标签: data-composition-id="{composition_id}" data-width="1920" data-height="1080"
+2. 引入 GSAP CDN，创建 gsap.timeline({{paused:true}}) 注册到 window.__timelines["{composition_id}"]
+3. 所有内容在 class="scene" div 中
+4. 每个可见元素 gsap.from() 入场动画，交错 0.15s
+5. 不要出场动画，不要 repeat:-1（呼吸动画除外），不要 Math.random()
+6. 卡片呼吸感: scale 1.0→1.02→1.0, duration 2.5s, repeat:-1, yoyo:true
+7. **所有样式必须用内联 style="" 属性**（HF沙箱不支持 <style> 块）
+8. 不要 CSS class 定义，不要 <style> 块
+9. 字体: 'Inter','Noto Sans SC',sans-serif | 数据: 'JetBrains Mono',monospace
+10. 背景必须深色 #1a1a2e，禁止白色/浅色
+11. 不要用 Google Fonts
+12. CSS 注释中不能有中文字符
+
+## 视觉丰富度
+- 6-8+ 个可见元素: 标题(80-120px+发光)、数据卡片(圆角+边框+大字号数字)、进度条、标签pill、装饰层
+- 每个场景至少2-3个装饰层: grid网格线、发光光晕、ghost text水印(3-8%透明度)、扫描线
+- 颜色用 design.md 配色方案
+
+## 输出
+只输出完整 HTML 代码，不要解释，不要 markdown 代码块。"""
+
+
+def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
+                            spec: dict, composition_id: str) -> str:
+    """用 LLM 根据上游数据生成完整的场景 HTML，带重试"""
+    depth_layers = scene.get("depth_layers", {})
+    dl_text = ""
+    if isinstance(depth_layers, dict):
+        dl_text = "\n".join(f"- {k}: {v}" for k, v in depth_layers.items() if v)
+    elif isinstance(depth_layers, str):
+        dl_text = depth_layers
+
+    animations = scene.get("animations", {})
+    anim_text = ", ".join(f"{k}={v}" for k, v in animations.items()) if animations else ""
+
+    key_elements = scene.get("key_elements", [])
+    elems_text = ", ".join(str(e) for e in key_elements[:8])
+
+    prompt = SCENE_PROMPT.format(
+        design_md=design_md[:1000],
+        scene_id=scene_id,
+        visual_type=scene.get("visual_type", ""),
+        concept=scene.get("concept", "")[:200],
+        duration=scene.get("duration", 8.0),
+        depth_layers=dl_text[:400],
+        density_target=scene.get("density_target", 8),
+        animations=anim_text[:200],
+        narration=scene.get("narration", "")[:300],
+        key_elements=elems_text[:200],
+        composition_id=composition_id,
+    )
+
+    system = "你是 HyperFrames 视频合成专家。只输出完整 HTML 代码，不输出任何其他文本。"
+
+    # 第一次尝试
+    response = call_llm(prompt, system, max_tokens=12000)
+    html = _extract_html(response)
+    if html:
+        html = _auto_fix_html(html, composition_id)
+        html = _fix_truncated_html(html, composition_id)
+        if _validate_html(html, composition_id) and len(html) > 2500:
+            return html
+
+    # 第二次尝试（简化 prompt + 更多 token）
+    print(f"    🔄 [Scene {scene_id}] 第一次生成质量不足({len(html) if html else 0} chars)，重试...", flush=True)
+    simple_prompt = f"""为视频场景写完整 HTML。scene_id={scene_id}, composition_id="{composition_id}", 1920x1080。
+
+场景内容：{scene.get("concept", "")[:150]}
+口播：{scene.get("narration", "")[:200]}
+关键数据：{elems_text[:150]}
+配色：{design_md[:600]}
+
+要求：
+- 深色背景#1a1a2e，所有样式用内联style=""
+- 标题80-120px+text-shadow发光
+- 数据卡片(圆角边框+大字号数字)+进度条+标签
+- 装饰层: grid网格、光晕、ghost text
+- GSAP入场动画(交错0.15s)+卡片呼吸感(repeat:-1,yoyo:true)
+- 注册到 window.__timelines["{composition_id}"]
+- 禁止: <style>块、CSS class、Google Fonts、Math.random()、出场动画
+
+只输出完整HTML，不要解释。"""
+    response = call_llm(simple_prompt, system, max_tokens=16000)
+    html = _extract_html(response)
+    if html:
+        html = _auto_fix_html(html, composition_id)
+        html = _fix_truncated_html(html, composition_id)
+        if _validate_html(html, composition_id):
+            return html
+
+    # 第三次尝试（极简 prompt，最少要求）
+    print(f"    🔄 [Scene {scene_id}] 第二次也不行({len(html) if html else 0} chars)，第三次...", flush=True)
+    minimal_prompt = f"""Write complete HTML for a 1920x1080 video scene.
+composition_id="{composition_id}"
+Content: {scene.get("narration", "")[:150]}
+Background: #1a1a2e, all styles inline.
+Include: GSAP CDN, gsap.timeline(paused:true), window.__timelines registration.
+Include: title, data cards, decorative layers.
+Only output HTML code."""
+    response = call_llm(minimal_prompt, system, max_tokens=16000)
+    html = _extract_html(response)
+    if html:
+        html = _auto_fix_html(html, composition_id)
+        html = _fix_truncated_html(html, composition_id)
+        if _validate_html(html, composition_id):
+            return html
+
+    print(f"    ⚠️ [Scene {scene_id}] 三次都失败，用 fallback", flush=True)
+    return ""
+
+
+def _extract_html(response: str) -> str:
+    """从 LLM 响应中提取 HTML，过滤掉 reasoning 文本"""
+    if not response:
+        return ""
+    # 尝试 ```html...```
+    m = re.search(r'```html\s*(.*?)\s*```', response, re.DOTALL)
+    if m:
+        return m.group(1).strip()
+    # 尝试 <!DOCTYPE html>...</html>
+    m = re.search(r'<!DOCTYPE html>.*?</html>', response, re.DOTALL | re.IGNORECASE)
+    if m:
+        return m.group(0).strip()
+    # 尝试 <html>...</html>
+    m = re.search(r'<html[^>]*>.*?</html>', response, re.DOTALL | re.IGNORECASE)
+    if m:
+        return m.group(0).strip()
+    # 如果包含 <html 标签，截取到最后一个 </html>
+    if '<html' in response.lower():
+        start = response.lower().find('<html')
+        end = response.lower().rfind('</html>')
+        if end > start:
+            return response[start:end+7].strip()
+        return response[start:].strip()
+    # 不是 HTML
+    return ""
+
+
+def _validate_html(html: str, composition_id: str) -> bool:
+    """验证 HTML 是否符合 HyperFrames 基本要求"""
+    checks = {
+        'data-composition-id': 'data-composition-id' in html,
+        'data-width/height': 'data-width' in html and 'data-height' in html,
+        'gsap': 'gsap' in html.lower(),
+        '__timelines': '__timelines' in html,
+        'div': '<div' in html.lower(),
+        'scene': '.scene' in html or 'class="scene"' in html or "class='scene'" in html or 'class=scene' in html or 'scene' in html.lower(),
+    }
+    failed = [k for k, v in checks.items() if not v]
+    if failed:
+        print(f"      ❌ 验证失败: {failed}", flush=True)
+    return all(checks.values())
+
+
+def _fix_truncated_html(html: str, composition_id: str) -> str:
+    """修复被截断的 HTML（LLM 输出超长被 max_tokens 截断）"""
+    if html.strip().endswith('</html>'):
+        return html  # 完整，不需要修复
+
+    print(f"    ⚠️ HTML 被截断，尝试修复...", flush=True)
+
+    # 1. 如果在 JS 中间被截断，移除不完整的 JS 块
+    # 找到最后一个完整的 </script>
+    last_script_close = html.rfind('</script>')
+    if last_script_close > 0:
+        # 保留到最后一个 </script>，丢弃后面的不完整内容
+        html = html[:last_script_close + len('</script>')]
+    else:
+        # 没有 </script>，说明整个 script 块都不完整
+        last_script_open = html.rfind('<script')
+        if last_script_open > 0:
+            html = html[:last_script_open]
+
+    # 2. 确保有 __timelines 注册
+    if '__timelines' not in html:
+        html += f'''
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>
+  window.__timelines = window.__timelines || {{}};
+  window.__timelines["{composition_id}"] = gsap.timeline({{paused:true}});
+</script>'''
+
+    # 3. 确保有 </body></html>
+    if '</body>' not in html:
+        html += '\n</body>'
+    if '</html>' not in html:
+        html += '\n</html>'
+
+    return html
+
+
+def _auto_fix_html(html: str, composition_id: str) -> str:
+    """自动修复 LLM 生成的 HTML 中的常见问题"""
+
+    # 1. 修复 html 标签 — 添加 data 属性
+    if 'data-composition-id' not in html:
+        html = re.sub(
+            r'<html[^>]*>',
+            f'<html data-composition-id="{composition_id}" data-width="1920" data-height="1080">',
+            html, count=1
+        )
+
+    # 2. 添加 GSAP CDN（如果缺少）
+    if 'gsap.min.js' not in html:
+        html = html.replace('</head>',
+            '<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>\n</head>')
+
+    # 3. 如果完全没有 gsap.timeline，注入完整动画
+    if 'gsap.timeline' not in html:
+        animation_code = _generate_default_animations(composition_id)
+        last_script_end = html.rfind('</script>')
+        if last_script_end > 0:
+            html = html[:last_script_end] + animation_code + '\n' + html[last_script_end:]
+        else:
+            html += animation_code
+
+    # 4. 添加 __timelines 注册（如果缺少）
+    if '__timelines' not in html:
+        tl_match = re.search(r'(const|let|var)\s+(\w+)\s*=\s*gsap\.timeline', html)
+        tl_name = tl_match.group(2) if tl_match else "tl"
+        register_code = f'''
+      window.__timelines = window.__timelines || {{}};
+      window.__timelines["{composition_id}"] = {tl_name};'''
+        last_script_end = html.rfind('</script>')
+        if last_script_end > 0:
+            html = html[:last_script_end] + register_code + '\n    ' + html[last_script_end:]
+
+    # 5. 移除 Google Fonts（sandbox 渲染会失败）
+    html = re.sub(r'<link[^>]*fonts\.googleapis\.com[^>]*>', '', html)
+    html = re.sub(r'@import\s+url\([^)]*fonts\.googleapis\.com[^)]*\)\s*;?', '', html)
+
+    # 6. 移除禁止项
+    html = re.sub(r'gsap\.utils\.random\([^)]*\)', '50', html)
+    html = re.sub(r'repeat:\s*-1', 'repeat: 0', html)
+    html = re.sub(r'Math\.random\(\)', '0.5', html)
+    html = re.sub(r'Math\.random\(\)\s*\*\s*(\d+)', r'Math.floor(\1/2)', html)
+
+    # 6b. CSS animation infinite → finite（避免 HF 渲染卡住）
+    html = re.sub(r'animation-iteration-count:\s*infinite', 'animation-iteration-count: 3', html)
+    html = re.sub(r'animation:\s*([^;{}]*?)\s+infinite', r'animation: \1 3', html)
+
+    # 7. 移除 CSS 中的中文注释
+    html = re.sub(r'/\*[^*]*[\u4e00-\u9fff][^*]*\*/', '', html)
+
+    # 8. 替换 CSS 变量为硬编码值（HF 沙箱可能不支持 CSS 自定义属性）
+    css_var_map = {
+        "var(--bg-color)": "#1a1a2e",
+        "var(--background)": "#1a1a2e",
+        "var(--bg)": "#1a1a2e",
+        "var(--primary-color)": "#00D4FF",
+        "var(--primary)": "#00D4FF",
+        "var(--accent-color)": "#FF6B6B",
+        "var(--accent)": "#FF6B6B",
+        "var(--text-color)": "#FFFFFF",
+        "var(--text)": "#FFFFFF",
+        "var(--text-secondary)": "#A0A0B0",
+        "var(--secondary)": "#A0A0B0",
+        "var(--data-color)": "#4ECDC4",
+        "var(--data)": "#4ECDC4",
+        "var(--gold)": "#FFD700",
+        "var(--success)": "#00FF88",
+        "var(--warning)": "#FFD700",
+        "var(--danger)": "#FF4444",
+        "var(--font-body)": "'Inter','Noto Sans SC',sans-serif",
+        "var(--font-headline)": "'Inter','Noto Sans SC',sans-serif",
+        "var(--font-data)": "'JetBrains Mono',monospace",
+        "var(--md-radius)": "12px",
+        "var(--sm-radius)": "8px",
+        "var(--rounded-md)": "12px",
+        "var(--rounded-sm)": "8px",
+        "var(--rounded-lg)": "16px",
+    }
+    for var, val in css_var_map.items():
+        html = html.replace(var, val)
+
+    # 9. 也替换 :root 中的 CSS 变量定义中的 var() 引用
+    # 把 :root { --bg-color: var(--xxx) } 这种链式引用也替换掉
+    html = re.sub(r'--([\w-]+):\s*var\(--([\w-]+)\)',
+                  lambda m: f'--{m.group(1)}: {css_var_map.get(f"var(--{m.group(2)})", "inherit")}',
+                  html)
+
+    # 10. 确保 body 有 overflow:hidden
+    if 'overflow:hidden' not in html and 'overflow: hidden' not in html:
+        html = re.sub(r'<body([^>]*)>', r'<body\1 style="margin:0;padding:0;overflow:hidden;">', html, count=1)
+
+    # 11. 确保 .scene div 有内联 background（HF 沙箱可能不应用 CSS class 的 background）
+    if '<div class="scene"' in html and 'background:#1a1a2e' not in html:
+        html = html.replace('<div class="scene"', '<div class="scene" style="background:#1a1a2e;"', 1)
+    # 11b. 如果没有 class="scene" 的 div，在 body 后第一个 div 上添加
+    if 'class="scene"' not in html and "class='scene'" not in html and 'class=scene' not in html:
+        html = re.sub(r'(<body[^>]*>)', r'\1<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">', html, count=1)
+        html = re.sub(r'(</body>)', r'</div>\1', html, count=1)
+
+    # 12. 确保 html 和 body 也有背景色（防止画面下半部分白色）
+    html_tag_match = re.search(r'<html[^>]*>', html)
+    if html_tag_match:
+        html_tag = html_tag_match.group(0)
+        if 'background' not in html_tag:
+            # Add background style WITHOUT removing existing attributes
+            new_tag = html_tag.replace('>', ' style="background:#1a1a2e;">')
+            html = html.replace(html_tag, new_tag, 1)
+    if '<body' in html:
+        body_match = re.search(r'<body[^>]*>', html)
+        if body_match:
+            body_tag = body_match.group(0)
+            if 'background' not in body_tag:
+                new_body = body_tag.replace('>', ' style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">')
+                html = html.replace(body_tag, new_body, 1)
+
+    # 13. 确保 .scene 有 min-height:100%
+    if '.scene {' in html and 'min-height' not in html:
+        html = html.replace('.scene {', '.scene { min-height:100%;', 1)
+
+    # 14. 强制深色背景 — 把白色/浅色背景替换为深色
+    # Replace white/light backgrounds in inline styles
+    html = re.sub(r'background:\s*#fff(fff)?', 'background:#1a1a2e', html, flags=re.IGNORECASE)
+    html = re.sub(r'background:\s*white', 'background:#1a1a2e', html, flags=re.IGNORECASE)
+    html = re.sub(r'background:\s*#f[0-9a-f]{5}', 'background:#1a1a2e', html, flags=re.IGNORECASE)
+    html = re.sub(r'background:\s*#e[0-9a-f]{5}', 'background:#1a1a2e', html, flags=re.IGNORECASE)
+    html = re.sub(r'background:\s*#d[0-9a-f]{5}', 'background:#1a1a2e', html, flags=re.IGNORECASE)
+    html = re.sub(r'background:\s*rgb\(\s*2[0-4]\d\s*,\s*2[0-4]\d\s*,\s*2[0-4]\d\s*\)', 'background:#1a1a2e', html)
+    html = re.sub(r'background:\s*rgb\(\s*25[0-5]\s*,\s*25[0-5]\s*,\s*25[0-5]\s*\)', 'background:#1a1a2e', html)
+    # Also fix body/html backgrounds
+    html = re.sub(r'(body[^>]*style="[^"]*)background:\s*#fff(fff)?', r'\1background:#1a1a2e', html, flags=re.IGNORECASE)
+
+    return html
+
+
+def _generate_default_animations(composition_id: str) -> str:
+    """为缺少动画的场景生成默认 GSAP 动画代码"""
+    sel = f'[data-composition-id=\\"{composition_id}\\"]'
+    sel_sq = f"[data-composition-id='{composition_id}']"
+    return f'''
+<script>
+(function() {{
+  var tl = gsap.timeline({{paused:true}});
+  var root = document.querySelector('{sel_sq}');
+  if (!root) {{ root = document; }}
+  var els = root.querySelectorAll('.scene > *');
+  els.forEach(function(el, i) {{
+    tl.from(el, {{y:40, opacity:0, duration:0.6, ease:"power3.out"}}, i * 0.15);
+  }});
+  var cards = root.querySelectorAll('.card, .stat, .bar, .tag, .progress-bar');
+  cards.forEach(function(el, i) {{
+    tl.from(el, {{y:30, opacity:0, scale:0.9, duration:0.5, ease:"power2.out"}}, 0.3 + i * 0.1);
+  }});
+  window.__timelines = window.__timelines || {{}};
+  window.__timelines["{composition_id}"] = tl;
+}})();
+</script>'''
+
+
+# ============================================================
+# Fallback 模板（LLM 失败时的保底）
+# ============================================================
+
+def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_id: str) -> str:
+    """LLM 失败时的 fallback — 视觉丰富的模板"""
+    # 从 design.md 提取颜色
+    bg = "#1a1a2e"
+    primary = "#00D4FF"
+    accent = "#FF6B6B"
+    gold = "#FFD700"
+    for line in design_md.split("\n"):
+        if "background:" in line.lower():
+            m = re.search(r'#[0-9a-fA-F]{6}', line)
+            if m: bg = m.group(0)
+        elif "primary:" in line.lower():
+            m = re.search(r'#[0-9a-fA-F]{6}', line)
+            if m: primary = m.group(0)
+        elif "accent:" in line.lower():
+            m = re.search(r'#[0-9a-fA-F]{6}', line)
+            if m: accent = m.group(0)
+
+    narration = scene.get("narration", "")
+    # 提取口播金句作为标题（取前15字）
+    title = re.sub(r'[，。！？、；：""''（）\s]', '', narration)[:15] or "场景"
+    # 口播金句作为引用（取前60字）
+    quote = narration[:60] if narration else ""
+    key_elements = scene.get("key_elements", [])
+    concept = scene.get("concept", "")[:100]
+
+    # 从口播内容中提取有意义的短句（按句号/逗号分割，取4-15字的短句）
+    narration_phrases = []
+    if narration:
+        for sep in ['。', '！', '？', '，', '；', '、']:
+            parts = narration.split(sep)
+            for p in parts:
+                clean = p.strip()
+                if 4 <= len(clean) <= 20 and clean not in narration_phrases:
+                    narration_phrases.append(clean)
+                if len(narration_phrases) >= 6:
+                    break
+            if len(narration_phrases) >= 6:
+                break
+
+    # 从口播中提取数据点（数字+单位）
+    data_points = []
+    if narration:
+        for m in re.finditer(r'([\d,.]+)\s*(万|亿|%|倍|秒|分钟|小时|个|人|次|元|块)', narration):
+            data_points.append((m.group(0), m.group(2)))
+
+    # 合并：口播短句 + key_elements 作为卡片内容来源
+    card_items = []
+    # 优先用口播中的数据点
+    for val, unit in data_points[:2]:
+        card_items.append({"num": val, "label": f"({unit})"})
+    # 再用口播短句填充
+    for phrase in narration_phrases:
+        if len(card_items) >= 4:
+            break
+        # 提取短句中的关键词作为标签
+        card_items.append({"num": phrase[:6], "label": phrase[6:18] if len(phrase) > 6 else ""})
+    # 如果还不够，用 key_elements 补充
+    for elem in key_elements:
+        if len(card_items) >= 4:
+            break
+        elem_str = str(elem)
+        m = re.search(r'([\d,.]+)\s*(万|亿|%|倍)?', elem_str)
+        num = m.group(0) if m else elem_str[:8]
+        label = re.sub(r'[\d,.]+[万亿%倍]?[+~]?\s*', '', elem_str).strip()[:12] or ""
+        card_items.append({"num": num, "label": label})
+
+    # 数据卡片（玻璃拟态风格）
+    cards = ""
+    card_colors = ["#06b6d4", "#7c3aed", "#C9A96E", "#00FF88", "#FF00FF", "#FF6B6B"]
+    for i, item in enumerate(card_items[:4]):
+        num = item.get("num", "")
+        label = item.get("label", "")
+        c = card_colors[i % len(card_colors)]
+        cards += f'''<div class="card" style="flex:1;background:rgba(10,10,10,0.7);border:1px solid {c}40;border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(10px);">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,{c},{c}60);border-radius:16px 16px 0 0;"></div>
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at top,{c}08,transparent 70%);pointer-events:none;"></div>
+          <div class="stat" style="font-size:42px;font-weight:900;color:{c};font-family:'JetBrains Mono','Noto Sans SC',monospace;text-shadow:0 0 20px {c}40;">{num}</div>
+          <div style="font-size:13px;color:#A0A0B0;margin-top:10px;letter-spacing:1px;">{label}</div>
+        </div>'''
+
+    # 进度条（用口播短句）
+    progress = ""
+    for i in range(min(3, len(narration_phrases))):
+        pct = [78, 62, 45][i]
+        c = card_colors[i]
+        lbl = narration_phrases[i][:12]
+        progress += f'''<div style="margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:#A0A0B0;margin-bottom:6px;"><span>{lbl}</span><span style="color:{c};font-family:'JetBrains Mono',monospace;">{pct}%</span></div>
+          <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div class="bar" style="width:{pct}%;height:100%;background:linear-gradient(90deg,{c},{c}60);border-radius:3px;box-shadow:0 0 8px {c}40;"></div></div>
+        </div>'''
+
+    # 标签（从口播中提取关键词）
+    tags = ""
+    tag_words = []
+    if narration:
+        # 提取4-6字的关键词
+        for kw in re.findall(r'[\u4e00-\u9fff]{2,6}', narration):
+            if kw not in tag_words and len(kw) >= 2:
+                tag_words.append(kw)
+            if len(tag_words) >= 5:
+                break
+    if not tag_words:
+        tag_words = ["2026", "实时", "数据", "AI", "热点"]
+    tag_colors = ["#06b6d4", "#7c3aed", "#C9A96E", "#00FF88", "#FF6B6B"]
+    for j, word in enumerate(tag_words[:5]):
+        c = tag_colors[j % len(tag_colors)]
+        tags += f'<span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:{c}12;border:1px solid {c}30;font-size:12px;color:{c};margin:3px;letter-spacing:1px;">{word}</span>'
+
+    return f'''<!DOCTYPE html>
+<html data-composition-id="{composition_id}" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<head><meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;background:#0a0a0a;font-family:'Inter','Noto Sans SC',sans-serif;">
+<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
+
+  <!-- Layer 0: Grid pattern -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(6,182,212,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.03) 1px,transparent 1px);background-size:60px 60px;opacity:0.5;"></div>
+
+  <!-- Layer 1: Glow orbs -->
+  <div style="position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,{primary}15,transparent 70%);border-radius:50%;filter:blur(60px);"></div>
+  <div style="position:absolute;bottom:-20%;left:-10%;width:500px;height:500px;background:radial-gradient(circle,{accent}10,transparent 70%);border-radius:50%;filter:blur(60px);"></div>
+
+  <!-- Layer 2: Ghost text watermark -->
+  <div class="ghost-text" style="position:absolute;font-size:240px;font-weight:900;color:{primary}05;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'JetBrains Mono',monospace;">{title[:4]}</div>
+
+  <!-- Layer 3: Scan line -->
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,{primary}60,transparent);animation:scan 4s linear infinite;pointer-events:none;z-index:10;"></div>
+
+  <!-- Content -->
+  <div style="position:relative;z-index:5;padding:80px 100px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:28px;">
+
+    <!-- Title bar -->
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="width:5px;height:56px;background:linear-gradient(180deg,{primary},{accent});border-radius:3px;"></div>
+      <h1 class="title" style="font-size:88px;font-weight:900;color:#fff;margin:0;text-shadow:0 0 30px {primary}60,0 0 60px {primary}30;line-height:1.1;">{title}</h1>
+    </div>
+
+    <!-- Quote from narration -->
+    {f'<div class="quote" style="font-size:20px;color:#A0A0B0;max-width:900px;line-height:1.7;border-left:3px solid {primary}40;padding-left:16px;margin-top:-8px;">{quote}</div>' if quote else ''}
+
+    <!-- Data cards row -->
+    <div style="display:flex;gap:20px;margin-top:8px;">{cards}</div>
+
+    <!-- Progress bars + Tags row -->
+    <div style="display:flex;gap:60px;align-items:flex-start;">
+      <div style="flex:1;max-width:500px;">{progress}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">{tags}</div>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes scan {{ from{{top:0}} to{{top:100%}} }}
+</style>
+<script>
+(function() {{
+  var cid = "{composition_id}";
+  var tl = gsap.timeline({{paused:true}});
+  tl.from("[data-composition-id=" + cid + "] .ghost-text", {{scale:0.8, opacity:0, duration:1.2, ease:"power3.out"}}, 0);
+  tl.from("[data-composition-id=" + cid + "] .title", {{y:60, opacity:0, duration:0.7, ease:"power3.out"}}, 0.2);
+  tl.from("[data-composition-id=" + cid + "] .quote", {{y:30, opacity:0, duration:0.5, ease:"power2.out"}}, 0.4);
+  tl.from("[data-composition-id=" + cid + "] .card", {{y:40, opacity:0, scale:0.9, duration:0.5, stagger:0.1, ease:"back.out(1.5)"}}, 0.5);
+  gsap.to("[data-composition-id=" + cid + "] .card", {{scale:1.02, duration:2.5, repeat:-1, yoyo:true, ease:"sine.inOut", stagger:0.3}});
+  tl.from("[data-composition-id=" + cid + "] .bar", {{width:0, duration:0.8, ease:"power2.inOut"}}, 0.8);
+  tl.from("[data-composition-id=" + cid + "] .tag", {{y:20, opacity:0, scale:0.8, duration:0.3, stagger:0.05, ease:"power2.out"}}, 1.0);
+  window.__timelines = window.__timelines || {{}};
+  window.__timelines[cid] = tl;
+}})();
+</script>
+</body>
+</html>'''
+
+
+# ============================================================
+# 主流程
+# ============================================================
+
+def generate_and_build(scene, sid, total, ctx=None):
+    """单个场景：LLM 生成 HTML + 验证"""
+    ctx = ctx or {}
+    design_md = ctx.get("_design_md", "")
+    design_specs = ctx.get("_design_specs", {})
+    spec = design_specs.get(sid, {})
+    composition_id = f"beat-{sid}"
+
+    html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id)
+
+    if not html:
+        print(f"    ⚠️ [Scene {sid}] LLM 生成失败，用 fallback", flush=True)
+        html = fallback_scene_html(scene, sid, design_md, composition_id)
+
+    return sid, html
+
+
+def build_index_html(scenes: list) -> str:
+    """构建 index.html — 所有场景在同一 track 顺序播放"""
+    beats = ''
+    t = 0.0
+    for i, scene in enumerate(scenes):
+        sid = i + 1
+        dur = scene.get('duration', 8.0)
+        beats += f'''
+      <div id="beat-{sid}" class="clip"
+           data-composition-id="beat-{sid}"
+           data-composition-src="compositions/beat-{sid}.html"
+           data-start="{t}"
+           data-duration="{dur}"
+           data-track-index="0"
+           data-width="1920"
+           data-height="1080">
+      </div>'''
+        t += dur
+
+    return f'''<!doctype html>
+<html>
+<body>
+  <div id="root" data-composition-id="main" data-start="0"
+       data-duration="{t}" data-width="1920" data-height="1080">
+{beats}
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    const mainTl = gsap.timeline({{ paused: true }});
+    window.__timelines = window.__timelines || {{}};
+    window.__timelines["main"] = mainTl;
+  </script>
+</body>
+</html>'''
+
+
+def run(context: dict) -> dict:
+    """hf_builder 主入口"""
+    project_root = Path(context.get("project_root", Path(__file__).parent.parent.parent))
+    output_dir = project_root / "output"
+    hf_dir = project_root / "hf_render_project"
+
+    design_md = load_design_system(project_root)
+    design_specs = load_design_specs(project_root)
+    context["_design_md"] = design_md
+    context["_design_specs"] = design_specs
+    print(f"[hf_builder] design.md: {len(design_md)} chars | specs: {len(design_specs)} scenes")
+
+    sb_path = context.get("storyboard_path") or str(output_dir / "storyboard.json")
+    with open(sb_path, encoding="utf-8") as f:
+        storyboard = json.load(f)
+    scenes = storyboard if isinstance(storyboard, list) else storyboard.get("scenes", [])
+    total = len(scenes)
+    print(f"[hf_builder] {total} scenes from {sb_path}")
+
+    compositions_dir = hf_dir / "compositions"
+    compositions_dir.mkdir(parents=True, exist_ok=True)
+    for old in compositions_dir.glob("beat-*.html"):
+        old.unlink()
+
+    print(f"[hf_builder] LLM 生成中 (max_workers=3)...")
+    results = {}
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        futures = {
+            executor.submit(generate_and_build, scene, i+1, total, context): i+1
+            for i, scene in enumerate(scenes)
+        }
+        for future in as_completed(futures):
+            try:
+                sid, html = future.result()
+                results[sid] = html
+                with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
+                    f.write(html)
+                src = "LLM" if len(html) > 3000 else "fallback"
+                print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
+            except Exception as e:
+                sid = futures[future]
+                print(f"  ❌ [{sid}/{total}] {e}", flush=True)
+
+    # index.html
+    index_html = build_index_html(scenes)
+    with open(hf_dir / "index.html", "w", encoding="utf-8") as f:
+        f.write(index_html)
+    print(f"[hf_builder] index.html: {len(index_html)} chars")
+
+    # Render
+    import shutil
+    hf_cmd = shutil.which("hyperframes")
+    output_path = hf_dir / "rendered.mp4"
+    try:
+        result = subprocess.run(
+            [hf_cmd, "render", str(hf_dir), "--output", str(output_path)],
+            cwd=str(hf_dir), capture_output=True, text=True, timeout=600
+        )
+        if result.returncode == 0:
+            context["rendered_video"] = str(output_path)
+            print(f"[hf_builder] ✅ {output_path}")
+        else:
+            print(f"[hf_builder] ❌ {result.stderr[:500]}")
+    except Exception as e:
+        print(f"[hf_builder] Exception: {e}")
+
+    return context
+
+
+if __name__ == "__main__":
+    ctx = {
+        "project_root": str(Path(__file__).parent.parent.parent),
+        "topic": "测试话题",
+    }
+    result = run(ctx)
+    print(f"\nResult: {result.get('rendered_video', 'no output')}")

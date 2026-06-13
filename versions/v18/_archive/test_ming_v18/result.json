@@ -1,0 +1,552 @@
+{
+  "topic": "明朝的海上霸权",
+  "output_dir": "test_ming_v18",
+  "scenes": [],
+  "video": "test_ming_v18\\rendered.mp4",
+  "frames": [
+    "test_ming_v18\\frame_01.jpg",
+    "test_ming_v18\\frame_02.jpg",
+    "test_ming_v18\\frame_03.jpg",
+    "test_ming_v18\\frame_04.jpg",
+    "test_ming_v18\\frame_05.jpg",
+    "test_ming_v18\\frame_06.jpg"
+  ],
+  "video_size_kb": 1302.8759765625,
+  "storyboard": [
+    {
+      "scene_id": 1,
+      "narration": "震惊！郑和宝船长120米，宽50米，比哥伦布的船大10倍！船队200多艘，载员2万7千人，史上最强。",
+      "duration": 5.0,
+      "visual_type": "data",
+      "title": "震惊！郑和宝船长120米，宽5",
+      "subtitle": "0米，比哥伦布的船大10倍！船队200多",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "震惊！郑和宝船长120米，宽50米，比哥伦布的船大10倍！船队200多艘，载员2万7千人，史上最强。"
+      ],
+      "tags": [
+        "明朝的海"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 2,
+      "narration": "1405年，明成祖朱棣下令，郑和率领这支无敌舰队，七次下西洋，开辟了空前海权时代。",
+      "duration": 5.0,
+      "visual_type": "timeline",
+      "title": "1405年，明成祖朱棣下令，郑",
+      "subtitle": "和率领这支无敌舰队，七次下西洋，开辟了空",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "1405年，明成祖朱棣下令，郑和率领这支无敌舰队，七次下西洋，开辟了空前海权时代。"
+      ],
+      "tags": [
+        "明朝的海"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 3,
+      "narration": "航行最远到非洲东海岸，跨越印度洋，访问30多国，传播中华文明，建立和平外交。",
+      "duration": 5.0,
+      "visual_type": "highlight",
+      "title": "航行最远到非洲东海岸，跨越印度",
+      "subtitle": "洋，访问30多国，传播中华文明，建立和平",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "航行最远到非洲东海岸，跨越印度洋，访问30多国，传播中华文明，建立和平外交。"
+      ],
+      "tags": [
+        "明朝的海"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 4,
+      "narration": "秘密在技术：使用水密隔舱和指南针，造船厂能同时造大船，航行安全高效，领先世界。",
+      "duration": 5.0,
+      "visual_type": "data",
+      "title": "秘密在技术：使用水密隔舱和指南",
+      "subtitle": "针，造船厂能同时造大船，航行安全高效，领",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "秘密在技术：使用水密隔舱和指南针，造船厂能同时造大船，航行安全高效，领先世界。"
+      ],
+      "tags": [
+        "明朝的海"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 5,
+      "narration": "对比欧洲，哥伦布1492年只有3小船，郑和船队规模是他的100倍，提前87年称霸海洋。",
+      "duration": 5.0,
+      "visual_type": "comparison",
+      "title": "对比欧洲，哥伦布1492年只有",
+      "subtitle": "3小船，郑和船队规模是他的100倍，提前",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "对比欧洲，哥伦布1492年只有3小船，郑和船队规模是他的100倍，提前87年称霸海洋。"
+      ],
+      "tags": [
+        "明朝的海"
+      ],
+      "quote_text": ""
+    },
+    {
+      "scene_id": 6,
+      "narration": "明朝海上霸权，不仅是武力，更是和平贸易与文化交流的典范，彰显中华文明辉煌。",
+      "duration": 5.0,
+      "visual_type": "quote",
+      "title": "明朝海上霸权，不仅是武力，更是",
+      "subtitle": "和平贸易与文化交流的典范，彰显中华文明辉",
+      "key_data": [
+        {
+          "label": "数据",
+          "value": "—",
+          "unit": ""
+        }
+      ],
+      "key_points": [
+        "明朝海上霸权，不仅是武力，更是和平贸易与文化交流的典范，彰显中华文明辉煌。"
+      ],
+      "tags": [
+        "明朝的海"
+      ],
+      "quote_text": ""
+    }
+  ],
+  "designs": [
+    {
+      "scene_id": 1,
+      "bg": {
+        "type": "geometric_lines",
+        "color": "#0a1a2e"
+      },
+      "layout": {
+        "type": "diagonal"
+      },
+      "title": {
+        "text": "宝船尺寸，颠覆想象",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "郑和旗舰 VS 哥伦布旗舰",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "120",
+          "unit": "米",
+          "label": "宝船长度",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "mega_number",
+          "value": "10x",
+          "unit": "",
+          "label": "大于哥伦布船",
+          "color": "#ff6b35",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "200+ 艘船队",
+          "unit": "",
+          "label": "总规模",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "27,000 人",
+          "unit": "",
+          "label": "总船员",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "史无前例",
+          "unit": "",
+          "label": "海上力量",
+          "color": "#00d4ff",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "郑和",
+        "宝船",
+        "数据冲击"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "bg": {
+        "type": "subtle_glow",
+        "color": "#111827"
+      },
+      "layout": {
+        "type": "timeline"
+      },
+      "title": {
+        "text": "启航：七下西洋的传奇",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "开启全球大航海时代序章",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "1405",
+          "unit": "年",
+          "label": "首次远航",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "mega_number",
+          "value": "7",
+          "unit": "次",
+          "label": "远航次数",
+          "color": "#ffffff",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "明成祖朱棣",
+          "unit": "",
+          "label": "决策者",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "郑和",
+          "unit": "",
+          "label": "统帅",
+          "color": "#ff6b35",
+          "size": "medium"
+        }
+      ],
+      "tags": [
+        "时间线",
+        "郑和下西洋",
+        "历史起点"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "bg": {
+        "type": "subtle_glow",
+        "color": "#0a1a2e"
+      },
+      "layout": {
+        "type": "asymmetric"
+      },
+      "title": {
+        "text": "航迹：跨越洲际的和平之路",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "从东亚到东非，连接文明",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "30+",
+          "unit": "国",
+          "label": "访问国家",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "progress_bar",
+          "value": "非洲东海岸",
+          "unit": "",
+          "label": "最远航点",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "印度洋",
+          "unit": "",
+          "label": "核心海域",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "和平外交",
+          "unit": "",
+          "label": "交往方式",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "文明传播",
+          "unit": "",
+          "label": "使命",
+          "color": "#ff6b35",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "航行范围",
+        "和平外交",
+        "影响力"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "bg": {
+        "type": "particle_tech",
+        "color": "#0f172a"
+      },
+      "layout": {
+        "type": "dashboard"
+      },
+      "title": {
+        "text": "技术领先：海上霸权的密码",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "明朝造船与航海科技巅峰",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "ring_chart",
+          "value": "水密隔舱",
+          "unit": "",
+          "label": "核心结构",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "ring_chart",
+          "value": "指南针导航",
+          "unit": "",
+          "label": "定位技术",
+          "color": "#3b82f6",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "大型船坞",
+          "unit": "",
+          "label": "生产能力",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "progress_bar",
+          "value": "安全航行",
+          "unit": "",
+          "label": "技术优势",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "领先世界",
+          "unit": "",
+          "label": "技术水平",
+          "color": "#ff6b35",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "技术",
+        "造船",
+        "创新"
+      ]
+    },
+    {
+      "scene_id": 5,
+      "bg": {
+        "type": "geometric_lines",
+        "color": "#111827"
+      },
+      "layout": {
+        "type": "split_h"
+      },
+      "title": {
+        "text": "降维打击：中西船队规模对比",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "郑和 VS 哥伦布，历史差距",
+        "size": 20,
+        "color": "#ff6b35"
+      },
+      "elements": [
+        {
+          "type": "bar_chart",
+          "value": "郑和船队规模",
+          "unit": "100x",
+          "label": "倍数优势",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "mega_number",
+          "value": "87",
+          "unit": "年",
+          "label": "时间领先",
+          "color": "#ff6b35",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "1492年",
+          "unit": "",
+          "label": "哥伦布启航",
+          "color": "#ffffff",
+          "size": "medium"
+        },
+        {
+          "type": "card",
+          "value": "3艘小船",
+          "unit": "",
+          "label": "哥伦布船队",
+          "color": "#ffffff",
+          "size": "medium"
+        }
+      ],
+      "tags": [
+        "对比",
+        "规模",
+        "历史差距"
+      ]
+    },
+    {
+      "scene_id": 6,
+      "bg": {
+        "type": "minimal_gradient",
+        "color": "#0a0a1a"
+      },
+      "layout": {
+        "type": "full_bleed"
+      },
+      "title": {
+        "text": "海上文明：超越武力的辉煌",
+        "size": 48,
+        "color": "#ffffff",
+        "weight": 900
+      },
+      "subtitle": {
+        "text": "贸易与文化，中华和平智慧",
+        "size": 20,
+        "color": "#00d4ff"
+      },
+      "elements": [
+        {
+          "type": "mega_number",
+          "value": "和平",
+          "unit": "",
+          "label": "核心理念",
+          "color": "#00d4ff",
+          "size": "large"
+        },
+        {
+          "type": "mega_number",
+          "value": "典范",
+          "unit": "",
+          "label": "历史地位",
+          "color": "#ffffff",
+          "size": "large"
+        },
+        {
+          "type": "card",
+          "value": "“明朝海上霸权，不仅是武力，更是和平贸易与文化交流的典范，彰显中华文明辉煌。”",
+          "unit": "",
+          "label": "核心引用",
+          "color": "#00d4ff",
+          "size": "medium"
+        },
+        {
+          "type": "icon_stat",
+          "value": "文化交流",
+          "unit": "",
+          "label": "持久遗产",
+          "color": "#ff6b35",
+          "size": "small"
+        }
+      ],
+      "tags": [
+        "升华",
+        "和平",
+        "文明",
+        "典范"
+      ]
+    }
+  ],
+  "layout_types": [
+    "diagonal",
+    "timeline",
+    "asymmetric",
+    "dashboard",
+    "split_h",
+    "full_bleed"
+  ],
+  "bg_types": [
+    "geometric_lines",
+    "subtle_glow",
+    "subtle_glow",
+    "particle_tech",
+    "geometric_lines",
+    "minimal_gradient"
+  ]
+}

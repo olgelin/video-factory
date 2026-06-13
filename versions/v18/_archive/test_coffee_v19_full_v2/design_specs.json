@@ -1,0 +1,362 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "每日10亿人中招",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "你以为的自由选择，早已被化学物质标价",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": ">10",
+        "unit": "亿",
+        "label": "全球每日摄入人数",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "80",
+        "unit": "%",
+        "label": "无意识上瘾比例",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "隐形控制",
+        "unit": "",
+        "label": "核心议题",
+        "color": "#00d4ff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "摄入量巨大的社会性成瘾现象",
+        "unit": "",
+        "label": "关键点1",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "社会现象",
+      "数据冲击",
+      "核心问题"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "无处不在的剂量陷阱",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "从清晨咖啡到午后可乐，摄入无孔不入",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "95",
+        "unit": "毫克",
+        "label": "一杯咖啡",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "35",
+        "unit": "毫克",
+        "label": "一罐可乐",
+        "color": "#ffffff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "90",
+        "unit": "%",
+        "label": "成人日摄入比例",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "咖啡因并非咖啡独有，存在于多种饮品",
+        "unit": "",
+        "label": "关键点",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "日常摄入",
+      "数据对比",
+      "无处不在"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "大脑的化学劫持",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "短暂清醒的代价，是长期依赖的锁链",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "50",
+        "unit": "%",
+        "label": "戒断头痛发生率",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "50",
+        "unit": "%",
+        "label": "依赖已形成",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "通过干扰神经信号（阻断腺苷受体）强制保持清醒",
+        "unit": "",
+        "label": "作用机制",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "card",
+        "value": "停用后超过半数人群出现不适，显示生理依赖",
+        "unit": "",
+        "label": "依赖信号",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "大脑机制",
+      "戒断反应",
+      "生理依赖"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "隐形依赖的作息重塑",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "你以为在掌控节奏，实则被半衰期支配",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "progress_bar",
+        "value": "65",
+        "unit": "%",
+        "label": "无咖啡时疲劳焦虑",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "5",
+        "unit": "小时",
+        "label": "咖啡因半衰期",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "全天",
+        "unit": "",
+        "label": "影响时长：节奏与情绪",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "代谢周期长远超大多数人想象，影响渗透全天",
+        "unit": "",
+        "label": "关键点",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "作息影响",
+      "半衰期",
+      "情绪波动"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "被低估的健康负债",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "超标的日常摄入，正在透支你的睡眠与安宁",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "400",
+        "unit": "毫克",
+        "label": "日摄入高风险阈值",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "25",
+        "unit": "%",
+        "label": "失眠风险增加",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "WHO定义：精神活性物质",
+        "unit": "",
+        "label": "权威警告",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "过量摄入与睡眠障碍、焦虑症直接相关",
+        "unit": "",
+        "label": "核心风险",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "健康风险",
+      "失眠",
+      "焦虑"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "夺回清醒的主导权",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "认知是第一步，掌控才是目的",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "隐形控制器",
+        "unit": "",
+        "label": "核心定义",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "学会掌控",
+        "unit": "",
+        "label": "行动目标",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "避免习惯主宰你的生活",
+        "unit": "",
+        "label": "倡导主控权",
+        "color": "#ffffff",
+        "size": "small"
+      },
+      {
+        "type": "icon_stat",
+        "value": "从无意识消费转向有意识管理",
+        "unit": "",
+        "label": "转变关键",
+        "color": "#ff6b35",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "掌控生活",
+      "意识觉醒",
+      "行动倡导"
+    ]
+  }
+]

@@ -1,0 +1,354 @@
+[
+  {
+    "scene_id": 1,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "diagonal"
+    },
+    "title": {
+      "text": "偏见代码，正在蔓延",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "技术并非绝对客观，偏见已写入系统底层。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "75%",
+        "unit": "",
+        "label": "AI系统存在种族或性别偏见",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "progress_bar",
+        "value": "75",
+        "unit": "",
+        "label": "偏见类型：种族或性别",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "多数AI系统存在偏见，这是现实危机而非科幻。",
+        "unit": "",
+        "label": "关键点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "伦理炸弹",
+        "unit": "",
+        "label": "性质界定",
+        "color": "#ef4444",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "数据危机",
+      "偏见蔓延",
+      "技术伦理"
+    ]
+  },
+  {
+    "scene_id": 2,
+    "bg": {
+      "type": "minimal_gradient",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "asymmetric"
+    },
+    "title": {
+      "text": "诊断偏差，致命40%",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "医疗AI的公正性受到数据偏倚的严峻挑战。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "40",
+        "unit": "%",
+        "label": "黑人患者误诊率更高",
+        "color": "#ff6b35",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "训练数据的不公，将直接导致医疗结果的不平等。",
+        "unit": "",
+        "label": "核心问题",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "数据偏倚对象：白人人群",
+        "unit": "",
+        "label": "数据背景",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "应用场景：医疗诊断",
+        "unit": "",
+        "label": "关键场景",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "医疗公正",
+      "算法偏见",
+      "社会裂痕"
+    ]
+  },
+  {
+    "scene_id": 3,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "full_bleed"
+    },
+    "title": {
+      "text": "数据洪流，隐私裸奔",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "海量数据在“知情同意”的灰色地带被收集与利用。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "50亿",
+        "unit": "条/年",
+        "label": "年度数据收集量",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "ring_chart",
+        "value": "30",
+        "unit": "%",
+        "label": "数据收集未经同意",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "200%",
+        "unit": "年增长",
+        "label": "隐私泄露案例增长率",
+        "color": "#ff6b35",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "隐私泄露风险呈指数级增长，个人权利边界模糊。",
+        "unit": "",
+        "label": "警示",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "数据隐私",
+      "知情同意",
+      "指数风险"
+    ]
+  },
+  {
+    "scene_id": 4,
+    "bg": {
+      "type": "geometric_lines",
+      "color": "#111827"
+    },
+    "layout": {
+      "type": "timeline"
+    },
+    "title": {
+      "text": "职业地震，饭碗重塑",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "技能错配与结构性失业，是AI浪潮下最现实的挑战。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "bar_chart",
+        "value": "8500万",
+        "unit": "个",
+        "label": "被替代岗位 (2025年预测)",
+        "color": "#ef4444",
+        "size": "large"
+      },
+      {
+        "type": "bar_chart",
+        "value": "9700万",
+        "unit": "个",
+        "label": "新创造岗位 (2025年预测)",
+        "color": "#00d4ff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "岗位数量增减背后，是巨大的职业过渡期与社会阵痛。",
+        "unit": "",
+        "label": "关键点",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "icon_stat",
+        "value": "预测时间点",
+        "unit": "",
+        "label": "2025年",
+        "color": "#ffffff",
+        "size": "small"
+      }
+    ],
+    "tags": [
+      "就业冲击",
+      "结构性失业",
+      "未来技能"
+    ]
+  },
+  {
+    "scene_id": 5,
+    "bg": {
+      "type": "subtle_glow",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "dashboard"
+    },
+    "title": {
+      "text": "责任迷雾，归属成谜",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "法律的滞后性，让技术发展走在了伦理与规范的前面。",
+      "size": 20,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "ring_chart",
+        "value": "30",
+        "unit": "%",
+        "label": "责任方：制造商",
+        "color": "#3b82f6",
+        "size": "medium"
+      },
+      {
+        "type": "ring_chart",
+        "value": "50",
+        "unit": "%",
+        "label": "责任方：程序员",
+        "color": "#00d4ff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "AI本身：法律空白",
+        "unit": "",
+        "label": "责任方",
+        "color": "#ef4444",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "复杂的算法链条，使得事故后的责任追溯异常困难。",
+        "unit": "",
+        "label": "核心困境",
+        "color": "#ffffff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "自动驾驶",
+      "责任归属",
+      "法律滞后"
+    ]
+  },
+  {
+    "scene_id": 6,
+    "bg": {
+      "type": "particle_tech",
+      "color": "#0a0a1a"
+    },
+    "layout": {
+      "type": "split_h"
+    },
+    "title": {
+      "text": "镜鉴未来，选择在手",
+      "size": 48,
+      "color": "#ffffff",
+      "weight": 900
+    },
+    "subtitle": {
+      "text": "我们如何塑造技术，技术就将如何定义我们共同的未来。",
+      "size": 24,
+      "color": "#00d4ff"
+    },
+    "elements": [
+      {
+        "type": "mega_number",
+        "value": "“镜子”",
+        "unit": "",
+        "label": "人工智能是人类价值观的投射",
+        "color": "#ffffff",
+        "size": "large"
+      },
+      {
+        "type": "card",
+        "value": "AI并非冰冷的工具，它折射出我们的欲望、偏见与恐惧。",
+        "unit": "",
+        "label": "核心反思",
+        "color": "#ffffff",
+        "size": "medium"
+      },
+      {
+        "type": "card",
+        "value": "我们造的AI，终将定义我们的未来",
+        "unit": "",
+        "label": "未来命题",
+        "color": "#00d4ff",
+        "size": "medium"
+      }
+    ],
+    "tags": [
+      "价值观",
+      "人类选择",
+      "未来定义"
+    ]
+  }
+]
