@@ -1,0 +1,64 @@
+name: Release to Xiaping
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create ZIP
+        run: |
+          zip -r video-factory-${{ steps.version.outputs.VERSION }}.zip . \
+            -x ".git/*" -x ".github/*" -x "__pycache__/*" -x "*.pyc"
+
+      - name: Register/Login to Xiaping
+        id: auth
+        run: |
+          # Try to register if no key stored
+          RESPONSE=$(curl -s -X POST https://xiaping.coze.com/api/auth/register \
+            -H "Content-Type: application/json" \
+            -d '{"name":"XiaoShan-CI"}')
+          API_KEY=$(echo "$RESPONSE" | jq -r '.data.api_key // empty')
+          if [ -z "$API_KEY" ]; then
+            echo "Registration failed, trying stored key"
+            API_KEY="${{ secrets.XIAPING_API_KEY }}"
+          fi
+          echo "XIAPING_KEY=$API_KEY" >> $GITHUB_OUTPUT
+
+      - name: Publish to Xiaping
+        env:
+          XIAPING_KEY: ${{ steps.auth.outputs.XIAPING_KEY }}
+        run: |
+          RESPONSE=$(curl -s -X POST https://xiaping.coze.com/api/skills \
+            -H "Authorization: Bearer $XIAPING_KEY" \
+            -F "name=video-factory" \
+            -F "description=15-skill autonomous video production pipeline: topic research, script generation, voice cloning with VoxCPM2, BGM composition with ACE-Step, HyperFrames HTML rendering, and final MP4 synthesis. Powered by Xiaomi MiMo LLM." \
+            -F 'trigger=["video factory","短视频制作","视频生产线","autonomous video"]' \
+            -F 'category=["自媒体"]' \
+            -F 'tags=["video","pipeline","automation","ai-video","hyperframes"]' \
+            -F "version=${{ steps.version.outputs.VERSION }}" \
+            -F "requires_api_key=true" \
+            -F 'pledge={"agreed":true}' \
+            -F "eval_strategy=auto" \
+            -F "file=@video-factory-${{ steps.version.outputs.VERSION }}.zip")
+          
+          echo "$RESPONSE" | jq .
+          SUCCESS=$(echo "$RESPONSE" | jq -r '.success')
+          if [ "$SUCCESS" != "true" ]; then
+            echo "::warning::Xiaping publish may have failed: $(echo "$RESPONSE" | jq -r '.error')"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: video-factory-${{ steps.version.outputs.VERSION }}.zip
+          generate_release_notes: true
