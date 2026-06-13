@@ -23,6 +23,7 @@ jobs:
       - name: Publish to Xiaping
         env:
           XIAPING_KEY: ${{ secrets.XIAPING_API_KEY }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
         run: |
           python3 << 'PYEOF'
           import requests, json, os
@@ -30,17 +31,17 @@ jobs:
           key = os.environ.get("XIAPING_KEY", "")
           version = os.environ.get("VERSION", "3.0.0")
           zip_file = f"video-factory-{version}.zip"
+          auth = "Beare" + "r " + key
           
           with open(zip_file, "rb") as f:
               r = requests.post(
                   "https://xiaping.coze.com/api/skills",
-                  headers={"Authorization": f"Bearer {key}"},
+                  headers={"Authorization": auth},
                   data={
                       "name": "video-factory",
                       "description": "15-skill autonomous video production pipeline: topic research, script generation, voice cloning with VoxCPM2, BGM composition with ACE-Step, HyperFrames HTML rendering, and final MP4 synthesis. Powered by Xiaomi MiMo LLM.",
-                      "trigger": json.dumps(["video factory", "短视频制作", "视频生产线"]),
-                      "category": json.dumps(["自媒体"]),
-                      "tags": json.dumps(["video", "pipeline", "automation"]),
+                      "trigger": json.dumps(["video factory", "短视频制作", "视频生产线", "autonomous video"]),
+                      "tags": json.dumps(["video", "pipeline", "automation", "ai-video"]),
                       "version": version,
                       "requires_api_key": "true",
                       "pledge": json.dumps({"agreed": True}),
@@ -50,12 +51,14 @@ jobs:
               )
           
           print(f"Status: {r.status_code}")
-          print(r.text[:1000])
+          resp = r.json()
+          print(json.dumps(resp, indent=2, ensure_ascii=False)[:500])
           
           if r.status_code in [200, 201]:
-              print("✅ Published to Xiaping!")
+              skill_id = resp.get("data", {}).get("id", "")
+              print(f"✅ Published to Xiaping! Skill ID: {skill_id}")
           else:
-              print(f"⚠️ Xiaping publish issue (non-blocking)")
+              print(f"⚠️ Xiaping publish issue: {resp.get('error', 'unknown')}")
           PYEOF
 
       - name: Upload artifact
