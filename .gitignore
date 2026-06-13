@@ -13,12 +13,11 @@ build/
 .env.local
 
 # Outputs (large files, don't commit)
-output/*.mp4
-output/*.wav
-output/*.mp3
-output/*.json
-output/*.srt
+output/
+hf-project/output/
+hf-project/hf_render_project/
 *.zip
+.cache/
 
 # Temp
 *.tmp

@@ -42,7 +42,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Pipeline root
-PIPELINE_ROOT = Path(__file__).parent
+PIPELINE_ROOT = Path(__file__).parent.parent
 WORKSPACE = Path("E:/Hermes-Agent/workspace/xiaoshan/video-factory")
 DEFAULT_VOICE_REF = "E:/Hermes-Agent/workspace/xiaoshan/voice-cloning/CosyVoice/custom_voices/test_ref.wav"
 QUALITY_RULES_FILE = PIPELINE_ROOT / "output" / "quality_rules_library.json"
