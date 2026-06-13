@@ -2,273 +2,104 @@
   {
     "scene_id": 1,
     "visual_type": "data_impact",
-    "concept": "以一个巨大、闪烁的数字「44」作为开场核心，如同生命最后的读数。观众仿佛看到一个生命倒计时系统，数字背后是救援现场的模糊影像和快速闪现的时间戳「00:00」，瞬间营造出强烈的紧迫感与悬念，为整个故事定下沉重的基调。",
-    "mood": "数字纪念碑、生命倒计时",
-    "depth_layers": {
-      "background": "radial-glow focused behind number, subtle data-grid",
-      "midground": "Giant number '44', flickering timecode '00:00'",
-      "foreground": "particle-drift (ash/embers), ghost-text 'LIFE' 'TIME'"
-    },
-    "density_target": 8,
+    "concept": "观众首先看到的是深黑背景中，一个金色的、如全息投影般巨大的‘-2万亿’数字悬浮在空中，并伴随强烈的霓虹红光警报闪烁。随后，一个代表存款的、充满数字代码的抽象金色曲线图，被一条粗壮的、发光的红色下降箭头无情击穿。画面充满了科技悬念与数据冲击感。",
     "key_elements": [
-      "巨型数字'44'",
-      "闪烁的时间戳'00:00'",
-      "脉冲式的生命体征线",
-      "快速闪现的救援现场模糊帧",
-      "警徽剪影",
-      "倒计时进度条",
-      "霓虹色光晕",
-      "扫描线"
+      "大字体标题'居民存款' SLAMS 画面",
+      "金色数据'2万亿'，以'COUNTS UP'方式震撼呈现",
+      "红色霓虹箭头'DOWN'，以'CRASHES'动作贯穿画面",
+      "背景中，代表时间（十年）的网格线或时间线微微发光",
+      "整体氛围有radial-glow（径向光晕）和粒子漂移（particle-drift）"
     ],
-    "narration": "四四岁，生命定格在救援一线——这位特警队长最后的二四小时经历了什么？",
-    "duration": 5.8,
-    "animations": {
-      "title": "SLAMS INTO FRAME",
-      "subtitle": "FLICKERS ON",
-      "data": "COUNTS DOWN RAPIDLY, THEN FREEZES",
-      "decorative": "PULSES like a weak heartbeat"
-    },
-    "transition": {
-      "in": "FLASH CUT",
-      "out": "GLITCH WIPE"
-    }
+    "narration": "你绝对想不到，居民存款两个月缩水超二万亿，近一零年首次连续下降，老百姓的钱到底去哪了？",
+    "duration": 8.2
   },
   {
     "scene_id": 2,
-    "visual_type": "dashboard",
-    "concept": "一个高科技新闻监控仪表盘在黑色背景中展开，核心数据「热度值」如熔岩般飙升并爆表，「置信度9」则像精密仪器一样稳定闪烁。多个数据窗口实时滚动着报道摘要和地点信息，让观众如同身处一个追踪突发重大新闻的指挥中心，直观感受到事件爆炸性的社会关注度。",
-    "mood": "新闻指挥中心、数据监控室",
-    "depth_layers": {
-      "background": "moving data-grid, neon-lines outlining dashboard",
-      "midground": "Dashboard panels: Hot value gauge, confidence meter, map pin, text crawl",
-      "foreground": "particle-drift (data fragments)"
-    },
-    "density_target": 9,
+    "visual_type": "data_impact",
+    "concept": "画面切换至一个巨大的、类似央行数据终端的HUD界面，核心是一个被高亮圈出的金色数字‘-2.05万亿’，权威感十足。时间轴上，两个相邻的月份节点被特别标注，并发出脉冲光，与更早的2011年数据节点形成视觉连线，强调‘首次’的历史性。",
     "key_elements": [
-      "热度值仪表盘（数字爆表）",
-      "置信度数字'9'",
-      "事件地图定位点",
-      "滚动新闻摘要条",
-      "声波频率图",
-      "脉冲式高亮边框",
-      "全息投影标签",
-      "数据网格背景"
+      "HUD式叠加文字'央行最新数据'，以'SLIDES'方式从顶部进入",
+      "金色超大字号数据'2.05万亿'，核心视觉",
+      "时间轴线条，关键月份节点'2024.3'和'2024.4'高亮并'PULSES'",
+      "与'2011年'节点的连线被强化",
+      "背景有细密的数据网格（data-grid）"
     ],
-    "narration": "说白了，这不是电影，是甘肃真实发生的英雄故事。特警大队长，年仅四四岁，在执行救援任务时因公牺牲了，热度值都爆了。",
-    "duration": 10.4,
-    "animations": {
-      "title": "SLIDES IN FROM TOP",
-      "subtitle": "CASCADES DOWN",
-      "data": "UPDATES LIVE, BAR FILLS RAPIDLY",
-      "decorative": "DATA-GRID SCROLLS SLOWLY"
-    },
-    "transition": {
-      "in": "SCALE UP FROM POINT",
-      "out": "DISSOLVE INTO GRID"
-    }
+    "narration": "我翻遍了央行最新的数据，没错，不是谣言。连续两个月，存款总额净减少了超过二万亿。上一次出现这种“两连跌”，还是2011年。你品品，这次跌得够狠。",
+    "duration": 10.4
   },
   {
     "scene_id": 3,
     "visual_type": "flow",
-    "concept": "一条发光的时间线在黑暗中被点亮，从「深夜出动」延伸到「生命终点」。每个关键节点像伤疤一样依次亮起，伴随地点坐标、简短描述和危险等级指示。时间线旁，环境元素从平静的数据网格变为紊乱的红色警告网格，视觉化地铺陈出那段惊心动魄、充满牺牲的24小时历程。",
-    "mood": "作战时间轴、生命轨迹图",
-    "depth_layers": {
-      "background": "shifting grid color, radial-glow at endpoint",
-      "midground": "Glowing timeline with nodes, text labels, location icons",
-      "foreground": "ghost-text ('RISK', 'DUTY'), particle-drift (rain/sparks)"
-    },
-    "density_target": 10,
+    "concept": "观众看到一个抽象的、代表‘存款池’的金色立方体，正在持续流出霓虹蓝的数字流（代码或货币符号）。这些数字流沿着一条发光的轨道，奔涌流向一个代表‘房贷’的、不断被填充的3D建筑模型。整个过程动态展示了资金的大规模转移。",
     "key_elements": [
-      "发光时间轴",
-      "事件节点（带图标和文字）",
-      "危险等级指示条",
-      "地点坐标标记",
-      "网格颜色变化",
-      "关联因果链箭头",
-      "半透明人物剪影",
-      "环境光污染效果"
+      "标题'第一去向'以'PUNCHES'动词出现",
+      "金色存款立方体，数字代码从中'FLOATS'出",
+      "霓虹蓝资金流，沿预设路径流动",
+      "中央的3D房贷建筑模型",
+      "利率差对比数据（如-2% vs 4%）以小面板'FLOATS'在旁边",
+      "背景有流动的网格线和光效"
     ],
-    "narration": "我翻遍全网报道，他最后的二四小时，从深夜紧急出动到连续奋战，每一步都是和危险死磕。细节越扒，越让人揪心。",
-    "duration": 8.8,
-    "animations": {
-      "title": "MATERIALIZES",
-      "subtitle": "LINKS appear sequentially",
-      "data": "NODES GLOW BRIGHTER as mentioned",
-      "decorative": "GRID shifts from blue to red along the line"
-    },
-    "transition": {
-      "in": "LINE DRAWING",
-      "out": "NODES EXPLODE INTO PARTICLES"
-    }
+    "narration": "第一个大头，就是提前还房贷。现在存量房贷利率和新房贷利差太大，很多人算完账发现，拿着钱存银行那点利息，还不如赶紧把贷款还了，省下的利息更多。于是，一大波存款就搬到了银行的还款账户。",
+    "duration": 14.3
   },
   {
     "scene_id": 4,
-    "visual_type": "compare",
-    "concept": "画面被一道垂直的霓虹光线分割。左侧是「生的希望」——闪烁的、充满活力的蓝色数据流和模糊的获救者轮廓；右侧是「沉重的代价」——沉重、缓慢、金色的数据块和英雄坚定的背影剪影。两种画面和数据形成强烈对比，无声地讲述着特警队长将生命天平倾向他人的伟大选择。",
-    "mood": "天平两端、生命抉择",
-    "depth_layers": {
-      "background": "divergent color fields (blue/gold)",
-      "midground": "Split composition: Left - hopeful data/scenery; Right - solemn data/figure silhouette",
-      "foreground": "particle-drift (sparks on right, light motes on left)"
-    },
-    "density_target": 8,
+    "visual_type": "flow",
+    "concept": "延续资金流动的视觉叙事。金色的资金流在流出‘存款池’后，在一个分叉路口分裂成两条支流：一条彩虹色的流向代表‘银行理财’的旋转图标矩阵，另一条稳定蓝色的流向代表‘债市’的、缓慢上升的平滑曲线图。体现了资金的分流与避险选择。",
     "key_elements": [
-      "垂直霓虹分割线",
-      "左右对比面板",
-      "英雄背影剪影",
-      "希望/代价数据对比块",
-      "象征性图标（盾牌/心）",
-      "色温对比（冷/暖）",
-      "力量方向箭头",
-      "情感光晕"
+      "标题'第二去向' 以'SLIDES'动词出现",
+      "资金流在分叉点'分流'的动画",
+      "流向‘理财’的彩虹色支流，目标是旋转的图标矩阵",
+      "流向‘债市’的蓝色支流，目标是平稳上升的债券曲线图",
+      "‘存款利率下降’的下降箭头作为背景驱动因素",
+      "氛围粒子沿资金流方向漂移"
     ],
-    "narration": "真相是，特警队长的工作，就是把最重的责任扛在肩上。他带队冲在最前面，把生的希望留给别人，自己倒在了救援路上。",
-    "duration": 9.8,
-    "animations": {
-      "title": "SLAMS DOWN, splitting screen",
-      "subtitle": "SPLITS APART to each side",
-      "data": "LEFT: FLOATS gently; RIGHT: MORPHS into heavy block",
-      "decorative": "CENTER LINE PULSES with energy"
-    },
-    "transition": {
-      "in": "SPLIT FROM CENTER",
-      "out": "SCREEN FADES TO RIGHT SIDE"
-    }
+    "narration": "第二，钱在往“理财”和“债市”里搬家。存款利率一降再降，很多人觉得放着就是亏。所以一部分钱去了银行理财，另一部分，流向了看起来更稳的国债。说白了，都是在找比存款利息高一点、风险又不太大的地方。",
+    "duration": 15.3
   },
   {
     "scene_id": 5,
-    "visual_type": "data_impact",
-    "concept": "一个金色的、由无数微小光点组成的巨大数字「1,200,000+」从屏幕中央爆发式增长出来，如同星云诞生。数字下方，一条陡峭的热度趋势线如同山峰拔地而起。周围环绕着无数快速掠过的、代表公众评论的光带，视觉化地呈现了「刷屏」和全民共鸣的震撼场景。",
-    "mood": "星云爆发、全民共振",
-    "depth_layers": {
-      "background": "dark void with distant stars",
-      "midground": "Giant number, trend line graph, comment stream",
-      "foreground": "particle-drift (like a galaxy of light points)"
-    },
-    "density_target": 9,
+    "visual_type": "flow",
+    "concept": "画面色调从冷峻科技蓝转变为带有温暖粉色的霓虹基调。金色的资金流从‘储蓄账户’图标流出，涌入一个充满生活场景图标的动态圆环（如飞机、餐厅、手机），圆环中心显示‘消费复苏’的上升曲线。传达出钱从储蓄流向鲜活生活的趋势。",
     "key_elements": [
-      "超大数字'1,200,000+'",
-      "陡峭的热度趋势线",
-      "快速流动的光带（代表评论）",
-      "共鸣波纹",
-      "社交媒体图标矩阵",
-      "金色数据网格",
-      "光芒放射线",
-      "情感峰值指示器"
+      "标题'消费复苏' 以'CASCADE'动词出现",
+      "从‘储蓄’钱包流出的金色资金流",
+      "中心动态圆环，内含旅游、餐饮、购物等消费图标",
+      "‘消费增长曲线’在圆环中心‘MORPHS’显现",
+      "背景加入更温暖的径向光晕（粉色或橙色渐变）",
+      "增加代表‘活力’的快速粒子漂移"
     ],
-    "narration": "你可能不知道，这个新闻的热度值超过二一二万，置信度九。为什么刷屏？因为大家都懂，这背后是多少家庭的牺牲和付出。",
-    "duration": 10.6,
-    "animations": {
-      "title": "CRASHES as light explosion",
-      "subtitle": "Emerges from explosion",
-      "data": "COUNTS UP extremely fast, then pulses with light",
-      "decorative": "comment streaks flow continuously"
-    },
-    "transition": {
-      "in": "LIGHT EXPLOSION",
-      "out": "NUMBER MORPHS into a memorial star"
-    }
+    "narration": "还有，别忘了消费在悄悄复苏。今年大家明显更敢花钱了，旅游、下馆子、换新手机，这些消费都在增长。钱从储蓄账户流进了消费市场，这其实是个好信号，说明大家对未来的预期在好转。",
+    "duration": 15.2
   },
   {
     "scene_id": 6,
-    "visual_type": "list_alert",
-    "concept": "黑暗的背景上，几行醒目的警示文字以警报列表的形式逐条闪现。每条文字都带有霓虹红的边框和闪烁的感叹号图标，如同系统发出的最高级别警告。背景的网格线条变成红色并微微震颤，配合文字逐条弹出的音效感，让观众产生必须立即注意、严肃对待的心理暗示。",
-    "mood": "系统警报、清醒剂",
-    "depth_layers": {
-      "background": "vibrating red data-grid",
-      "midground": "Alert list items with icons",
-      "foreground": "Red scan line, floating warning symbols"
-    },
-    "density_target": 8,
+    "visual_type": "compare",
+    "concept": "画面一分为二，呈现两大根本原因。左侧是一个不断下压的、代表‘利率’的巨大霓虹数值柱，柱体表面流动着下行箭头。右侧是一个空旷的、闪烁‘无’字样的空洞网格，代表‘资产荒’。中间有一个天平，明显向‘资产荒’一侧倾斜，直观展示两大压力的对比。",
     "key_elements": [
-      "警示语列表（带红色边框）",
-      "闪烁的感叹号图标",
-      "震动的数据网格",
-      "红色扫描线",
-      "破碎又重组的标题效果",
-      "警告符号（三角形）",
-      "关键动词高亮",
-      "心跳波形图"
+      "标题'根本原因' 以'SLAMS'动词出现",
+      "左侧：下降的利率柱状图，箭头向下",
+      "右侧：网格中显示‘?’或‘稀缺’字样，‘GLOWS’",
+      "中央的失衡天平动画",
+      "背景数据网格在两侧区域有不同表现（左流动，右凝滞）",
+      "关键文本‘吸引力暴跌’与‘好渠道少’以'FLOATS'方式呈现"
     ],
-    "narration": "但问题是，我们不能只感动，还得清醒。安全不是天上掉下来的，是有人用命换来的。这提醒我们，要珍惜，更要警惕。",
-    "duration": 11.1,
-    "animations": {
-      "title": "CRACKLES and SHATTERS into pieces that reform as text",
-      "subtitle": "DROPS in line by line",
-      "data": "N/A (text-based alerts)",
-      "decorative": "GRID VIBRATES subtly, red scan line passes"
-    },
-    "transition": {
-      "in": "ERROR SCREEN FLASH",
-      "out": "LIST FADES but last item stays as focus"
-    }
+    "narration": "那这背后到底啥原因？关键就两点：一个是利率下行，存款吸引力暴跌；另一个是“资产荒”，好的投资渠道太少了。股票基金波动大，房产不敢碰，逼得大家要么还贷，要么买点低风险理财，都是防御性操作。",
+    "duration": 15.4
   },
   {
     "scene_id": 7,
-    "visual_type": "quote_hero",
-    "concept": "画面中心，英雄的名字和「44年」以超大字体、纪念碑式的排版浮现，散发着稳定的白色光芒。背景是深邃的星空，无数光点汇聚成一个模糊而坚定的人物剪影。没有复杂的动画，只有文字如浮雕般被光线慢慢照亮，创造出一个庄严、肃穆、供人凝视和致敬的瞬间。",
-    "mood": "数字丰碑、星空下的致敬",
-    "depth_layers": {
-      "background": "star field with subtle nebula",
-      "midground": "Hero's name, '44年', and large silhouette",
-      "foreground": "Focused light beam on text, subtle particles"
-    },
-    "density_target": 6,
+    "visual_type": "list_alert",
+    "concept": "画面回归清晰、有力的建议模式。三条核心建议如同霓虹代码行一般，依次‘写入’深黑背景中，每条建议前都有一个醒目的闪烁光标。关键建议词汇（如‘管理活钱’、‘算清细账’）会以强调色高亮并轻微脉动，给予观众明确的行动指引感。",
     "key_elements": [
-      "英雄姓名（超大字体）",
-      "'44年'数字",
-      "纪念碑式文字排版",
-      "星空背景",
-      "人物剪影",
-      "神圣光晕",
-      "稳定呼吸的光效",
-      "极简装饰线条"
+      "标题'给你的启示' 以'PUNCHES'动词出现",
+      "三条建议文本，以打字机效果依次'WRITES'出",
+      "关键动词或短语（如‘管理’、‘算清’、‘配置’）以主色高亮并'PULSES'",
+      "每条建议前有一个闪烁的霓虹光标",
+      "最终建议以更大的字号和金色‘COUNTS UP’（如数字1，2，3）进行总结",
+      "背景有简约的霓虹线条勾勒"
     ],
-    "narration": "记住这个名字，记住这份牺牲。英雄不是超人，是普通人选择了非凡的路，用四四年生命诠释了担当。",
-    "duration": 7.8,
-    "animations": {
-      "title": "MATERIALIZES slowly, like carving in stone",
-      "subtitle": "FADES IN with a soft glow",
-      "data": "HOLDS steadily, gentle light pulse",
-      "decorative": "STAR FIELD twinkles slowly, silhouette GLOWS"
-    },
-    "transition": {
-      "in": "FADE THROUGH LIGHT",
-      "out": "LIGHT RAYS CONVERGE and fade"
-    }
-  },
-  {
-    "scene_id": 8,
-    "visual_type": "compare",
-    "concept": "最终画面呈现一个面向未来的对比与选择。左侧是冰冷的、由纯粹代码和工具构成的路径；右侧是温暖的、由无数微光（代表责任与守护）汇聚成的道路。两条路径在远方交汇于一个光明的终点。英雄的剪影站在交汇处，作为指引，视觉化地传达出「工具理性」与「价值理性」的抉择，以及传递责任的核心信息。",
-    "mood": "未来岔路、价值指引",
-    "depth_layers": {
-      "background": "distant horizon with convergence light",
-      "midground": "Two diverging paths with contrasting elements, silhouette at fork",
-      "foreground": "particle-drift (light motes on right path), data-stream on left"
-    },
-    "density_target": 8,
-    "key_elements": [
-      "两条对比路径",
-      "左侧：代码、工具、冰冷蓝光",
-      "右侧：责任、守护、温暖金光",
-      "交汇处的光点（未来）",
-      "英雄指引剪影",
-      "传递的箭头符号",
-      "标语文字",
-      "希望之光"
-    ],
-    "narration": "未来不是选择更聪明的工具，而是选择更值得信任的方向。致敬每一位守护者，愿我们都能传递这份责任。",
-    "duration": 10.3,
-    "animations": {
-      "title": "FLIES IN from both sides and merges",
-      "subtitle": "Appears at the fork",
-      "data": "N/A",
-      "decorative": "LEFT path: CODE flows; RIGHT path: PARTICLES converge; FUTURE POINT glows"
-    },
-    "transition": {
-      "in": "PATHS DRAW THEMSELVES",
-      "out": "CONVERGENCE POINT BLOOMS into a final logo/emblem"
-    }
+    "narration": "对咱们普通人来说，啥启示？第一，现金为王的时代正在过去，得学会管理你的“活钱”。第二，提前还贷要算清细账，别盲目跟风。第三，与其焦虑钱去哪了，不如想想怎么让自己手里的钱更“聪明”。别让储蓄，在沉默中贬值。",
+    "duration": 15.9
   }
 ]

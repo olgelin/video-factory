@@ -1,289 +1,439 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-3" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1920, height=1080">
-    <title>Beat 3 - Cyber Timeline</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body style="margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; font-family: 'Inter','Noto Sans SC',sans-serif;">
-    <div class="scene" style="background:#1a1a2e;" style="width: 1920px; height: 1080px; position: relative; overflow: hidden; background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%);">
-
-        <!-- Decorative Background Layers -->
-        <!-- Layer: Grid (shifts color) -->
-        <div id="bg-grid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.5;"></div>
-
-        <!-- Layer: Radial Glow at Endpoint -->
-        <div id="glow-endpoint" style="position: absolute; right: 180px; top: 45%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(255,64,129,0.6) 0%, transparent 70%); transform: translate(50%, -50%); filter: blur(15px); opacity: 0;"></div>
-
-        <!-- Layer: Ghost Text Watermark -->
-        <div style="position: absolute; top: 10%; left: 5%; font-family: 'JetBrains Mono',monospace; font-size: 180px; font-weight: bold; color: rgba(255,255,255,0.03); letter-spacing: -10px; line-height: 1;">DUTY</div>
-        <div style="position: absolute; bottom: 15%; right: 10%; font-family: 'JetBrains Mono',monospace; font-size: 140px; font-weight: bold; color: rgba(255,64,129,0.04); letter-spacing: -5px;">RISK</div>
-
-        <!-- Particle Layer -->
-        <div id="particle-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></div>
-
-        <!-- Foreground/Content Layer -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 80px 120px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
-
-            <!-- Top Title Section -->
-            <div id="title-container" style="opacity: 0; transform: translateY(-30px);">
-                <div style="font-size: 28px; font-weight: 600; color: #00D4FF; letter-spacing: 4px; margin-bottom: 16px; text-transform: uppercase; font-family: 'JetBrains Mono',monospace;">Case File: Last 24 Hours</div>
-                <div style="font-size: 80px; font-weight: 900; color: #FFFFFF; line-height: 1.1; text-shadow: 0 0 30px rgba(0,212,255,0.5);">从深夜出动到生命终点</div>
-                <div style="font-size: 36px; color: #999999; margin-top: 12px; font-weight: 400;">每一步都是和危险死磕</div>
-            </div>
-
-            <!-- Main Timeline Section -->
-            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between; padding: 60px 0; position: relative;">
-                <!-- Timeline Base Line -->
-                <div id="timeline-base" style="position: absolute; left: 60px; right: 60px; top: 50%; height: 4px; background: linear-gradient(90deg, rgba(0,212,255,0.2), rgba(255,64,129,0.2)); transform: translateY(-50%); border-radius: 2px; opacity: 0;"></div>
-
-                <!-- Timeline Nodes Container -->
-                <div style="position: absolute; left: 60px; right: 60px; top: 50%; transform: translateY(-50%); height: 400px; display: flex; align-items: center; justify-content: space-between;">
-
-                    <!-- Node 1 -->
-                    <div class="timeline-node" style="position: relative; display: flex; flex-direction: column; align-items: center; width: 240px;">
-                        <div style="position: absolute; top: -140px; font-family: 'JetBrains Mono',monospace; font-size: 16px; color: #00D4FF; letter-spacing: 2px; opacity: 0;">23:30</div>
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background: #00D4FF; box-shadow: 0 0 20px #00D4FF; position: relative; z-index: 2; opacity: 0;"></div>
-                        <div style="position: absolute; top: -100px; font-size: 24px; color: #FFFFFF; font-weight: 600; opacity: 0;">深夜出动</div>
-                        <div style="position: absolute; bottom: -120px; font-size: 16px; color: #999999; max-width: 200px; text-align: center; opacity: 0;">接到紧急任务，立即集结</div>
-                        <div style="position: absolute; bottom: -160px; font-family: 'JetBrains Mono',monospace; font-size: 12px; color: rgba(0,212,255,0.6); opacity: 0;">N 36°03' E 103°50'</div>
-                    </div>
-
-                    <!-- Node 2 -->
-                    <div class="timeline-node" style="position: relative; display: flex; flex-direction: column; align-items: center; width: 240px;">
-                        <div style="position: absolute; top: -140px; font-family: 'JetBrains Mono',monospace; font-size: 16px; color: #FFD700; letter-spacing: 2px; opacity: 0;">01:15</div>
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background:#1a1a2e; box-shadow: 0 0 20px #FFD700; position: relative; z-index: 2; opacity: 0;"></div>
-                        <div style="position: absolute; top: -100px; font-size: 24px; color: #FFFFFF; font-weight: 600; opacity: 0;">进入现场</div>
-                        <div style="position: absolute; bottom: -120px; font-size: 16px; color: #999999; max-width: 200px; text-align: center; opacity: 0;">险境环生，开始搜救</div>
-                        <div style="position: absolute; bottom: -160px; font-family: 'JetBrains Mono',monospace; font-size: 12px; color: rgba(255,215,0,0.6); opacity: 0;">N 35°46' E 104°12'</div>
-                    </div>
-
-                    <!-- Node 3 -->
-                    <div class="timeline-node" style="position: relative; display: flex; flex-direction: column; align-items: center; width: 240px;">
-                        <div style="position: absolute; top: -140px; font-family: 'JetBrains Mono',monospace; font-size: 16px; color: #FF4081; letter-spacing: 2px; opacity: 0;">04:40</div>
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background:#1a1a2e; box-shadow: 0 0 20px #FF4081; position: relative; z-index: 2; opacity: 0;"></div>
-                        <div style="position: absolute; top: -100px; font-size: 24px; color: #FFFFFF; font-weight: 600; opacity: 0;">险情突变</div>
-                        <div style="position: absolute; bottom: -120px; font-size: 16px; color: #999999; max-width: 200px; text-align: center; opacity: 0;">二次坍塌，救援受阻</div>
-                        <div style="position: absolute; bottom: -160px; font-family: 'JetBrains Mono',monospace; font-size: 12px; color: rgba(255,64,129,0.6); opacity: 0;">N 35°58' E 103°25'</div>
-                    </div>
-
-                    <!-- Node 4 (Endpoint) -->
-                    <div class="timeline-node" style="position: relative; display: flex; flex-direction: column; align-items: center; width: 240px;">
-                        <div style="position: absolute; top: -140px; font-family: 'JetBrains Mono',monospace; font-size: 16px; color: #FF0000; letter-spacing: 2px; opacity: 0;">23:50</div>
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background:#1a1a2e; box-shadow: 0 0 30px #FF0000, 0 0 60px rgba(255,0,0,0.3); position: relative; z-index: 2; opacity: 0; border: 3px solid rgba(255,255,255,0.3);"></div>
-                        <div style="position: absolute; top: -100px; font-size: 24px; color: #FF0000; font-weight: 700; opacity: 0;">生命终点</div>
-                        <div style="position: absolute; bottom: -120px; font-size: 16px; color: #FF4081; max-width: 200px; text-align: center; opacity: 0;">因公牺牲，年仅44岁</div>
-                        <div style="position: absolute; bottom: -160px; font-family: 'JetBrains Mono',monospace; font-size: 12px; color: rgba(255,0,0,0.6); opacity: 0;">N 35°52' E 104°01'</div>
-                    </div>
+    <div class="scene" style="background:#1a1a2e;" style="position: relative; width: 1920px; height: 1080px; background: #1a1a2e; padding: 80px 120px; box-sizing: border-box;">
+        
+        <!-- Background decorative layers -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: 
+            radial-gradient(circle at 30% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 70% 50%, rgba(255, 64, 129, 0.05) 0%, transparent 50%);
+            opacity: 0.5;">
+        </div>
+        
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.7;">
+        </div>
+        
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 212, 255, 0.02) 2px,
+                rgba(0, 212, 255, 0.02) 4px
+            );">
+        </div>
+        
+        <!-- Ghost text watermark -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            font-size: 200px; font-weight: bold; color: rgba(255, 255, 255, 0.03); 
+            font-family: 'JetBrains Mono',monospace; letter-spacing: 20px;
+            pointer-events: none; z-index: 0;">
+            TRANSFER
+        </div>
+        
+        <!-- Main title with PUNCHES animation -->
+        <div id="title" style="position: absolute; top: 100px; left: 120px; 
+            font-size: 96px; font-weight: bold; color: #FFFFFF; 
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 212, 255, 0.4);
+            z-index: 10;">
+            第一去向
+        </div>
+        
+        <!-- Subtitle -->
+        <div id="subtitle" style="position: absolute; top: 210px; left: 120px; 
+            font-size: 32px; color: #999999; 
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            z-index: 10;">
+            提前还房贷
+        </div>
+        
+        <!-- Golden deposit cube -->
+        <div id="cube-container" style="position: absolute; left: 400px; top: 350px; width: 300px; height: 300px; 
+            perspective: 1000px; z-index: 20;">
+            <div id="cube" style="width: 100%; height: 100%; position: relative; 
+                transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-30deg);">
+                <!-- Front face -->
+                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
+                    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+                    border: 2px solid rgba(255, 215, 0, 0.8);
+                    box-shadow: 
+                        0 0 30px rgba(255, 215, 0, 0.4),
+                        inset 0 0 30px rgba(255, 255, 255, 0.2);
+                    transform: translateZ(125px);">
                 </div>
-
-                <!-- Connecting Arrows (Visual) -->
-                <div id="arrow-1" style="position: absolute; left: calc(60px + 240px); top: 50%; width: calc((100% - 120px) / 3 - 80px); height: 2px; background: linear-gradient(90deg, #00D4FF, #FFD700); transform: translateY(-50%); transform-origin: left; opacity: 0;"></div>
-                <div id="arrow-2" style="position: absolute; left: calc(60px + 480px + calc((100% - 120px) / 3 - 80px)); top: 50%; width: calc((100% - 120px) / 3 - 80px); height: 2px; background: linear-gradient(90deg, #FFD700, #FF4081); transform: translateY(-50%); transform-origin: left; opacity: 0;"></div>
-                <div id="arrow-3" style="position: absolute; left: calc(60px + 720px + 2 * calc((100% - 120px) / 3 - 80px)); top: 50%; width: calc((100% - 120px) / 3 - 80px); height: 2px; background: linear-gradient(90deg, #FF4081, #FF0000); transform: translateY(-50%); transform-origin: left; opacity: 0;"></div>
-
-                <!-- Danger Level Indicator (Changes along timeline) -->
-                <div style="position: absolute; bottom: 0; left: 60px; right: 60px; height: 40px; display: flex; gap: 20px; align-items: center;">
-                    <div style="font-size: 14px; color: #999; font-family: 'JetBrains Mono',monospace; opacity: 0;">RISK LEVEL:</div>
-                    <div id="risk-bar-container" style="flex-grow: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; position: relative; overflow: hidden; opacity: 0;">
-                        <div id="risk-bar-fill" style="height: 100%; width: 10%; background: linear-gradient(90deg, #00D4FF, #FFD700, #FF4081, #FF0000); border-radius: 4px; box-shadow: 0 0 10px rgba(255,64,129,0.5);"></div>
-                    </div>
-                    <div id="risk-level-text" style="font-size: 18px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono',monospace; min-width: 120px; opacity: 0;">MODERATE</div>
+                <!-- Back face -->
+                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
+                    background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+                    border: 2px solid rgba(218, 165, 32, 0.6);
+                    transform: translateZ(-125px);">
                 </div>
-            </div>
-
-            <!-- Bottom Quote/Oral Section -->
-            <div id="oral-section" style="opacity: 0; transform: translateY(30px);">
-                <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent); margin-bottom: 24px;"></div>
-                <div style="font-size: 28px; color: #FFFFFF; line-height: 1.6; max-width: 900px;">我翻遍全网报道，他最后的二四小时，从深夜紧急出动到连续奋战，每一步都是和危险死磕。细节越扒，越让人揪心。</div>
-                <div style="display: flex; gap: 16px; margin-top: 24px;">
-                    <div style="background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.4); border-radius: 16px; padding: 8px 20px; font-size: 14px; color: #00D4FF; font-family: 'JetBrains Mono',monospace;">24 HOURS</div>
-                    <div style="background: rgba(255,64,129,0.15); border: 1px solid rgba(255,64,129,0.4); border-radius: 16px; padding: 8px 20px; font-size: 14px; color: #FF4081; font-family: 'JetBrains Mono',monospace;">SACRIFICE</div>
+                <!-- Right face -->
+                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
+                    background: linear-gradient(135deg, #FFC800 0%, #E6AC00 100%);
+                    border: 2px solid rgba(255, 200, 0, 0.6);
+                    transform: rotateY(90deg) translateZ(125px);">
+                </div>
+                <!-- Left face -->
+                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
+                    background: linear-gradient(135deg, #FFAA00 0%, #CC8800 100%);
+                    border: 2px solid rgba(255, 170, 0, 0.6);
+                    transform: rotateY(-90deg) translateZ(125px);">
+                </div>
+                <!-- Top face -->
+                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
+                    background: linear-gradient(135deg, #FFE44D 0%, #FFD700 100%);
+                    border: 2px solid rgba(255, 228, 77, 0.6);
+                    transform: rotateX(90deg) translateZ(125px);">
+                </div>
+                <!-- Bottom face -->
+                <div style="position: absolute; width: 250px; height: 250px; left: 25px; top: 25px; 
+                    background: linear-gradient(135deg, #DAA520 0%, #CD853F 100%);
+                    border: 2px solid rgba(218, 165, 32, 0.6);
+                    transform: rotateX(-90deg) translateZ(125px);">
                 </div>
             </div>
         </div>
+        
+        <!-- Neon blue data flow particles -->
+        <div id="data-particles" style="position: absolute; left: 700px; top: 400px; width: 400px; height: 200px; z-index: 15;">
+            <!-- Particle 1 -->
+            <div class="particle" style="position: absolute; left: 0; top: 50px; 
+                width: 40px; height: 20px; background: rgba(0, 212, 255, 0.8); 
+                border-radius: 4px; box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+                font-size: 16px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+                font-family: 'JetBrains Mono',monospace;">
+                ¥¥
+            </div>
+            <!-- Particle 2 -->
+            <div class="particle" style="position: absolute; left: 80px; top: 80px; 
+                width: 30px; height: 18px; background: rgba(0, 212, 255, 0.7); 
+                border-radius: 3px; box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+                font-size: 14px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+                font-family: 'JetBrains Mono',monospace;">
+                $$$
+            </div>
+            <!-- Particle 3 -->
+            <div class="particle" style="position: absolute; left: 160px; top: 60px; 
+                width: 50px; height: 22px; background: rgba(0, 212, 255, 0.9); 
+                border-radius: 5px; box-shadow: 0 0 18px rgba(0, 212, 255, 0.7);
+                font-size: 18px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+                font-family: 'JetBrains Mono',monospace;">
+                01
+            </div>
+            <!-- Particle 4 -->
+            <div class="particle" style="position: absolute; left: 240px; top: 100px; 
+                width: 35px; height: 16px; background: rgba(0, 212, 255, 0.6); 
+                border-radius: 4px; box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+                font-size: 12px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+                font-family: 'JetBrains Mono',monospace;">
+                10
+            </div>
+            <!-- Particle 5 -->
+            <div class="particle" style="position: absolute; left: 320px; top: 40px; 
+                width: 45px; height: 20px; background: rgba(0, 212, 255, 0.8); 
+                border-radius: 4px; box-shadow: 0 0 14px rgba(0, 212, 255, 0.6);
+                font-size: 16px; color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+                font-family: 'JetBrains Mono',monospace;">
+                ¥¥¥
+            </div>
+        </div>
+        
+        <!-- Neon blue glowing track -->
+        <div id="track" style="position: absolute; left: 750px; top: 500px; width: 350px; height: 8px; 
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.8) 50%, rgba(0, 212, 255, 0.1) 100%);
+            border-radius: 4px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); z-index: 10;">
+        </div>
+        
+        <!-- 3D Mortgage building model -->
+        <div id="building-container" style="position: absolute; right: 300px; top: 300px; width: 400px; height: 500px; 
+            perspective: 1000px; z-index: 20;">
+            <div id="building" style="width: 100%; height: 100%; position: relative; 
+                transform-style: preserve-3d; transform: rotateY(20deg) rotateX(-10deg);">
+                <!-- Building base -->
+                <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
+                    width: 300px; height: 350px; 
+                    background: linear-gradient(180deg, #2a2a4a 0%, #1a1a3a 100%);
+                    border: 2px solid rgba(0, 212, 255, 0.3);
+                    box-shadow: 
+                        0 0 40px rgba(0, 212, 255, 0.2),
+                        inset 0 0 30px rgba(0, 0, 0, 0.5);">
+                    <!-- Windows -->
+                    <div style="position: absolute; top: 40px; left: 30px; width: 60px; height: 80px; 
+                        background: rgba(0, 212, 255, 0.3); border: 1px solid rgba(0, 212, 255, 0.6);
+                        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);">
+                    </div>
+                    <div style="position: absolute; top: 40px; left: 120px; width: 60px; height: 80px; 
+                        background: rgba(0, 212, 255, 0.4); border: 1px solid rgba(0, 212, 255, 0.7);
+                        box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);">
+                    </div>
+                    <div style="position: absolute; top: 40px; left: 210px; width: 60px; height: 80px; 
+                        background: rgba(0, 212, 255, 0.3); border: 1px solid rgba(0, 212, 255, 0.6);
+                        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);">
+                    </div>
+                    <div style="position: absolute; top: 160px; left: 30px; width: 60px; height: 80px; 
+                        background: rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.5);
+                        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);">
+                    </div>
+                    <div style="position: absolute; top: 160px; left: 120px; width: 60px; height: 80px; 
+                        background: rgba(0, 212, 255, 0.3); border: 1px solid rgba(0, 212, 255, 0.6);
+                        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);">
+                    </div>
+                    <div style="position: absolute; top: 160px; left: 210px; width: 60px; height: 80px; 
+                        background: rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.5);
+                        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);">
+                    </div>
+                </div>
+                <!-- Building roof -->
+                <div style="position: absolute; bottom: 350px; left: 50%; transform: translateX(-50%); 
+                    width: 320px; height: 50px; 
+                    background: linear-gradient(90deg, #2a2a4a 0%, #3a3a5a 100%);
+                    border: 2px solid rgba(0, 212, 255, 0.4);
+                    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);">
+                </div>
+                <!-- Building antenna -->
+                <div style="position: absolute; bottom: 400px; left: 50%; transform: translateX(-50%); 
+                    width: 10px; height: 100px; 
+                    background: linear-gradient(180deg, rgba(0, 212, 255, 0.8) 0%, rgba(0, 212, 255, 0.2) 100%);
+                    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);">
+                </div>
+                <!-- Building fill effect -->
+                <div id="building-fill" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
+                    width: 300px; height: 0%; 
+                    background: linear-gradient(0deg, rgba(0, 212, 255, 0.6) 0%, rgba(0, 212, 255, 0.2) 100%);
+                    transition: height 2s ease-out;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rate comparison data panels -->
+        <div id="rate-panel-old" style="position: absolute; right: 250px; top: 180px; 
+            width: 180px; height: 120px; background: rgba(0, 0, 0, 0.6); 
+            border: 2px solid rgba(255, 64, 129, 0.6); border-radius: 16px;
+            box-shadow: 0 0 30px rgba(255, 64, 129, 0.3);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 25;">
+            <div style="font-size: 20px; color: #999999; margin-bottom: 8px;">存量房贷利率</div>
+            <div style="font-size: 48px; font-weight: bold; color: #FF4081; 
+                font-family: 'JetBrains Mono',monospace;
+                text-shadow: 0 0 15px rgba(255, 64, 129, 0.6);">
+                -2%
+            </div>
+        </div>
+        
+        <div id="rate-panel-new" style="position: absolute; right: 250px; top: 320px; 
+            width: 180px; height: 120px; background: rgba(0, 0, 0, 0.6); 
+            border: 2px solid rgba(0, 212, 255, 0.6); border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 25;">
+            <div style="font-size: 20px; color: #999999; margin-bottom: 8px;">新房贷利率</div>
+            <div style="font-size: 48px; font-weight: bold; color: #00D4FF; 
+                font-family: 'JetBrains Mono',monospace;
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);">
+                4%
+            </div>
+        </div>
+        
+        <!-- Quote card with口播内容 -->
+        <div id="quote-card" style="position: absolute; left: 120px; bottom: 150px; 
+            width: 800px; padding: 40px; 
+            background: rgba(0, 0, 0, 0.7); 
+            border: 2px solid rgba(0, 212, 255, 0.3); border-radius: 24px;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+            z-index: 30;">
+            <div style="font-size: 28px; color: #FFFFFF; line-height: 1.6;">
+                现在存量房贷利率和新房贷利差太大，很多人算完账发现，拿着钱存银行那点利息，还不如赶紧把贷款还了，省下的利息更多。于是，一大波存款就搬到了银行的还款账户。
+            </div>
+        </div>
+        
+        <!-- Progress bar -->
+        <div id="progress-container" style="position: absolute; left: 120px; bottom: 100px; 
+            width: 800px; height: 20px; background: rgba(0, 0, 0, 0.5); 
+            border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden; z-index: 30;">
+            <div id="progress-bar" style="width: 0%; height: 100%; 
+                background: linear-gradient(90deg, #FFD700 0%, #00D4FF 100%);
+                border-radius: 10px;
+                transition: width 2s ease-out;">
+            </div>
+        </div>
+        
+        <!-- Labels -->
+        <div id="label-1" style="position: absolute; left: 120px; bottom: 130px; 
+            font-size: 20px; color: #FFD700; 
+            font-family: 'JetBrains Mono',monospace;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            z-index: 30;">
+            存款流出 → 2万亿
+        </div>
+        
+        <div id="label-2" style="position: absolute; right: 250px; bottom: 200px; 
+            font-size: 20px; color: #00D4FF; 
+            font-family: 'JetBrains Mono',monospace;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            z-index: 30;">
+            提前还款潮
+        </div>
+        
+        <!-- Decorative particles -->
+        <div class="deco-particle" style="position: absolute; left: 150px; top: 300px; 
+            width: 8px; height: 8px; background:#1a1a2e; border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); z-index: 5;">
+        </div>
+        
+        <div class="deco-particle" style="position: absolute; left: 250px; top: 450px; 
+            width: 6px; height: 6px; background: #00D4FF; border-radius: 50%;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.6); z-index: 5;">
+        </div>
+        
+        <div class="deco-particle" style="position: absolute; right: 200px; top: 500px; 
+            width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%;
+            box-shadow: 0 0 18px rgba(255, 64, 129, 0.6); z-index: 5;">
+        </div>
     </div>
-
+    
     <script>
+        // Register timeline
         window.__timelines = window.__timelines || {};
-        const tl = gsap.timeline({paused: true});
-        window.__timelines["beat-3"] = tl;
-
-        // Create Particles
-        const particleContainer = document.getElementById("particle-container");
-        for(let i = 0; i < 30; i++) {
-            const p = document.createElement("div");
-            const startX = 0.5 * 1920;
-            const startY = 0.5 * 1080;
-            const size = 0.5 * 2 + 1;
-            const duration = 0.5 * 10 + 10;
-            const delay = 0.5 * 5;
-            p.style.cssText = `position: absolute; left: ${startX}px; top: ${startY}px; width: ${size}px; height: ${size}px; background: rgba(255,255,255,0.3); border-radius: 50%; pointer-events: none;`;
-            particleContainer.appendChild(p);
-            gsap.to(p, {
-                y: -1080,
-                x: "random(-50, 50)",
-                opacity: 0,
-                duration: duration,
-                delay: delay,
-                repeat: 0,
-                ease: "none"
-            });
-        }
-
-        // Animation Sequence
-        const baseDelay = 0;
-
-        // 1. Background Grid Color Shift
-        tl.from("#bg-grid", {
+        
+        // Create timeline
+        const timeline = gsap.timeline({ paused: true });
+        
+        // Animate elements with stagger
+        timeline.from("#title", {
+            duration: 0.8,
+            y: -50,
             opacity: 0,
-            duration: 2,
-            ease: "power2.inOut"
-        }, baseDelay);
-        tl.to("#bg-grid", {
-            backgroundImage: "linear-gradient(rgba(255,0,0,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,0,0.08) 1px, transparent 1px)",
-            duration: 6,
-            ease: "power1.inOut"
-        }, baseDelay + 2);
-
-        // 2. Title Materializes
-        tl.from("#title-container", {
-            opacity: 0,
-            y: -30,
-            duration: 1.2,
+            scale: 1.2,
             ease: "expo.out"
-        }, baseDelay + 0.5);
-
-        // 3. Timeline Base Line
-        tl.from("#timeline-base", {
-            opacity: 0,
-            scaleX: 0,
-            duration: 1.5,
-            ease: "power4.out"
-        }, baseDelay + 1);
-
-        // 4. Nodes Glow Sequentially
-        const nodes = document.querySelectorAll(".timeline-node");
-        nodes.forEach((node, index) => {
-            const circle = node.children[1];
-            const time = node.children[0];
-            const title = node.children[2];
-            const desc = node.children[3];
-            const coord = node.children[4];
-
-            tl.to(circle, {
-                opacity: 1,
-                scale: 1.2,
-                duration: 0.4,
-                ease: "back.out(1.7)"
-            }, baseDelay + 2 + (index * 1.5));
-            tl.to(circle, {
-                scale: 1,
-                duration: 0.3
-            }, baseDelay + 2 + (index * 1.5) + 0.4);
-
-            tl.from(time, {
-                opacity: 0,
-                y: 10,
-                duration: 0.6,
-                ease: "power2.out"
-            }, baseDelay + 2 + (index * 1.5) + 0.1);
-            tl.from(title, {
-                opacity: 0,
-                y: -10,
-                duration: 0.6,
-                ease: "power2.out"
-            }, baseDelay + 2 + (index * 1.5) + 0.2);
-            tl.from(desc, {
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out"
-            }, baseDelay + 2 + (index * 1.5) + 0.3);
-            tl.from(coord, {
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out"
-            }, baseDelay + 2 + (index * 1.5) + 0.4);
-
-            // Glow brighter as mentioned
-            tl.to(circle, {
-                boxShadow: "0 0 30px currentColor, 0 0 60px currentColor",
-                duration: 0.5,
-                ease: "power2.in"
-            }, baseDelay + 2 + (index * 1.5) + 1);
         });
-
-        // 5. Arrows Link Sequentially
-        tl.from("#arrow-1", {
-            scaleX: 0,
+        
+        timeline.from("#subtitle", {
+            duration: 0.6,
+            y: -30,
             opacity: 0,
-            duration: 0.8,
-            ease: "power4.out"
-        }, baseDelay + 3.5);
-        tl.from("#arrow-2", {
-            scaleX: 0,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power4.out"
-        }, baseDelay + 5.0);
-        tl.from("#arrow-3", {
-            scaleX: 0,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power4.out"
-        }, baseDelay + 6.5);
-
-        // 6. Endpoint Glow
-        tl.to("#glow-endpoint", {
-            opacity: 0.8,
-            duration: 1.5,
-            ease: "power2.inOut"
-        }, baseDelay + 7);
-
-        // 7. Danger Bar Animates
-        tl.from("#risk-bar-container", {
-            opacity: 0,
-            duration: 0.8
-        }, baseDelay + 2.5);
-        tl.to("#risk-bar-fill", {
-            width: "95%",
-            duration: 6,
-            ease: "power1.inOut"
-        }, baseDelay + 2.5);
-        tl.from("#risk-level-text", {
-            opacity: 0,
-            x: -10,
-            duration: 0.6
-        }, baseDelay + 2.5);
-
-        // Update risk level text color
-        tl.to("#risk-level-text", {
-            color: "#FF4081",
-            duration: 1
-        }, baseDelay + 4.5);
-        tl.to("#risk-level-text", {
-            color: "#FF0000",
-            duration: 1
-        }, baseDelay + 6.5);
-
-        // 8. Oral Section
-        tl.from("#oral-section", {
-            opacity: 0,
-            y: 30,
-            duration: 1.2,
             ease: "expo.out"
-        }, baseDelay + 1);
-
-        // Card Breathing Animation (not for timeline nodes, for potential future cards)
-        gsap.to(".breathing-card", {
+        }, "-=0.4");
+        
+        timeline.from("#cube-container", {
+            duration: 1,
+            x: -100,
+            opacity: 0,
+            rotation: -20,
+            ease: "expo.out"
+        }, "-=0.3");
+        
+        timeline.from(".particle", {
+            duration: 0.5,
+            x: -50,
+            opacity: 0,
+            stagger: 0.15,
+            ease: "power4.out"
+        }, "-=0.7");
+        
+        timeline.from("#track", {
+            duration: 0.8,
+            scaleX: 0,
+            opacity: 0,
+            transformOrigin: "left center",
+            ease: "expo.out"
+        }, "-=0.6");
+        
+        timeline.from("#building-container", {
+            duration: 1,
+            x: 100,
+            opacity: 0,
+            rotation: 15,
+            ease: "expo.out"
+        }, "-=0.5");
+        
+        timeline.from("#rate-panel-old", {
+            duration: 0.6,
+            y: 50,
+            opacity: 0,
+            ease: "expo.out"
+        }, "-=0.4");
+        
+        timeline.from("#rate-panel-new", {
+            duration: 0.6,
+            y: 50,
+            opacity: 0,
+            ease: "expo.out"
+        }, "-=0.3");
+        
+        timeline.from("#quote-card", {
+            duration: 0.8,
+            y: 80,
+            opacity: 0,
+            ease: "expo.out"
+        }, "-=0.5");
+        
+        timeline.from("#progress-container", {
+            duration: 0.6,
+            x: -100,
+            opacity: 0,
+            ease: "expo.out"
+        }, "-=0.4");
+        
+        timeline.from("#label-1", {
+            duration: 0.5,
+            y: 20,
+            opacity: 0,
+            ease: "power4.out"
+        }, "-=0.3");
+        
+        timeline.from("#label-2", {
+            duration: 0.5,
+            y: 20,
+            opacity: 0,
+            ease: "power4.out"
+        }, "-=0.3");
+        
+        timeline.from(".deco-particle", {
+            duration: 0.4,
+            scale: 0,
+            opacity: 0,
+            stagger: 0.1,
+            ease: "back.out(1.7)"
+        }, "-=0.2");
+        
+        // Animate building fill and progress bar
+        timeline.to("#building-fill", {
+            duration: 2,
+            height: "70%",
+            ease: "power2.out"
+        }, "-=1.5");
+        
+        timeline.to("#progress-bar", {
+            duration: 2,
+            width: "100%",
+            ease: "power2.out"
+        }, "-=2");
+        
+        // Add breathing animation to quote card
+        gsap.to("#quote-card", {
             scale: 1.02,
-            duration: 1.25,
+            duration: 2.5,
             repeat: 0,
             yoyo: true,
             ease: "sine.inOut"
         });
-
+        
+        // Register timeline
+        window.__timelines["beat-3"] = timeline;
+        
+        // Auto play after a short delay
+        setTimeout(() => {
+            timeline.play();
+        }, 500);
     </script>
 </body>
 </html>

@@ -1,101 +1,151 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-1" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=1920, height=1080">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin: 0; padding: 0; background: #1a1a2e; overflow: hidden; font-family: 'Inter', 'Noto Sans SC', sans-serif; color: #FFFFFF;">
-  <div class="scene" style="background:#1a1a2e;" style="position: relative; width: 1920px; height: 1080px; overflow: hidden;">
-    <!-- Background Layer: radial-glow and data-grid -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,212,255,0.1) 0%, transparent 50%); z-index: 0;"></div>
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,212,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px); background-size: 50px 50px; z-index: 1; opacity: 0.3;"></div>
-    
-    <!-- Midground: Giant number '44' -->
-    <div id="number44" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 200px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 20px rgba(0,212,255,0.8); z-index: 10; opacity: 0;">44</div>
-    
-    <!-- Midground: flickering timecode '00:00' -->
-    <div id="timecode" style="position: absolute; top: 30%; left: 70%; font-family: 'JetBrains Mono', monospace; font-size: 48px; color: #FF4081; text-shadow: 0 0 10px rgba(255,64,129,0.8); z-index: 11; opacity: 0;">00:00</div>
-    
-    <!-- Life sign line: SVG pulse -->
-    <svg id="lifesign" style="position: absolute; top: 70%; left: 10%; width: 800px; height: 100px; z-index: 12; opacity: 0;" viewBox="0 0 800 100">
-      <path d="M0,50 L200,50 L220,20 L240,80 L260,50 L400,50 L420,30 L440,70 L460,50 L600,50 L620,40 L640,60 L660,50 L800,50" fill="none" stroke="#FF4081" stroke-width="3" style="filter: drop-shadow(0 0 5px rgba(255,64,129,0.8));"/>
-    </svg>
-    
-    <!-- Rescue scene blur frame: background image simulation -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://via.placeholder.com/1920x1080/1a1a2e/00D4FF?text=Rescue+Scene') center/cover; opacity: 0.1; z-index: 2; filter: blur(5px);"></div>
-    
-    <!-- Police badge silhouette -->
-    <div id="badge" style="position: absolute; bottom: 20%; right: 10%; width: 120px; height: 120px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,10 61,39 94,39 67,60 78,91 50,72 22,91 33,60 6,39 39,39" fill="%23FFD700" opacity="0.7"/></svg>') center/contain; z-index: 13; opacity: 0; transform: scale(1.0);"></div>
-    
-    <!-- Countdown progress bar -->
-    <div style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); width: 600px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; z-index: 14;">
-      <div id="progressbar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00D4FF, #FF4081); border-radius: 4px; box-shadow: 0 0 10px rgba(0,212,255,0.5);"></div>
+<body style="margin:0; padding:0; overflow:hidden; background-color:#1a1a2e; font-family:'Inter','Noto Sans SC',sans-serif;">
+    <div class="scene" style="background:#1a1a2e;" style="position:relative; width:100%; height:100vh; background:radial-gradient(circle at 50% 50%, #1a1a3e 0%, #0a0a1a 100%); overflow:hidden;">
+        
+        <!-- Decorative grid layer -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.15; pointer-events:none;">
+            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background: 
+                linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px);
+                background-size: 100px 100px;"></div>
+        </div>
+        
+        <!-- Radial glow background -->
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:1200px; height:800px; background:radial-gradient(circle, rgba(255,64,129,0.15) 0%, rgba(0,212,255,0.08) 50%, transparent 70%); border-radius:50%; pointer-events:none;"></div>
+        
+        <!-- Ghost text watermark -->
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:240px; font-weight:bold; color:rgba(255,255,255,0.03); font-family:'JetBrains Mono',monospace; pointer-events:none; user-select:none;">DATA</div>
+        
+        <!-- Main title -->
+        <div id="title" style="position:absolute; top:80px; left:100px; font-size:96px; font-weight:bold; color:#FFFFFF; text-shadow:0 0 30px rgba(0,212,255,0.6), 0 0 60px rgba(0,212,255,0.3); letter-spacing:8px;">
+            居民存款
+        </div>
+        
+        <!-- Data card -2 trillion -->
+        <div id="data-card" style="position:absolute; top:200px; left:100px; background:rgba(26,26,46,0.8); border:2px solid rgba(255,64,129,0.4); border-radius:24px; padding:40px 60px; box-shadow:0 0 30px rgba(255,64,129,0.2);">
+            <div style="font-size:24px; color:#999999; margin-bottom:20px; font-weight:regular;">两个月缩水</div>
+            <div id="data-value" style="font-size:120px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace; text-shadow:0 0 20px rgba(255,215,0,0.5);">-2万亿</div>
+        </div>
+        
+        <!-- Red neon arrow -->
+        <div id="neon-arrow" style="position:absolute; top:400px; left:400px; width:300px; height:200px; transform:rotate(-30deg);">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:250px; height:8px; background:#1a1a2e; box-shadow:0 0 20px #FF4081, 0 0 40px #FF4081;"></div>
+            <div style="position:absolute; top:50%; right:0; transform:translateY(-50%); width:0; height:0; border-top:30px solid transparent; border-bottom:30px solid transparent; border-left:50px solid #FF4081; filter:drop-shadow(0 0 10px #FF4081);"></div>
+        </div>
+        
+        <!-- Time decade grid -->
+        <div style="position:absolute; bottom:150px; left:100px; width:600px; height:200px; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; width:100%; padding:10px 0;">
+                <span style="color:#999999; font-size:16px;">2014</span>
+                <span style="color:#999999; font-size:16px;">2024</span>
+            </div>
+            <div style="width:100%; height:4px; background:linear-gradient(90deg, rgba(0,212,255,0.3), rgba(255,64,129,0.3)); position:relative;">
+                <div style="position:absolute; right:0; top:-10px; width:20px; height:20px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 15px #FF4081;"></div>
+            </div>
+            <div style="font-size:20px; color:#00D4FF; margin-top:20px; text-shadow:0 0 10px rgba(0,212,255,0.5);">近10年首次连续下降</div>
+        </div>
+        
+        <!-- Oral script text -->
+        <div id="oral-text" style="position:absolute; bottom:100px; right:100px; width:500px; font-size:28px; color:#FFFFFF; line-height:1.6; text-align:right;">
+            你绝对想不到，居民存款两个月缩水超二万亿，近一零年首次连续下降，老百姓的钱到底去哪了？
+        </div>
+        
+        <!-- Additional data pill -->
+        <div id="data-pill" style="position:absolute; top:100px; right:100px; background:rgba(255,64,129,0.1); border:1px solid rgba(255,64,129,0.3); border-radius:50px; padding:15px 30px; color:#FF4081; font-size:20px;">
+            连续下降
+        </div>
+        
+        <!-- Scan line effect -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,212,255,0.03) 3px, rgba(0,212,255,0.03) 4px); pointer-events:none;"></div>
+        
+        <!-- Particle drift (static representation) -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
+            <div style="position:absolute; top:30%; left:20%; width:4px; height:4px; background:#00D4FF; border-radius:50%; box-shadow:0 0 10px #00D4FF;"></div>
+            <div style="position:absolute; top:60%; left:70%; width:3px; height:3px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 8px #FF4081;"></div>
+            <div style="position:absolute; top:80%; left:40%; width:5px; height:5px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 12px #FFD700;"></div>
+        </div>
     </div>
-    
-    <!-- Neon glow: additional light effects -->
-    <div style="position: absolute; top: 20%; left: 20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,212,255,0.2) 0%, transparent 70%); z-index: 3; animation: pulse 2.5s ease-in-out 3; opacity: 0;"></div>
-    
-    <!-- Scan line -->
-    <div id="scanline" style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #00D4FF, transparent); z-index: 15; opacity: 0; animation: scan 2s linear 3;"></div>
-    
-    <!-- Ghost text watermarks -->
-    <div style="position: absolute; top: 10%; left: 10%; font-size: 72px; color: #FFFFFF; opacity: 0.05; z-index: 4;">LIFE</div>
-    <div style="position: absolute; bottom: 30%; right: 15%; font-size: 72px; color: #FFFFFF; opacity: 0.05; z-index: 4;">TIME</div>
-    
-    <!-- Data card example -->
-    <div id="datacard" style="position: absolute; top: 15%; left: 15%; padding: 20px; border: 2px solid #00D4FF; border-radius: 16px; background: rgba(0,212,255,0.1); z-index: 16; opacity: 0; transform: scale(1.0);">
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 36px; color: #FFD700;">44</div>
-      <div style="font-size: 16px; color: #999999;">AGE</div>
-    </div>
-    
-    <!-- Additional decoration: neon lines -->
-    <div style="position: absolute; top: 40%; left: 5%; width: 200px; height: 2px; background: #00D4FF; z-index: 5; opacity: 0; box-shadow: 0 0 10px #00D4FF;"></div>
-    <div style="position: absolute; bottom: 40%; right: 5%; width: 200px; height: 2px; background:#1a1a2e; z-index: 5; opacity: 0; box-shadow: 0 0 10px #FF4081;"></div>
-  </div>
 
-  <script>
-    // Register timeline
-    window.__timelines = {};
-    window.__timelines["beat-1"] = gsap.timeline({paused: true});
-
-    // Entry animation with stagger
-    const elements = [
-      {el: "#number44", props: {scale: 5, opacity: 1, duration: 0.5, ease: "expo.out"}},
-      {el: "#timecode", props: {opacity: 1, duration: 0.1, repeat: 5, yoyo: true, ease: "power4.in"}},
-      {el: "#lifesign", props: {opacity: 1, duration: 0.3, ease: "power4.in"}},
-      {el: "#badge", props: {opacity: 0.7, scale: 1.02, duration: 0.4, ease: "expo.out"}},
-      {el: "#progressbar", props: {width: "100%", duration: 5.8, ease: "linear"}},
-      {el: "#scanline", props: {opacity: 0.5, duration: 0.2, ease: "power4.in"}},
-      {el: "#datacard", props: {opacity: 1, duration: 0.4, ease: "expo.out"}},
-      {el: "div[style*='opacity: 0.05']", props: {opacity: 0.05, duration: 0.3, stagger: 0.15}},
-      {el: "div[style*='box-shadow']", props: {opacity: 1, duration: 0.3, stagger: 0.15}}
-    ];
-
-    elements.forEach((item, index) => {
-      window.__timelines["beat-1"].from(item.el, item.props, index * 0.15);
-    });
-
-    // Card breath animation: for datacard and badge
-    gsap.to("#datacard", {
-      scale: 1.02,
-      duration: 1.25,
-      repeat: 0,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 1
-    });
-    gsap.to("#badge", {
-      scale: 1.03,
-      duration: 1.25,
-      repeat: 0,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 1.2
-    });
-
-    // Play timeline on load
-    window.__timelines["beat-1"].play();
-  </script>
+    <script>
+        window.__timelines = window.__timelines || {};
+        window.__timelines["beat-1"] = gsap.timeline({paused: true});
+        
+        const tl = window.__timelines["beat-1"];
+        
+        tl.from("#title", {
+            duration: 1.2,
+            opacity: 0,
+            x: -100,
+            scale: 0.8,
+            ease: "expo.out"
+        }, 0);
+        
+        tl.from("#data-card", {
+            duration: 1.5,
+            opacity: 0,
+            y: 80,
+            scale: 0.9,
+            ease: "expo.out"
+        }, 0.15);
+        
+        tl.from("#data-value", {
+            duration: 2,
+            textContent: "0",
+            snap: {textContent: 1000000000},
+            ease: "power4.out",
+            onUpdate: function() {
+                const value = gsap.getProperty("#data-value", "textContent");
+                const numericValue = parseInt(value) || 0;
+                if (numericValue < -2000000000000) {
+                    document.getElementById("data-value").textContent = "-2万亿";
+                    tl.remove(this);
+                }
+            }
+        }, 0.3);
+        
+        tl.from("#neon-arrow", {
+            duration: 1.8,
+            opacity: 0,
+            x: -200,
+            y: 100,
+            scale: 0.7,
+            ease: "expo.out"
+        }, 0.45);
+        
+        tl.from("#oral-text", {
+            duration: 1.4,
+            opacity: 0,
+            x: 80,
+            ease: "expo.out"
+        }, 0.6);
+        
+        tl.from("#data-pill", {
+            duration: 1,
+            opacity: 0,
+            scale: 0.5,
+            ease: "expo.out"
+        }, 0.75);
+        
+        // Card breathing animation
+        gsap.to("#data-card", {
+            scale: 1.02,
+            duration: 2.5,
+            repeat: 0,
+            yoyo: true,
+            ease: "power1.inOut",
+            delay: 2
+        });
+        
+        // Start timeline after a short delay
+        setTimeout(() => {
+            tl.play();
+        }, 100);
+    </script>
 </body>
 </html>

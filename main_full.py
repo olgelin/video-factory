@@ -77,7 +77,7 @@ def main():
     parser.add_argument("--topic", type=str, required=True, help="视频话题")
     parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM生成")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音生成")
-    parser.add_argument("--steps", type=str, default="1-11", help="执行步骤范围 (如 1-11)")
+    parser.add_argument("--steps", type=str, default="1-12", help="执行步骤范围 (如 1-12)")
     args = parser.parse_args()
     
     # 解析步骤范围
@@ -104,6 +104,21 @@ def main():
     # 确保输出目录存在
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     
+    # 如果指定了 --topic，直接写入 topic_selected.json，跳过选题步骤
+    topic_file = OUTPUT_DIR / "topic_selected.json"
+    if args.topic:
+        topic_data = {
+            "selected_topic": args.topic,
+            "topic": args.topic,
+            "angle": f"深度解析: {args.topic}",
+            "hook": f"你绝对想不到，{args.topic}",
+            "key_elements": ["数据", "趋势", "影响"],
+            "sources": [],
+            "score": {"total": 55, "max": 60}
+        }
+        topic_file.write_text(json.dumps(topic_data, ensure_ascii=False, indent=2))
+        print(f"  [topic] 已指定话题，跳过选题: {args.topic}")
+    
     # 定义pipeline步骤
     steps = [
         (1, "topic_scout", "热点采集"),
@@ -124,6 +139,11 @@ def main():
     for step_num, skill_name, description in steps:
         if step_num < start_step or step_num > end_step:
             print(f"\n[Step {step_num}] {skill_name}: 跳过 (不在范围)")
+            continue
+        
+        # 如果已指定 --topic，跳过选题步骤
+        if args.topic and skill_name in ("topic_scout", "topic_selector"):
+            print(f"\n[Step {step_num}] {skill_name}: 跳过 (--topic 指定)")
             continue
         
         # 跳过选项
