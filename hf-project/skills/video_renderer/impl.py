@@ -16,6 +16,34 @@ VIDEO_PATH = OUTPUT_DIR / "step10_video.mp4"
 HF_PROJECT_DIR = Path(__file__).parent.parent.parent / "hf_render_project"
 
 
+def _fix_duplicate_styles(project_dir: str):
+    """预检：修复HTML中的重复style属性（防止渲染空白帧）"""
+    import re
+    comp_dir = Path(project_dir) / "compositions"
+    if not comp_dir.exists():
+        return
+    
+    fixed = 0
+    for html_file in comp_dir.glob("*.html"):
+        content = html_file.read_text(encoding="utf-8")
+        original = content
+        
+        # 修复同一元素上的重复 style="..." style="..."
+        # Pattern: style="A" style="B" → style="A; B"
+        content = re.sub(
+            r'(style="[^"]*")\s+(style="[^"]*")',
+            lambda m: m.group(1).rstrip('"') + '; ' + m.group(2).lstrip('style="'),
+            content
+        )
+        
+        if content != original:
+            html_file.write_text(content, encoding="utf-8")
+            fixed += 1
+    
+    if fixed > 0:
+        print(f"  [video-renderer] 预检修复: {fixed} 个HTML文件的重复style属性")
+
+
 def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
     """运行HyperFrames渲染"""
     print(f"  [video-renderer] 渲染: {project_dir}")
@@ -67,6 +95,9 @@ def run(context: dict) -> dict:
 
     # 创建输出目录
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # 预检：修复HTML中的重复style属性
+    _fix_duplicate_styles(project_dir)
 
     # 渲染
     success = run_hyperframes_render(project_dir, str(VIDEO_PATH))
