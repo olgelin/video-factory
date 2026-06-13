@@ -28,8 +28,8 @@ LYRICS_PATH = OUTPUT_DIR / "lyrics.txt"
 BGM_PATH = OUTPUT_DIR / "bgm.wav"
 
 # ACE-Step模型路径
-ACESTEP_ROOT = "E:/Hermes-Agent/workspace/xiaoshan/models/acestep_package"
-ACESTEP_CHECKPOINT = "acestep-v15-turbo"
+ACESTEP_ROOT = os.environ.get("ACESTEP_ROOT", "E:/Hermes-Agent/workspace/xiaoshan/models/acestep_package")
+ACESTEP_CHECKPOINT = os.environ.get("ACESTEP_CHECKPOINT", "acestep-v15-turbo")
 
 
 def load_env():

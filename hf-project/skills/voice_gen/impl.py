@@ -33,10 +33,10 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 VOICE_PATH = OUTPUT_DIR / "step05_voice.wav"
 
 # 参考音频
-DEFAULT_REF_WAV = "E:/Hermes-Agent/workspace/xiaoshan/voice-cloning/CosyVoice/custom_voices/test_ref.wav"
+DEFAULT_REF_WAV = os.environ.get("VOICE_REF_WAV", "E:/Hermes-Agent/workspace/xiaoshan/voice-cloning/CosyVoice/custom_voices/test_ref.wav")
 
 # VoxCPM2模型路径
-VOXCPM_MODEL = "E:/Hermes-Agent/workspace/xiaoshan/models/models--openbmb--VoxCPM2/snapshots/bffb3df5a29440629464e5e839f4d214c8714c3d"
+VOXCPM_MODEL = os.environ.get("VOXCPM_MODEL", "E:/Hermes-Agent/workspace/xiaoshan/models/models--openbmb--VoxCPM2/snapshots/bffb3df5a29440629464e5e839f4d214c8714c3d")
 
 # 全局模型缓存
 MODEL = None
