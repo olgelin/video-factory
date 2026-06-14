@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "description": "自反馈进化系统配置",
+  
+  "dependencies": {
+    "voxcpm2": {
+      "current_version": "1.0.0",
+      "repo": "openbmb/VoxCPM2",
+      "check_interval": "daily",
+      "update_method": "pip",
+      "package_name": "voxcpm2"
+    },
+    "acestep": {
+      "current_version": "1.5.0",
+      "repo": "ace-step/ACE-Step",
+      "check_interval": "daily",
+      "update_method": "pip",
+      "package_name": "acestep_package"
+    },
+    "whisper": {
+      "current_version": "1.0.0",
+      "repo": "openai/whisper",
+      "check_interval": "weekly",
+      "update_method": "pip",
+      "package_name": "whisper"
+    },
+    "hyperframes": {
+      "current_version": "0.6.91",
+      "repo": "hyperframes/hyperframes",
+      "check_interval": "daily",
+      "update_method": "npm",
+      "package_name": "hyperframes"
+    }
+  },
+  
+  "quality_checkpoints": {
+    "topic_selector": {
+      "threshold": 0.7,
+      "retry": true,
+      "max_retries": 2
+    },
+    "script_writer": {
+      "threshold": 0.8,
+      "retry": true,
+      "max_retries": 3
+    },
+    "voice_gen": {
+      "threshold": 0.9,
+      "retry": true,
+      "max_retries": 3
+    },
+    "bgm_generator": {
+      "threshold": 0.85,
+      "retry": true,
+      "max_retries": 3
+    },
+    "storyboard": {
+      "threshold": 0.8,
+      "retry": true,
+      "max_retries": 2
+    },
+    "hf_builder": {
+      "threshold": 0.95,
+      "retry": true,
+      "max_retries": 3
+    },
+    "video_renderer": {
+      "threshold": 0.9,
+      "retry": true,
+      "max_retries": 2
+    },
+    "audio_mixer": {
+      "threshold": 0.95,
+      "retry": true,
+      "max_retries": 2
+    }
+  },
+  
+  "optimization": {
+    "enable_auto_optimize": true,
+    "learning_rate": 0.1,
+    "history_window": 10
+  }
+}

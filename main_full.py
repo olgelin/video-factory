@@ -9,6 +9,7 @@ import sys
 import json
 import importlib.util
 from pathlib import Path
+from datetime import datetime
 
 # 加载.env文件
 def load_env():
@@ -36,8 +37,20 @@ WORKSPACE = Path(__file__).parent
 HF_PROJECT = WORKSPACE / "hf-project"
 SKILLS_DIR = HF_PROJECT / "skills"
 OUTPUT_DIR = HF_PROJECT / "output"
+FEEDBACK_DIR = WORKSPACE / "feedback_system"
 
 sys.path.insert(0, str(WORKSPACE / "src"))
+sys.path.insert(0, str(FEEDBACK_DIR))
+
+# 导入反馈系统
+try:
+    from quality_tracker import trace_failure, check_skill_quality
+    from auto_optimizer import optimize_skill, get_optimization_hints, should_retry
+    from dependency_manager import check_updates, update_all
+    FEEDBACK_ENABLED = True
+except ImportError as e:
+    print(f"  ⚠️ 反馈系统导入失败: {e}")
+    FEEDBACK_ENABLED = False
 
 def load_skill(skill_name: str):
     """动态加载skill模块"""
@@ -71,23 +84,109 @@ def run_step(skill_name: str, context: dict, step_num: int) -> dict:
     
     return context
 
+def check_skill_quality_after_step(skill_name: str, context: dict):
+    """执行skill后检查质量"""
+    try:
+        if skill_name == "script_writer":
+            script_data = context.get("script_data")
+            if script_data:
+                score, issues = check_skill_quality("script", script_data)
+                if issues:
+                    print(f"  ⚠️ 脚本质量问题: {issues}")
+                    # 尝试优化
+                    if should_retry("script_writer", 1, {"issues": [{"skill": "script_writer", "issues": issues}]}):
+                        optimization = optimize_skill("script_writer", {"issues": [{"skill": "script_writer", "issues": issues}]})
+                        if optimization:
+                            print(f"  💡 优化建议已生成")
+        
+        elif skill_name == "voice_gen":
+            voice_path = context.get("voice_path")
+            if voice_path:
+                score, issues = check_skill_quality("voice", voice_path)
+                if issues:
+                    print(f"  ⚠️ 配音质量问题: {issues}")
+        
+        elif skill_name == "bgm_generator":
+            bgm_path = context.get("bgm_path")
+            if bgm_path:
+                score, issues = check_skill_quality("bgm", bgm_path)
+                if issues:
+                    print(f"  ⚠️ BGM质量问题: {issues}")
+        
+        elif skill_name == "storyboard":
+            storyboard_data = context.get("storyboard_data")
+            if storyboard_data:
+                score, issues = check_skill_quality("storyboard", storyboard_data)
+                if issues:
+                    print(f"  ⚠️ Storyboard质量问题: {issues}")
+        
+        elif skill_name == "hf_builder":
+            # 检查所有生成的HTML
+            compositions_dir = HF_PROJECT / "hf_render_project" / "compositions"
+            if compositions_dir.exists():
+                for html_file in sorted(compositions_dir.glob("beat-*.html")):
+                    if html_file.name == "beat-outro.html":
+                        continue
+                    html_content = html_file.read_text(encoding="utf-8")
+                    score, issues = check_skill_quality("html", html_content)
+                    if issues:
+                        print(f"  ⚠️ {html_file.name} 质量问题: {issues}")
+    except Exception as e:
+        print(f"  ⚠️ 质量检查失败: {e}")
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="短视频工厂 — 完整Pipeline")
-    parser.add_argument("--topic", type=str, required=True, help="视频话题")
-    parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM生成")
+    parser.add_argument("--topic", type=str, help="视频话题")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音生成")
+    parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM生成")
     parser.add_argument("--steps", type=str, default="1-12", help="执行步骤范围 (如 1-12)")
+    parser.add_argument("--check-deps", action="store_true", help="检查依赖更新")
+    parser.add_argument("--update-deps", action="store_true", help="更新所有依赖")
+    parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
     args = parser.parse_args()
+    
+    # 依赖检查
+    if args.check_deps:
+        print("\n" + "="*60)
+        print("📦 检查依赖更新")
+        print("="*60)
+        updates = check_updates()
+        if updates:
+            print(f"\n发现 {len(updates)} 个更新:")
+            for u in updates:
+                print(f"  - {u['name']}: {u['installed']} → {u['latest']}")
+        else:
+            print("\n所有依赖都是最新版本")
+        return
+    
+    # 依赖更新
+    if args.update_deps:
+        print("\n" + "="*60)
+        print("🔄 更新所有依赖")
+        print("="*60)
+        results = update_all()
+        if results:
+            print("\n更新结果:")
+            for r in results:
+                print(f"  - {r['name']}: {r['status']}")
+        return
     
     # 解析步骤范围
     start_step, end_step = map(int, args.steps.split("-"))
+    
+    # 反馈系统开关
+    global FEEDBACK_ENABLED
+    if args.no_feedback:
+        FEEDBACK_ENABLED = False
+        print(f"  ⚠️ 反馈系统已禁用")
     
     print(f"\n{'='*60}")
     print(f"🎬 短视频工厂 — 完整Pipeline")
     print(f"{'='*60}")
     print(f"话题: {args.topic}")
     print(f"步骤: {start_step}-{end_step}")
+    print(f"反馈系统: {'启用' if FEEDBACK_ENABLED else '禁用'}")
     print(f"输出: {OUTPUT_DIR}")
     print(f"{'='*60}")
     
@@ -159,7 +258,29 @@ def main():
             print(f"\n[Step {step_num}] {skill_name}: 跳过 (--skip-bgm)")
             continue
         
+        # 获取优化提示（如果有）
+        if FEEDBACK_ENABLED:
+            hints = get_optimization_hints(skill_name)
+            if hints:
+                print(f"  💡 历史优化提示: {hints}")
+        
         context = run_step(skill_name, context, step_num)
+        
+        # 质量检查（如果启用反馈系统）
+        if FEEDBACK_ENABLED and skill_name in ["script_writer", "voice_gen", "bgm_generator", "storyboard", "hf_builder"]:
+            check_skill_quality_after_step(skill_name, context)
+    
+    # 最终质量追溯
+    if FEEDBACK_ENABLED:
+        print(f"\n{'='*60}")
+        print(f"📊 最终质量追溯")
+        print(f"{'='*60}")
+        report = trace_failure(context)
+        if report["summary"]["total_issues"] > 0:
+            print(f"  ⚠️ 发现 {report['summary']['total_issues']} 个问题")
+            print(f"  📋 报告: {FEEDBACK_DIR / 'logs' / 'quality_reports'}")
+        else:
+            print(f"  ✅ 所有质量检查通过")
     
     # 保存context
     context_path = OUTPUT_DIR / "pipeline_context.json"
