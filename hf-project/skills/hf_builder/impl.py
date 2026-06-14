@@ -101,26 +101,6 @@ tl.from("#element", {{opacity: 1, duration: 0.5}}, 0);  // 动画到可见
 - 左右分栏: 左60%放核心数据，右40%放辅助信息/装饰
 - 禁止元素松散堆砌——每个元素必须有明确的网格位置
 
-## 画中画素材嵌入（如果有素材）
-如果有素材（assets参数），可以嵌入到场景中：
-- 截图：用 `<img src="file:///{asset_path}" style="..."/>` 嵌入
-- 视频：用 `<video src="file:///{asset_path}" style="..." muted loop autoplay/>` 嵌入
-- 画中画位置：右下角或左下角，大小300-500px
-- 动态跟随：用GSAP动画让素材跟随主内容
-
-示例：
-```html
-<!-- 画中画截图 -->
-<div id="pip-screenshot" style="position:absolute;bottom:200px;right:100px;width:400px;height:300px;border:2px solid rgba(0,212,255,0.5);border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-    <img src="file:///{asset_path}" style="width:100%;height:100%;object-fit:cover;"/>
-</div>
-
-<!-- 画中画视频 -->
-<div id="pip-video" style="position:absolute;bottom:200px;right:100px;width:400px;height:300px;border:2px solid rgba(255,64,129,0.5);border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-    <video src="file:///{asset_path}" style="width:100%;height:100%;object-fit:cover;" muted loop autoplay/>
-</div>
-```
-
 ## 视觉层次（从大到小，从亮到暗）
 - 主标题: 80-120px, 主色+发光(text-shadow 0 0 30px)，最亮
 - 核心数据: 100-140px, 金色/强调色, JetBrains Mono, 加粗

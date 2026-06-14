@@ -140,7 +140,7 @@ def main():
     parser.add_argument("--topic", type=str, help="视频话题")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音生成")
     parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM生成")
-    parser.add_argument("--steps", type=str, default="1-13", help="执行步骤范围 (如 1-13)")
+    parser.add_argument("--steps", type=str, default="1-12", help="执行步骤范围 (如 1-12)")
     parser.add_argument("--check-deps", action="store_true", help="检查依赖更新")
     parser.add_argument("--update-deps", action="store_true", help="更新所有依赖")
     parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
@@ -234,10 +234,9 @@ def main():
         (7, "bgm_generator", "BGM生成"),
         (8, "storyboard", "分镜设计"),
         (9, "design_system", "设计系统"),
-        (10, "asset_collector", "素材采集"),
-        (11, "hf_builder", "HTML构建"),
-        (12, "video_renderer", "视频渲染"),
-        (13, "audio_mixer", "音频混合"),
+        (10, "hf_builder", "HTML构建"),
+        (11, "video_renderer", "视频渲染"),
+        (12, "audio_mixer", "音频混合"),
     ]
     
     # 执行pipeline
