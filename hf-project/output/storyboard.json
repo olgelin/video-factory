@@ -1,396 +1,327 @@
 [
   {
     "scene_id": 1,
-    "visual_type": "quote_hero",
-    "concept": "观众被一个悬念开场瞬间抓住，感受到AI能力飞跃的震撼前兆。深黑背景中，霓虹文字闪烁，营造出未知与期待的氛围，聚焦于发布核心信息。",
-    "mood": "科技感未来冲击力，参考赛博朋克风格的深黑背景霓虹发光，强调悬念和冲击。",
+    "concept": "观众将在瞬间被一个巨大的、跳动的“4万亿”数据所震撼，数字伴随着霓虹光晕和粒子爆炸效果出现，营造出极强的视觉冲击和悬念感，仿佛数据在黑暗中引爆。",
+    "mood": "爆炸性的、未来主义的、充满悬念的",
+    "visual_type": "data_impact",
     "depth_layers": {
-      "background": [
+      "背景": [
         "radial-glow",
-        "data-grid",
-        "neon-lines"
+        "data-grid"
       ],
-      "midground": [
-        "GPT-5标题文字",
-        "霓虹光效"
+      "中景": [
+        "核心数字 '40000亿'",
+        "发光的标题"
       ],
-      "foreground": [
-        "particle-drift",
-        "ghost-text"
+      "前景": [
+        "particle-drift"
       ]
     },
     "density_target": 8,
     "key_elements": [
-      "GPT-5标题",
-      "霓虹光效",
-      "数据网格背景",
-      "粒子漂浮",
-      "悬念文字",
-      "深黑背景",
-      "强调色点缀",
-      "未来感线条"
+      "中央大数字 '40000亿'",
+      "霓虹标题",
+      "背景数据网格",
+      "脉冲光晕",
+      "粒子",
+      "强调色高亮"
     ],
-    "narration": "你绝对想不到，OpenAI发布GPT-五：AI能力再次飞跃。",
-    "duration": 4.4,
+    "narration": "你绝对想不到，中国外贸连续三个月超四万亿元：政策红利持续释放。兄弟们，这数据，直接炸翻全网，我第一眼看到都惊了。",
+    "duration": 10.5,
     "animations": {
-      "title": "SLAMS",
-      "ambient": "PULSES"
+      "标题": "SLAMS",
+      "数字": "COUNTS UP",
+      "副标题": "DROPS",
+      "装饰光晕": "PULSES"
     },
     "transition": {
-      "in": "fade_in",
-      "out": "dissolve"
+      "in": "GLITCH_IN",
+      "out": "ZOOM_OUT_FAST"
     }
   },
   {
     "scene_id": 2,
-    "visual_type": "data_impact",
-    "concept": "观众感受到科技圈的震动，数据和趋势箭头突出发布的重要性。大数字和进度条冲击视觉，强调突破性和行业沸腾感。",
-    "mood": "冲击力科技风，霓虹强调色突出关键信息，营造科技暗黑中的能量爆发。",
+    "concept": "画面从爆炸的数字平滑过渡到一个复杂的数据仪表盘，展示连续三个月的外贸总额增长曲线和关键指标。观众能直观感受到“涡轮增压”般的政策推动力，数据以稳定而强劲的方式呈现。",
+    "mood": "数据驱动的、精确的、充满动能的",
+    "visual_type": "dashboard",
     "depth_layers": {
-      "background": [
-        "radial-glow",
-        "data-grid",
-        "neon-lines"
+      "背景": [
+        "neon-lines",
+        "radial-glow"
       ],
-      "midground": [
-        "大数字",
-        "趋势箭头",
-        "进度条"
+      "中景": [
+        "增长曲线图",
+        "三个并排的数据卡",
+        "政策涡轮图标"
       ],
-      "foreground": [
-        "particle-drift",
-        "ghost-text"
+      "前景": [
+        "ghost-text (关键词: 增速、稳、超预期)"
       ]
     },
-    "density_target": 9,
+    "density_target": 10,
     "key_elements": [
-      "大数字显示",
-      "趋势上升箭头",
-      "动态进度条",
-      "霓虹强调边框",
-      "数据冲击动画",
-      "背景光晕",
-      "科技线条",
-      "冲击文字",
-      "行业震动图标"
+      "连续三月增长曲线",
+      "“4万亿元”数据卡",
+      "“增速XX%”数据卡",
+      "“政策红利”涡轮图标",
+      "霓虹连接线",
+      "悬浮的关键词"
     ],
-    "narration": "说白了，这次GPT-五的发布，直接把AI的天花板又捅了个窟窿。OpenAI这次玩真的，不搞虚的，整个科技圈都炸了锅。",
-    "duration": 9.2,
+    "narration": "我扒了全网资料，四万亿元是什么概念？连续三个月稳在这个高位，增速还超预期。政策这波输出，简直是给外贸引擎加了涡轮增压。",
+    "duration": 11.0,
     "animations": {
-      "title": "CRASHES",
-      "data": "COUNTS UP",
-      "ambient": "GLOWS"
+      "标题": "SLIDES",
+      "增长曲线": "DRAWS",
+      "指标数字": "FLOATS",
+      "政策图标": "PULSES"
     },
     "transition": {
-      "in": "slide_in",
-      "out": "glitch_out"
+      "in": "SLIDE_LEFT",
+      "out": "FADE"
     }
   },
   {
     "scene_id": 3,
-    "visual_type": "data_impact",
-    "concept": "观众看到硬核数据，准确率飙升30%和处理速度翻倍以动态方式呈现，体验数据的冲击力和可信度。",
-    "mood": "数据驱动科技感，金色数据突出重要性，赛博朋克风中的数据可视化。",
+    "concept": "视觉上将抽象的政策组合拳，拆解为一系列具体的、发光的图标与箭头流程图，从“政府”节点发射，连接到“减税降费”、“优化通关”、“支持新业态”等节点，最终指向“订单爆了”的结果。观众能清晰理解政策传导链条。",
+    "mood": "系统性的、解析性的、逻辑清晰的",
+    "visual_type": "flow",
     "depth_layers": {
-      "background": [
-        "data-grid",
-        "neon-lines",
-        "radial-glow"
+      "背景": [
+        "data-grid"
       ],
-      "midground": [
-        "百分比图表",
-        "速度条",
-        "动态数据点"
+      "中景": [
+        "流程图主链",
+        "四个政策节点图标",
+        "结果图标"
       ],
-      "foreground": [
-        "ghost-text",
-        "particle-drift"
+      "前景": [
+        "particle-drift",
+        "发光的箭头"
       ]
     },
-    "density_target": 10,
+    "density_target": 9,
     "key_elements": [
-      "百分比数字30%",
-      "速度翻倍图表",
-      "动态进度条",
-      "数据网格背景",
-      "霓虹光效",
-      "强调色数据",
-      "科技线条",
-      "数据标签",
-      "趋势曲线",
-      "金点高亮"
+      "“政策组合拳”标题",
+      "政府大楼图标",
+      "三个政策节点 (钱币、通关、灯泡)",
+      "箭头连接线",
+      "工厂/订单爆炸图标",
+      "“成本降，订单爆”文字"
     ],
-    "narration": "我翻遍全网，扒了三天资料，发现GPT-五在语言理解、推理和生成上，准确率飙升百分之三零，处理速度翻倍，这数据太硬核了。",
-    "duration": 10.6,
+    "narration": "真相是，政府悄悄放大招：减税降费、优化通关、支持新业态，一套组合拳下来，企业成本降了，订单就爆了。说白了，就是给出口企业发大红包。",
+    "duration": 12.7,
     "animations": {
-      "title": "PUNCHES",
-      "data": "MORPHS",
-      "ambient": "BREATHES"
+      "标题": "SLIDES",
+      "步骤节点": "CASCADE",
+      "连接箭头": "GLOWS",
+      "结果图标": "MORPHS"
     },
     "transition": {
-      "in": "zoom_in",
-      "out": "fade_out"
+      "in": "MORPH",
+      "out": "DISSOLVE"
     }
   },
   {
     "scene_id": 4,
-    "visual_type": "dashboard",
-    "concept": "观众体验多模态能力的全面展示，各种应用案例如仪表盘般并列，封神能力一览无余，视觉上丰富而有条理。",
-    "mood": "科技仪表盘风，多色彩强调不同应用，赛博朋克风格中的信息密集展示。",
+    "concept": "聚焦“科技心脏”，画面将高科技产品出口数据与一个跳动的、霓虹风格的芯片心脏视觉隐喻相结合，旁边用柱状图对比显示其增长远超其他品类。精准打击科技迷的兴趣点。",
+    "mood": "前沿的、科技感的、令人兴奋的",
+    "visual_type": "compare",
     "depth_layers": {
-      "background": [
-        "radial-glow",
-        "data-grid"
+      "背景": [
+        "neon-lines",
+        "radial-glow (冷色调)"
       ],
-      "midground": [
-        "应用图标",
-        "指标卡片",
-        "案例图表"
+      "中景": [
+        "霓虹芯片心脏图形",
+        "增长柱状图 (科技产品 vs 整体)"
       ],
-      "foreground": [
-        "particle-drift",
-        "ghost-text"
+      "前景": [
+        "ghost-text (芯片、新能源车、智能设备)",
+        "微弱的数据流粒子"
       ]
     },
     "density_target": 8,
     "key_elements": [
-      "多模态应用图标",
-      "指标卡片",
-      "案例数据图表",
-      "霓虹边框",
-      "仪表盘布局",
-      "强调色分组",
-      "背景光晕",
-      "科技线条"
+      "“科技心脏”视觉隐喻 (芯片图标)",
+      "高科技产品出口柱状图",
+      "对比标签 (最快增长)",
+      "产品图标 (芯片、汽车、设备)",
+      "“硬实力”文字强调",
+      "脉冲光效"
     ],
-    "narration": "你品，它现在能像真人一样写小说、编代码，甚至帮你做复杂的科研分析，多模态能力直接封神，案例多到数不过来。",
-    "duration": 10.0,
+    "narration": "细品数据，高科技产品出口涨得最猛，芯片、新能源车、智能设备，这些才是外贸的‘科技心脏’。作为科技迷，你懂的，这才是硬实力在说话。",
+    "duration": 11.3,
     "animations": {
-      "title": "SLIDES",
-      "data": "FLOATS",
-      "ambient": "PULSES"
+      "标题": "PUNCHES",
+      "芯片心脏": "PULSES",
+      "对比柱状图": "RISES",
+      "数据标签": "MORPHS"
     },
     "transition": {
-      "in": "split_in",
-      "out": "merge_out"
+      "in": "WIPE",
+      "out": "SWIPE"
     }
   },
   {
     "scene_id": 5,
-    "visual_type": "flow",
-    "concept": "观众跟随技术流程，理解混合专家架构和强化学习的创新，体验指数级提升的革命性，视觉上连贯而清晰。",
-    "mood": "未来技术流程风，线条和节点连接，赛博朋克风格中的科技流程可视化。",
+    "concept": "画面从中心的数字爆发开来，能量波纹扩散到代表“国内经济”和“全球贸易”的两个抽象区域，象征影响的广度与深度。投资者视角通过一个放大的、闪烁的“机会”图标切入。",
+    "mood": "宏观的、震撼的、充满机遇感的",
+    "visual_type": "data_impact",
     "depth_layers": {
-      "background": [
-        "neon-lines",
-        "data-grid",
-        "radial-glow"
+      "背景": [
+        "radial-glow (暖色，表示影响)"
       ],
-      "midground": [
-        "流程图节点",
-        "连接线",
-        "架构标签"
+      "中景": [
+        "核心“影响”数字",
+        "国内/全球抽象区域",
+        "投资者剪影与图表"
       ],
-      "foreground": [
-        "ghost-text",
-        "particle-drift"
-      ]
-    },
-    "density_target": 9,
-    "key_elements": [
-      "流程图节点",
-      "霓虹连接线",
-      "混合专家架构标签",
-      "强化学习图标",
-      "指数级提升指示",
-      "科技背景线条",
-      "数据网格",
-      "强调色节点",
-      "动态路径"
-    ],
-    "narration": "细品背后的技术，OpenAI用了全新的混合专家架构和强化学习，让模型更聪明，学习效率指数级提升，这是真正的技术革命。",
-    "duration": 10.1,
-    "animations": {
-      "title": "CASCADES",
-      "data": "MORPHS",
-      "ambient": "GLOWS"
-    },
-    "transition": {
-      "in": "wipe_in",
-      "out": "dissolve_out"
-    }
-  },
-  {
-    "scene_id": 6,
-    "visual_type": "list_alert",
-    "concept": "观众看到各行业被颠覆的清单，强调机会和风险，视觉上以条目和强调突出影响深度，引发警惕和思考。",
-    "mood": "警告科技风，红色强调风险，赛博朋克风格中的警示信息展示。",
-    "depth_layers": {
-      "background": [
-        "radial-glow",
-        "neon-lines"
-      ],
-      "midground": [
-        "行业图标",
-        "影响条目",
-        "强调边框"
-      ],
-      "foreground": [
-        "particle-drift",
-        "ghost-text"
+      "前景": [
+        "扩散的数据波纹",
+        "光点粒子"
       ]
     },
     "density_target": 10,
     "key_elements": [
-      "行业影响列表",
-      "内容创作图标",
-      "教育医疗标签",
-      "工作方式条目",
-      "强调色边框",
-      "数据标签",
-      "机会风险指示",
-      "背景光晕",
-      "科技线条",
-      "警示动画"
+      "中心爆发点",
+      "辐射状能量线条",
+      "“国内经济”稳定图标",
+      "“全球贸易”网络图标",
+      "投资者与上升趋势线",
+      "“大机会”闪光文字"
     ],
-    "narration": "别被忽悠了，这玩意儿会颠覆内容创作、教育、医疗，甚至改变你的工作方式，影响深不见底，机会和风险并存。",
-    "duration": 9.1,
+    "narration": "影响有多大？不光国内经济稳了，全球贸易也跟着受益。投资者们，眼睛都亮了，这波增长里藏着大机会。",
+    "duration": 15.5,
     "animations": {
-      "title": "PUNCHES",
-      "data": "COUNTS UP",
-      "ambient": "BREATHES"
+      "标题": "CRASHES",
+      "核心数字": "COUNTS UP",
+      "能量波纹": "EXPANDS",
+      "机会图标": "GLOWS"
     },
     "transition": {
-      "in": "fade_in",
-      "out": "slide_out"
+      "in": "FLASH",
+      "out": "SHRINK"
+    }
+  },
+  {
+    "scene_id": 6,
+    "concept": "一条未来的时间线从当前节点向前延伸，沿途标记“政策加码”、“红利持续”、“动能十足”等节点，尽头是一个象征“新高”的发光山峰。观众能感受到趋势的不可阻挡和持续的向上力量。",
+    "mood": "前瞻性的、充满希望的、持续向上的",
+    "visual_type": "flow",
+    "depth_layers": {
+      "背景": [
+        "data-grid (渐变，向未来延伸)"
+      ],
+      "中景": [
+        "时间线主轴",
+        "当前节点与未来节点",
+        "终点“新高”山峰"
+      ],
+      "前景": [
+        "沿时间线漂浮的关键词 (加码、释放、动能)"
+      ]
+    },
+    "density_target": 8,
+    "key_elements": [
+      "时间线路径",
+      "“现在”锚点",
+      "三个未来趋势节点",
+      "“新高”山峰图标",
+      "政策符号",
+      "上行箭头"
+    ],
+    "narration": "未来趋势呢？政策还在加码，红利持续释放。外贸增长动能十足，下一个季度，数据可能再创新高，趋势非常明显。",
+    "duration": 8.9,
+    "animations": {
+      "标题": "SLIDES",
+      "时间线": "DRAWS",
+      "未来节点": "FLOATS",
+      "终点山峰": "GLOWS"
+    },
+    "transition": {
+      "in": "DISSOLVE",
+      "out": "FADE"
     }
   },
   {
     "scene_id": 7,
-    "visual_type": "compare",
-    "concept": "观众对比AI能力的飞跃带来的挑战和机会，视觉上平衡展示伦理问题和正面影响，强调冷静看待的重要性。",
-    "mood": "平衡对比风，双色对比突出挑战与机会，赛博朋克风格中的伦理思考可视化。",
+    "concept": "一个清晰、带有科技感边框的行动清单从屏幕中央浮现，条目依次高亮。“科技出口”和“跨境板块”被特殊强调，旁边有简短的数据图标佐证。视觉直接传递指令，不容置疑。",
+    "mood": "行动导向的、紧迫的、指令性的",
+    "visual_type": "list_alert",
     "depth_layers": {
-      "background": [
-        "neon-lines",
-        "data-grid"
+      "背景": [
+        "neon-lines (强调框架)"
       ],
-      "midground": [
-        "对比图表",
-        "挑战标签",
-        "机会标签"
+      "中景": [
+        "清单列表",
+        "强调的高亮框",
+        "小型数据图表"
       ],
-      "foreground": [
-        "ghost-text",
-        "particle-drift"
-      ]
-    },
-    "density_target": 8,
-    "key_elements": [
-      "挑战 vs 机会对比图",
-      "数据隐私泄露图标",
-      "算法偏见标签",
-      "就业市场冲击",
-      "正面影响指标",
-      "平衡指示器",
-      "强调色分区",
-      "背景线条",
-      "霓虹光效"
-    ],
-    "narration": "但真相是，AI能力飞跃也带来挑战，比如数据隐私泄露、算法偏见加剧，还有对就业市场的巨大冲击，咱们得冷静看待。",
-    "duration": 11.5,
-    "animations": {
-      "title": "CRASHES",
-      "data": "FLOATS",
-      "ambient": "PULSES"
-    },
-    "transition": {
-      "in": "split_in",
-      "out": "merge_out"
-    }
-  },
-  {
-    "scene_id": 8,
-    "visual_type": "quote_hero",
-    "concept": "观众展望AI像电力一样普及的未来，金句突出关键思想，增强人类能力的愿景，视觉上充满希望和科技感。",
-    "mood": "未来希望科技风，金色光芒象征普及和增强，赛博朋克风格中的乐观展望。",
-    "depth_layers": {
-      "background": [
-        "radial-glow",
-        "data-grid",
-        "neon-lines"
-      ],
-      "midground": [
-        "金句文字",
-        "电力隐喻图标"
-      ],
-      "foreground": [
-        "particle-drift",
-        "ghost-text"
+      "前景": [
+        "ghost-text (盯紧、别被忽悠、看数据)"
       ]
     },
     "density_target": 9,
     "key_elements": [
-      "未来场景图",
-      "AI普及金句",
-      "电力隐喻符号",
-      "增强人类能力图标",
-      "金色光芒效果",
-      "背景数据网格",
-      "霓虹强调",
-      "科技线条",
-      "希望氛围粒子"
+      "科技感边框清单",
+      "“科技出口”条目",
+      "“跨境板块”条目",
+      "上升箭头图标",
+      "“红利”金币图标",
+      "“盯紧数据”文字"
     ],
-    "narration": "未来，AI会像电力一样普及，关键是咱们怎么用好它，让它增强人类能力，而不是替代。用对了，就是黄金时代。",
-    "duration": 9.6,
+    "narration": "投资者注意了，盯紧科技出口和跨境板块，这波红利，吃得到。别被忽悠，看准数据说话，机会就摆在眼前。",
+    "duration": 8.7,
     "animations": {
-      "title": "SLAMS",
-      "ambient": "GLOWS"
+      "标题": "SLAMS",
+      "清单条目": "CASCADE",
+      "强调项": "GLOWS",
+      "数据图标": "MORPHS"
     },
     "transition": {
-      "in": "zoom_in",
-      "out": "fade_out"
+      "in": "ZOOM_IN",
+      "out": "ZOOM_OUT"
     }
   },
   {
-    "scene_id": 9,
+    "scene_id": 8,
+    "concept": "所有视觉元素收束，最终化作一句巨大的、金色发光的金句占据屏幕核心，背景是缓慢旋转的全球数据网格和代表韧性的粒子流。观众在震撼中记住核心信息，情绪得到升华。",
+    "mood": "升华的、激励的、充满信心的",
     "visual_type": "quote_hero",
-    "concept": "观众被金句激发思考，技术无罪的观念以视觉方式强化，引发行动和创造价值的决心，视觉上简洁而有力。",
-    "mood": "启发科技风，简洁有力的霓虹文字，赛博朋克风格中的哲学收尾。",
     "depth_layers": {
-      "background": [
-        "neon-lines",
+      "背景": [
+        "data-grid (全球视角，缓慢旋转)",
         "radial-glow"
       ],
-      "midground": [
-        "核心金句",
-        "工具图标"
+      "中景": [
+        "巨大的金句文字",
+        "抽象的韧性粒子流"
       ],
-      "foreground": [
-        "ghost-text",
-        "particle-drift"
+      "前景": [
+        "微光尘埃",
+        "极淡的ghost-text (起点)"
       ]
     },
     "density_target": 8,
     "key_elements": [
-      "核心金句文字",
-      "GPT-5工具图标",
-      "创造价值符号",
-      "科技向善标语",
-      "背景霓虹线条",
-      "光晕效果",
-      "简洁布局",
-      "未来可期氛围"
+      "超大尺寸金句文字",
+      "“实力加政策”关键词",
+      "“稳赢未来”关键词",
+      "全球数据网格背景",
+      "韧性粒子流",
+      "最终光晕收束效果"
     ],
-    "narration": "记住，技术无罪，人心决定方向。GPT-五是工具，用它创造价值才是王道。科技向善，未来可期。",
-    "duration": 8.1,
+    "narration": "所以，中国经济韧性超强，政策显神威。外贸破四万亿，只是起点。记住这金句：实力加政策，稳赢未来。你品，细品。",
+    "duration": 1.4,
     "animations": {
-      "title": "PUNCHES",
-      "ambient": "BREATHES"
+      "标题": "PUNCHES",
+      "金句引文": "FLOATS",
+      "背景粒子": "DRIFTS",
+      "光效": "BREATHES"
     },
     "transition": {
-      "in": "fade_in",
-      "out": "fade_out"
+      "in": "MORPH",
+      "out": "FADE_TO_BLACK"
     }
   }
 ]

@@ -3,178 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperFrames - Beat 5</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Video Scene 5 - Beat-5</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0; padding:0; background:#1a1a2e; overflow:hidden;">
-    <div class="scene" style="position:relative; width:1920px; height:1080px; background:#1a1a2e; overflow:hidden;">
-        <!-- Background Decor Layer -->
-        <div id="background-decor" style="position:absolute; top:0; left:0; width:100%; height:100%;">
-            <!-- Grid Lines -->
-            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image: 
-                linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px);
-                background-size:100px 100px;"></div>
-            <!-- Radial Glow -->
-            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:800px; background:radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%);"></div>
-            <!-- Scan Line -->
-            <div id="scan-line" style="position:absolute; top:0; left:0; width:100%; height:2px; background:rgba(0,212,255,0.2);"></div>
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;margin: 0; padding: 0;"><div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
+    <div id="scene" style="width: 1920px; height: 1080px; position: relative; background-color: #1a1a2e; overflow: hidden; font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;">
+        <!-- 装饰层: grid网格 -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none;"></div>
+        
+        <!-- 装饰层: 光晕效果 -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(0, 212, 255, 0.15), transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        
+        <!-- 装饰层: ghost text -->
+        <div style="position: absolute; top: 15%; left: 10%; color: rgba(255, 255, 255, 0.08); font-size: 120px; font-weight: bold; pointer-events: none;">数字爆发</div>
+        <div style="position: absolute; bottom: 20%; right: 10%; color: rgba(255, 255, 255, 0.08); font-size: 100px; font-weight: bold; pointer-events: none;">机会无限</div>
+        
+        <!-- 中心爆发点 -->
+        <div id="center-burst" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; background: radial-gradient(circle, #00D4FF, transparent 70%); border-radius: 50%; opacity: 0;"></div>
+        
+        <!-- 辐射状能量线条 -->
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(0deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(45deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(90deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(135deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(180deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(225deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(270deg); opacity: 0;"></div>
+        <div class="energy-line" style="position: absolute; top: 50%; left: 50%; width: 400px; height: 2px; background: linear-gradient(90deg, #00D4FF, transparent); transform-origin: left center; transform: rotate(315deg); opacity: 0;"></div>
+        
+        <!-- 国内经济稳定图标 -->
+        <div id="domestic-icon" style="position: absolute; top: 30%; left: 25%; width: 200px; height: 200px; border: 2px solid #00D4FF; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0;">
+            <div style="color: #00D4FF; font-size: 48px; font-weight: bold;">稳定</div>
+            <div style="color: #999999; font-size: 24px; margin-top: 10px;">国内经济</div>
         </div>
-
-        <!-- Ghost Text Watermark -->
-        <div id="ghost-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Inter','Noto Sans SC',sans-serif; font-size:300px; color:rgba(255,255,255,0.04); font-weight:bold; text-align:center; pointer-events:none;">
-            TECH
+        
+        <!-- 全球贸易网络图标 -->
+        <div id="global-icon" style="position: absolute; top: 30%; right: 25%; width: 200px; height: 200px; border: 2px solid #FF4081; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0;">
+            <div style="color: #FF4081; font-size: 48px; font-weight: bold;">网络</div>
+            <div style="color: #999999; font-size: 24px; margin-top: 10px;">全球贸易</div>
         </div>
-
-        <!-- Main Title -->
-        <div id="main-title" style="position:absolute; top:80px; left:100px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:100px; font-weight:bold; color:#00D4FF; text-shadow:0 0 30px rgba(0,212,255,0.8); letter-spacing:2px;">
-            技术流程解析
+        
+        <!-- 投资者与上升趋势线 -->
+        <div id="investor-trend" style="position: absolute; bottom: 25%; left: 50%; transform: translateX(-50%); width: 300px; height: 100px; opacity: 0;">
+            <svg width="300" height="100" viewBox="0 0 300 100" style="display: block;">
+                <path d="M 0 80 L 50 70 L 100 60 L 150 50 L 200 30 L 250 20 L 300 10" stroke="#FFD700" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #FFFFFF; font-size: 32px; font-weight: bold;">投资者趋势</div>
         </div>
-
-        <!-- Core Content Area (Left 60% / Right 40%) -->
-        <div style="position:absolute; top:200px; left:100px; right:100px; height:550px;">
-            <!-- Left Column (60%) -->
-            <div style="width:60%; height:100%; float:left; padding-right:40px;">
-                <!-- Data Card -->
-                <div id="data-card" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:24px; padding:40px; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.4); margin-bottom:30px;">
-                    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
-                    <div style="position:absolute; top:0; left:0; right:0; height:100%; background:radial-gradient(ellipse at top, rgba(0,212,255,0.08) 0%, transparent 50%); pointer-events:none;"></div>
-                    <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:24px; color:#999999; margin-bottom:10px;">学习效率提升</div>
-                    <div style="font-family:'JetBrains Mono',monospace; font-size:120px; font-weight:bold; color:#FFD700; line-height:1;">1000%</div>
-                    <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#FF4081; margin-top:10px;">↑ 指数级增长</div>
-                </div>
-
-                <!-- Flowchart Nodes & Connections -->
-                <div style="display:flex; justify-content:space-around; align-items:center; margin-top:40px;">
-                    <div id="node1" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:20px; text-align:center; width:200px;">
-                        <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#00D4FF;">混合专家架构</div>
-                        <div style="font-family:'JetBrains Mono',monospace; font-size:40px; font-weight:bold; color:#FFFFFF; margin-top:10px;">MoE</div>
-                    </div>
-                    <div style="width:100px; height:2px; background:linear-gradient(90deg, #00D4FF, #FF4081);"></div>
-                    <div id="node2" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:20px; text-align:center; width:200px;">
-                        <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#00D4FF;">强化学习</div>
-                        <div style="font-family:'JetBrains Mono',monospace; font-size:40px; font-weight:bold; color:#FFFFFF; margin-top:10px;">RL</div>
-                    </div>
-                    <div style="width:100px; height:2px; background:linear-gradient(90deg, #FF4081, #FFD700);"></div>
-                    <div id="node3" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,64,129,0.3); border-radius:16px; padding:20px; text-align:center; width:200px;">
-                        <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#FF4081;">指数级提升</div>
-                        <div style="font-family:'JetBrains Mono',monospace; font-size:40px; font-weight:bold; color:#FFD700; margin-top:10px;">Exponential</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column (40%) -->
-            <div style="width:40%; height:100%; float:right; padding-left:40px;">
-                <!-- Tag Pills -->
-                <div id="tag1" style="display:inline-block; background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.3); border-radius:50px; padding:10px 20px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#00D4FF; margin-bottom:20px;">
-                    技术创新
-                </div>
-                <div id="tag2" style="display:inline-block; background:rgba(255,64,129,0.1); border:1px solid rgba(255,64,129,0.3); border-radius:50px; padding:10px 20px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#FF4081; margin-bottom:20px; margin-left:10px;">
-                    AI革命
-                </div>
-
-                <!-- Progress Bar -->
-                <div style="margin-top:40px;">
-                    <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#999999; margin-bottom:10px;">模型效率提升</div>
-                    <div id="progress-bar" style="width:100%; height:10px; background:rgba(255,255,255,0.1); border-radius:5px; overflow:hidden;">
-                        <div style="width:80%; height:100%; background:linear-gradient(90deg, #00D4FF, #FFD700); border-radius:5px;"></div>
-                    </div>
-                    <div style="font-family:'JetBrains Mono',monospace; font-size:24px; color:#FFD700; margin-top:10px;">80%</div>
-                </div>
-
-                <!-- Additional Info -->
-                <div style="margin-top:60px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:16px; color:#666666;">
-                    基于OpenAI最新研究
-                </div>
+        
+        <!-- “大机会”闪光文字 -->
+        <div id="big-opportunity" style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); color: #FFD700; font-size: 64px; font-weight: bold; text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700; opacity: 0;">大机会</div>
+        
+        <!-- 口播文本 -->
+        <div id="oral-text" style="position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); color: #FFFFFF; font-size: 36px; font-weight: regular; text-align: center; opacity: 0;">影响有多大？不光国内经济稳了，全球贸易也跟着受益。投资者们，眼睛都亮了，这波增长里藏着大机会。</div>
+        
+        <!-- 数据卡片: 中心爆发点 -->
+        <div id="data-card-center" class="data-card" style="position: absolute; top: 20%; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.5); border: 2px solid #00D4FF; border-radius: 16px; padding: 20px; width: 250px; text-align: center; opacity: 0;">
+            <div style="color: #00D4FF; font-size: 72px; font-weight: bold; font-family: 'JetBrains Mono', monospace;">5</div>
+            <div style="color: #999999; font-size: 28px; margin-top: 10px;">中心爆发点</div>
+        </div>
+        
+        <!-- 数据卡片: 国内经济影响 -->
+        <div id="data-card-domestic" class="data-card" style="position: absolute; top: 55%; left: 15%; background: rgba(0, 0, 0, 0.5); border: 2px solid #00D4FF; border-radius: 16px; padding: 20px; width: 250px; text-align: center; opacity: 0;">
+            <div style="color: #FFD700; font-size: 48px; font-weight: bold; font-family: 'JetBrains Mono', monospace;">+8.5%</div>
+            <div style="color: #999999; font-size: 24px; margin-top: 10px;">国内经济增速</div>
+            <div style="margin-top: 15px; height: 10px; background: #333; border-radius: 5px; overflow: hidden;">
+                <div id="progress-domestic" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00D4FF, #FFD700); border-radius: 5px;"></div>
             </div>
         </div>
-
-        <!-- Bottom Info Area -->
-        <div id="footer-info" style="position:absolute; bottom:100px; left:100px; right:100px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#666666;">
-                    HyperFrames | 技术流程可视化
-                </div>
-                <div style="font-family:'JetBrains Mono',monospace; font-size:20px; color:#00D4FF;">
-                    00:10.1
-                </div>
+        
+        <!-- 数据卡片: 全球贸易受益 -->
+        <div id="data-card-global" class="data-card" style="position: absolute; top: 55%; right: 15%; background: rgba(0, 0, 0, 0.5); border: 2px solid #FF4081; border-radius: 16px; padding: 20px; width: 250px; text-align: center; opacity: 0;">
+            <div style="color: #FFD700; font-size: 48px; font-weight: bold; font-family: 'JetBrains Mono', monospace;">+12.3%</div>
+            <div style="color: #999999; font-size: 24px; margin-top: 10px;">全球贸易增长</div>
+            <div style="margin-top: 15px; height: 10px; background: #333; border-radius: 5px; overflow: hidden;">
+                <div id="progress-global" style="width: 0%; height: 100%; background: linear-gradient(90deg, #FF4081, #FFD700); border-radius: 5px;"></div>
             </div>
         </div>
-
-        <!-- Corner Decorations -->
-        <div style="position:absolute; top:100px; left:100px; width:40px; height:40px; border-left:2px solid rgba(0,212,255,0.3); border-top:2px solid rgba(0,212,255,0.3);"></div>
-        <div style="position:absolute; top:100px; right:100px; width:40px; height:40px; border-right:2px solid rgba(0,212,255,0.3); border-top:2px solid rgba(0,212,255,0.3);"></div>
-        <div style="position:absolute; bottom:100px; left:100px; width:40px; height:40px; border-left:2px solid rgba(0,212,255,0.3); border-bottom:2px solid rgba(0,212,255,0.3);"></div>
-        <div style="position:absolute; bottom:100px; right:100px; width:40px; height:40px; border-right:2px solid rgba(0,212,255,0.3); border-bottom:2px solid rgba(0,212,255,0.3);"></div>
-
-        <!-- Particle Dots -->
-        <div id="particle1" style="position:absolute; top:300px; left:500px; width:4px; height:4px; background:#00D4FF; border-radius:50%; opacity:0.5;"></div>
-        <div id="particle2" style="position:absolute; top:400px; left:800px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0.4;"></div>
-        <div id="particle3" style="position:absolute; top:200px; left:1200px; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0.5;"></div>
-        <div id="particle4" style="position:absolute; top:600px; left:300px; width:2px; height:2px; background:#00D4FF; border-radius:50%; opacity:0.3;"></div>
-        <div id="particle5" style="position:absolute; top:500px; left:1400px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0.4;"></div>
+        
+        <!-- 标签: 国内经济 -->
+        <div id="label-domestic" style="position: absolute; top: 28%; left: 22%; color: #FFFFFF; font-size: 28px; font-weight: bold; opacity: 0;">国内经济</div>
+        
+        <!-- 标签: 全球贸易 -->
+        <div id="label-global" style="position: absolute; top: 28%; right: 22%; color: #FFFFFF; font-size: 28px; font-weight: bold; opacity: 0;">全球贸易</div>
+        
+        <!-- 投资者机会图标 -->
+        <div id="investor-icon" style="position: absolute; top: 40%; right: 10%; width: 100px; height: 100px; border: 2px solid #FFD700; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0;">
+            <div style="color: #FFD700; font-size: 48px; font-weight: bold;">机会</div>
+        </div>
     </div>
 
     <script>
-        // Initialize timeline and register to window
         window.__timelines = window.__timelines || {};
-        const tl = gsap.timeline({paused: true});
-        window.__timelines["beat-5"] = tl;
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-        // Entry animations with 0.15s stagger
-        tl.from("#background-decor", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
-        tl.from("#ghost-text", {opacity: 0, duration: 1, ease: "power2.inOut"}, 0.15);
-        tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.3);
-        tl.from("#data-card", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.45);
-        tl.from("#node1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 0.6);
-        tl.from("#node2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 0.75);
-        tl.from("#node3", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 0.9);
-        tl.from("#tag1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.05);
-        tl.from("#tag2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.2);
-        tl.from("#progress-bar div", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 1.35);
-        tl.from("#footer-info", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.5);
-        tl.from("#particle1", {opacity: 0, duration: 0.5}, 0.5);
-        tl.from("#particle2", {opacity: 0, duration: 0.5}, 0.6);
-        tl.from("#particle3", {opacity: 0, duration: 0.5}, 0.7);
-        tl.from("#particle4", {opacity: 0, duration: 0.5}, 0.8);
-        tl.from("#particle5", {opacity: 0, duration: 0.5}, 0.9);
+        // 中心爆发点动画
+        tl.fromTo("#center-burst", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 1 })
+          // 辐射状能量线条动画，交错0.15s
+          .fromTo(".energy-line", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.5, stagger: 0.15 }, "-=0.5")
+          // 国内经济图标动画
+          .fromTo("#domestic-icon", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.3")
+          // 全球贸易图标动画
+          .fromTo("#global-icon", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+          // 投资者与上升趋势线动画
+          .fromTo("#investor-trend", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.5")
+          // 数据卡片动画，交错0.15s
+          .fromTo(".data-card", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, stagger: 0.15 }, "-=0.4")
+          // 进度条动画
+          .to("#progress-domestic", { width: "85%", duration: 1, ease: "power1.inOut" }, "-=0.5")
+          .to("#progress-global", { width: "90%", duration: 1, ease: "power1.inOut" }, "-=0.8")
+          // 标签动画
+          .fromTo("#label-domestic", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5 }, "-=0.5")
+          .fromTo("#label-global", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5 }, "-=0.5")
+          // 投资者机会图标动画
+          .fromTo("#investor-icon", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5 }, "-=0.3")
+          // “大机会”闪光文字动画
+          .fromTo("#big-opportunity", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.3")
+          // 口播文本动画
+          .fromTo("#oral-text", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.5");
 
-        // Breathing animations (only for selected elements)
-        gsap.to("#data-card", {
-            scale: 1.015,
-            duration: 3,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        gsap.to("#main-title", {
-            textShadow: "0 0 50px rgba(0,212,255,1)",
-            duration: 2.5,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        gsap.to("#tag1", {
-            borderColor: "rgba(0,212,255,0.8)",
+        // 卡片呼吸感动画，repeat: 0, yoyo:true
+        gsap.to(".data-card", {
+            scale: 1.05,
             duration: 2,
+            ease: "sine.inOut",
             repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
+            yoyo: true
         });
-        gsap.to("#scan-line", {
-            top: "100%",
-            duration: 5,
-            repeat: 0,
-            ease: "none"
-        });
-        gsap.to("#particle1", {x: "+=50", y: "+=30", duration: 10, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle2", {x: "-=40", y: "+=20", duration: 12, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle3", {x: "+=30", y: "-=20", duration: 15, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle4", {x: "-=20", y: "+=40", duration: 8, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle5", {x: "+=60", y: "-=10", duration: 14, repeat: 0, yoyo: true, ease: "none"});
 
-        // Start timeline
-        tl.play();
+        // 投资者机会图标闪烁动画
+        gsap.to("#investor-icon", {
+            boxShadow: "0 0 20px #FFD700, 0 0 40px #FFD700",
+            duration: 1,
+            repeat: 0,
+            yoyo: true
+        });
+
+        // “大机会”文字闪烁动画
+        gsap.to("#big-opportunity", {
+            textShadow: "0 0 20px #FFD700, 0 0 40px #FFD700, 0 0 60px #FFD700",
+            duration: 0.5,
+            repeat: 0,
+            yoyo: true
+        });
+
+        // 注册时间线到 window.__timelines["beat-5"]
+        window.__timelines["beat-5"] = tl;
     </script>
-</body>
+</div></body>
 </html>

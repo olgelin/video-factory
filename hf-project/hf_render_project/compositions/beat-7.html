@@ -1,237 +1,224 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-7" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <meta charset="UTF-8">
-    <title>SpaceX IPO - Musk Trillionaire</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <style>
-        
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body style="margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; font-family: 'Inter','Noto Sans SC',sans-serif;">
-    <div class="scene" style="background:#1a1a2e;width: 1920px; height: 1080px; position: relative; background: #1a1a2e; overflow: hidden; padding: 100px;">
+    <div class="scene" style="background:#1a1a2e;width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #1a1a2e;">
         
-        <!-- Background Layers -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size: 100px 100px; opacity: 0;"></div>
+        <!-- Grid Network Layer -->
+        <div style="position: absolute; inset: 0; background: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size: 100px 100px; pointer-events: none;"></div>
         
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1200px; height: 1200px; background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%); opacity: 0;"></div>
+        <!-- Radial Glow -->
+        <div style="position: absolute; top: 30%; left: 50%; transform: translate(-50%,-50%); width: 900px; height: 900px; background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%); pointer-events: none;"></div>
         
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,212,255,0.1) 0%, transparent 50%, rgba(255,64,129,0.08) 100%); opacity: 0;"></div>
+        <!-- Ghost Text Background -->
+        <div style="position: absolute; top: 200px; left: 100px; font-size: 240px; font-weight: bold; color: rgba(255,255,255,0.04); font-family: 'JetBrains Mono',monospace; white-space: nowrap; pointer-events: none; user-select: none;">红利机会数据</div>
         
-        <!-- Ghost Text -->
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 280px; font-weight: 700; color: rgba(255,255,255,0.04); text-align: center; line-height: 1; opacity: 0;">挑战vs机会</div>
+        <!-- Scan Line Animation -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent); pointer-events: none;"></div>
         
-        <!-- Scan Line -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.25), transparent); opacity: 0;"></div>
+        <!-- Particle Dots -->
+        <div style="position: absolute; top: 150px; left: 300px; width: 3px; height: 3px; background: #00D4FF; border-radius: 50%; pointer-events: none;"></div>
+        <div style="position: absolute; top: 400px; left: 600px; width: 2px; height: 2px; background:#1a1a2e; border-radius: 50%; pointer-events: none;"></div>
+        <div style="position: absolute; top: 250px; left: 900px; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%; pointer-events: none;"></div>
+        <div style="position: absolute; top: 600px; left: 400px; width: 2px; height: 2px; background: #00D4FF; border-radius: 50%; pointer-events: none;"></div>
+        <div style="position: absolute; top: 350px; left: 1200px; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; pointer-events: none;"></div>
         
         <!-- Corner Decorations -->
-        <div style="position: absolute; top: 60px; left: 60px; width: 50px; height: 50px; border-left: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
-        <div style="position: absolute; top: 60px; right: 60px; width: 50px; height: 50px; border-right: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
-        <div style="position: absolute; bottom: 60px; left: 60px; width: 50px; height: 50px; border-left: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
-        <div style="position: absolute; bottom: 60px; right: 60px; width: 50px; height: 50px; border-right: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
+        <div style="position: absolute; top: 120px; left: 120px; width: 50px; height: 2px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div style="position: absolute; top: 120px; left: 120px; width: 2px; height: 50px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        
+        <div style="position: absolute; top: 120px; right: 120px; width: 50px; height: 2px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div style="position: absolute; top: 120px; right: 120px; width: 2px; height: 50px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        
+        <div style="position: absolute; bottom: 120px; left: 120px; width: 50px; height: 2px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div style="position: absolute; bottom: 120px; left: 120px; width: 2px; height: 50px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        
+        <div style="position: absolute; bottom: 120px; right: 120px; width: 50px; height: 2px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div style="position: absolute; bottom: 120px; right: 120px; width: 2px; height: 50px; background: rgba(0,212,255,0.3); pointer-events: none;"></div>
+        
+        <!-- Ghost Text Foreground -->
+        <div style="position: absolute; top: 180px; left: 50%; transform: translateX(-50%); font-size: 200px; font-weight: bold; color: rgba(255,255,255,0.03); font-family: 'JetBrains Mono',monospace; white-space: nowrap; pointer-events: none; user-select: none;">盯紧别被忽悠</div>
+        <div style="position: absolute; top: 450px; left: 30%; font-size: 180px; font-weight: bold; color: rgba(255,255,255,0.02); font-family: 'JetBrains Mono',monospace; white-space: nowrap; pointer-events: none; user-select: none;">数据说话机会眼前</div>
+        
+        <!-- Main Content Area -->
+        <div style="position: absolute; top: 200px; left: 100px; right: 100px; bottom: 200px; display: flex; flex-direction: column; justify-content: center;">
+            
+            <!-- Tech Frame List -->
+            <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 40px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; width: 70%; margin: 0 auto;">
+                
+                <!-- Top Highlight -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent); border-radius: 24px 24px 0 0;"></div>
+                
+                <!-- Internal Glow -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 50%; background: radial-gradient(ellipse at top, rgba(0,212,255,0.08), transparent); pointer-events: none;"></div>
+                
+                <!-- List Items -->
+                <div style="display: flex; flex-direction: column; gap: 30px;">
+                    <!-- Item 1 -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border: 1px solid rgba(0,212,255,0.1); border-radius: 16px; background: rgba(0,212,255,0.02);">
+                        <div style="font-size: 32px; color: #FFFFFF; font-weight: bold;">科技出口板块</div>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div style="font-size: 28px; color: #FFD700; font-family: 'JetBrains Mono',monospace;">↑ 15.7%</div>
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700, #FF4081); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: #1a1a2e; font-weight: bold; font-size: 20px;">¥</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 2 - Highlighted -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border: 1px solid rgba(255,64,129,0.5); border-radius: 16px; background: rgba(255,64,129,0.05); box-shadow: 0 0 20px rgba(255,64,129,0.1);">
+                        <div style="font-size: 36px; color: #FF4081; font-weight: bold;">跨境贸易机会</div>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div style="font-size: 32px; color: #FFD700; font-family: 'JetBrains Mono',monospace;">↑ 22.3%</div>
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700, #00D4FF); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: #1a1a2e; font-weight: bold; font-size: 20px;">🌐</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 3 -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border: 1px solid rgba(0,212,255,0.1); border-radius: 16px; background: rgba(0,212,255,0.02);">
+                        <div style="font-size: 32px; color: #FFFFFF; font-weight: bold;">数据验证优先</div>
+                        <div style="font-size: 28px; color: #999999; font-family: 'JetBrains Mono',monospace;">监控中...</div>
+                    </div>
+                    
+                    <!-- Item 4 -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border: 1px solid rgba(0,212,255,0.1); border-radius: 16px; background: rgba(0,212,255,0.02);">
+                        <div style="font-size: 32px; color: #FFFFFF; font-weight: bold;">政策红利窗口</div>
+                        <div style="font-size: 28px; color: #FFD700; font-family: 'JetBrains Mono',monospace;">即将关闭</div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Label -->
+                <div style="text-align: center; margin-top: 30px; font-size: 24px; color: rgba(0,212,255,0.7); letter-spacing: 2px;">行动清单 · 优先级排序</div>
+            </div>
+        </div>
+        
+        <!-- Bottom Information Area -->
+        <div style="position: absolute; bottom: 120px; left: 120px; right: 120px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <!-- Left Tags -->
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div style="padding: 10px 25px; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); border-radius: 100px; font-size: 20px; color: #00D4FF;">投资者注意</div>
+                <div style="padding: 10px 25px; background: rgba(255,64,129,0.1); border: 1px solid rgba(255,64,129,0.2); border-radius: 100px; font-size: 20px; color: #FF4081;">数据驱动</div>
+                <div style="padding: 10px 25px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 100px; font-size: 20px; color: #FFD700;">红利窗口</div>
+            </div>
+            
+            <!-- Right Data -->
+            <div style="text-align: right;">
+                <div style="font-size: 18px; color: #999999; margin-bottom: 10px;">外贸连续3个月</div>
+                <div style="font-size: 80px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono',monospace; text-shadow: 0 0 30px rgba(255,215,0,0.3);">4.2万亿</div>
+                <div style="font-size: 24px; color: rgba(0,212,255,0.7); margin-top: 10px;">人民币</div>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div style="position: absolute; bottom: 180px; left: 120px; right: 120px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+            <div style="height: 100%; width: 75%; background: linear-gradient(90deg, #00D4FF, #FF4081, #FFD700); border-radius: 2px;"></div>
+        </div>
         
         <!-- Title Area -->
-        <div style="position: absolute; top: 80px; left: 100px; right: 100px; text-align: left;">
-            <div style="font-size: 48px; color: rgba(255,255,255,0.7); margin-bottom: 20px; text-shadow: 0 0 30px rgba(0,212,255,0.4);">AI能力的飞跃</div>
-            <div style="font-size: 96px; font-weight: 700; color: #FFFFFF; text-shadow: 0 0 40px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2); line-height: 1.1; margin-bottom: 30px;">挑战与机会的平衡</div>
-            <div style="width: 200px; height: 4px; background: linear-gradient(90deg, #00D4FF, rgba(0,212,255,0.2)); margin-bottom: 20px; opacity: 0;"></div>
+        <div style="position: absolute; top: 80px; left: 120px;">
+            <div style="font-size: 20px; color: rgba(0,212,255,0.5); letter-spacing: 3px; margin-bottom: 10px;">投资策略 · 7号场景</div>
+            <div style="font-size: 72px; font-weight: bold; color: #FFFFFF; text-shadow: 0 0 30px rgba(0,212,255,0.5); line-height: 1.2;">盯紧科技出口和跨境板块</div>
+            <div style="font-size: 36px; color: rgba(255,255,255,0.7); margin-top: 10px;">这波红利，吃得到</div>
         </div>
         
-        <!-- Core Content Area -->
-        <div style="position: absolute; top: 320px; left: 100px; right: 100px; bottom: 280px; display: flex; gap: 40px;">
-            
-            <!-- Left Column - Challenges (60%) -->
-            <div style="flex: 6; display: flex; flex-direction: column; gap: 30px;">
-                <!-- Challenge Card 1 -->
-                <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; border: 1px solid rgba(0,212,255,0.15); position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
-                    <div style="font-size: 20px; color: rgba(255,255,255,0.6); margin-bottom: 15px;">数据隐私泄露</div>
-                    <div style="font-size: 64px; font-weight: 700; color: #FF4081; font-family: 'JetBrains Mono', monospace; text-shadow: 0 0 30px rgba(255,64,129,0.3);">87%</div>
-                    <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 20px; overflow: hidden;">
-                        <div style="width: 87%; height: 100%; background: linear-gradient(90deg, #FF4081, #FF8A80); border-radius: 3px;"></div>
-                    </div>
-                </div>
-                
-                <!-- Challenge Card 2 -->
-                <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; border: 1px solid rgba(0,212,255,0.15); position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
-                    <div style="font-size: 20px; color: rgba(255,255,255,0.6); margin-bottom: 15px;">算法偏见加剧</div>
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <div style="background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); border-radius: 20px; padding: 8px 16px; font-size: 18px; color: #FFD700;">种族偏见</div>
-                        <div style="background: rgba(255,64,129,0.15); border: 1px solid rgba(255,64,129,0.3); border-radius: 20px; padding: 8px 16px; font-size: 18px; color: #FF4081;">性别偏见</div>
-                        <div style="background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.3); border-radius: 20px; padding: 8px 16px; font-size: 18px; color: #00D4FF;">年龄偏见</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Column - Opportunities (40%) -->
-            <div style="flex: 4; display: flex; flex-direction: column; gap: 30px;">
-                <!-- Balance Indicator -->
-                <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; border: 1px solid rgba(0,212,255,0.15); position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, #FF4081);"></div>
-                    <div style="font-size: 20px; color: rgba(255,255,255,0.6); margin-bottom: 20px;">平衡指示器</div>
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                        <div style="font-size: 18px; color: #FF4081; width: 80px;">挑战</div>
-                        <div style="flex: 1; height: 8px; background: linear-gradient(90deg, #FF4081, #FFD700, #00D4FF); border-radius: 4px; position: relative;">
-                            <div style="position: absolute; top: -4px; left: 45%; width: 16px; height: 16px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px rgba(0,212,255,0.5);"></div>
-                        </div>
-                        <div style="font-size: 18px; color: #00D4FF; width: 80px; text-align: right;">机会</div>
-                    </div>
-                    <div style="text-align: center; font-size: 18px; color: rgba(255,255,255,0.6);">冷静看待，寻找平衡点</div>
-                </div>
-                
-                <!-- Opportunity Card 1 -->
-                <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; border: 1px solid rgba(0,212,255,0.15); position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-                    <div style="font-size: 20px; color: rgba(255,255,255,0.6); margin-bottom: 15px;">正面影响指标</div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <div>
-                            <div style="font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 5px;">医疗诊断</div>
-                            <div style="font-size: 42px; font-weight: 700; color: #00D4FF; font-family: 'JetBrains Mono', monospace;">+142%</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 5px;">工业效率</div>
-                            <div style="font-size: 42px; font-weight: 700; color: #FFD700; font-family: 'JetBrains Mono', monospace;">+89%</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Opportunity Card 2 -->
-                <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; border: 1px solid rgba(0,212,255,0.15); position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
-                    <div style="font-size: 20px; color: rgba(255,255,255,0.6); margin-bottom: 15px;">就业市场冲击</div>
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #FF4081; display: flex; align-items: center; justify-content: center;">
-                            <div style="font-size: 28px; font-weight: 700; color: #FF4081;">-32%</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 18px; color: #FFFFFF; margin-bottom: 8px;">传统岗位减少</div>
-                            <div style="font-size: 16px; color: rgba(255,255,255,0.6);">新岗位创造 +45%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Right Side Decoration -->
+        <div style="position: absolute; top: 250px; right: 150px; width: 200px; height: 600px; border-right: 1px solid rgba(0,212,255,0.1); pointer-events: none;"></div>
         
-        <!-- Bottom Info Area -->
-        <div style="position: absolute; bottom: 100px; left: 100px; right: 100px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; gap: 20px;">
-                    <div style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); border-radius: 20px; padding: 10px 20px; font-size: 18px; color: #00D4FF;">AI伦理研究</div>
-                    <div style="background: rgba(255,64,129,0.1); border: 1px solid rgba(255,64,129,0.2); border-radius: 20px; padding: 10px 20px; font-size: 18px; color: #FF4081;">监管框架</div>
-                    <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 20px; padding: 10px 20px; font-size: 18px; color: #FFD700;">技术治理</div>
-                </div>
-                <div style="font-size: 18px; color: rgba(255,255,255,0.4);">数据来源：全球AI伦理研究报告 2024</div>
-            </div>
-            <div style="height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.3), rgba(255,64,129,0.3), rgba(255,215,0,0.3), rgba(0,212,255,0.3)); margin-top: 20px;"></div>
+        <!-- Data Visualization Dots -->
+        <div style="position: absolute; top: 300px; right: 200px; width: 150px; height: 300px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="width: 8px; height: 8px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px rgba(0,212,255,0.5);"></div>
+            <div style="width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px rgba(255,64,129,0.5);"></div>
+            <div style="width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px rgba(255,215,0,0.5);"></div>
+            <div style="width: 8px; height: 8px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px rgba(0,212,255,0.5);"></div>
         </div>
-        
-        <!-- Particle Points -->
-        <div style="position: absolute; top: 30%; left: 20%; width: 4px; height: 4px; background: #00D4FF; border-radius: 50%; opacity: 0;"></div>
-        <div style="position: absolute; top: 70%; left: 80%; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; opacity: 0;"></div>
-        <div style="position: absolute; top: 50%; left: 60%; width: 2px; height: 2px; background:#1a1a2e; border-radius: 50%; opacity: 0;"></div>
-        <div style="position: absolute; top: 20%; left: 70%; width: 3px; height: 3px; background: #00D4FF; border-radius: 50%; opacity: 0;"></div>
-        <div style="position: absolute; top: 80%; left: 30%; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%; opacity: 0;"></div>
-        <div style="position: absolute; top: 40%; left: 40%; width: 2px; height: 2px; background:#1a1a2e; border-radius: 50%; opacity: 0;"></div>
     </div>
 
     <script>
+        // Register timeline
         window.__timelines = window.__timelines || {};
         window.__timelines["beat-7"] = gsap.timeline({paused: true});
         
-        const tl = window.__timelines["beat-7"];
+        const timeline = window.__timelines["beat-7"];
         
-        // Background layers
-        tl.from(".scene > div:nth-child(1)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
-        tl.from(".scene > div:nth-child(2)", {opacity: 0, scale: 0.9, duration: 1.5, ease: "power1.inOut"}, 0.15);
-        tl.from(".scene > div:nth-child(3)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3);
+        // Get all scene elements
+        const sceneElements = document.querySelectorAll('.scene > *:not(:first-child)');
         
-        // Ghost text
-        tl.from(".scene > div:nth-child(4)", {opacity: 0, scale: 0.95, duration: 1, ease: "power2.out"}, 0.45);
+        // Add entrance animations
+        sceneElements.forEach((element, index) => {
+            // Different animation based on element type
+            if (element.querySelector('[style*="font-size: 72px"]') || 
+                element.querySelector('[style*="font-size: 240px"]') ||
+                element.querySelector('[style*="font-size: 200px"]')) {
+                // Title animations
+                timeline.from(element, {
+                    y: -50,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out"
+                }, index * 0.15);
+            } 
+            else if (element.querySelector('[style*="backdrop-filter"]')) {
+                // Card animations
+                timeline.from(element, {
+                    y: 60,
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.7,
+                    ease: "back.out(1.7)"
+                }, index * 0.15);
+            }
+            else if (element.querySelector('[style*="border-radius: 100px"]')) {
+                // Tag pill animations
+                timeline.from(element, {
+                    x: -30,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.out"
+                }, index * 0.15);
+            }
+            else if (element.querySelector('[style*="height: 4px"]')) {
+                // Progress bar animations
+                timeline.from(element, {
+                    scaleX: 0,
+                    transformOrigin: "left",
+                    duration: 1,
+                    ease: "power2.inOut"
+                }, index * 0.15);
+            }
+            else {
+                // General decorative elements
+                timeline.from(element, {
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "power1.inOut"
+                }, index * 0.15);
+            }
+        });
         
-        // Scan line
-        tl.from(".scene > div:nth-child(5)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 0.6);
-        tl.to(".scene > div:nth-child(5)", {top: "100%", duration: 6, repeat: 0, ease: "none"}, 1.4);
-        
-        // Corner decorations
-        tl.from(".scene > div:nth-child(6)", {opacity: 0, scale: 0.8, duration: 0.7, ease: "power2.out"}, 0.75);
-        tl.from(".scene > div:nth-child(7)", {opacity: 0, scale: 0.8, duration: 0.7, ease: "power2.out"}, 0.9);
-        tl.from(".scene > div:nth-child(8)", {opacity: 0, scale: 0.8, duration: 0.7, ease: "power2.out"}, 1.05);
-        tl.from(".scene > div:nth-child(9)", {opacity: 0, scale: 0.8, duration: 0.7, ease: "power2.out"}, 1.2);
-        
-        // Title area
-        tl.from(".scene > div:nth-child(10)", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 1.35);
-        tl.from(".scene > div:nth-child(11)", {y: -30, opacity: 0, duration: 0.6, ease: "power3.out"}, 1.5);
-        tl.from(".scene > div:nth-child(12)", {y: -20, opacity: 0, duration: 0.5, ease: "power3.out"}, 1.65);
-        tl.from(".scene > div:nth-child(13)", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 1, ease: "power2.inOut"}, 1.8);
-        
-        // Core content cards
-        tl.from(".scene > div:nth-child(14) > div > div:nth-child(1)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.95);
-        tl.from(".scene > div:nth-child(14) > div > div:nth-child(2)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.1);
-        tl.from(".scene > div:nth-child(15) > div > div:nth-child(1)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.25);
-        tl.from(".scene > div:nth-child(15) > div > div:nth-child(2)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.4);
-        tl.from(".scene > div:nth-child(15) > div > div:nth-child(3)", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.55);
-        
-        // Bottom info
-        tl.from(".scene > div:nth-child(16)", {y: 30, opacity: 0, duration: 0.6, ease: "power2.out"}, 2.7);
-        tl.from(".scene > div:nth-child(16) > div > div:nth-child(1) > div:nth-child(1)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.85);
-        tl.from(".scene > div:nth-child(16) > div > div:nth-child(1) > div:nth-child(2)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.0);
-        tl.from(".scene > div:nth-child(16) > div > div:nth-child(1) > div:nth-child(3)", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.15);
-        tl.from(".scene > div:nth-child(16) > div > div:nth-child(2)", {opacity: 0, duration: 0.6, ease: "power2.out"}, 3.3);
-        tl.from(".scene > div:nth-child(17)", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 1, ease: "power2.inOut"}, 3.45);
-        
-        // Particle points
-        tl.from(".scene > div:nth-child(18)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 3.6);
-        tl.from(".scene > div:nth-child(19)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 3.75);
-        tl.from(".scene > div:nth-child(20)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 3.9);
-        tl.from(".scene > div:nth-child(21)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 4.05);
-        tl.from(".scene > div:nth-child(22)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 4.2);
-        tl.from(".scene > div:nth-child(23)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 4.35);
-        
-        // Particle drift animation
-        gsap.to(".scene > div:nth-child(18)", {x: 100, y: -50, duration: 12, repeat: 0, ease: "none"});
-        gsap.to(".scene > div:nth-child(19)", {x: -80, y: 30, duration: 10, repeat: 0, ease: "none"});
-        gsap.to(".scene > div:nth-child(20)", {x: 60, y: 60, duration: 15, repeat: 0, ease: "none"});
-        gsap.to(".scene > div:nth-child(21)", {x: -40, y: -30, duration: 8, repeat: 0, ease: "none"});
-        gsap.to(".scene > div:nth-child(22)", {x: 70, y: -40, duration: 11, repeat: 0, ease: "none"});
-        gsap.to(".scene > div:nth-child(23)", {x: -50, y: 50, duration: 14, repeat: 0, ease: "none"});
-        
-        // Breathing effects
-        gsap.to(".scene > div:nth-child(14) > div > div:nth-child(1)", {
-            scale: 1.015, 
-            duration: 3, 
-            repeat: 0, 
-            yoyo: true, 
+        // Add breathing animations for selected elements
+        gsap.to('.scene [style*="backdrop-filter"]', {
+            scale: 1.015,
+            duration: 3,
+            repeat: 0,
+            yoyo: true,
             ease: "sine.inOut"
         });
         
-        gsap.to(".scene > div:nth-child(15) > div > div:nth-child(1)", {
-            scale: 1.015, 
-            duration: 3.5, 
-            repeat: 0, 
-            yoyo: true, 
+        // Add glow pulse for title
+        gsap.to('.scene [style*="font-size: 72px"]', {
+            textShadow: '0 0 40px rgba(0,212,255,0.8)',
+            duration: 2.5,
+            repeat: 0,
+            yoyo: true,
             ease: "sine.inOut"
         });
         
-        gsap.to(".scene > div:nth-child(11)", {
-            textShadow: "0 0 50px rgba(0,212,255,0.7), 0 0 100px rgba(0,212,255,0.3)",
-            duration: 2.5, 
-            repeat: 0, 
-            yoyo: true, 
-            ease: "sine.inOut"
-        });
-        
-        // Radial glow animation
-        gsap.to(".scene > div:nth-child(2)", {
-            scale: 1.1, 
-            x: 50, 
-            y: 30, 
-            duration: 10, 
-            repeat: 0, 
-            ease: "none"
-        });
-        
-        tl.play();
+        // Start timeline
+        timeline.play();
     </script>
 </body>
 </html>
