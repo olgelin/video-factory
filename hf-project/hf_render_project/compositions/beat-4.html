@@ -1,283 +1,266 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-4" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1920, height=1080">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        window.__timelines = window.__timelines || {};
+        window.__timelines["beat-4"] = gsap.timeline({paused: true});
+    </script>
 </head>
-<body style="margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; width: 1920px; height: 1080px; font-family: 'Inter','Noto Sans SC', sans-serif;">
-    <div class="scene" style="background:#1a1a2e;position: relative; width: 100%; height: 100%; overflow: hidden;">
-
-        <!-- Decoration Layer 1: Grid -->
-        <div id="deco-grid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size: 100px 100px; opacity: 0;"></div>
-
-        <!-- Decoration Layer 2: Radial Glow -->
-        <div id="deco-glow" style="position: absolute; top: 20%; left: 30%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%); opacity: 0;"></div>
-
-        <!-- Decoration Layer 3: Ghost Text -->
-        <div id="ghost-text" style="position: absolute; top: 300px; left: 100px; font-size: 280px; font-weight: bold; color: rgba(255,255,255,0.04); opacity: 0; line-height: 1;">机遇</div>
-
-        <!-- Decoration Layer 4: Scanning Line -->
-        <div id="deco-scanline" style="position: absolute; top: -2px; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #00D4FF, transparent); opacity: 0;"></div>
-
-        <!-- Decoration Layer 5: Particles (along the imagined path) -->
-        <div id="particle1" style="position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #00D4FF; top: 600px; left: 200px; opacity: 0;"></div>
-        <div id="particle2" style="position: absolute; width: 3px; height: 3px; border-radius: 50%; background:#1a1a2e; top: 650px; left: 500px; opacity: 0;"></div>
-        <div id="particle3" style="position: absolute; width: 2px; height: 2px; border-radius: 50%; background:#1a1a2e; top: 620px; left: 800px; opacity: 0;"></div>
-        <div id="particle4" style="position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #00D4FF; top: 580px; left: 1100px; opacity: 0;"></div>
-        <div id="particle5" style="position: absolute; width: 3px; height: 3px; border-radius: 50%; background:#1a1a2e; top: 610px; left: 1400px; opacity: 0;"></div>
-
-        <!-- Main Title -->
-        <div id="main-title" style="position: absolute; top: 100px; left: 100px; font-size: 88px; font-weight: bold; color: #FFFFFF; text-shadow: 0 0 30px #00D4FF, 0 0 60px rgba(0,212,255,0.3); opacity: 0;">挑战中孕育新生</div>
-
-        <!-- Subtitle / Context -->
-        <div id="subtitle" style="position: absolute; top: 210px; left: 100px; font-size: 28px; color: rgba(0,212,255,0.6); opacity: 0;">AI革命下的职业变迁图谱</div>
-
-        <!-- Central Visual: Path & Old/New Icons -->
-        <svg id="path-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0;" viewBox="0 0 1920 1080">
-            <defs>
-                <linearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#FF4081;stop-opacity:0.8"/>
-                    <stop offset="50%" style="stop-color:#00D4FF;stop-opacity:1"/>
-                    <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0.8"/>
-                </linearGradient>
-            </defs>
-            <!-- Glowing Path -->
-            <path d="M 200,600 C 500,400 700,700 960,540 S 1400,600 1700,500" fill="none" stroke="url(#pathGrad)" stroke-width="4" stroke-dasharray="10,5"/>
-            <!-- Path glow effect -->
-            <path d="M 200,600 C 500,400 700,700 960,540 S 1400,600 1700,500" fill="none" stroke="#00D4FF" stroke-width="20" stroke-opacity="0.15" filter="blur(10px)"/>
-        </svg>
-
-        <!-- Broken Old Icon (Factory/Office) -->
-        <div id="old-icon" style="position: absolute; top: 550px; left: 180px; width: 100px; height: 100px; opacity: 0;">
-            <div style="width: 100%; height: 100%; border: 3px dashed rgba(255,64,129,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FF4081; font-size: 40px; font-family: 'JetBrains Mono', monospace; transform: rotate(-15deg);">⚙️</div>
-            <div style="position: absolute; top: 10px; left: 10px; width: 80px; height: 80px; border: 2px solid rgba(255,64,129,0.3); border-radius: 50%; transform: rotate(10deg);"></div>
+<body style="margin: 0; padding: 0; background-color: #1a1a2e; overflow: hidden; width: 1920px; height: 1080px; font-family: 'Inter', 'Noto Sans SC', sans-serif;">
+    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; background-color: #1a1a2e; overflow: hidden;">
+        <!-- Background Grid -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 212, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.08) 1px, transparent 1px); background-size: 100px 100px; opacity: 0;"></div>
+        
+        <!-- Left Glow -->
+        <div style="position: absolute; left: 0; top: 50%; transform: translate(-50%, -50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%); opacity: 0;"></div>
+        
+        <!-- Right Glow -->
+        <div style="position: absolute; right: 0; top: 50%; transform: translate(50%, -50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 64, 129, 0.15) 0%, transparent 70%); opacity: 0;"></div>
+        
+        <!-- Ghost Text Left -->
+        <div style="position: absolute; left: 50px; top: 50%; transform: translateY(-50%); font-family: 'JetBrains Mono', monospace; font-size: 250px; font-weight: bold; color: rgba(255, 255, 255, 0.04); opacity: 0; user-select: none;">RISE</div>
+        
+        <!-- Ghost Text Right -->
+        <div style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); font-family: 'JetBrains Mono', monospace; font-size: 250px; font-weight: bold; color: rgba(255, 255, 255, 0.04); opacity: 0; user-select: none;">FALL</div>
+        
+        <!-- Scanning Line -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent); opacity: 0;"></div>
+        
+        <!-- Central Warning Line -->
+        <div style="position: absolute; left: 50%; top: 100px; transform: translateX(-50%); width: 4px; height: 880px; background: linear-gradient(to bottom, transparent, #FF4081 20%, #FF4081 80%, transparent); opacity: 0;"></div>
+        
+        <!-- Left Title -->
+        <div style="position: absolute; left: 100px; top: 120px; font-size: 48px; font-weight: bold; color: #FFD700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); opacity: 0;">选对赛道</div>
+        
+        <!-- Right Title -->
+        <div style="position: absolute; right: 100px; top: 120px; font-size: 48px; font-weight: bold; color: #FF4081; text-shadow: 0 0 30px rgba(255, 64, 129, 0.5); opacity: 0; text-align: right;">选错赛道</div>
+        
+        <!-- Left Rising Curve -->
+        <div style="position: absolute; left: 150px; top: 220px; width: 600px; height: 300px; overflow: hidden; opacity: 0;">
+            <svg width="100%" height="100%" viewBox="0 0 600 300">
+                <path d="M0,300 C150,300 200,50 300,150 C400,250 450,50 600,0" fill="none" stroke="#FFD700" stroke-width="4" stroke-linecap="round"/>
+                <path d="M0,300 C150,300 200,50 300,150 C400,250 450,50 600,0" fill="url(#gradientGold)" opacity="0.3"/>
+                <defs>
+                    <linearGradient id="gradientGold" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#FFD700" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
-
-        <!-- AI Chip Icon (Path Midpoint) -->
-        <div id="ai-chip" style="position: absolute; top: 490px; left: 920px; width: 120px; height: 120px; opacity: 0;">
-            <div style="width: 100%; height: 100%; background: rgba(26,26,46,0.8); border: 2px solid #00D4FF; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(0,212,255,0.4);">
-                <span style="font-size: 50px;">🧠</span>
-            </div>
-            <div style="position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border: 1px solid rgba(0,212,255,0.2); border-radius: 20px; animation: pulse-border 2s ease-in-out 3;"></div>
+        
+        <!-- Right Falling Curve -->
+        <div style="position: absolute; right: 150px; top: 220px; width: 600px; height: 300px; overflow: hidden; opacity: 0;">
+            <svg width="100%" height="100%" viewBox="0 0 600 300">
+                <path d="M0,0 C150,0 200,250 300,150 C400,50 450,250 600,300" fill="none" stroke="#FF4081" stroke-width="4" stroke-linecap="round"/>
+                <path d="M0,0 C150,0 200,250 300,150 C400,50 450,250 600,300" fill="url(#gradientRed)" opacity="0.3"/>
+                <defs>
+                    <linearGradient id="gradientRed" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#FF4081" stop-opacity="0"/>
+                        <stop offset="100%" stop-color="#FF4081" stop-opacity="0.6"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
-
-        <!-- New Job Cards Container (Right 40%) -->
-        <div id="new-jobs" style="position: absolute; top: 200px; right: 100px; width: 600px; display: flex; flex-direction: column; gap: 25px;">
-
-            <!-- Card 1: Prompt Engineer -->
-            <div id="card1" class="job-card" style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 20px; padding: 30px; opacity: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-                <div style="font-size: 16px; color: #999999; margin-bottom: 8px;">新兴职业</div>
-                <div style="font-size: 40px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">提示词工程师</div>
-                <div style="font-size: 18px; color: rgba(0,212,255,0.7); margin-top: 10px;">Prompt Engineer</div>
-            </div>
-
-            <!-- Card 2: AI Ethicist -->
-            <div id="card2" class="job-card" style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 20px; padding: 30px; opacity: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
-                <div style="font-size: 16px; color: #999999; margin-bottom: 8px;">新兴职业</div>
-                <div style="font-size: 40px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">AI伦理师</div>
-                <div style="font-size: 18px; color: rgba(255,64,129,0.7); margin-top: 10px;">AI Ethicist</div>
-            </div>
-
-            <!-- Card 3: Data Strategist -->
-            <div id="card3" class="job-card" style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.3); border-radius: 20px; padding: 30px; opacity: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
-                <div style="font-size: 16px; color: #999999; margin-bottom: 8px;">新兴职业</div>
-                <div style="font-size: 40px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">数据策略分析师</div>
-                <div style="font-size: 18px; color: rgba(255,215,0,0.7); margin-top: 10px;">Data Strategist</div>
+        
+        <!-- Left Golden Coins -->
+        <div style="position: absolute; left: 200px; top: 350px; width: 100px; height: 100px; opacity: 0;">
+            <div style="position: relative; width: 100%; height: 100%;">
+                <div style="position: absolute; left: 20px; top: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);"></div>
+                <div style="position: absolute; left: 0; top: 0; width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);"></div>
+                <div style="position: absolute; left: 40px; top: -20px; width: 30px; height: 30px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; border: 3px solid #FFD700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);"></div>
             </div>
         </div>
-
-        <!-- Data Points along path (small icons) -->
-        <div id="data-point1" style="position: absolute; top: 620px; left: 400px; width: 40px; height: 40px; background: rgba(26,26,46,0.8); border: 2px solid #00D4FF; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0; box-shadow: 0 0 15px rgba(0,212,255,0.3);">📊</div>
-        <div id="data-point2" style="position: absolute; top: 560px; left: 700px; width: 40px; height: 40px; background: rgba(26,26,46,0.8); border: 2px solid #FF4081; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0; box-shadow: 0 0 15px rgba(255,64,129,0.3);">📈</div>
-        <div id="data-point3" style="position: absolute; top: 640px; left: 1200px; width: 40px; height: 40px; background: rgba(26,26,46,0.8); border: 2px solid #FFD700; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0; box-shadow: 0 0 15px rgba(255,215,0,0.3);">💰</div>
-
-        <!-- Labels: "May Disappear" & "New Life" -->
-        <div id="label-disappear" style="position: absolute; top: 480px; left: 160px; background: rgba(255,64,129,0.15); border: 1px solid rgba(255,64,129,0.4); border-radius: 50px; padding: 8px 20px; color: #FF4081; font-size: 16px; opacity: 0;">五年内可能消失</div>
-        <div id="label-newlife" style="position: absolute; top: 510px; left: 850px; background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.4); border-radius: 50px; padding: 8px 20px; color: #00D4FF; font-size: 16px; opacity: 0;">新生</div>
-
-        <!-- Bottom Info Area (y=800-980px) -->
-        <div id="bottom-info" style="position: absolute; bottom: 120px; left: 100px; right: 100px; opacity: 0;">
-            <!-- Progress Bar -->
-            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                <span style="color: #999999; font-size: 20px; width: 200px;">传统岗位转型</span>
-                <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-                    <div id="progress-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #FF4081, #00D4FF); border-radius: 4px;"></div>
-                </div>
-                <span style="color: #FFD700; font-size: 24px; font-weight: bold; font-family: 'JetBrains Mono', monospace; margin-left: 20px;">72%</span>
-            </div>
-            <!-- Timeline Dots -->
-            <div style="display: flex; align-items: center; gap: 30px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 12px; height: 12px; border-radius: 50%; background:#1a1a2e;"></div>
-                    <span style="color: #999999; font-size: 18px;">2020-2023</span>
-                </div>
-                <div style="width: 80px; height: 2px; background: linear-gradient(90deg, #FF4081, #00D4FF);"></div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #00D4FF;"></div>
-                    <span style="color: #FFFFFF; font-size: 18px; font-weight: bold;">2024-2026</span>
-                </div>
-                <div style="width: 80px; height: 2px; background: linear-gradient(90deg, #00D4FF, #FFD700);"></div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 12px; height: 12px; border-radius: 50%; background:#1a1a2e;"></div>
-                    <span style="color: #999999; font-size: 18px;">2027+</span>
-                </div>
+        
+        <!-- Right Broken Coins -->
+        <div style="position: absolute; right: 200px; top: 350px; width: 100px; height: 100px; opacity: 0;">
+            <div style="position: relative; width: 100%; height: 100%;">
+                <div style="position: absolute; left: 20px; top: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, #666, #999); border-radius: 50%; border: 3px solid #666; box-shadow: 0 0 20px rgba(255, 64, 129, 0.3); transform: rotate(45deg);"></div>
+                <div style="position: absolute; left: 0; top: 10px; width: 40px; height: 20px; background: linear-gradient(135deg, #666, #999); border-radius: 5px; border: 3px solid #666; box-shadow: 0 0 20px rgba(255, 64, 129, 0.3); transform: rotate(30deg);"></div>
+                <div style="position: absolute; left: 50px; top: 40px; width: 25px; height: 25px; background: linear-gradient(135deg, #666, #999); border-radius: 50%; border: 3px solid #666; box-shadow: 0 0 20px rgba(255, 64, 129, 0.3);"></div>
             </div>
         </div>
-
+        
+        <!-- Left Mansion Silhouette -->
+        <div style="position: absolute; left: 200px; bottom: 200px; width: 200px; height: 150px; opacity: 0;">
+            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                <path d="M0,150 L0,100 L30,100 L30,50 L50,50 L50,100 L70,100 L70,30 L90,30 L90,100 L110,100 L110,50 L130,50 L130,100 L150,100 L150,80 L170,80 L170,100 L200,100 L200,150 Z" fill="url(#gradientMansion)"/>
+                <defs>
+                    <linearGradient id="gradientMansion" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+                        <stop offset="100%" stop-color="#FFD700" stop-opacity="0.2"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        
+        <!-- Right Circuit Breaker Light -->
+        <div style="position: absolute; right: 200px; bottom: 200px; width: 150px; height: 150px; opacity: 0;">
+            <div style="position: relative; width: 100%; height: 100%;">
+                <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: radial-gradient(circle, #FF4081 30%, transparent 70%); border-radius: 50%; box-shadow: 0 0 40px rgba(255, 64, 129, 0.5);"></div>
+                <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: radial-gradient(circle, #FF4081 50%, transparent 70%); border-radius: 50%; box-shadow: 0 0 60px rgba(255, 64, 129, 0.7);"></div>
+            </div>
+        </div>
+        
+        <!-- Left Coin Particles -->
+        <div style="position: absolute; left: 180px; top: 300px; width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); opacity: 0;"></div>
+        <div style="position: absolute; left: 220px; top: 280px; width: 8px; height: 8px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); opacity: 0;"></div>
+        <div style="position: absolute; left: 250px; top: 320px; width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); opacity: 0;"></div>
+        
+        <!-- Right Data Wreckage -->
+        <div style="position: absolute; right: 180px; top: 300px; width: 15px; height: 5px; background:#1a1a2e; opacity: 0; transform: rotate(45deg);"></div>
+        <div style="position: absolute; right: 220px; top: 320px; width: 20px; height: 3px; background:#1a1a2e; opacity: 0; transform: rotate(30deg);"></div>
+        <div style="position: absolute; right: 240px; top: 280px; width: 10px; height: 10px; background:#1a1a2e; opacity: 0; transform: rotate(15deg);"></div>
+        
+        <!-- Bottom Info Bar -->
+        <div style="position: absolute; bottom: 100px; left: 100px; right: 100px; display: flex; justify-content: space-between; align-items: center; opacity: 0;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="padding: 8px 20px; background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 20px; font-size: 16px; color: #00D4FF;">科技赛道</div>
+                <div style="padding: 8px 20px; background: rgba(255, 64, 129, 0.1); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 20px; font-size: 16px; color: #FF4081;">传统赛道</div>
+            </div>
+            <div style="font-size: 18px; color: #999999;">数据来源：2026年市场分析</div>
+        </div>
+        
         <!-- Corner Decorations -->
-        <div style="position: absolute; top: 40px; left: 40px; width: 50px; height: 50px; border-left: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); opacity: 0;" id="corner-tl"></div>
-        <div style="position: absolute; top: 40px; right: 40px; width: 50px; height: 50px; border-right: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); opacity: 0;" id="corner-tr"></div>
-        <div style="position: absolute; bottom: 40px; left: 40px; width: 50px; height: 50px; border-left: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); opacity: 0;" id="corner-bl"></div>
-        <div style="position: absolute; bottom: 40px; right: 40px; width: 50px; height: 50px; border-right: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); opacity: 0;" id="corner-br"></div>
-
+        <div style="position: absolute; top: 50px; left: 50px; width: 40px; height: 40px; border-left: 2px solid rgba(0, 212, 255, 0.3); border-top: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
+        <div style="position: absolute; top: 50px; right: 50px; width: 40px; height: 40px; border-right: 2px solid rgba(0, 212, 255, 0.3); border-top: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
+        <div style="position: absolute; bottom: 50px; left: 50px; width: 40px; height: 40px; border-left: 2px solid rgba(0, 212, 255, 0.3); border-bottom: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
+        <div style="position: absolute; bottom: 50px; right: 50px; width: 40px; height: 40px; border-right: 2px solid rgba(0, 212, 255, 0.3); border-bottom: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
+        
+        <!-- Data Cards -->
+        <div style="position: absolute; left: 100px; bottom: 150px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 20px 30px; width: 300px; opacity: 0;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, #FFD700, transparent);"></div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top center, rgba(255, 215, 0, 0.08) 0%, transparent 50%);"></div>
+            <div style="font-size: 16px; color: #999999; margin-bottom: 10px;">收益率</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FFD700;">+320%</div>
+            <div style="font-size: 14px; color: #00D4FF; margin-top: 10px;">↑ 选对赛道</div>
+        </div>
+        
+        <div style="position: absolute; right: 100px; bottom: 150px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 16px; padding: 20px 30px; width: 300px; opacity: 0;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, #FF4081, transparent);"></div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top center, rgba(255, 64, 129, 0.08) 0%, transparent 50%);"></div>
+            <div style="font-size: 16px; color: #999999; margin-bottom: 10px;">亏损率</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FF4081;">-95%</div>
+            <div style="font-size: 14px; color: #FF4081; margin-top: 10px;">↓ 选错赛道</div>
+        </div>
+        
+        <!-- Central Warning Text -->
+        <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; opacity: 0;">
+            <div style="font-size: 36px; font-weight: bold; color: #FF4081; text-shadow: 0 0 20px rgba(255, 64, 129, 0.5);">没有中间地带</div>
+            <div style="font-size: 24px; color: #FFFFFF; margin-top: 10px;">这里只有绝对的选择与结果</div>
+        </div>
     </div>
 
     <script>
-        window.__timelines = window.__timelines || {};
-        const tl = gsap.timeline({paused: true});
-
-        // Animation: Decoration layers first
-        tl.from("#deco-grid", {opacity:0, duration:1.2, ease:"power1.inOut"}, 0)
-          .from("#deco-glow", {opacity:0, scale:0.8, duration:1.5, ease:"power2.out"}, 0.1)
-          .from("#ghost-text", {opacity:0, x:-50, duration:1, ease:"power1.inOut"}, 0.3)
-          .from("#deco-scanline", {top: "-2px", opacity:0.5, duration:0.8, ease:"none"}, 0.4);
-
-        // Animation: Particles drift in
-        tl.from("#particle1", {opacity:0, x:-20, duration:0.8, ease:"power2.out"}, 0.5)
-          .from("#particle2", {opacity:0, x:-30, y:10, duration:0.8, ease:"power2.out"}, 0.65)
-          .from("#particle3", {opacity:0, x:-25, duration:0.8, ease:"power2.out"}, 0.8)
-          .from("#particle4", {opacity:0, x:-35, y:-5, duration:0.8, ease:"power2.out"}, 0.95)
-          .from("#particle5", {opacity:0, x:-40, duration:0.8, ease:"power2.out"}, 1.1);
-
-        // Animation: Main title from top
-        tl.from("#main-title", {y:-50, opacity:0, duration:0.8, ease:"power3.out"}, 0.6);
-
-        // Animation: Subtitle fades in
-        tl.from("#subtitle", {opacity:0, x:-30, duration:0.6, ease:"power2.out"}, 0.9);
-
-        // Animation: Path SVG fades in
-        tl.from("#path-svg", {opacity:0, duration:1, ease:"power2.inOut"}, 1.0);
-
-        // Animation: Old Icon with scale & rotation
-        tl.from("#old-icon", {opacity:0, scale:0.7, rotation:-30, duration:0.7, ease:"back.out(1.7)"}, 1.2);
-
-        // Animation: AI Chip pulses in
-        tl.from("#ai-chip", {opacity:0, scale:0.5, duration:0.8, ease:"elastic.out(1, 0.5)"}, 1.4);
-
-        // Animation: New Job Cards slide in from right with stagger
-        tl.from("#card1", {x:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.6)
-          .from("#card2", {x:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.75)
-          .from("#card3", {x:60, opacity:0, scale:0.9, duration:0.7, ease:"back.out(1.7)"}, 1.9);
-
-        // Animation: Data points fade in
-        tl.from("#data-point1", {opacity:0, scale:0, duration:0.5, ease:"back.out(2)"}, 2.0)
-          .from("#data-point2", {opacity:0, scale:0, duration:0.5, ease:"back.out(2)"}, 2.15)
-          .from("#data-point3", {opacity:0, scale:0, duration:0.5, ease:"back.out(2)"}, 2.3);
-
-        // Animation: Labels slide in
-        tl.from("#label-disappear", {x:-40, opacity:0, duration:0.5, ease:"power2.out"}, 2.4)
-          .from("#label-newlife", {x:-40, opacity:0, duration:0.5, ease:"power2.out"}, 2.55);
-
-        // Animation: Bottom info area
-        tl.from("#bottom-info", {opacity:0, y:30, duration:0.6, ease:"power2.out"}, 2.7)
-          .from("#progress-bar", {scaleX:0, transformOrigin:"left", duration:1, ease:"power2.inOut"}, 2.9);
-
-        // Animation: Corner decorations fade in
-        tl.from("#corner-tl", {opacity:0, duration:0.6}, 3.0)
-          .from("#corner-tr", {opacity:0, duration:0.6}, 3.1)
-          .from("#corner-bl", {opacity:0, duration:0.6}, 3.2)
-          .from("#corner-br", {opacity:0, duration:0.6}, 3.3);
-
-        // Register the timeline
-        window.__timelines["beat-4"] = tl;
-
-        // Start the entrance animations
-        tl.play();
-
-        // --- Breathing Animations (Independent, looping) ---
-        // Core Data Cards breathing
-        gsap.to(".job-card", {
-            scale: 1.015,
-            duration: 3,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut",
-            stagger: 0.5
+        document.addEventListener('DOMContentLoaded', function() {
+            const tl = window.__timelines["beat-4"];
+            
+            // Background Grid
+            tl.from('.scene > div:nth-child(1)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
+            
+            // Left Glow
+            tl.from('.scene > div:nth-child(2)', {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.15);
+            
+            // Right Glow
+            tl.from('.scene > div:nth-child(3)', {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.15);
+            
+            // Ghost Text Left
+            tl.from('.scene > div:nth-child(4)', {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.3);
+            
+            // Ghost Text Right
+            tl.from('.scene > div:nth-child(5)', {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.3);
+            
+            // Scanning Line
+            tl.from('.scene > div:nth-child(6)', {opacity: 0, y: -1080, duration: 4, ease: "none"}, 0.45);
+            
+            // Central Warning Line
+            tl.from('.scene > div:nth-child(7)', {opacity: 0, scaleY: 0, transformOrigin: "top center", duration: 1, ease: "power3.out"}, 0.6);
+            
+            // Left Title
+            tl.from('.scene > div:nth-child(8)', {x: -80, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.75);
+            
+            // Right Title
+            tl.from('.scene > div:nth-child(9)', {x: 80, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.75);
+            
+            // Left Rising Curve
+            tl.from('.scene > div:nth-child(10)', {opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.9);
+            
+            // Right Falling Curve
+            tl.from('.scene > div:nth-child(11)', {opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.9);
+            
+            // Left Golden Coins
+            tl.from('.scene > div:nth-child(12)', {opacity: 0, y: 50, duration: 0.6, ease: "power2.out"}, 1.05);
+            
+            // Right Broken Coins
+            tl.from('.scene > div:nth-child(13)', {opacity: 0, y: 50, duration: 0.6, ease: "power2.out"}, 1.05);
+            
+            // Left Mansion Silhouette
+            tl.from('.scene > div:nth-child(14)', {opacity: 0, y: 50, duration: 0.6, ease: "power2.out"}, 1.2);
+            
+            // Right Circuit Breaker Light
+            tl.from('.scene > div:nth-child(15)', {opacity: 0, y: 50, duration: 0.6, ease: "power2.out"}, 1.2);
+            
+            // Left Coin Particles
+            tl.from('.scene > div:nth-child(16)', {opacity: 0, x: -30, duration: 0.5, ease: "power2.out"}, 1.35);
+            tl.from('.scene > div:nth-child(17)', {opacity: 0, x: -30, duration: 0.5, ease: "power2.out"}, 1.35);
+            tl.from('.scene > div:nth-child(18)', {opacity: 0, x: -30, duration: 0.5, ease: "power2.out"}, 1.35);
+            
+            // Right Data Wreckage
+            tl.from('.scene > div:nth-child(19)', {opacity: 0, x: 30, duration: 0.5, ease: "power2.out"}, 1.35);
+            tl.from('.scene > div:nth-child(20)', {opacity: 0, x: 30, duration: 0.5, ease: "power2.out"}, 1.35);
+            tl.from('.scene > div:nth-child(21)', {opacity: 0, x: 30, duration: 0.5, ease: "power2.out"}, 1.35);
+            
+            // Bottom Info Bar
+            tl.from('.scene > div:nth-child(22)', {opacity: 0, y: 30, duration: 0.6, ease: "power2.out"}, 1.5);
+            
+            // Corner Decorations
+            tl.from('.scene > div:nth-child(23)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 1.65);
+            tl.from('.scene > div:nth-child(24)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 1.65);
+            tl.from('.scene > div:nth-child(25)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 1.65);
+            tl.from('.scene > div:nth-child(26)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 1.65);
+            
+            // Data Cards
+            tl.from('.scene > div:nth-child(27)', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.8);
+            tl.from('.scene > div:nth-child(28)', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.8);
+            
+            // Central Warning Text
+            tl.from('.scene > div:nth-child(29)', {opacity: 0, scale: 0.8, duration: 0.8, ease: "power3.out"}, 1.95);
+            
+            // Breathing Animations
+            gsap.to('.scene > div:nth-child(8)', {
+                textShadow: "0 0 40px rgba(255, 215, 0, 0.7)",
+                opacity: 0.8,
+                duration: 2.5,
+                repeat: 0,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            gsap.to('.scene > div:nth-child(9)', {
+                textShadow: "0 0 40px rgba(255, 64, 129, 0.7)",
+                opacity: 0.8,
+                duration: 2.5,
+                repeat: 0,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            gsap.to('.scene > div:nth-child(15)', {
+                boxShadow: "0 0 60px rgba(255, 64, 129, 0.9)",
+                duration: 2,
+                repeat: 0,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            gsap.to('.scene > div:nth-child(6)', {
+                y: 1080,
+                duration: 5,
+                repeat: 0,
+                ease: "none"
+            });
         });
-
-        // Main Title text-shadow pulse
-        gsap.to("#main-title", {
-            textShadow: "0 0 40px #00D4FF, 0 0 80px rgba(0,212,255,0.5)",
-            duration: 2.5,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // Background Glow slow movement
-        gsap.to("#deco-glow", {
-            x: 50,
-            y: 30,
-            duration: 10,
-            repeat: 0,
-            yoyo: true,
-            ease: "none"
-        });
-
-        // Label border pulse
-        gsap.to("#label-disappear", {
-            borderColor: "rgba(255,64,129,0.8)",
-            duration: 2,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        gsap.to("#label-newlife", {
-            borderColor: "rgba(0,212,255,0.8)",
-            duration: 2,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // AI Chip subtle pulse
-        gsap.to("#ai-chip", {
-            boxShadow: "0 0 60px rgba(0,212,255,0.6)",
-            duration: 2,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // Scanline animation (once played, restart after delay)
-        gsap.to("#deco-scanline", {
-            top: "1082px",
-            duration: 5,
-            ease: "none",
-            repeat: 0,
-            repeatDelay: 2
-        });
-
-        // Particle drift animation
-        gsap.to("#particle1", {x: "+=100", y: "+=20", duration: 8, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle2", {x: "+=120", y: "-=15", duration: 10, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle3", {x: "+=80", y: "+=25", duration: 12, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle4", {x: "+=90", y: "-=10", duration: 9, repeat: 0, yoyo: true, ease: "none"});
-        gsap.to("#particle5", {x: "+=110", y: "+=5", duration: 11, repeat: 0, yoyo: true, ease: "none"});
-
-        // Simple CSS animation for border pulse (since complex style changes via gsap are tricky)
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse-border {
-                0%, 100% { border-color: rgba(0,212,255,0.2); transform: scale(1); }
-                50% { border-color: rgba(0,212,255,0.5); transform: scale(1.03); }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>

@@ -2,226 +2,138 @@
 <html data-composition-id="beat-6" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
 <meta charset="UTF-8">
-<title>Beat 6</title>
+<title>2026年股市展望：机遇与风险并存</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;background:#1a1a2e;overflow:hidden;">
-<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;color:#FFFFFF;">
-    
-    <!-- Decorative Layer 1: Grid -->
-    <div style="position:absolute;inset:0;background:linear-gradient(rgba(0,212,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.07) 1px, transparent 1px);background-size:100px 100px;opacity:1;"></div>
-    
-    <!-- Decorative Layer 2: Radial Glow -->
-    <div style="position:absolute;left:50%;top:40%;width:1200px;height:800px;background:radial-gradient(ellipse at center, rgba(0,212,255,0.12) 0%, transparent 70%);transform:translate(-50%, -50%);opacity:1;"></div>
-    
-    <!-- Decorative Layer 3: Ghost Text -->
-    <div style="position:absolute;top:50px;left:100px;font-size:280px;font-weight:bold;color:rgba(255,255,255,0.03);line-height:1;opacity:1;">ALGORITHM</div>
-    
-    <!-- Decorative Layer 4: Scan Line -->
-    <div style="position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent);opacity:1;"></div>
-    
-    <!-- Decorative Layer 5: Corner Lines -->
-    <div style="position:absolute;top:100px;left:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;top:100px;left:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;top:100px;right:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;top:100px;right:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;bottom:100px;left:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;bottom:100px;left:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;bottom:100px;right:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
-    <div style="position:absolute;bottom:100px;right:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+<body style="margin:0; padding:0; overflow:hidden; background-color:#1a1a2e; font-family:'Inter','Noto Sans SC',sans-serif;">
+<div class="scene" style="background:#1a1a2e;position:relative; width:1920px; height:1080px; overflow:hidden;">
+    <!-- Decoration Layer 1: Grid Grid Lines -->
+    <div id="grid-lines" style="position:absolute; top:0; left:0; width:100%; height:100%; background-image: linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size:100px 100px; opacity:0;"></div>
+    <!-- Decoration Layer 2: Radial Glow -->
+    <div id="radial-glow" style="position:absolute; top:300px; left:400px; width:800px; height:800px; background: radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%); opacity:0;"></div>
+    <!-- Decoration Layer 3: Ghost Text Watermark -->
+    <div id="ghost-text" style="position:absolute; top:200px; left:100px; font-size:250px; font-weight:bold; color:rgba(255,255,255,0.04); font-family:'JetBrains Mono',monospace; opacity:1;">TREND</div>
+    <!-- Decoration Layer 4: Scanning Line -->
+    <div id="scanning-line" style="position:absolute; top:0; left:0; width:100%; height:2px; background-color:rgba(0,212,255,0.2); opacity:0;"></div>
+    <!-- Decoration Layer 5: Particle Dots -->
+    <div id="particle1" style="position:absolute; top:150px; left:300px; width:4px; height:4px; border-radius:50%; background-color:rgba(0,212,255,0.6); opacity:0;"></div>
+    <div id="particle2" style="position:absolute; top:400px; left:800px; width:3px; height:3px; border-radius:50%; background-color:rgba(255,64,129,0.6); opacity:0;"></div>
+    <div id="particle3" style="position:absolute; top:600px; left:1200px; width:2px; height:2px; border-radius:50%; background-color:rgba(255,215,0,0.6); opacity:0;"></div>
+    <div id="particle4" style="position:absolute; top:250px; left:1500px; width:4px; height:4px; border-radius:50%; background-color:rgba(0,212,255,0.5); opacity:0;"></div>
+    <div id="particle5" style="position:absolute; top:700px; left:500px; width:3px; height:3px; border-radius:50%; background-color:rgba(255,64,129,0.5); opacity:0;"></div>
+    <!-- Decoration Layer 6: Corner Borders -->
+    <div id="corner-tl" style="position:absolute; top:80px; left:80px; width:60px; height:60px; border-left:2px solid rgba(0,212,255,0.3); border-top:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+    <div id="corner-tr" style="position:absolute; top:80px; right:80px; width:60px; height:60px; border-right:2px solid rgba(0,212,255,0.3); border-top:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+    <div id="corner-bl" style="position:absolute; bottom:80px; left:80px; width:60px; height:60px; border-left:2px solid rgba(0,212,255,0.3); border-bottom:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
+    <div id="corner-br" style="position:absolute; bottom:80px; right:80px; width:60px; height:60px; border-right:2px solid rgba(0,212,255,0.3); border-bottom:2px solid rgba(0,212,255,0.3); opacity:0;"></div>
 
-    <!-- Main Content Area -->
-    <div style="position:absolute;left:100px;top:80px;width:1720px;height:920px;">
-        
-        <!-- Title: 新逻辑 -->
-        <div id="beat6-title" style="position:absolute;left:0;top:0;font-size:96px;font-weight:bold;color:#00D4FF;text-shadow:0 0 30px rgba(0,212,255,0.6);letter-spacing:8px;opacity:1;">新逻辑</div>
-        
-        <!-- Subtitle -->
-        <div id="beat6-subtitle" style="position:absolute;left:0;top:140px;font-size:32px;color:rgba(0,212,255,0.5);letter-spacing:4px;opacity:1;">NEW PARADIGM FOR 2026</div>
-        
-        <!-- Two-Column List Container -->
-        <div style="position:absolute;left:0;top:220px;width:1040px;height:500px;">
-            
-            <!-- Left Column: 毕业生 -->
-            <div style="position:absolute;left:0;top:0;width:480px;height:500px;">
-                <div id="beat6-col-grad-title" style="font-size:36px;color:#FFFFFF;margin-bottom:40px;opacity:1;">毕业生</div>
-                <!-- Item 1: 共情力 -->
-                <div id="beat6-item-1" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
-                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(255,64,129,0.15);border:1px solid rgba(255,64,129,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <!-- Heart Icon -->
-                        <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="#FF4081" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
-                    <div style="font-size:40px;font-weight:bold;color:#FF4081;text-shadow:0 0 20px rgba(255,64,129,0.4);">共情力</div>
-                </div>
-                <!-- Item 2: 创造力 -->
-                <div id="beat6-item-2" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
-                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <!-- Brain Icon -->
-                        <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2">
-                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"></path>
-                            <path d="M8 12h8M12 8v8"></path>
-                        </svg>
-                    </div>
-                    <div style="font-size:40px;font-weight:bold;color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,0.4);">创造力</div>
-                </div>
-                <!-- Item 3: 复杂决策力 -->
-                <div id="beat6-item-3" style="display:flex;align-items:center;opacity:1;">
-                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <!-- Gear Icon -->
-                        <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                        </svg>
-                    </div>
-                    <div style="font-size:40px;font-weight:bold;color:#00D4FF;text-shadow:0 0 20px rgba(0,212,255,0.4);">复杂决策力</div>
-                </div>
-            </div>
-            
-            <!-- Right Column: 投资者 -->
-            <div style="position:absolute;left:560px;top:0;width:480px;height:500px;">
-                <div id="beat6-col-invest-title" style="font-size:36px;color:#FFFFFF;margin-bottom:40px;opacity:1;">投资者</div>
-                <!-- Item 1: 机器无法替代 -->
-                <div id="beat6-item-4" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
-                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(255,64,129,0.15);border:1px solid rgba(255,64,129,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <div style="font-size:20px;color:#FF4081;">AI</div>
-                    </div>
-                    <div style="font-size:36px;color:#FFFFFF;">看它是在用AI <span style="color:#FF4081;font-weight:bold;">替代</span> 人</div>
-                </div>
-                <!-- Item 2: 成就人 -->
-                <div id="beat6-item-5" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
-                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <div style="font-size:20px;color:#00D4FF;">AI</div>
-                    </div>
-                    <div style="font-size:36px;color:#FFFFFF;">还是在用AI <span style="color:#00D4FF;font-weight:bold;">成就</span> 人</div>
-                </div>
-                <!-- Item 3: Growth Curve -->
-                <div id="beat6-item-6" style="margin-top:40px;opacity:1;">
-                    <div style="font-size:20px;color:#999999;margin-bottom:10px;">投资增长趋势</div>
-                    <svg style="width:400px;height:120px;" viewBox="0 0 400 120">
-                        <polyline points="0,100 50,90 100,70 150,80 200,40 250,50 300,20 350,30 400,10" fill="none" stroke="#FFD700" stroke-width="3"/>
-                        <polygon points="0,100 50,90 100,70 150,80 200,40 250,50 300,20 350,30 400,10 400,120 0,120" fill="url(#chartGradient)" opacity="0.3"/>
-                        <defs>
-                            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#FFD700"/>
-                                <stop offset="100%" stop-color="transparent"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
+    <!-- Main Title -->
+    <div id="main-title" style="position:absolute; top:100px; left:120px; font-size:90px; font-weight:bold; color:#00D4FF; text-shadow:0 0 30px rgba(0,212,255,0.8); opacity:1;">2026年股市展望</div>
+    <!-- Subtitle/Quote -->
+    <div id="subtitle" style="position:absolute; top:210px; left:120px; font-size:32px; color:#FFFFFF; opacity:1;">机遇与风险并存</div>
+
+    <!-- Core Content Area: Left Column (60%) -->
+    <div id="list-container" style="position:absolute; top:280px; left:120px; width:1100px; height:470px;">
+        <!-- List Item 1: Green Tech -->
+        <div id="list-item1" style="position:absolute; top:0; left:0; width:100%; height:80px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:20px; display:flex; align-items:center; justify-content:space-between; opacity:1;">
+            <div style="font-size:28px; color:#FFFFFF;">绿色科技</div>
+            <div style="display:flex; align-items:center;">
+                <div id="glow1" style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; background:radial-gradient(circle at top, rgba(0,212,255,0.1) 0%, transparent 70%); opacity:0.5;"></div>
+                <div style="font-size:36px; color:#FFD700; font-family:'JetBrains Mono',monospace; margin-right:10px;">▲</div>
             </div>
         </div>
-        
-        <!-- Crossed-out Traditional Icon -->
-        <div id="beat6-old-icon" style="position:absolute;right:200px;top:250px;width:200px;height:200px;border:2px solid rgba(153,153,153,0.3);border-radius:24px;display:flex;align-items:center;justify-content:center;background:rgba(153,153,153,0.05);opacity:1;">
-            <div style="font-size:60px;color:rgba(153,153,153,0.4);">铁饭碗</div>
-            <!-- Slash line -->
-            <div style="position:absolute;width:180%;height:2px;background:#1a1a2e;transform:rotate(45deg);"></div>
-            <div style="position:absolute;width:180%;height:2px;background:#1a1a2e;transform:rotate(-45deg);"></div>
-        </div>
-        
-        <!-- Bottom Info Area -->
-        <div id="beat6-bottom" style="position:absolute;left:0;bottom:0;width:100%;display:flex;justify-content:space-between;align-items:flex-end;opacity:1;">
-            <div style="font-size:24px;color:#999999;">2026高校毕业生就业：挑战与机遇并存</div>
-            <div style="display:flex;gap:20px;">
-                <div style="background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:8px;padding:8px 20px;font-size:18px;color:#00D4FF;">逻辑已变</div>
-                <div style="background:rgba(255,64,129,0.15);border:1px solid rgba(255,64,129,0.3);border-radius:8px;padding:8px 20px;font-size:18px;color:#FF4081;">投资自己</div>
-                <div style="background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:8px 20px;font-size:18px;color:#FFD700;">投资企业</div>
+        <!-- List Item 2: Metaverse -->
+        <div id="list-item2" style="position:absolute; top:100px; left:0; width:100%; height:80px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:20px; display:flex; align-items:center; justify-content:space-between; opacity:1;">
+            <div style="font-size:28px; color:#FFFFFF;">元宇宙</div>
+            <div style="display:flex; align-items:center;">
+                <div id="glow2" style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; background:radial-gradient(circle at top, rgba(0,212,255,0.1) 0%, transparent 70%); opacity:0.5;"></div>
+                <div style="font-size:36px; color:#FFD700; font-family:'JetBrains Mono',monospace; margin-right:10px;">▲</div>
             </div>
         </div>
+        <!-- Warning Tag: Bubble -->
+        <div id="warning-tag" style="position:absolute; top:220px; left:0; padding:10px 20px; background:rgba(255,64,129,0.2); border:1px solid rgba(255,64,129,0.5); border-radius:16px; font-size:24px; color:#FF4081; opacity:1;">泡沫警告</div>
+        <!-- Risk Icon: Geopolitics -->
+        <div id="risk-icon" style="position:absolute; top:300px; left:200px; width:60px; height:60px; display:flex; align-items:center; justify-content:center; opacity:1;">
+            <div style="font-size:30px; color:#FF4081; animation: rotate 3s linear 3;">⚠</div>
+            <div style="position:absolute; top:0; right:0; width:12px; height:12px; border-radius:50%; background-color:#FF0000;"></div>
+        </div>
+        <!-- Red Alert Dot -->
+        <div id="alert-dot" style="position:absolute; top:320px; left:260px; width:16px; height:16px; border-radius:50%; background-color:#FF0000; opacity:1;"></div>
     </div>
-    
-    <!-- Particle Dots -->
-    <div class="particle" style="position:absolute;width:4px;height:4px;background:#00D4FF;border-radius:50%;left:300px;top:400px;opacity:0;"></div>
-    <div class="particle" style="position:absolute;width:3px;height:3px;background:#1a1a2e;border-radius:50%;left:800px;top:300px;opacity:0;"></div>
-    <div class="particle" style="position:absolute;width:5px;height:5px;background:#1a1a2e;border-radius:50%;left:1200px;top:600px;opacity:0;"></div>
-    <div class="particle" style="position:absolute;width:3px;height:3px;background:#00D4FF;border-radius:50%;left:1600px;top:200px;opacity:0;"></div>
-    <div class="particle" style="position:absolute;width:4px;height:4px;background:#1a1a2e;border-radius:50%;left:500px;top:700px;opacity:0;"></div>
 
+    <!-- Right Column (40%): Data Card -->
+    <div id="data-card" style="position:absolute; top:280px; right:120px; width:500px; height:400px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:24px; padding:40px; opacity:1;">
+        <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:24px; background:radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="font-size:24px; color:#999999; margin-bottom:20px;">趋势预测</div>
+        <div style="font-size:80px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace;">+15%</div>
+        <div style="font-size:28px; color:#FFFFFF; margin-top:20px;">增长潜力</div>
+        <!-- Progress Bar -->
+        <div style="margin-top:30px; width:100%; height:8px; background:rgba(0,212,255,0.2); border-radius:4px; overflow:hidden;">
+            <div id="progress-bar" style="width:70%; height:100%; background:linear-gradient(90deg, #00D4FF, #FFD700); transform-origin:left; transform:scaleX(0);"></div>
+        </div>
+        <!-- Pill Tags -->
+        <div id="pill1" style="display:inline-block; padding:8px 16px; background:rgba(0,212,255,0.2); border:1px solid rgba(0,212,255,0.5); border-radius:100px; font-size:20px; color:#00D4FF; margin-top:20px; opacity:1;">AI驱动</div>
+        <div id="pill2" style="display:inline-block; padding:8px 16px; background:rgba(255,64,129,0.2); border:1px solid rgba(255,64,129,0.5); border-radius:100px; font-size:20px; color:#FF4081; margin-top:20px; margin-left:10px; opacity:1;">高波动</div>
+    </div>
+
+    <!-- Bottom Information Area -->
+    <div id="bottom-info" style="position:absolute; bottom:120px; left:120px; width:1680px; text-align:center;">
+        <div id="bottom-text1" style="font-size:20px; color:#999999; opacity:1;">数据来源：HyperFrames分析 2026</div>
+        <div id="bottom-text2" style="font-size:18px; color:#666666; margin-top:10px; opacity:1;">风险提示：投资需谨慎，市场有风险</div>
+    </div>
 </div>
 
 <script>
     window.__timelines = window.__timelines || {};
-    const tl = gsap.timeline({paused: true});
+    gsap.timeline({paused: true, onComplete: function() {}});
+
+    let tl = gsap.timeline({paused: true});
+
+    // Staggered entry animations
+    tl.from("#grid-lines", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
+    tl.from("#radial-glow", {opacity: 0, scale: 0.8, duration: 1.2, ease: "power1.inOut"}, 0.15);
+    tl.from("#ghost-text", {opacity: 0, duration: 1, ease: "power1.inOut"}, 0.3);
+    tl.from("#scanning-line", {top: "-100%", opacity: 0, duration: 4, ease: "none", repeat: 0}, 0.45);
+    tl.from("#particle1", {opacity: 0, x: -20, y: -20, duration: 6, ease: "none", repeat: 0, yoyo: true}, 0.6);
+    tl.from("#particle2", {opacity: 0, x: 30, y: -10, duration: 8, ease: "none", repeat: 0, yoyo: true}, 0.75);
+    tl.from("#particle3", {opacity: 0, x: -10, y: 20, duration: 10, ease: "none", repeat: 0, yoyo: true}, 0.9);
+    tl.from("#particle4", {opacity: 0, x: 15, y: 15, duration: 7, ease: "none", repeat: 0, yoyo: true}, 1.05);
+    tl.from("#particle5", {opacity: 0, x: -25, y: 5, duration: 9, ease: "none", repeat: 0, yoyo: true}, 1.2);
+    tl.from("#corner-tl", {opacity: 0, duration: 1, ease: "power1.inOut"}, 1.35);
+    tl.from("#corner-tr", {opacity: 0, duration: 1, ease: "power1.inOut"}, 1.5);
+    tl.from("#corner-bl", {opacity: 0, duration: 1, ease: "power1.inOut"}, 1.65);
+    tl.from("#corner-br", {opacity: 0, duration: 1, ease: "power1.inOut"}, 1.8);
+    tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 1.95);
+    tl.from("#subtitle", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.1);
+    tl.from("#list-item1", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.25);
+    tl.from("#list-item2", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.4);
+    tl.from("#warning-tag", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.55);
+    tl.from("#risk-icon", {rotation: 180, opacity: 0, duration: 0.6, ease: "power2.out"}, 2.7);
+    tl.from("#alert-dot", {scale: 0, opacity: 0, duration: 0.4, ease: "back.out(1.7)"}, 2.85);
+    tl.from("#data-card", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 3.0);
+    tl.from("#progress-bar", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 3.15);
+    tl.from("#pill1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.3);
+    tl.from("#pill2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.45);
+    tl.from("#bottom-text1", {opacity: 0, duration: 0.5, ease: "power2.out"}, 3.6);
+    tl.from("#bottom-text2", {opacity: 0, duration: 0.5, ease: "power2.out"}, 3.75);
+
+    // Breathing animations
+    gsap.to("#data-card", {scale: 1.02, duration: 2.5, ease: "sine.inOut", repeat: 0, yoyo: true});
+    gsap.to("#radial-glow", {scale: 1.05, duration: 8, ease: "none", repeat: 0, yoyo: true});
+    gsap.to("#main-title", {textShadow: "0 0 40px rgba(0,212,255,1)", duration: 2.5, ease: "sine.inOut", repeat: 0, yoyo: true});
+
+    // Warning tag blinking
+    gsap.to("#warning-tag", {opacity: 0.5, duration: 0.5, ease: "power2.inOut", repeat: 0, yoyo: true, delay: 3});
+
+    // Risk icon rotation
+    gsap.to("#risk-icon div:first-child", {rotation: 360, duration: 3, ease: "none", repeat: 0});
+
+    // Register timeline
     window.__timelines["beat-6"] = tl;
 
-    // 1. Background decorative layers
-    tl.from("body > .scene > div:nth-child(1)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
-    tl.from("body > .scene > div:nth-child(2)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
-    tl.from("body > .scene > div:nth-child(3)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3);
-
-    // 2. Scan line
-    tl.from("body > .scene > div:nth-child(4)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 0.45);
-    tl.to("body > .scene > div:nth-child(4)", {y: 1080, duration: 4, ease: "none", repeat: 0}, 0.45);
-
-    // 3. Corner lines
-    const corners = document.querySelectorAll("body > .scene > div:nth-child(n+5):nth-child(-n+12)");
-    corners.forEach((corner, i) => {
-        tl.from(corner, {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 0.6 + (i * 0.05));
-    });
-
-    // 4. Main title
-    tl.from("#beat6-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.9);
-    tl.from("#beat6-subtitle", {y: -30, opacity: 0, duration: 0.6, ease: "power3.out"}, 1.05);
-
-    // 5. Column titles
-    tl.from("#beat6-col-grad-title", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.2);
-    tl.from("#beat6-col-invest-title", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.35);
-
-    // 6. List items (staggered)
-    tl.from("#beat6-item-1", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.5);
-    tl.from("#beat6-item-2", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.65);
-    tl.from("#beat6-item-3", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.8);
-    tl.from("#beat6-item-4", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.95);
-    tl.from("#beat6-item-5", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.1);
-    tl.from("#beat6-item-6", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.25);
-
-    // 7. Old icon (crossed out)
-    tl.from("#beat6-old-icon", {opacity: 0, scale: 0.8, duration: 0.8, ease: "back.out(1.7)"}, 2.4);
-
-    // 8. Bottom info
-    tl.from("#beat6-bottom", {opacity: 0, y: 30, duration: 0.6, ease: "power2.out"}, 2.6);
-
-    // 9. Particles
-    tl.from(".particle", {opacity: 0, stagger: 0.1, duration: 0.5}, 2.8);
-
-    // 10. Breathing animations (limited to 2-3 elements)
-    // Title glow pulse
-    gsap.to("#beat6-title", {
-        textShadow: "0 0 40px rgba(0,212,255,0.8)",
-        duration: 2.5,
-        repeat: 0,
-        yoyo: true,
-        ease: "sine.inOut"
-    });
-
-    // Data cards breathing (applied to item containers)
-    gsap.to("#beat6-item-1, #beat6-item-2, #beat6-item-3, #beat6-item-4, #beat6-item-5", {
-        scale: 1.015,
-        duration: 3,
-        repeat: 0,
-        yoyo: true,
-        ease: "sine.inOut",
-        stagger: 0.5
-    });
-
-    // Particle drift
-    gsap.to(".particle", {
-        y: "+=50",
-        x: "+=20",
-        duration: 8,
-        repeat: 0,
-        yoyo: true,
-        ease: "none",
-        stagger: {
-            each: 2,
-            from: "random"
-        }
-    });
-
-    // Start the timeline
-    tl.play();
+    // Start timeline after a short delay
+    setTimeout(() => { tl.play(); }, 500);
 </script>
 </body>
 </html>
