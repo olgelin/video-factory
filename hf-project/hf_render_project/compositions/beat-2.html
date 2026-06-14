@@ -1,281 +1,210 @@
 <!DOCTYPE html>
-<html data-composition-id="beat-2" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<html lang="en" data-composition-id="beat-2" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beat 2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        window.__timelines = window.__timelines || {};
+    </script>
 </head>
-<body style="margin:0; padding:0; background:#1a1a2e; font-family:'Inter','Noto Sans SC',sans-serif;">
-    <div class="scene" style="position:relative; width:1920px; height:1080px; overflow:hidden; background:#1a1a2e;">
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
+    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; overflow: hidden; background-color: #1a1a2e;">
+        <!-- Background Decoration Layers -->
+        <div id="grid-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size: 100px 100px; pointer-events: none;"></div>
+        <div id="radial-glow" style="position: absolute; top: 200px; left: 500px; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,212,255,0.12), transparent 70%); pointer-events: none;"></div>
+        <div id="ghost-text" style="position: absolute; top: 300px; left: 300px; font-family: 'JetBrains Mono', monospace; font-size: 300px; font-weight: bold; color: rgba(255,255,255,0.04); pointer-events: none;">2200万</div>
         
-        <!-- 背景装饰层1: 网格线 -->
-        <div style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:1.08; background:linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px); background-size:100px 100px; z-index:1;"></div>
+        <!-- Scanning Line -->
+        <div id="scan-line" style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0,212,255,0.2); pointer-events: none;"></div>
         
-        <!-- 背景装饰层2: 径向光晕 -->
-        <div style="position:absolute; top:50%; left:60%; width:1200px; height:1200px; transform:translate(-50%,-50%); background:radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%); z-index:2;"></div>
+        <!-- Particle Dots -->
+        <div id="particle1" style="position: absolute; width: 4px; height: 4px; background: #00D4FF; border-radius: 50%; top: 150px; left: 250px; pointer-events: none;"></div>
+        <div id="particle2" style="position: absolute; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; top: 400px; left: 800px; pointer-events: none;"></div>
+        <div id="particle3" style="position: absolute; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%; top: 600px; left: 1200px; pointer-events: none;"></div>
+        <div id="particle4" style="position: absolute; width: 2px; height: 2px; background: #00D4FF; border-radius: 50%; top: 250px; left: 1500px; pointer-events: none;"></div>
+        <div id="particle5" style="position: absolute; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; top: 700px; left: 600px; pointer-events: none;"></div>
         
-        <!-- 背景装饰层3: 左侧光晕 -->
-        <div style="position:absolute; top:30%; left:20%; width:800px; height:800px; background:radial-gradient(circle, rgba(255,64,129,0.08) 0%, transparent 70%); z-index:3;"></div>
+        <!-- Corner Decorations -->
+        <div id="corner-tl" style="position: absolute; top: 100px; left: 100px; width: 40px; height: 40px; border-left: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div id="corner-tr" style="position: absolute; top: 100px; right: 100px; width: 40px; height: 40px; border-right: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div id="corner-bl" style="position: absolute; bottom: 100px; left: 100px; width: 40px; height: 40px; border-left: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); pointer-events: none;"></div>
+        <div id="corner-br" style="position: absolute; bottom: 100px; right: 100px; width: 40px; height: 40px; border-right: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); pointer-events: none;"></div>
         
-        <!-- 背景装饰层4: Ghost text水印 -->
-        <div style="position:absolute; top:200px; left:50px; font-size:300px; font-weight:bold; color:rgba(255,255,255,0.03); z-index:4;">GROWTH</div>
-        <div style="position:absolute; bottom:200px; right:100px; font-size:250px; font-weight:bold; color:rgba(0,212,255,0.03); z-index:4;">4万亿</div>
+        <!-- Main Title -->
+        <div id="main-title" style="position: absolute; top: 120px; left: 160px; font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 96px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 30px rgba(0,212,255,0.8);">2026毕业生就业冲击</div>
         
-        <!-- 扫描线动画 -->
-        <div style="position:absolute; top:0; left:0; width:100%; height:2px; background:rgba(0,212,255,0.2); z-index:5; transform:translateY(-100%);" id="scanLine"></div>
-        
-        <!-- 粒子点 -->
-        <div style="position:absolute; top:20%; left:80%; width:3px; height:3px; border-radius:50%; background:#00D4FF; opacity:1.6; z-index:6;"></div>
-        <div style="position:absolute; top:70%; left:15%; width:4px; height:4px; border-radius:50%; background:#1a1a2e; opacity:1.7; z-index:6;"></div>
-        <div style="position:absolute; top:40%; left:70%; width:2px; height:2px; border-radius:50%; background:#1a1a2e; opacity:1.5; z-index:6;"></div>
-        
-        <!-- 边角装饰 -->
-        <div style="position:absolute; top:100px; left:100px; width:40px; height:2px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; top:100px; left:100px; width:2px; height:40px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; top:100px; right:100px; width:40px; height:2px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; top:100px; right:100px; width:2px; height:40px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; bottom:100px; left:100px; width:40px; height:2px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; bottom:100px; left:100px; width:2px; height:40px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; bottom:100px; right:100px; width:40px; height:2px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        <div style="position:absolute; bottom:100px; right:100px; width:2px; height:40px; background:rgba(0,212,255,0.3); z-index:7;"></div>
-        
-        <!-- 标题区 -->
-        <div style="position:absolute; top:80px; left:120px; z-index:10;">
-            <div style="font-size:100px; font-weight:bold; color:#FFFFFF; text-shadow:0 0 30px rgba(0,212,255,0.8); line-height:1.2; margin-bottom:20px;">外贸引擎涡轮增压</div>
-            <div style="font-size:32px; color:rgba(0,212,255,0.7); margin-bottom:10px;">中国外贸连续3个月超4万亿元</div>
-            <div style="font-size:24px; color:rgba(153,153,153,0.8);">政策红利持续释放</div>
+        <!-- Core Data Cards -->
+        <div id="data-card-graduates" style="position: absolute; top: 250px; left: 160px; width: 420px; padding: 30px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent); border-radius: 24px 24px 0 0;"></div>
+            <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 18px; color: #999999;">全球高校毕业生预计</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 120px; font-weight: bold; color: #FFD700; line-height: 1; margin-top: 10px;">2200万+</div>
+            <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 24px; color: #FF4081; margin-top: 10px;">↑ 历史新高</div>
         </div>
         
-        <!-- 核心内容区 -->
-        <div style="position:absolute; top:250px; left:120px; right:120px; height:500px; z-index:10;">
-            
-            <!-- 增长曲线图区域 -->
-            <div style="position:absolute; top:0; left:0; width:60%; height:100%;">
-                <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border-radius:24px; border:1px solid rgba(0,212,255,0.3); overflow:hidden;">
-                    <!-- 顶部高光 -->
-                    <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
-                    <!-- 内部光晕 -->
-                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 70%);"></div>
-                    
-                    <!-- 图表标题 -->
-                    <div style="position:absolute; top:30px; left:40px; font-size:24px; color:rgba(255,255,255,0.8);">连续三月外贸总额增长曲线</div>
-                    
-                    <!-- SVG曲线图 -->
-                    <svg style="position:absolute; top:100px; left:50px; width:80%; height:60%;" viewBox="0 0 800 300">
-                        <!-- 网格线 -->
-                        <line x1="50" y1="0" x2="50" y2="300" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="200" y1="0" x2="200" y2="300" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="350" y1="0" x2="350" y2="300" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="500" y1="0" x2="500" y2="300" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="650" y1="0" x2="650" y2="300" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="800" y1="0" x2="800" y2="300" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        
-                        <line x1="0" y1="50" x2="800" y2="50" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="0" y1="150" x2="800" y2="150" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        <line x1="0" y1="250" x2="800" y2="250" stroke="rgba(0,212,255,0.1)" stroke-width="1"/>
-                        
-                        <!-- 曲线路径 -->
-                        <path d="M 50 250 C 100 200, 200 180, 250 160 C 300 140, 400 120, 450 100 C 500 80, 600 60, 650 40 C 700 20, 750 10, 800 0" 
-                              fill="none" stroke="#00D4FF" stroke-width="3" id="growthCurve"/>
-                        <path d="M 50 250 C 100 200, 200 180, 250 160 C 300 140, 400 120, 450 100 C 500 80, 600 60, 650 40 C 700 20, 750 10, 800 0" 
-                              fill="none" stroke="rgba(0,212,255,0.3)" stroke-width="10" filter="url(#glow)"/>
-                        
-                        <!-- 数据点 -->
-                        <circle cx="50" cy="250" r="6" fill="#00D4FF"/>
-                        <circle cx="250" cy="160" r="6" fill="#00D4FF"/>
-                        <circle cx="450" cy="100" r="6" fill="#00D4FF"/>
-                        <circle cx="650" cy="40" r="6" fill="#00D4FF"/>
-                        
-                        <!-- 月份标签 -->
-                        <text x="50" y="280" font-size="16" fill="rgba(255,255,255,0.7)" text-anchor="middle">1月</text>
-                        <text x="250" y="280" font-size="16" fill="rgba(255,255,255,0.7)" text-anchor="middle">2月</text>
-                        <text x="450" y="280" font-size="16" fill="rgba(255,255,255,0.7)" text-anchor="middle">3月</text>
-                        <text x="650" y="280" font-size="16" fill="rgba(255,255,255,0.7)" text-anchor="middle">4月</text>
-                        
-                        <!-- 滤镜定义 -->
-                        <defs>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="10" result="blur"/>
-                                <feMerge>
-                                    <feMergeNode in="blur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                    </svg>
-                    
-                    <!-- 月份标签 -->
-                    <div style="position:absolute; bottom:40px; left:50px; right:50px; display:flex; justify-content:space-between;">
-                        <span style="font-size:16px; color:rgba(255,255,255,0.6);">2024 Q1</span>
-                        <span style="font-size:16px; color:rgba(255,255,255,0.6);">2024 Q2</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 数据卡片区域 -->
-            <div style="position:absolute; top:0; right:0; width:35%; height:100%;">
-                
-                <!-- 卡片1: 4万亿元 -->
-                <div class="data-card" style="position:absolute; top:0; left:0; width:100%; height:150px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border-radius:24px; border:1px solid rgba(255,215,0,0.3); padding:30px; box-sizing:border-box; overflow:hidden;">
-                    <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #FFD700, transparent);"></div>
-                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top, rgba(255,215,0,0.08) 0%, transparent 70%);"></div>
-                    <div style="font-size:18px; color:rgba(153,153,153,0.8); margin-bottom:10px;">连续三月外贸总额</div>
-                    <div style="font-size:64px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace; text-shadow:0 0 20px rgba(255,215,0,0.5);">4万亿+</div>
-                    <div style="font-size:16px; color:rgba(0,212,255,0.7); margin-top:10px;">▲ 稳定在高位运行</div>
-                </div>
-                
-                <!-- 卡片2: 增速超预期 -->
-                <div class="data-card" style="position:absolute; top:180px; left:0; width:100%; height:150px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border-radius:24px; border:1px solid rgba(0,212,255,0.3); padding:30px; box-sizing:border-box; overflow:hidden;">
-                    <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
-                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 70%);"></div>
-                    <div style="font-size:18px; color:rgba(153,153,153,0.8); margin-bottom:10px;">增速表现</div>
-                    <div style="font-size:64px; font-weight:bold; color:#00D4FF; font-family:'JetBrains Mono',monospace; text-shadow:0 0 20px rgba(0,212,255,0.5);">7.3%</div>
-                    <div style="font-size:16px; color:rgba(255,215,0,0.7); margin-top:10px;">▲ 超出市场预期</div>
-                </div>
-                
-                <!-- 卡片3: 政策涡轮 -->
-                <div class="data-card" style="position:absolute; top:360px; left:0; width:100%; height:140px; background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border-radius:24px; border:1px solid rgba(255,64,129,0.3); padding:30px; box-sizing:border-box; overflow:hidden;">
-                    <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #FF4081, transparent);"></div>
-                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top, rgba(255,64,129,0.08) 0%, transparent 70%);"></div>
-                    <div style="display:flex; align-items:center; gap:20px;">
-                        <div style="width:60px; height:60px; border:2px solid #FF4081; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                            <div style="width:40px; height:40px; background:radial-gradient(circle, #FF4081 30%, transparent 70%); border-radius:50%;"></div>
-                        </div>
-                        <div>
-                            <div style="font-size:18px; color:rgba(153,153,153,0.8); margin-bottom:10px;">政策驱动</div>
-                            <div style="font-size:28px; font-weight:bold; color:#FF4081; text-shadow:0 0 15px rgba(255,64,129,0.5);">涡轮增压</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 霓虹连接线 -->
-            <svg style="position:absolute; top:100px; left:60%; width:5%; height:300px; z-index:15;" viewBox="0 0 100 300">
-                <path d="M 0 0 C 50 100, 50 200, 100 300" fill="none" stroke="#00D4FF" stroke-width="2" stroke-dasharray="10,5" opacity="0.7"/>
-                <path d="M 0 0 C 50 100, 50 200, 100 300" fill="none" stroke="#FF4081" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
-            </svg>
-        </div>
-        
-        <!-- 底部信息区 -->
-        <div style="position:absolute; bottom:120px; left:120px; right:120px; z-index:10;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <!-- 标签pill -->
-                <div style="display:flex; gap:20px;">
-                    <div style="padding:8px 20px; border:1px solid rgba(0,212,255,0.5); border-radius:100px; font-size:16px; color:rgba(0,212,255,0.8);">外贸引擎</div>
-                    <div style="padding:8px 20px; border:1px solid rgba(255,215,0,0.5); border-radius:100px; font-size:16px; color:rgba(255,215,0,0.8);">政策红利</div>
-                    <div style="padding:8px 20px; border:1px solid rgba(255,64,129,0.5); border-radius:100px; font-size:16px; color:rgba(255,64,129,0.8);">涡轮增压</div>
-                </div>
-                
-                <!-- 时间线 -->
-                <div style="display:flex; gap:30px;">
-                    <div style="text-align:center;">
-                        <div style="font-size:14px; color:rgba(153,153,153,0.6);">数据周期</div>
-                        <div style="font-size:18px; color:rgba(255,255,255,0.8); margin-top:5px;">2024.01-03</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <div style="font-size:14px; color:rgba(153,153,153,0.6);">政策力度</div>
-                        <div style="font-size:18px; color:rgba(0,212,255,0.8); margin-top:5px;">★★★★★</div>
-                    </div>
-                    <div style="text-align:center;">
-                        <div style="font-size:14px; color:rgba(153,153,153,0.6);">未来展望</div>
-                        <div style="font-size:18px; color:rgba(255,215,0,0.8); margin-top:5px;">持续向好</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 进度条 -->
-            <div style="margin-top:30px; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden;">
-                <div id="progressBar" style="width:0%; height:100%; background:linear-gradient(90deg, #00D4FF, #FFD700, #FF4081); border-radius:2px;"></div>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-top:10px;">
-                <span style="font-size:14px; color:rgba(153,153,153,0.6);">1月</span>
-                <span style="font-size:14px; color:rgba(153,153,153,0.6);">2月</span>
-                <span style="font-size:14px; color:rgba(153,153,153,0.6);">3月</span>
-                <span style="font-size:14px; color:rgba(0,212,255,0.8);">目标达成</span>
+        <div id="data-card-employment" style="position: absolute; top: 250px; left: 620px; width: 420px; padding: 30px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FF4081, transparent); border-radius: 24px 24px 0 0;"></div>
+            <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 18px; color: #999999;">就业率可能只有</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 120px; font-weight: bold; color: #FF4081; line-height: 1; margin-top: 10px;">65%</div>
+            <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 24px; color: #FFD700; margin-top: 10px;">↓ 下降趋势</div>
+            <div id="progress-bar-bg" style="width: 100%; height: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 20px;">
+                <div id="progress-bar-fill" style="width: 65%; height: 100%; background: linear-gradient(90deg, #FF4081, #FFD700); border-radius: 10px;"></div>
             </div>
         </div>
         
-        <!-- 前景Ghost text关键词 -->
-        <div style="position:absolute; top:400px; left:300px; font-size:120px; font-weight:bold; color:rgba(255,255,255,0.04); transform:rotate(-10deg); z-index:20;">增速</div>
-        <div style="position:absolute; top:500px; right:400px; font-size:100px; font-weight:bold; color:rgba(0,212,255,0.03); transform:rotate(5deg); z-index:20;">稳</div>
-        <div style="position:absolute; bottom:300px; left:500px; font-size:90px; font-weight:bold; color:rgba(255,64,129,0.03); transform:rotate(-8deg); z-index:20;">超预期</div>
+        <!-- Auxiliary Data Area -->
+        <div id="aux-data" style="position: absolute; top: 250px; right: 160px; width: 350px;">
+            <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 24px; color: #00D4FF; margin-bottom: 20px;">全球 vs 中国</div>
+            <div style="display: flex; gap: 20px;">
+                <div id="card-global" style="flex: 1; padding: 20px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 16px;">
+                    <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 16px; color: #999999;">全球</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FFD700; margin-top: 10px;">2200万+</div>
+                </div>
+                <div id="card-china" style="flex: 1; padding: 20px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 16px;">
+                    <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 16px; color: #999999;">中国</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: bold; color: #FF4081; margin-top: 10px;">1100万+</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tags Pills -->
+        <div id="tag-challenge" style="position: absolute; top: 750px; left: 160px; padding: 10px 20px; background: rgba(255,64,129,0.2); border: 1px solid rgba(255,64,129,0.5); border-radius: 100px; font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 20px; color: #FF4081;">挑战：投简历海投，面试难如上青天</div>
+        <div id="tag-opportunity" style="position: absolute; top: 750px; left: 500px; padding: 10px 20px; background: rgba(0,212,255,0.2); border: 1px solid rgba(0,212,255,0.5); border-radius: 100px; font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 20px; color: #00D4FF;">机遇：科技与AI领域需求增长</div>
+        
+        <!-- Bottom Information Area -->
+        <div id="bottom-info" style="position: absolute; top: 850px; left: 160px; right: 160px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 18px; color: #999999;">数据来源：全球教育统计报告 2026</div>
+            <div id="timeline-node" style="display: flex; gap: 20px;">
+                <div style="width: 12px; height: 12px; background: #00D4FF; border-radius: 50%;"></div>
+                <div style="width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%;"></div>
+                <div style="width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%;"></div>
+                <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 16px; color: #666;">2020</div>
+                <div style="font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 16px; color: #666;">2026</div>
+            </div>
+        </div>
+        
+        <!-- Ghost Text Foreground -->
+        <div id="ghost-text-foreground" style="position: absolute; top: 600px; right: 200px; font-family: 'JetBrains Mono', monospace; font-size: 200px; font-weight: bold; color: rgba(255,255,255,0.03); pointer-events: none;">DATA</div>
     </div>
 
     <script>
-        // 注册时间线到window对象
-        window.__timelines = window.__timelines || {};
-        
-        const timeline = gsap.timeline({paused: true});
-        window.__timelines["beat-2"] = timeline;
-        
-        // 扫描线动画 - 持续动画
-        gsap.to("#scanLine", {
-            y: "100%",
-            duration: 4,
-            repeat: 0,
-            ease: "none",
-            delay: 2
-        });
-        
-        // 背景装饰层入场
-        timeline.from(".scene > div:nth-child(1)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
-        timeline.from(".scene > div:nth-child(2)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
-        timeline.from(".scene > div:nth-child(3)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3);
-        
-        // Ghost text水印入场
-        timeline.from(".scene > div:nth-child(4)", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.6);
-        timeline.from(".scene > div:nth-child(5)", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.75);
-        
-        // 主标题入场
-        timeline.from(".scene > div:nth-child(9) > div:first-child", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 1.2);
-        timeline.from(".scene > div:nth-child(9) > div:nth-child(2)", {x: -80, opacity: 0, duration: 0.7, ease: "power2.out"}, 1.4);
-        timeline.from(".scene > div:nth-child(9) > div:last-child", {x: -80, opacity: 0, duration: 0.7, ease: "power2.out"}, 1.6);
-        
-        // 核心内容区入场
-        timeline.from(".scene > div:nth-child(10) > div:first-child", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 1.8);
-        timeline.from(".data-card", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)", stagger: 0.15}, 2.0);
-        
-        // 霓虹连接线入场
-        timeline.from(".scene > div:nth-child(10) > svg", {opacity: 0, duration: 1, ease: "power1.inOut"}, 2.4);
-        
-        // 底部信息区入场
-        timeline.from(".scene > div:nth-child(11) > div:first-child > div:first-child > div", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out", stagger: 0.1}, 2.8);
-        timeline.from(".scene > div:nth-child(11) > div:first-child > div:last-child > div", {x: 30, opacity: 0, duration: 0.5, ease: "power2.out", stagger: 0.1}, 3.0);
-        timeline.from("#progressBar", {scaleX: 0, transformOrigin: "left", duration: 1.5, ease: "power2.inOut"}, 3.2);
-        
-        // 前景Ghost text关键词入场
-        timeline.from(".scene > div:nth-child(12)", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 3.5);
-        timeline.from(".scene > div:nth-child(13)", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 3.7);
-        timeline.from(".scene > div:nth-child(14)", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 3.9);
-        
-        // 呼吸动画 - 核心数据卡片
-        gsap.to(".data-card", {
-            scale: 1.02,
-            duration: 2.5,
+        // Initialize timeline
+        const tl = gsap.timeline({ paused: true });
+        window.__timelines["beat-2"] = tl;
+
+        // Background decoration layers
+        tl.from("#grid-layer", { opacity: 0, duration: 1.2, ease: "power1.inOut" }, 0);
+        tl.from("#radial-glow", { opacity: 0, duration: 1.2, ease: "power1.inOut" }, 0.15);
+        tl.from("#ghost-text", { opacity: 0, duration: 1, ease: "power1.inOut" }, 0.3);
+        tl.from("#scan-line", { opacity: 0, duration: 1, ease: "power1.inOut" }, 0.45);
+
+        // Particle dots
+        tl.from("#particle1", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, 0.6);
+        tl.from("#particle2", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, 0.75);
+        tl.from("#particle3", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, 0.9);
+        tl.from("#particle4", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, 1.05);
+        tl.from("#particle5", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, 1.2);
+
+        // Corner decorations
+        tl.from("#corner-tl", { opacity: 0, duration: 0.6, ease: "power1.inOut" }, 1.35);
+        tl.from("#corner-tr", { opacity: 0, duration: 0.6, ease: "power1.inOut" }, 1.5);
+        tl.from("#corner-bl", { opacity: 0, duration: 0.6, ease: "power1.inOut" }, 1.65);
+        tl.from("#corner-br", { opacity: 0, duration: 0.6, ease: "power1.inOut" }, 1.8);
+
+        // Main title
+        tl.from("#main-title", { y: -50, opacity: 0, duration: 0.8, ease: "power3.out" }, 1.95);
+
+        // Core data cards
+        tl.from("#data-card-graduates", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 2.1);
+        tl.from("#data-card-employment", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 2.25);
+
+        // Progress bar
+        tl.from("#progress-bar-fill", { scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut" }, 2.4);
+
+        // Auxiliary data
+        tl.from("#aux-data", { x: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, 2.55);
+        tl.from("#card-global", { opacity: 0, scale: 0.9, duration: 0.5, ease: "back.out(1.7)" }, 2.7);
+        tl.from("#card-china", { opacity: 0, scale: 0.9, duration: 0.5, ease: "back.out(1.7)" }, 2.85);
+
+        // Tags pills
+        tl.from("#tag-challenge", { x: -30, opacity: 0, duration: 0.5, ease: "power2.out" }, 3.0);
+        tl.from("#tag-opportunity", { x: -30, opacity: 0, duration: 0.5, ease: "power2.out" }, 3.15);
+
+        // Bottom information
+        tl.from("#bottom-info", { opacity: 0, duration: 0.8, ease: "power1.inOut" }, 3.3);
+        tl.from("#timeline-node", { opacity: 0, duration: 0.6, ease: "power1.inOut" }, 3.45);
+
+        // Foreground ghost text
+        tl.from("#ghost-text-foreground", { opacity: 0, duration: 1, ease: "power1.inOut" }, 3.6);
+
+        // Breathing animations
+        // Core data card breathing
+        gsap.to("#data-card-graduates", {
+            scale: 1.015,
+            duration: 3,
             repeat: 0,
             yoyo: true,
             ease: "sine.inOut"
         });
-        
-        // 呼吸动画 - 主标题发光强度
-        gsap.to(".scene > div:nth-child(9) > div:first-child", {
+        gsap.to("#data-card-employment", {
+            scale: 1.015,
+            duration: 3,
+            repeat: 0,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // Main title text-shadow pulsation
+        gsap.to("#main-title", {
             textShadow: "0 0 40px rgba(0,212,255,1)",
-            opacity: 0.9,
             duration: 2.5,
             repeat: 0,
             yoyo: true,
             ease: "sine.inOut"
         });
-        
-        // 呼吸动画 - 标签pill边框颜色
-        gsap.to(".scene > div:nth-child(11) > div:first-child > div:first-child > div:nth-child(1)", {
+
+        // Background glow movement
+        gsap.to("#radial-glow", {
+            x: 50,
+            y: 30,
+            duration: 10,
+            repeat: 0,
+            yoyo: true,
+            ease: "none"
+        });
+
+        // Tag border color pulsation
+        gsap.to("#tag-challenge", {
+            borderColor: "rgba(255,64,129,0.8)",
+            duration: 2,
+            repeat: 0,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+        gsap.to("#tag-opportunity", {
             borderColor: "rgba(0,212,255,0.8)",
             duration: 2,
             repeat: 0,
             yoyo: true,
             ease: "sine.inOut"
         });
-        
-        // 启动时间线
-        timeline.play();
+
+        // Scan line movement
+        gsap.fromTo("#scan-line", 
+            { top: 0 }, 
+            { top: "100%", duration: 5, repeat: 0, ease: "none" }
+        );
+
+        // Particle drift
+        gsap.to("#particle1", { y: 100, x: 50, duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut" });
+        gsap.to("#particle2", { y: -80, x: -30, duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut" });
+        gsap.to("#particle3", { y: 60, x: -70, duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut" });
+        gsap.to("#particle4", { y: -50, x: 40, duration: 9, repeat: 0, yoyo: true, ease: "sine.inOut" });
+        gsap.to("#particle5", { y: 70, x: -60, duration: 11, repeat: 0, yoyo: true, ease: "sine.inOut" });
+
+        // Play timeline
+        tl.play();
     </script>
 </body>
 </html>

@@ -755,10 +755,194 @@ def generate_and_build(scene, sid, total, ctx=None):
     return sid, html
 
 
-def build_index_html(scenes: list) -> str:
-    """构建 index.html — 所有场景在同一 track 顺序播放"""
+def build_intro_html(topic: str) -> str:
+    """构建片头HTML - 不闻AI品牌"""
+    return f'''<!DOCTYPE html>
+<html data-composition-id="beat-intro" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;background:#1a1a2e;">
+<div class="scene" style="background:#1a1a2e;position:relative;width:1920px;height:1080px;overflow:hidden;">
+    <!-- Background Grid -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.06) 1px,transparent 1px);background-size:80px 80px;opacity:0;" id="grid"></div>
+    
+    <!-- Radial Glow -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1200px;height:1200px;background:radial-gradient(circle,rgba(0,212,255,0.2) 0%,transparent 60%);opacity:0;" id="glow"></div>
+    
+    <!-- Ghost Text -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'JetBrains Mono',monospace;font-size:400px;font-weight:900;color:rgba(255,255,255,0.03);white-space:nowrap;user-select:none;pointer-events:none;opacity:0;" id="ghost">AI</div>
+    
+    <!-- Particles -->
+    <div style="position:absolute;top:20%;left:30%;width:6px;height:6px;background:#00D4FF;border-radius:50%;box-shadow:0 0 20px #00D4FF;opacity:0;" id="p1"></div>
+    <div style="position:absolute;top:70%;left:60%;width:4px;height:4px;background:#FF4081;border-radius:50%;box-shadow:0 0 15px #FF4081;opacity:0;" id="p2"></div>
+    <div style="position:absolute;top:40%;left:80%;width:3px;height:3px;background:#FFD700;border-radius:50%;box-shadow:0 0 12px #FFD700;opacity:0;" id="p3"></div>
+    
+    <!-- Main Content -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+        <!-- Brand Logo -->
+        <div style="font-size:120px;font-weight:900;color:#FFFFFF;text-shadow:0 0 60px rgba(0,212,255,0.8),0 0 120px rgba(0,212,255,0.4);letter-spacing:20px;opacity:0;" id="brand">不闻AI</div>
+        
+        <!-- Subtitle -->
+        <div style="font-size:36px;color:rgba(0,212,255,0.7);font-weight:400;letter-spacing:12px;margin-top:40px;opacity:0;" id="subtitle">看见未来 · 思考当下</div>
+        
+        <!-- Topic Preview -->
+        <div style="font-size:28px;color:rgba(255,255,255,0.5);margin-top:60px;opacity:0;" id="topic">{topic}</div>
+    </div>
+    
+    <!-- Corner Decorations -->
+    <div style="position:absolute;top:80px;left:80px;width:80px;height:80px;border-top:3px solid rgba(0,212,255,0.4);border-left:3px solid rgba(0,212,255,0.4);opacity:0;" id="c1"></div>
+    <div style="position:absolute;top:80px;right:80px;width:80px;height:80px;border-top:3px solid rgba(0,212,255,0.4);border-right:3px solid rgba(0,212,255,0.4);opacity:0;" id="c2"></div>
+    <div style="position:absolute;bottom:80px;left:80px;width:80px;height:80px;border-bottom:3px solid rgba(0,212,255,0.4);border-left:3px solid rgba(0,212,255,0.4);opacity:0;" id="c3"></div>
+    <div style="position:absolute;bottom:80px;right:80px;width:80px;height:80px;border-bottom:3px solid rgba(0,212,255,0.4);border-right:3px solid rgba(0,212,255,0.4);opacity:0;" id="c4"></div>
+</div>
+
+<script>
+(function() {{
+    var tl = gsap.timeline({{paused:true}});
+    
+    // Background elements
+    tl.from("#grid", {{opacity:0, duration:0.8, ease:"power2.out"}}, 0);
+    tl.from("#glow", {{opacity:0, scale:0.5, duration:1.2, ease:"power3.out"}}, 0.2);
+    tl.from("#ghost", {{opacity:0, scale:0.8, duration:1.5, ease:"power3.out"}}, 0.3);
+    
+    // Particles
+    tl.from("#p1", {{opacity:0, scale:0, duration:0.5, ease:"back.out(2)"}}, 0.5);
+    tl.from("#p2", {{opacity:0, scale:0, duration:0.5, ease:"back.out(2)"}}, 0.7);
+    tl.from("#p3", {{opacity:0, scale:0, duration:0.5, ease:"back.out(2)"}}, 0.9);
+    
+    // Main content
+    tl.from("#brand", {{opacity:0, y:40, duration:0.8, ease:"power3.out"}}, 0.6);
+    tl.from("#subtitle", {{opacity:0, y:20, duration:0.6, ease:"power2.out"}}, 1.0);
+    tl.from("#topic", {{opacity:0, y:15, duration:0.5, ease:"power2.out"}}, 1.3);
+    
+    // Corner decorations
+    tl.from("#c1", {{opacity:0, x:-20, y:-20, duration:0.4, ease:"power2.out"}}, 0.8);
+    tl.from("#c2", {{opacity:0, x:20, y:-20, duration:0.4, ease:"power2.out"}}, 0.9);
+    tl.from("#c3", {{opacity:0, x:-20, y:20, duration:0.4, ease:"power2.out"}}, 1.0);
+    tl.from("#c4", {{opacity:0, x:20, y:20, duration:0.4, ease:"power2.out"}}, 1.1);
+    
+    // Breathing glow
+    gsap.to("#glow", {{scale:1.1, opacity:0.8, duration:3, repeat:-1, yoyo:true, ease:"sine.inOut"}});
+    
+    window.__timelines = window.__timelines || {{}};
+    window.__timelines["beat-intro"] = tl;
+}})();
+</script>
+</body>
+</html>'''
+
+
+def build_outro_html() -> str:
+    """构建片尾HTML - 癫狂吧世界品牌"""
+    return f'''<!DOCTYPE html>
+<html data-composition-id="beat-outro" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;background:#1a1a2e;">
+<div class="scene" style="background:#1a1a2e;position:relative;width:1920px;height:1080px;overflow:hidden;">
+    <!-- Background Grid -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,64,129,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,64,129,0.06) 1px,transparent 1px);background-size:80px 80px;opacity:0;" id="grid"></div>
+    
+    <!-- Radial Glow -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1200px;height:1200px;background:radial-gradient(circle,rgba(255,64,129,0.2) 0%,transparent 60%);opacity:0;" id="glow"></div>
+    
+    <!-- Ghost Text -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'JetBrains Mono',monospace;font-size:300px;font-weight:900;color:rgba(255,255,255,0.03);white-space:nowrap;user-select:none;pointer-events:none;opacity:0;" id="ghost">CRAZY</div>
+    
+    <!-- Particles -->
+    <div style="position:absolute;top:30%;left:40%;width:8px;height:8px;background:#FF4081;border-radius:50%;box-shadow:0 0 25px #FF4081;opacity:0;" id="p1"></div>
+    <div style="position:absolute;top:60%;left:70%;width:5px;height:5px;background:#FFD700;border-radius:50%;box-shadow:0 0 18px #FFD700;opacity:0;" id="p2"></div>
+    <div style="position:absolute;top:45%;left:25%;width:6px;height:6px;background:#00D4FF;border-radius:50%;box-shadow:0 0 20px #00D4FF;opacity:0;" id="p3"></div>
+    
+    <!-- Main Content -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+        <!-- Brand Slogan -->
+        <div style="font-size:140px;font-weight:900;color:#FFFFFF;text-shadow:0 0 60px rgba(255,64,129,0.8),0 0 120px rgba(255,64,129,0.4);letter-spacing:15px;opacity:0;" id="slogan">癫狂吧世界</div>
+        
+        <!-- Call to Action -->
+        <div style="font-size:40px;color:rgba(255,64,129,0.8);font-weight:600;margin-top:50px;opacity:0;" id="cta">关注不闻AI · 一起探索未来</div>
+        
+        <!-- Tags -->
+        <div style="display:flex;justify-content:center;gap:20px;margin-top:40px;">
+            <div style="padding:12px 30px;background:rgba(255,64,129,0.2);border:1px solid rgba(255,64,129,0.4);border-radius:30px;font-size:20px;color:#FF4081;opacity:0;" id="tag1">#AI</div>
+            <div style="padding:12px 30px;background:rgba(0,212,255,0.2);border:1px solid rgba(0,212,255,0.4);border-radius:30px;font-size:20px;color:#00D4FF;opacity:0;" id="tag2">#科技</div>
+            <div style="padding:12px 30px;background:rgba(255,215,0,0.2);border:1px solid rgba(255,215,0,0.4);border-radius:30px;font-size:20px;color:#FFD700;opacity:0;" id="tag3">#未来</div>
+        </div>
+    </div>
+    
+    <!-- Corner Decorations -->
+    <div style="position:absolute;top:80px;left:80px;width:80px;height:80px;border-top:3px solid rgba(255,64,129,0.4);border-left:3px solid rgba(255,64,129,0.4);opacity:0;" id="c1"></div>
+    <div style="position:absolute;top:80px;right:80px;width:80px;height:80px;border-top:3px solid rgba(255,64,129,0.4);border-right:3px solid rgba(255,64,129,0.4);opacity:0;" id="c2"></div>
+    <div style="position:absolute;bottom:80px;left:80px;width:80px;height:80px;border-bottom:3px solid rgba(255,64,129,0.4);border-left:3px solid rgba(255,64,129,0.4);opacity:0;" id="c3"></div>
+    <div style="position:absolute;bottom:80px;right:80px;width:80px;height:80px;border-bottom:3px solid rgba(255,64,129,0.4);border-right:3px solid rgba(255,64,129,0.4);opacity:0;" id="c4"></div>
+</div>
+
+<script>
+(function() {{
+    var tl = gsap.timeline({{paused:true}});
+    
+    // Background elements
+    tl.from("#grid", {{opacity:0, duration:0.8, ease:"power2.out"}}, 0);
+    tl.from("#glow", {{opacity:0, scale:0.5, duration:1.2, ease:"power3.out"}}, 0.2);
+    tl.from("#ghost", {{opacity:0, scale:0.8, duration:1.5, ease:"power3.out"}}, 0.3);
+    
+    // Particles
+    tl.from("#p1", {{opacity:0, scale:0, duration:0.6, ease:"back.out(2)"}}, 0.5);
+    tl.from("#p2", {{opacity:0, scale:0, duration:0.6, ease:"back.out(2)"}}, 0.7);
+    tl.from("#p3", {{opacity:0, scale:0, duration:0.6, ease:"back.out(2)"}}, 0.9);
+    
+    // Main content
+    tl.from("#slogan", {{opacity:0, y:50, scale:0.9, duration:1, ease:"power3.out"}}, 0.8);
+    tl.from("#cta", {{opacity:0, y:30, duration:0.7, ease:"power2.out"}}, 1.4);
+    
+    // Tags
+    tl.from("#tag1", {{opacity:0, x:-20, duration:0.4, ease:"power2.out"}}, 1.8);
+    tl.from("#tag2", {{opacity:0, y:20, duration:0.4, ease:"power2.out"}}, 1.9);
+    tl.from("#tag3", {{opacity:0, x:20, duration:0.4, ease:"power2.out"}}, 2.0);
+    
+    // Corner decorations
+    tl.from("#c1", {{opacity:0, x:-20, y:-20, duration:0.4, ease:"power2.out"}}, 1.0);
+    tl.from("#c2", {{opacity:0, x:20, y:-20, duration:0.4, ease:"power2.out"}}, 1.1);
+    tl.from("#c3", {{opacity:0, x:-20, y:20, duration:0.4, ease:"power2.out"}}, 1.2);
+    tl.from("#c4", {{opacity:0, x:20, y:20, duration:0.4, ease:"power2.out"}}, 1.3);
+    
+    // Breathing glow
+    gsap.to("#glow", {{scale:1.1, opacity:0.8, duration:3, repeat:-1, yoyo:true, ease:"sine.inOut"}});
+    
+    window.__timelines = window.__timelines || {{}};
+    window.__timelines["beat-outro"] = tl;
+}})();
+</script>
+</body>
+</html>'''
+
+
+def build_index_html(scenes: list, topic: str = "") -> str:
+    """构建 index.html — 所有场景在同一 track 顺序播放，包含片头片尾"""
     beats = ''
     t = 0.0
+    
+    # 片头 - 不闻AI (3秒)
+    intro_dur = 3.0
+    beats += f'''
+      <div id="beat-intro" class="clip"
+           data-composition-id="beat-intro"
+           data-composition-src="compositions/beat-intro.html"
+           data-start="{t}"
+           data-duration="{intro_dur}"
+           data-track-index="0"
+           data-width="1920"
+           data-height="1080">
+      </div>'''
+    t += intro_dur
+    
+    # 主体场景
     for i, scene in enumerate(scenes):
         sid = i + 1
         dur = scene.get('duration', 8.0)
@@ -773,6 +957,20 @@ def build_index_html(scenes: list) -> str:
            data-height="1080">
       </div>'''
         t += dur
+    
+    # 片尾 - 癫狂吧世界 (3秒)
+    outro_dur = 3.0
+    beats += f'''
+      <div id="beat-outro" class="clip"
+           data-composition-id="beat-outro"
+           data-composition-src="compositions/beat-outro.html"
+           data-start="{t}"
+           data-duration="{outro_dur}"
+           data-track-index="0"
+           data-width="1920"
+           data-height="1080">
+      </div>'''
+    t += outro_dur
 
     return f'''<!doctype html>
 <html>
@@ -852,8 +1050,17 @@ def run(context: dict) -> dict:
                 sid = futures[future]
                 print(f"  ❌ [{sid}/{total}] {e}", flush=True)
 
+    # 生成片头片尾HTML
+    intro_html = build_intro_html(topic)
+    outro_html = build_outro_html()
+    with open(compositions_dir / "beat-intro.html", "w", encoding="utf-8") as f:
+        f.write(intro_html)
+    with open(compositions_dir / "beat-outro.html", "w", encoding="utf-8") as f:
+        f.write(outro_html)
+    print(f"[hf_builder] 片头片尾已生成")
+    
     # index.html
-    index_html = build_index_html(scenes)
+    index_html = build_index_html(scenes, topic)
     with open(hf_dir / "index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
     print(f"[hf_builder] index.html: {len(index_html)} chars")
