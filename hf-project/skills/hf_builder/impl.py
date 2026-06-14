@@ -756,7 +756,7 @@ def validate_scene_html(html: str, scene: dict) -> bool:
     # 检查CSS opacity:0（不允许在CSS中设置）
     import re
     css_opacity_count = len(re.findall(r'style="[^"]*opacity:\s*0', html))
-    if css_opacity_count > 5:
+    if css_opacity_count > 0:
         print(f"      ⚠️ CSS opacity:0过多: {css_opacity_count}个", flush=True)
         return False
     
