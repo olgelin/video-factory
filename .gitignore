@@ -12,12 +12,22 @@ build/
 *.env
 .env.local
 
-# Outputs (large files, don't commit)
+# Pipeline outputs (large files, don't commit)
 output/
 hf-project/output/
 hf-project/hf_render_project/
+hf-project/deliverables/
+hf-project/models/
+hf-project/.cache/
+
+# Large media files
+*.mp4
+*.wav
+*.mp3
 *.zip
-.cache/
+*.png
+*.jpg
+*.jpeg
 
 # Temp
 *.tmp
@@ -29,11 +39,11 @@ Thumbs.db
 # Virtual environments
 .venv/
 venv/
+
+# Archived/legacy
 video-factory-clawhub/
-hf-project/deliverables/
-hf-project/models/
-*.mp4
-*.wav
-*.mp3
-*.zip
-hf-project/.cache/
+versions/
+
+# Feedback system logs
+feedback_system/logs/
+.cache/
