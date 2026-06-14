@@ -8,2865 +8,3156 @@
   "script_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\step03_script.json",
   "script_data": {
     "topic": "2026高校毕业生就业：挑战与机遇并存",
-    "mood": "犀利、反思、前瞻",
+    "mood": "犀利、洞察、略带紧迫感，最终指向希望",
     "voiceover_sections": [
       {
         "section_id": 1,
-        "content": "你绝对想不到，2026高校毕业生就业：挑战与机遇并存。这年头，毕业即失业？别急着下结论，咱们得细品背后的逻辑。",
-        "talking_point": "开场设问，制造悬念引发思考"
+        "content": "你绝对想不到，2026年高校毕业生的就业市场，数据可能让你后背发凉。这已经不是简单的找工作，而是一场关于未来的生存实验。",
+        "talking_point": "悬念开场，点明话题的严峻性与实验性"
       },
       {
         "section_id": 2,
-        "content": "先看数据。我翻遍全网，预计2026年毕业生将突破一二五零万，创历史新高。但传统行业招聘缩水百分之三零，AI自动化取代大量重复性工作。你品，这供需失衡有多夸张？",
-        "talking_point": "核心数据展示，冲击就业现状"
+        "content": "我翻遍全网，看到一个扎心的数据：2026年毕业生预计突破一二零零万，而市场新增的‘优质’岗位，可能只有一五零零万。但真相是，AI的替代率在白领领域已经超过百分之三零。你品，这多出来的，真的是机会吗？",
+        "talking_point": "呈现核心就业数据与矛盾，用数据制造冲击"
       },
       {
         "section_id": 3,
-        "content": "关键影响？就业市场两极分化更严重。高薪技术岗如AI工程师，年薪百万还招不到人；基础行政岗，竞争比考公还激烈。说白了，不是没工作，是机会变了天。",
-        "talking_point": "市场分化分析，揭示结构性变化"
+        "content": "说白了，最大的挑战不是岗位少，而是‘学历通货膨胀’。硕士博士在挤占本科坑位，所有人都在往下卷。同时，企业要的不再是‘螺丝钉’，而是能跟AI协作、快速解决问题的‘瑞士军刀’。技能错配，才是卡住大多数人的脖子。",
+        "talking_point": "深度分析挑战：学历贬值与技能错配"
       },
       {
         "section_id": 4,
-        "content": "机遇在哪？新兴赛道井喷：数字孪生、元宇宙策划、低碳金融，这些领域缺口巨大。细品，十年前这些词儿都还没发明，现在成了香饽饽。",
-        "talking_point": "新兴领域机遇，指出未来增长点"
+        "content": "但你别慌，机遇就藏在挑战的缝隙里。AI干掉旧岗位，也疯狂催生新职业。提示词工程师、AI伦理师、数据策略分析师……这些五年前闻所未闻的职位，正在成为新贵。细品，这不就是技术革命的典型剧本吗？",
+        "talking_point": "转向分析机遇：AI催生的新职业与机会"
       },
       {
         "section_id": 5,
-        "content": "挑战呢？技能错配是硬伤。大学课程滞后，学生毕业即过时。企业要实战经验，毕业生只有理论纸。别被文凭忽悠了，能力才是硬通货。",
-        "talking_point": "技能错配挑战，批判教育体系"
+        "content": "未来的就业市场会极速两极分化。一极是‘超级个体’，他们善用AI杠杆，一个人就是一个团队；另一极是‘算法难民’，他们只会执行命令，最终被自动化取代。中间地带正在迅速塌缩。",
+        "talking_point": "剖析未来就业市场的两极分化趋势"
       },
       {
         "section_id": 6,
-        "content": "未来趋势？远程办公常态化，全球人才竞争白热化。你可能坐在家里，对手在东京或纽约。别被忽悠了，本地优势在消失，适应力才是王牌。",
-        "talking_point": "全球化与远程工作趋势，展望未来形态"
+        "content": "对于毕业生和投资者来说，逻辑已经变了。投资自己，不再是考个铁饭碗，而是培养‘机器无法替代的共情力、创造力与复杂决策力’。投资企业，要看它是在用AI替代人，还是在用AI成就人。",
+        "talking_point": "从毕业生与投资者双视角，给出价值判断逻辑"
       },
       {
         "section_id": 7,
-        "content": "犀利点说，这背后是科技伦理与就业公平的博弈。AI是否应该取代人类工作？社会如何保障过渡期？说白了，这不只是找工作，是定义未来社会的缩影。",
-        "talking_point": "伦理与公平深度分析，引发社会反思"
-      },
-      {
-        "section_id": 8,
-        "content": "记住，挑战是机遇的磨刀石。技术重塑世界，但人性点亮方向。觉得有启发？点赞转发，让更多人看清前路！",
-        "talking_point": "金句收尾，总结并号召行动"
+        "content": "所以，2026不是终点，而是起点。它考验的不是我们适应变化的能力，而是我们定义变化的能力。记住，未来不会淘汰人，只会淘汰那些固守旧地图的人。觉得有用？转发给需要的人！",
+        "talking_point": "升华主题，强调定义变化的能力，并以金句和行动号召收尾"
       }
     ],
-    "total_chars": 520
+    "total_chars": 578
   },
-  "section_count": 8,
-  "total_chars": 504,
+  "section_count": 7,
+  "total_chars": 610,
   "lyrics_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\lyrics.txt",
-  "lyrics": "[Chorus]\n简历投进迷宫，回声寂静\n算法冰冷的吻，贴在出生证明\n有人说这叫浪潮\n有人说这是宿命\n一千二百五十万次心跳\n撞上同一页迷途的风景\n\n[Verse 1]\n一二五零万，写在明年的夏季\n创纪录的数字，像一场无声的潮汐\n传统岗位的河床，正在急速地褪去\n裸露出三成碎石，写着“自动化废弃”\n你品，这供需的断层\n像不像时代递来的，一道冰冷的考题\n\n[Chorus]\n简历投进迷宫，回声寂静\n算法冰冷的吻，贴在出生证明\n有人说这叫浪潮\n有人说这是宿命\n一千二百五十万次心跳\n撞上同一页迷途的风景\n\n[Verse 2]\n木桥的这边，是百万年薪也空荡的堡垒\n独木桥那头，挤满了背熟范文的同类\n不是没有路，是路标在雾中隐退\n数字孪生在云端出生，元宇宙里急需新的智慧\n细品，十年前的科幻\n成了今天的薪水条，和别人眼中的方位\n\n[Chorus]\n简历投进迷宫，回声寂静\n算法冰冷的吻，贴在出生证明\n有人说这叫浪潮\n有人说这是宿命\n一千二百五十万次心跳\n撞上同一页迷途的风景\n\n[Bridge]\n大学是艘古老的船，载着四年前的航海图\n驶向此刻的海啸，船身和知识一起触礁\n文凭是一张漂亮的纸船，经不起市场的颠簸\n而企业手里紧握的，是另一张图纸，写着“实战”和“此刻”\n说白了，这是一场提前开卷的考\n用你的迷茫，为时代的断层填上注脚\n\n[Chorus]\n简历投进迷宫，回声寂静\n算法冰冷的吻，贴在出生证明\n有人说这叫浪潮\n有人说这是宿命\n一千二百五十万次心跳\n撞上同一页迷途的风景\n\n[Outro]\n会议室飞到云端，对手散落全球版图\n本地优势的围墙，在一根网线前崩塌成土\n该问的不是饭碗在哪\n是当机器学会了思考\n人，究竟该把灵魂安放在何处？\n（渐弱）安放在何处...",
-  "voice_duration": 95.67999999999998,
+  "lyrics": "[Chorus]\n不是在淘汰人 是在淘汰那张旧地图\n我们站在2026 学着定义此刻的风速\n不是在淘汰人 是在筛选未来的建筑者\n你手握的笔 是该画蓝图 还是签认输？\n\n[Verse 1]\n你看一千二百万张年轻的脸\n涌向 一千五百万个被标注的明天\n这多出来的三百万份简历\n是浪花 还是被算法蒸发的盐？\n三百张办公桌 被硅基生命悄悄侵占\n说白了 白领的漂流瓶 撞上AI的冰山\n学历的纸船 在浪尖上 摇摇欲坠\n甲板下面 是技能错配的 啸叫和后悔\n\n[Chorus]\n不是在淘汰人 是在淘汰那张旧地图\n我们站在2026 学着定义此刻的风速\n不是在淘汰人 是在筛选未来的建筑者\n你手握的笔 是该画蓝图 还是签认输？\n\n[Verse 2]\n把“通货膨胀”这个词 塞进文凭的夹层\n硕士的袍子 盖不住本科岗位的冷\n我们都成了 往下奔跑的陀螺\n在存量的盘里 争夺着越来越小的漩涡\n但缝隙里 总有光 凿开新的土壤\n“提示词工程师”——多陌生的勋章\n“伦理守门员”——在代码的洪流站岗\n细品 这不就是 时代丢下的 新船票吗？\n\n[Chorus]\n不是在淘汰人 是在淘汰那张旧地图\n我们站在2026 学着定义此刻的风速\n不是在淘汰人 是在筛选未来的建筑者\n你手握的笔 是该画蓝图 还是签认输？\n\n[Bridge]\n未来正裂成 两半刺眼的峡谷\n一极 你是杠杆 撬动一个人的队伍\n另一极 你是数据 是喂给机器的尘土\n中间那条模糊的路 被自己 和数据 删除\n别再问 饭碗的铁锈 还能镀几层金\n要去问 有什么 是机器 写不出的剧情\n是共情力 在冰冷中 坚持发着烧\n是创造力 在模板外 狂乱地奔跑\n\n[Chorus]\n（啊~）不是在淘汰人 是在淘汰那张旧地图！\n我们站在2026 学着定义此刻的风速！\n不是在淘汰人 是在筛选未来的建筑者！\n你手握的笔 是该画蓝图 还是签认输？\n\n[Outro]\n（轻声，逐渐坚定）\n握紧你手心的温热\n那才是 最后一道 编程的谜\n定义变化的人……\n终将被变化 托举",
+  "voice_duration": 101.92,
   "transcript_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\whisperx_transcript.json",
   "captions_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\captions.srt",
   "transcript_data": {
     "segments": [
       {
         "start": 0.0,
-        "end": 10.0,
-        "text": "你绝对想不到,2026高校毕业生就业,挑战与机遇并存,这年头毕业即失业,别急着下结论,咱们得细品背后的逻辑。",
+        "end": 9.14,
+        "text": "你绝对想不到,2026年高校毕业生的就业市场,数据可能让你后背发凉,这已经不是简单的找工作,而是一场关于未来的生存实验。",
         "words": [
           {
             "word": "你",
             "start": 0.0,
-            "end": 0.1,
-            "probability": 0.984
+            "end": 0.08,
+            "probability": 0.972
           },
           {
             "word": "绝",
-            "start": 0.1,
-            "end": 0.34,
+            "start": 0.08,
+            "end": 0.2,
             "probability": 0.999
           },
           {
             "word": "对",
-            "start": 0.34,
-            "end": 0.48,
+            "start": 0.2,
+            "end": 0.3,
             "probability": 1.0
           },
           {
             "word": "想",
-            "start": 0.48,
-            "end": 0.62,
+            "start": 0.3,
+            "end": 0.42,
             "probability": 1.0
           },
           {
             "word": "不到,",
-            "start": 0.62,
-            "end": 0.82,
+            "start": 0.42,
+            "end": 0.6,
             "probability": 1.0
           },
           {
             "word": "20",
-            "start": 1.0,
-            "end": 1.46,
-            "probability": 0.96
+            "start": 0.76,
+            "end": 1.18,
+            "probability": 0.993
           },
           {
             "word": "26",
-            "start": 1.46,
+            "start": 1.18,
+            "end": 1.54,
+            "probability": 1.0
+          },
+          {
+            "word": "年",
+            "start": 1.54,
             "end": 1.82,
             "probability": 1.0
           },
           {
             "word": "高",
             "start": 1.82,
-            "end": 2.26,
-            "probability": 0.999
+            "end": 2.02,
+            "probability": 1.0
           },
           {
             "word": "校",
-            "start": 2.26,
-            "end": 2.46,
-            "probability": 0.985
+            "start": 2.02,
+            "end": 2.22,
+            "probability": 0.991
           },
           {
             "word": "毕",
-            "start": 2.46,
-            "end": 2.66,
+            "start": 2.22,
+            "end": 2.42,
             "probability": 1.0
           },
           {
             "word": "业",
-            "start": 2.66,
-            "end": 2.74,
+            "start": 2.42,
+            "end": 2.54,
             "probability": 1.0
           },
           {
             "word": "生",
-            "start": 2.74,
-            "end": 2.86,
-            "probability": 0.999
+            "start": 2.54,
+            "end": 2.64,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 2.64,
+            "end": 2.8,
+            "probability": 1.0
           },
           {
             "word": "就",
-            "start": 2.86,
-            "end": 3.02,
-            "probability": 1.0
-          },
-          {
-            "word": "业,",
-            "start": 3.02,
-            "end": 3.22,
-            "probability": 1.0
-          },
-          {
-            "word": "挑",
-            "start": 3.3,
-            "end": 3.76,
+            "start": 2.8,
+            "end": 2.94,
             "probability": 0.999
           },
           {
-            "word": "战",
-            "start": 3.76,
-            "end": 4.08,
+            "word": "业",
+            "start": 2.94,
+            "end": 3.08,
             "probability": 1.0
           },
           {
-            "word": "与",
-            "start": 4.08,
+            "word": "市",
+            "start": 3.08,
+            "end": 3.22,
+            "probability": 0.999
+          },
+          {
+            "word": "场,",
+            "start": 3.22,
+            "end": 3.44,
+            "probability": 1.0
+          },
+          {
+            "word": "数",
+            "start": 3.48,
+            "end": 3.68,
+            "probability": 0.999
+          },
+          {
+            "word": "据",
+            "start": 3.68,
+            "end": 3.94,
+            "probability": 1.0
+          },
+          {
+            "word": "可能",
+            "start": 3.94,
+            "end": 4.1,
+            "probability": 1.0
+          },
+          {
+            "word": "让",
+            "start": 4.1,
             "end": 4.3,
             "probability": 1.0
           },
           {
-            "word": "机",
+            "word": "你",
             "start": 4.3,
-            "end": 4.48,
+            "end": 4.46,
             "probability": 0.998
           },
           {
-            "word": "遇",
-            "start": 4.48,
-            "end": 4.64,
-            "probability": 1.0
+            "word": "后",
+            "start": 4.46,
+            "end": 4.58,
+            "probability": 0.999
           },
           {
-            "word": "并",
-            "start": 4.64,
-            "end": 4.82,
-            "probability": 1.0
+            "word": "背",
+            "start": 4.58,
+            "end": 4.7,
+            "probability": 0.983
           },
           {
-            "word": "存,",
-            "start": 4.82,
-            "end": 5.0,
-            "probability": 1.0
+            "word": "发",
+            "start": 4.7,
+            "end": 4.88,
+            "probability": 0.999
+          },
+          {
+            "word": "凉,",
+            "start": 4.88,
+            "end": 5.06,
+            "probability": 0.998
           },
           {
             "word": "这",
-            "start": 5.12,
-            "end": 5.46,
+            "start": 5.18,
+            "end": 5.54,
             "probability": 0.999
           },
           {
-            "word": "年",
-            "start": 5.46,
-            "end": 5.6,
+            "word": "已经",
+            "start": 5.54,
+            "end": 5.68,
             "probability": 1.0
           },
           {
-            "word": "头",
-            "start": 5.6,
-            "end": 5.88,
+            "word": "不是",
+            "start": 5.68,
+            "end": 5.9,
             "probability": 1.0
           },
           {
-            "word": "毕",
-            "start": 5.88,
-            "end": 6.18,
-            "probability": 0.743
-          },
-          {
-            "word": "业",
-            "start": 6.18,
-            "end": 6.38,
+            "word": "简",
+            "start": 5.9,
+            "end": 6.22,
             "probability": 1.0
           },
           {
-            "word": "即",
-            "start": 6.38,
-            "end": 6.56,
-            "probability": 0.809
+            "word": "单",
+            "start": 6.22,
+            "end": 6.36,
+            "probability": 1.0
           },
           {
-            "word": "失",
-            "start": 6.56,
-            "end": 6.8,
+            "word": "的",
+            "start": 6.36,
+            "end": 6.44,
+            "probability": 0.987
+          },
+          {
+            "word": "找",
+            "start": 6.44,
+            "end": 6.54,
+            "probability": 1.0
+          },
+          {
+            "word": "工作,",
+            "start": 6.54,
+            "end": 6.82,
+            "probability": 1.0
+          },
+          {
+            "word": "而",
+            "start": 7.0,
+            "end": 7.3,
             "probability": 0.999
           },
           {
-            "word": "业,",
-            "start": 6.8,
-            "end": 6.94,
+            "word": "是",
+            "start": 7.3,
+            "end": 7.38,
             "probability": 1.0
           },
           {
-            "word": "别",
-            "start": 7.08,
-            "end": 7.48,
-            "probability": 0.999
+            "word": "一",
+            "start": 7.38,
+            "end": 7.54,
+            "probability": 1.0
           },
           {
-            "word": "急",
-            "start": 7.48,
+            "word": "场",
+            "start": 7.54,
             "end": 7.68,
             "probability": 1.0
           },
           {
-            "word": "着",
+            "word": "关",
             "start": 7.68,
-            "end": 7.82,
-            "probability": 0.999
-          },
-          {
-            "word": "下",
-            "start": 7.82,
-            "end": 7.94,
+            "end": 7.86,
             "probability": 1.0
           },
           {
-            "word": "结",
-            "start": 7.94,
-            "end": 8.16,
-            "probability": 0.999
+            "word": "于",
+            "start": 7.86,
+            "end": 8.02,
+            "probability": 1.0
           },
           {
-            "word": "论,",
+            "word": "未",
+            "start": 8.02,
+            "end": 8.16,
+            "probability": 1.0
+          },
+          {
+            "word": "来",
             "start": 8.16,
             "end": 8.34,
             "probability": 1.0
           },
           {
-            "word": "咱",
-            "start": 8.42,
-            "end": 8.62,
-            "probability": 0.999
-          },
-          {
-            "word": "们",
-            "start": 8.62,
-            "end": 8.74,
-            "probability": 1.0
-          },
-          {
-            "word": "得",
-            "start": 8.74,
-            "end": 8.84,
-            "probability": 1.0
-          },
-          {
-            "word": "细",
-            "start": 8.84,
-            "end": 9.1,
-            "probability": 0.997
-          },
-          {
-            "word": "品",
-            "start": 9.1,
-            "end": 9.26,
-            "probability": 0.993
-          },
-          {
-            "word": "背",
-            "start": 9.26,
-            "end": 9.42,
-            "probability": 0.999
-          },
-          {
-            "word": "后",
-            "start": 9.42,
-            "end": 9.6,
-            "probability": 1.0
-          },
-          {
             "word": "的",
-            "start": 9.6,
-            "end": 9.72,
+            "start": 8.34,
+            "end": 8.48,
             "probability": 1.0
           },
           {
-            "word": "逻",
-            "start": 9.72,
-            "end": 9.86,
+            "word": "生",
+            "start": 8.48,
+            "end": 8.58,
             "probability": 1.0
           },
           {
-            "word": "辑。",
-            "start": 9.86,
-            "end": 10.0,
+            "word": "存",
+            "start": 8.58,
+            "end": 8.78,
+            "probability": 1.0
+          },
+          {
+            "word": "实",
+            "start": 8.78,
+            "end": 8.94,
+            "probability": 0.999
+          },
+          {
+            "word": "验。",
+            "start": 8.94,
+            "end": 9.14,
             "probability": 1.0
           }
         ]
       },
       {
-        "start": 10.36,
-        "end": 24.98,
-        "text": "先看数据,我翻遍全网预计,2026年毕业生将突破1250万,创历史新高,但传统行业招聘缩水30%,AI自动化取代大量重复性工作,你品这供需失衡有多夸张。",
+        "start": 9.28,
+        "end": 24.48,
+        "text": "我翻遍全网看到一个扎心的数据,2026年毕业生预计突破1200万,而市场新增的优质岗位可能只有1500万,但真相是,AI的替代率在白领领域已经超过30%,你品,这多出来的真的是机会吗?",
         "words": [
           {
-            "word": "先",
-            "start": 10.36,
-            "end": 10.72,
-            "probability": 0.99
-          },
-          {
-            "word": "看",
-            "start": 10.72,
-            "end": 10.9,
-            "probability": 1.0
-          },
-          {
-            "word": "数",
-            "start": 10.9,
-            "end": 11.06,
-            "probability": 1.0
-          },
-          {
-            "word": "据,",
-            "start": 11.06,
-            "end": 11.3,
-            "probability": 1.0
-          },
-          {
             "word": "我",
-            "start": 11.36,
-            "end": 11.8,
-            "probability": 1.0
+            "start": 9.28,
+            "end": 9.64,
+            "probability": 0.829
           },
           {
             "word": "翻",
-            "start": 11.8,
-            "end": 12.08,
-            "probability": 1.0
+            "start": 9.64,
+            "end": 9.76,
+            "probability": 0.974
           },
           {
             "word": "遍",
-            "start": 12.08,
-            "end": 12.28,
-            "probability": 1.0
+            "start": 9.76,
+            "end": 9.92,
+            "probability": 0.999
           },
           {
             "word": "全",
-            "start": 12.28,
-            "end": 12.4,
+            "start": 9.92,
+            "end": 10.06,
             "probability": 0.998
           },
           {
             "word": "网",
-            "start": 12.4,
-            "end": 12.58,
+            "start": 10.06,
+            "end": 10.24,
             "probability": 1.0
           },
           {
-            "word": "预",
-            "start": 12.58,
-            "end": 12.76,
-            "probability": 0.997
+            "word": "看到",
+            "start": 10.24,
+            "end": 10.4,
+            "probability": 1.0
           },
           {
-            "word": "计,",
-            "start": 12.76,
-            "end": 12.94,
+            "word": "一个",
+            "start": 10.4,
+            "end": 10.66,
+            "probability": 1.0
+          },
+          {
+            "word": "扎",
+            "start": 10.66,
+            "end": 10.86,
             "probability": 0.998
           },
           {
-            "word": "20",
-            "start": 13.06,
-            "end": 13.44,
-            "probability": 0.993
-          },
-          {
-            "word": "26",
-            "start": 13.44,
-            "end": 13.72,
-            "probability": 1.0
-          },
-          {
-            "word": "年",
-            "start": 13.72,
-            "end": 13.98,
-            "probability": 1.0
-          },
-          {
-            "word": "毕",
-            "start": 13.98,
-            "end": 14.18,
-            "probability": 1.0
-          },
-          {
-            "word": "业",
-            "start": 14.18,
-            "end": 14.3,
-            "probability": 1.0
-          },
-          {
-            "word": "生",
-            "start": 14.3,
-            "end": 14.46,
-            "probability": 1.0
-          },
-          {
-            "word": "将",
-            "start": 14.46,
-            "end": 14.74,
-            "probability": 1.0
-          },
-          {
-            "word": "突",
-            "start": 14.74,
-            "end": 14.9,
-            "probability": 1.0
-          },
-          {
-            "word": "破",
-            "start": 14.9,
-            "end": 15.18,
-            "probability": 1.0
-          },
-          {
-            "word": "12",
-            "start": 15.18,
-            "end": 15.44,
-            "probability": 0.942
-          },
-          {
-            "word": "50",
-            "start": 15.44,
-            "end": 15.68,
-            "probability": 0.996
-          },
-          {
-            "word": "万,",
-            "start": 15.68,
-            "end": 15.96,
-            "probability": 1.0
-          },
-          {
-            "word": "创",
-            "start": 16.06,
-            "end": 16.4,
-            "probability": 0.999
-          },
-          {
-            "word": "历",
-            "start": 16.4,
-            "end": 16.6,
-            "probability": 1.0
-          },
-          {
-            "word": "史",
-            "start": 16.6,
-            "end": 16.74,
-            "probability": 1.0
-          },
-          {
-            "word": "新",
-            "start": 16.74,
-            "end": 16.9,
-            "probability": 0.999
-          },
-          {
-            "word": "高,",
-            "start": 16.9,
-            "end": 17.08,
-            "probability": 1.0
-          },
-          {
-            "word": "但",
-            "start": 17.22,
-            "end": 17.62,
-            "probability": 0.999
-          },
-          {
-            "word": "传",
-            "start": 17.62,
-            "end": 17.9,
-            "probability": 1.0
-          },
-          {
-            "word": "统",
-            "start": 17.9,
-            "end": 18.12,
-            "probability": 1.0
-          },
-          {
-            "word": "行",
-            "start": 18.12,
-            "end": 18.26,
-            "probability": 1.0
-          },
-          {
-            "word": "业",
-            "start": 18.26,
-            "end": 18.52,
-            "probability": 1.0
-          },
-          {
-            "word": "招",
-            "start": 18.52,
-            "end": 18.76,
-            "probability": 0.999
-          },
-          {
-            "word": "聘",
-            "start": 18.76,
-            "end": 18.92,
-            "probability": 1.0
-          },
-          {
-            "word": "缩",
-            "start": 18.92,
-            "end": 19.1,
-            "probability": 0.999
-          },
-          {
-            "word": "水",
-            "start": 19.1,
-            "end": 19.3,
-            "probability": 1.0
-          },
-          {
-            "word": "30",
-            "start": 19.3,
-            "end": 19.52,
-            "probability": 0.993
-          },
-          {
-            "word": "%,",
-            "start": 19.52,
-            "end": 20.1,
-            "probability": 0.992
-          },
-          {
-            "word": "AI",
-            "start": 20.1,
-            "end": 20.54,
-            "probability": 0.997
-          },
-          {
-            "word": "自",
-            "start": 20.54,
-            "end": 20.74,
-            "probability": 1.0
-          },
-          {
-            "word": "动",
-            "start": 20.74,
-            "end": 20.9,
-            "probability": 1.0
-          },
-          {
-            "word": "化",
-            "start": 20.9,
-            "end": 21.08,
-            "probability": 1.0
-          },
-          {
-            "word": "取",
-            "start": 21.08,
-            "end": 21.28,
-            "probability": 0.997
-          },
-          {
-            "word": "代",
-            "start": 21.28,
-            "end": 21.48,
-            "probability": 1.0
-          },
-          {
-            "word": "大",
-            "start": 21.48,
-            "end": 21.6,
-            "probability": 1.0
-          },
-          {
-            "word": "量",
-            "start": 21.6,
-            "end": 21.84,
-            "probability": 1.0
-          },
-          {
-            "word": "重",
-            "start": 21.84,
-            "end": 21.98,
-            "probability": 1.0
-          },
-          {
-            "word": "复",
-            "start": 21.98,
-            "end": 22.16,
-            "probability": 0.999
-          },
-          {
-            "word": "性",
-            "start": 22.16,
-            "end": 22.28,
-            "probability": 1.0
-          },
-          {
-            "word": "工作,",
-            "start": 22.28,
-            "end": 22.54,
-            "probability": 1.0
-          },
-          {
-            "word": "你",
-            "start": 22.8,
-            "end": 23.04,
-            "probability": 0.779
-          },
-          {
-            "word": "品",
-            "start": 23.04,
-            "end": 23.24,
-            "probability": 0.99
-          },
-          {
-            "word": "这",
-            "start": 23.24,
-            "end": 23.5,
-            "probability": 0.975
-          },
-          {
-            "word": "供",
-            "start": 23.5,
-            "end": 23.72,
-            "probability": 0.936
-          },
-          {
-            "word": "需",
-            "start": 23.72,
-            "end": 23.86,
-            "probability": 1.0
-          },
-          {
-            "word": "失",
-            "start": 23.86,
-            "end": 24.06,
-            "probability": 0.997
-          },
-          {
-            "word": "衡",
-            "start": 24.06,
-            "end": 24.2,
-            "probability": 0.998
-          },
-          {
-            "word": "有",
-            "start": 24.2,
-            "end": 24.44,
-            "probability": 0.981
-          },
-          {
-            "word": "多",
-            "start": 24.44,
-            "end": 24.6,
-            "probability": 1.0
-          },
-          {
-            "word": "夸",
-            "start": 24.6,
-            "end": 24.78,
-            "probability": 1.0
-          },
-          {
-            "word": "张。",
-            "start": 24.78,
-            "end": 24.98,
-            "probability": 1.0
-          }
-        ]
-      },
-      {
-        "start": 24.98,
-        "end": 37.6,
-        "text": "关键影响,就业市场两极分化更严重,高新技术岗如AI工程师,年薪百万还招不到人,基础行政岗竞争比考工还激烈,说白了不是没工作,是机会变了天。",
-        "words": [
-          {
-            "word": "关",
-            "start": 24.98,
-            "end": 25.48,
-            "probability": 0.783
-          },
-          {
-            "word": "键",
-            "start": 25.48,
-            "end": 25.66,
-            "probability": 1.0
-          },
-          {
-            "word": "影",
-            "start": 25.66,
-            "end": 25.8,
-            "probability": 0.999
-          },
-          {
-            "word": "响,",
-            "start": 25.8,
-            "end": 26.02,
-            "probability": 1.0
-          },
-          {
-            "word": "就",
-            "start": 26.08,
-            "end": 26.4,
-            "probability": 0.997
-          },
-          {
-            "word": "业",
-            "start": 26.4,
-            "end": 26.58,
-            "probability": 1.0
-          },
-          {
-            "word": "市",
-            "start": 26.58,
-            "end": 26.7,
-            "probability": 1.0
-          },
-          {
-            "word": "场",
-            "start": 26.7,
-            "end": 26.92,
-            "probability": 1.0
-          },
-          {
-            "word": "两",
-            "start": 26.92,
-            "end": 27.08,
-            "probability": 0.998
-          },
-          {
-            "word": "极",
-            "start": 27.08,
-            "end": 27.3,
-            "probability": 0.973
-          },
-          {
-            "word": "分",
-            "start": 27.3,
-            "end": 27.42,
-            "probability": 0.999
-          },
-          {
-            "word": "化",
-            "start": 27.42,
-            "end": 27.58,
-            "probability": 1.0
-          },
-          {
-            "word": "更",
-            "start": 27.58,
-            "end": 27.78,
-            "probability": 0.999
-          },
-          {
-            "word": "严",
-            "start": 27.78,
-            "end": 28.0,
-            "probability": 1.0
-          },
-          {
-            "word": "重,",
-            "start": 28.0,
-            "end": 28.18,
-            "probability": 1.0
-          },
-          {
-            "word": "高",
-            "start": 28.3,
-            "end": 28.64,
-            "probability": 0.999
-          },
-          {
-            "word": "新",
-            "start": 28.64,
-            "end": 28.84,
-            "probability": 0.645
-          },
-          {
-            "word": "技",
-            "start": 28.84,
-            "end": 28.98,
-            "probability": 1.0
-          },
-          {
-            "word": "术",
-            "start": 28.98,
-            "end": 29.18,
-            "probability": 1.0
-          },
-          {
-            "word": "岗",
-            "start": 29.18,
-            "end": 29.34,
-            "probability": 0.797
-          },
-          {
-            "word": "如",
-            "start": 29.34,
-            "end": 29.52,
-            "probability": 0.997
-          },
-          {
-            "word": "AI",
-            "start": 29.52,
-            "end": 29.78,
-            "probability": 0.999
-          },
-          {
-            "word": "工",
-            "start": 29.78,
-            "end": 30.02,
-            "probability": 1.0
-          },
-          {
-            "word": "程",
-            "start": 30.02,
-            "end": 30.18,
-            "probability": 1.0
-          },
-          {
-            "word": "师,",
-            "start": 30.18,
-            "end": 30.42,
-            "probability": 1.0
-          },
-          {
-            "word": "年",
-            "start": 30.68,
-            "end": 30.88,
-            "probability": 1.0
-          },
-          {
-            "word": "薪",
-            "start": 30.88,
-            "end": 31.1,
-            "probability": 0.999
-          },
-          {
-            "word": "百",
-            "start": 31.1,
-            "end": 31.26,
-            "probability": 1.0
-          },
-          {
-            "word": "万",
-            "start": 31.26,
-            "end": 31.44,
-            "probability": 1.0
-          },
-          {
-            "word": "还",
-            "start": 31.44,
-            "end": 31.58,
-            "probability": 0.999
-          },
-          {
-            "word": "招",
-            "start": 31.58,
-            "end": 31.8,
-            "probability": 0.998
-          },
-          {
-            "word": "不到",
-            "start": 31.8,
-            "end": 31.92,
-            "probability": 0.999
-          },
-          {
-            "word": "人,",
-            "start": 31.92,
-            "end": 32.16,
-            "probability": 1.0
-          },
-          {
-            "word": "基",
-            "start": 32.4,
-            "end": 32.66,
-            "probability": 0.999
-          },
-          {
-            "word": "础",
-            "start": 32.66,
-            "end": 32.86,
-            "probability": 1.0
-          },
-          {
-            "word": "行",
-            "start": 32.86,
-            "end": 33.02,
-            "probability": 1.0
-          },
-          {
-            "word": "政",
-            "start": 33.02,
-            "end": 33.18,
-            "probability": 1.0
-          },
-          {
-            "word": "岗",
-            "start": 33.18,
-            "end": 33.4,
-            "probability": 0.999
-          },
-          {
-            "word": "竞",
-            "start": 33.4,
-            "end": 33.68,
-            "probability": 0.98
-          },
-          {
-            "word": "争",
-            "start": 33.68,
-            "end": 33.8,
-            "probability": 1.0
-          },
-          {
-            "word": "比",
-            "start": 33.8,
-            "end": 33.94,
-            "probability": 1.0
-          },
-          {
-            "word": "考",
-            "start": 33.94,
-            "end": 34.08,
-            "probability": 1.0
-          },
-          {
-            "word": "工",
-            "start": 34.08,
-            "end": 34.28,
-            "probability": 0.944
-          },
-          {
-            "word": "还",
-            "start": 34.28,
-            "end": 34.4,
-            "probability": 1.0
-          },
-          {
-            "word": "激",
-            "start": 34.4,
-            "end": 34.68,
-            "probability": 1.0
-          },
-          {
-            "word": "烈,",
-            "start": 34.68,
-            "end": 34.82,
-            "probability": 1.0
-          },
-          {
-            "word": "说",
-            "start": 34.92,
-            "end": 35.2,
-            "probability": 1.0
-          },
-          {
-            "word": "白",
-            "start": 35.2,
-            "end": 35.38,
-            "probability": 1.0
-          },
-          {
-            "word": "了",
-            "start": 35.38,
-            "end": 35.58,
-            "probability": 1.0
-          },
-          {
-            "word": "不是",
-            "start": 35.58,
-            "end": 35.84,
-            "probability": 0.886
-          },
-          {
-            "word": "没",
-            "start": 35.84,
-            "end": 36.04,
-            "probability": 1.0
-          },
-          {
-            "word": "工作,",
-            "start": 36.04,
-            "end": 36.34,
-            "probability": 1.0
-          },
-          {
-            "word": "是",
-            "start": 36.5,
-            "end": 36.68,
-            "probability": 1.0
-          },
-          {
-            "word": "机",
-            "start": 36.68,
-            "end": 36.94,
-            "probability": 1.0
-          },
-          {
-            "word": "会",
-            "start": 36.94,
-            "end": 37.16,
-            "probability": 1.0
-          },
-          {
-            "word": "变",
-            "start": 37.16,
-            "end": 37.36,
-            "probability": 0.995
-          },
-          {
-            "word": "了",
-            "start": 37.36,
-            "end": 37.46,
-            "probability": 1.0
-          },
-          {
-            "word": "天。",
-            "start": 37.46,
-            "end": 37.6,
-            "probability": 0.999
-          }
-        ]
-      },
-      {
-        "start": 37.88,
-        "end": 49.24,
-        "text": "机遇在哪,新兴赛道井喷,数字孪生,元宇宙策划,低碳金融,这些领域缺口巨大,细品,十年前这些词都还没发明,现在成了香饽饽。",
-        "words": [
-          {
-            "word": "机",
-            "start": 37.88,
-            "end": 38.22,
-            "probability": 0.989
-          },
-          {
-            "word": "遇",
-            "start": 38.22,
-            "end": 38.44,
-            "probability": 1.0
-          },
-          {
-            "word": "在",
-            "start": 38.44,
-            "end": 38.6,
-            "probability": 0.991
-          },
-          {
-            "word": "哪,",
-            "start": 38.6,
-            "end": 38.78,
-            "probability": 0.963
-          },
-          {
-            "word": "新",
-            "start": 38.9,
-            "end": 39.14,
-            "probability": 0.923
-          },
-          {
-            "word": "兴",
-            "start": 39.14,
-            "end": 39.44,
-            "probability": 0.932
-          },
-          {
-            "word": "赛",
-            "start": 39.44,
-            "end": 39.68,
-            "probability": 0.985
-          },
-          {
-            "word": "道",
-            "start": 39.68,
-            "end": 39.82,
-            "probability": 1.0
-          },
-          {
-            "word": "井",
-            "start": 39.82,
-            "end": 39.98,
-            "probability": 0.718
-          },
-          {
-            "word": "喷,",
-            "start": 39.98,
-            "end": 40.16,
+            "word": "心",
+            "start": 10.86,
+            "end": 11.0,
+            "probability": 0.765
+          },
+          {
+            "word": "的",
+            "start": 11.0,
+            "end": 11.12,
             "probability": 1.0
           },
           {
             "word": "数",
-            "start": 40.56,
-            "end": 40.72,
+            "start": 11.12,
+            "end": 11.24,
             "probability": 1.0
           },
           {
-            "word": "字",
-            "start": 40.72,
-            "end": 40.94,
+            "word": "据,",
+            "start": 11.24,
+            "end": 11.5,
             "probability": 1.0
           },
           {
-            "word": "孪",
-            "start": 40.94,
-            "end": 41.08,
-            "probability": 0.88
+            "word": "20",
+            "start": 11.64,
+            "end": 11.98,
+            "probability": 0.994
           },
           {
-            "word": "生,",
-            "start": 41.08,
-            "end": 41.32,
+            "word": "26",
+            "start": 11.98,
+            "end": 12.2,
+            "probability": 1.0
+          },
+          {
+            "word": "年",
+            "start": 12.2,
+            "end": 12.46,
+            "probability": 1.0
+          },
+          {
+            "word": "毕",
+            "start": 12.46,
+            "end": 12.66,
+            "probability": 1.0
+          },
+          {
+            "word": "业",
+            "start": 12.66,
+            "end": 12.78,
+            "probability": 1.0
+          },
+          {
+            "word": "生",
+            "start": 12.78,
+            "end": 12.88,
+            "probability": 1.0
+          },
+          {
+            "word": "预",
+            "start": 12.88,
+            "end": 13.06,
+            "probability": 1.0
+          },
+          {
+            "word": "计",
+            "start": 13.06,
+            "end": 13.18,
             "probability": 0.999
           },
           {
-            "word": "元",
-            "start": 41.36,
-            "end": 41.6,
-            "probability": 0.823
-          },
-          {
-            "word": "宇",
-            "start": 41.6,
-            "end": 41.76,
+            "word": "突",
+            "start": 13.18,
+            "end": 13.32,
             "probability": 1.0
           },
           {
-            "word": "宙",
-            "start": 41.76,
-            "end": 41.96,
-            "probability": 0.999
-          },
-          {
-            "word": "策",
-            "start": 41.96,
-            "end": 42.16,
-            "probability": 0.999
-          },
-          {
-            "word": "划,",
-            "start": 42.16,
-            "end": 42.32,
-            "probability": 0.998
-          },
-          {
-            "word": "低",
-            "start": 42.42,
-            "end": 42.68,
-            "probability": 0.997
-          },
-          {
-            "word": "碳",
-            "start": 42.68,
-            "end": 42.88,
-            "probability": 0.996
-          },
-          {
-            "word": "金",
-            "start": 42.88,
-            "end": 43.06,
+            "word": "破",
+            "start": 13.32,
+            "end": 13.58,
             "probability": 1.0
           },
           {
-            "word": "融,",
-            "start": 43.06,
-            "end": 43.22,
-            "probability": 1.0
+            "word": "12",
+            "start": 13.58,
+            "end": 13.82,
+            "probability": 0.951
           },
           {
-            "word": "这",
-            "start": 43.36,
-            "end": 43.7,
-            "probability": 1.0
-          },
-          {
-            "word": "些",
-            "start": 43.7,
-            "end": 43.86,
-            "probability": 1.0
-          },
-          {
-            "word": "领",
-            "start": 43.86,
-            "end": 44.02,
-            "probability": 1.0
-          },
-          {
-            "word": "域",
-            "start": 44.02,
-            "end": 44.24,
-            "probability": 1.0
-          },
-          {
-            "word": "缺",
-            "start": 44.24,
-            "end": 44.5,
-            "probability": 1.0
-          },
-          {
-            "word": "口",
-            "start": 44.5,
-            "end": 44.68,
-            "probability": 1.0
-          },
-          {
-            "word": "巨",
-            "start": 44.68,
-            "end": 44.9,
-            "probability": 1.0
-          },
-          {
-            "word": "大,",
-            "start": 44.9,
-            "end": 45.04,
-            "probability": 1.0
-          },
-          {
-            "word": "细",
-            "start": 45.08,
-            "end": 45.36,
-            "probability": 0.943
-          },
-          {
-            "word": "品,",
-            "start": 45.36,
-            "end": 45.54,
-            "probability": 0.999
-          },
-          {
-            "word": "十",
-            "start": 45.74,
-            "end": 46.0,
-            "probability": 0.88
-          },
-          {
-            "word": "年前",
-            "start": 46.0,
-            "end": 46.2,
-            "probability": 1.0
-          },
-          {
-            "word": "这",
-            "start": 46.2,
-            "end": 46.56,
-            "probability": 1.0
-          },
-          {
-            "word": "些",
-            "start": 46.56,
-            "end": 46.72,
-            "probability": 1.0
-          },
-          {
-            "word": "词",
-            "start": 46.72,
-            "end": 46.9,
-            "probability": 1.0
-          },
-          {
-            "word": "都",
-            "start": 46.9,
-            "end": 47.1,
-            "probability": 0.972
-          },
-          {
-            "word": "还",
-            "start": 47.1,
-            "end": 47.28,
-            "probability": 0.999
-          },
-          {
-            "word": "没",
-            "start": 47.28,
-            "end": 47.46,
-            "probability": 1.0
-          },
-          {
-            "word": "发",
-            "start": 47.46,
-            "end": 47.6,
-            "probability": 1.0
-          },
-          {
-            "word": "明,",
-            "start": 47.6,
-            "end": 47.78,
-            "probability": 0.997
-          },
-          {
-            "word": "现在",
-            "start": 47.88,
-            "end": 48.2,
-            "probability": 1.0
-          },
-          {
-            "word": "成",
-            "start": 48.2,
-            "end": 48.48,
-            "probability": 1.0
-          },
-          {
-            "word": "了",
-            "start": 48.48,
-            "end": 48.7,
-            "probability": 1.0
-          },
-          {
-            "word": "香",
-            "start": 48.7,
-            "end": 48.9,
+            "word": "00",
+            "start": 13.82,
+            "end": 14.04,
             "probability": 0.993
           },
           {
-            "word": "饽",
-            "start": 48.9,
-            "end": 49.04,
-            "probability": 0.928
+            "word": "万,",
+            "start": 14.04,
+            "end": 14.28,
+            "probability": 1.0
           },
           {
-            "word": "饽。",
-            "start": 49.04,
-            "end": 49.24,
-            "probability": 0.998
-          }
-        ]
-      },
-      {
-        "start": 49.58,
-        "end": 52.12,
-        "text": "挑战的技能错配是硬伤。",
-        "words": [
-          {
-            "word": "挑",
-            "start": 49.58,
-            "end": 49.98,
-            "probability": 0.981
+            "word": "而",
+            "start": 14.4,
+            "end": 14.74,
+            "probability": 1.0
           },
           {
-            "word": "战",
-            "start": 49.98,
-            "end": 50.34,
+            "word": "市",
+            "start": 14.74,
+            "end": 14.88,
+            "probability": 1.0
+          },
+          {
+            "word": "场",
+            "start": 14.88,
+            "end": 15.1,
+            "probability": 1.0
+          },
+          {
+            "word": "新",
+            "start": 15.1,
+            "end": 15.26,
+            "probability": 1.0
+          },
+          {
+            "word": "增",
+            "start": 15.26,
+            "end": 15.48,
             "probability": 1.0
           },
           {
             "word": "的",
-            "start": 50.34,
-            "end": 50.4,
-            "probability": 0.693
-          },
-          {
-            "word": "技",
-            "start": 50.4,
-            "end": 50.76,
-            "probability": 0.897
-          },
-          {
-            "word": "能",
-            "start": 50.76,
-            "end": 50.96,
-            "probability": 1.0
-          },
-          {
-            "word": "错",
-            "start": 50.96,
-            "end": 51.16,
-            "probability": 0.982
-          },
-          {
-            "word": "配",
-            "start": 51.16,
-            "end": 51.4,
-            "probability": 0.994
-          },
-          {
-            "word": "是",
-            "start": 51.4,
-            "end": 51.64,
-            "probability": 0.992
-          },
-          {
-            "word": "硬",
-            "start": 51.64,
-            "end": 51.92,
-            "probability": 0.998
-          },
-          {
-            "word": "伤。",
-            "start": 51.92,
-            "end": 52.12,
-            "probability": 0.965
-          }
-        ]
-      },
-      {
-        "start": 52.28,
-        "end": 54.96,
-        "text": "大学课程之后,学生毕业急过了,",
-        "words": [
-          {
-            "word": "大",
-            "start": 52.28,
-            "end": 52.68,
-            "probability": 0.983
-          },
-          {
-            "word": "学",
-            "start": 52.68,
-            "end": 52.9,
-            "probability": 1.0
-          },
-          {
-            "word": "课",
-            "start": 52.9,
-            "end": 53.1,
-            "probability": 1.0
-          },
-          {
-            "word": "程",
-            "start": 53.1,
-            "end": 53.22,
-            "probability": 1.0
-          },
-          {
-            "word": "之",
-            "start": 53.22,
-            "end": 53.34,
-            "probability": 0.953
-          },
-          {
-            "word": "后,",
-            "start": 53.34,
-            "end": 53.54,
-            "probability": 1.0
-          },
-          {
-            "word": "学",
-            "start": 53.68,
-            "end": 54.02,
-            "probability": 0.995
-          },
-          {
-            "word": "生",
-            "start": 54.02,
-            "end": 54.24,
-            "probability": 1.0
-          },
-          {
-            "word": "毕",
-            "start": 54.24,
-            "end": 54.42,
-            "probability": 1.0
-          },
-          {
-            "word": "业",
-            "start": 54.42,
-            "end": 54.56,
-            "probability": 1.0
-          },
-          {
-            "word": "急",
-            "start": 54.56,
-            "end": 54.78,
-            "probability": 0.308
-          },
-          {
-            "word": "过",
-            "start": 54.78,
-            "end": 54.96,
-            "probability": 0.986
-          },
-          {
-            "word": "了,",
-            "start": 54.96,
-            "end": 54.96,
-            "probability": 0.246
-          }
-        ]
-      },
-      {
-        "start": 54.98,
-        "end": 61.1,
-        "text": "企业要实战经验,毕业生只有理论指,别被文凭忽悠了,能力才是硬通货。",
-        "words": [
-          {
-            "word": "企",
-            "start": 54.98,
-            "end": 55.56,
-            "probability": 0.478
-          },
-          {
-            "word": "业",
-            "start": 55.56,
-            "end": 55.8,
-            "probability": 1.0
-          },
-          {
-            "word": "要",
-            "start": 55.8,
-            "end": 55.92,
-            "probability": 0.957
-          },
-          {
-            "word": "实",
-            "start": 55.92,
-            "end": 56.12,
-            "probability": 0.996
-          },
-          {
-            "word": "战",
-            "start": 56.12,
-            "end": 56.34,
-            "probability": 1.0
-          },
-          {
-            "word": "经",
-            "start": 56.34,
-            "end": 56.46,
-            "probability": 1.0
-          },
-          {
-            "word": "验,",
-            "start": 56.46,
-            "end": 56.68,
-            "probability": 1.0
-          },
-          {
-            "word": "毕",
-            "start": 56.72,
-            "end": 57.18,
-            "probability": 0.999
-          },
-          {
-            "word": "业",
-            "start": 57.18,
-            "end": 57.26,
-            "probability": 1.0
-          },
-          {
-            "word": "生",
-            "start": 57.26,
-            "end": 57.42,
-            "probability": 1.0
-          },
-          {
-            "word": "只有",
-            "start": 57.42,
-            "end": 57.66,
-            "probability": 0.999
-          },
-          {
-            "word": "理",
-            "start": 57.66,
-            "end": 57.94,
-            "probability": 1.0
-          },
-          {
-            "word": "论",
-            "start": 57.94,
-            "end": 58.12,
-            "probability": 1.0
-          },
-          {
-            "word": "指,",
-            "start": 58.12,
-            "end": 58.28,
-            "probability": 0.438
-          },
-          {
-            "word": "别",
-            "start": 58.38,
-            "end": 58.58,
-            "probability": 1.0
-          },
-          {
-            "word": "被",
-            "start": 58.58,
-            "end": 58.72,
-            "probability": 1.0
-          },
-          {
-            "word": "文",
-            "start": 58.72,
-            "end": 58.88,
-            "probability": 0.999
-          },
-          {
-            "word": "凭",
-            "start": 58.88,
-            "end": 59.04,
-            "probability": 0.999
-          },
-          {
-            "word": "忽",
-            "start": 59.04,
-            "end": 59.3,
-            "probability": 1.0
-          },
-          {
-            "word": "悠",
-            "start": 59.3,
-            "end": 59.4,
-            "probability": 0.994
-          },
-          {
-            "word": "了,",
-            "start": 59.4,
-            "end": 59.56,
-            "probability": 1.0
-          },
-          {
-            "word": "能",
-            "start": 59.6,
-            "end": 60.0,
-            "probability": 1.0
-          },
-          {
-            "word": "力",
-            "start": 60.0,
-            "end": 60.22,
-            "probability": 1.0
-          },
-          {
-            "word": "才",
-            "start": 60.22,
-            "end": 60.38,
-            "probability": 1.0
-          },
-          {
-            "word": "是",
-            "start": 60.38,
-            "end": 60.58,
-            "probability": 1.0
-          },
-          {
-            "word": "硬",
-            "start": 60.58,
-            "end": 60.74,
-            "probability": 0.999
-          },
-          {
-            "word": "通",
-            "start": 60.74,
-            "end": 60.88,
-            "probability": 0.985
-          },
-          {
-            "word": "货。",
-            "start": 60.88,
-            "end": 61.1,
-            "probability": 1.0
-          }
-        ]
-      },
-      {
-        "start": 61.22,
-        "end": 72.36,
-        "text": "未来趋势,远程办公常态化,全球人才竞争白热化,你可能坐在家里对手,在东京或纽约,别被忽悠了,本地优势在消失,适应力才是王牌。",
-        "words": [
-          {
-            "word": "未",
-            "start": 61.22,
-            "end": 61.6,
-            "probability": 0.832
-          },
-          {
-            "word": "来",
-            "start": 61.6,
-            "end": 61.8,
-            "probability": 1.0
-          },
-          {
-            "word": "趋",
-            "start": 61.8,
-            "end": 61.98,
-            "probability": 1.0
-          },
-          {
-            "word": "势,",
-            "start": 61.98,
-            "end": 62.14,
-            "probability": 1.0
-          },
-          {
-            "word": "远",
-            "start": 62.26,
-            "end": 62.6,
-            "probability": 1.0
-          },
-          {
-            "word": "程",
-            "start": 62.6,
-            "end": 62.78,
-            "probability": 0.998
-          },
-          {
-            "word": "办",
-            "start": 62.78,
-            "end": 62.96,
-            "probability": 0.999
-          },
-          {
-            "word": "公",
-            "start": 62.96,
-            "end": 63.12,
-            "probability": 1.0
-          },
-          {
-            "word": "常",
-            "start": 63.12,
-            "end": 63.26,
-            "probability": 0.998
-          },
-          {
-            "word": "态",
-            "start": 63.26,
-            "end": 63.48,
-            "probability": 1.0
-          },
-          {
-            "word": "化,",
-            "start": 63.48,
-            "end": 63.62,
-            "probability": 1.0
-          },
-          {
-            "word": "全",
-            "start": 63.82,
-            "end": 64.08,
-            "probability": 1.0
-          },
-          {
-            "word": "球",
-            "start": 64.08,
-            "end": 64.28,
-            "probability": 1.0
-          },
-          {
-            "word": "人",
-            "start": 64.28,
-            "end": 64.48,
-            "probability": 1.0
-          },
-          {
-            "word": "才",
-            "start": 64.48,
-            "end": 64.64,
-            "probability": 1.0
-          },
-          {
-            "word": "竞",
-            "start": 64.64,
-            "end": 64.86,
-            "probability": 1.0
-          },
-          {
-            "word": "争",
-            "start": 64.86,
-            "end": 64.98,
-            "probability": 1.0
-          },
-          {
-            "word": "白",
-            "start": 64.98,
-            "end": 65.14,
-            "probability": 0.999
-          },
-          {
-            "word": "热",
-            "start": 65.14,
-            "end": 65.32,
-            "probability": 1.0
-          },
-          {
-            "word": "化,",
-            "start": 65.32,
-            "end": 65.46,
-            "probability": 1.0
-          },
-          {
-            "word": "你",
-            "start": 65.66,
-            "end": 65.92,
-            "probability": 1.0
-          },
-          {
-            "word": "可能",
-            "start": 65.92,
-            "end": 66.1,
-            "probability": 1.0
-          },
-          {
-            "word": "坐",
-            "start": 66.1,
-            "end": 66.32,
-            "probability": 0.995
-          },
-          {
-            "word": "在",
-            "start": 66.32,
-            "end": 66.46,
-            "probability": 1.0
-          },
-          {
-            "word": "家",
-            "start": 66.46,
-            "end": 66.62,
-            "probability": 1.0
-          },
-          {
-            "word": "里",
-            "start": 66.62,
-            "end": 66.72,
-            "probability": 1.0
-          },
-          {
-            "word": "对",
-            "start": 66.72,
-            "end": 66.86,
-            "probability": 1.0
-          },
-          {
-            "word": "手,",
-            "start": 66.86,
-            "end": 67.06,
-            "probability": 0.999
-          },
-          {
-            "word": "在",
-            "start": 67.14,
-            "end": 67.32,
-            "probability": 1.0
-          },
-          {
-            "word": "东",
-            "start": 67.32,
-            "end": 67.54,
-            "probability": 0.998
-          },
-          {
-            "word": "京",
-            "start": 67.54,
-            "end": 67.8,
-            "probability": 1.0
-          },
-          {
-            "word": "或",
-            "start": 67.8,
-            "end": 67.98,
-            "probability": 0.998
-          },
-          {
-            "word": "纽",
-            "start": 67.98,
-            "end": 68.2,
-            "probability": 1.0
-          },
-          {
-            "word": "约,",
-            "start": 68.2,
-            "end": 68.42,
-            "probability": 1.0
-          },
-          {
-            "word": "别",
-            "start": 68.48,
-            "end": 68.72,
-            "probability": 1.0
-          },
-          {
-            "word": "被",
-            "start": 68.72,
-            "end": 68.86,
-            "probability": 1.0
-          },
-          {
-            "word": "忽",
-            "start": 68.86,
-            "end": 69.08,
-            "probability": 1.0
-          },
-          {
-            "word": "悠",
-            "start": 69.08,
-            "end": 69.18,
-            "probability": 1.0
-          },
-          {
-            "word": "了,",
-            "start": 69.18,
-            "end": 69.32,
-            "probability": 1.0
-          },
-          {
-            "word": "本",
-            "start": 69.62,
-            "end": 69.76,
-            "probability": 1.0
-          },
-          {
-            "word": "地",
-            "start": 69.76,
-            "end": 69.92,
+            "start": 15.48,
+            "end": 15.58,
             "probability": 1.0
           },
           {
             "word": "优",
-            "start": 69.92,
-            "end": 70.08,
+            "start": 15.58,
+            "end": 15.68,
             "probability": 1.0
           },
           {
-            "word": "势",
-            "start": 70.08,
-            "end": 70.24,
+            "word": "质",
+            "start": 15.68,
+            "end": 15.82,
+            "probability": 0.999
+          },
+          {
+            "word": "岗",
+            "start": 15.82,
+            "end": 16.02,
+            "probability": 0.999
+          },
+          {
+            "word": "位",
+            "start": 16.02,
+            "end": 16.14,
+            "probability": 1.0
+          },
+          {
+            "word": "可能",
+            "start": 16.14,
+            "end": 16.5,
+            "probability": 0.987
+          },
+          {
+            "word": "只有",
+            "start": 16.5,
+            "end": 16.78,
+            "probability": 0.999
+          },
+          {
+            "word": "15",
+            "start": 16.78,
+            "end": 17.08,
+            "probability": 0.998
+          },
+          {
+            "word": "00",
+            "start": 17.08,
+            "end": 17.32,
+            "probability": 0.995
+          },
+          {
+            "word": "万,",
+            "start": 17.32,
+            "end": 17.58,
+            "probability": 1.0
+          },
+          {
+            "word": "但",
+            "start": 17.7,
+            "end": 18.04,
+            "probability": 0.998
+          },
+          {
+            "word": "真",
+            "start": 18.04,
+            "end": 18.22,
+            "probability": 1.0
+          },
+          {
+            "word": "相",
+            "start": 18.22,
+            "end": 18.36,
+            "probability": 0.996
+          },
+          {
+            "word": "是,",
+            "start": 18.36,
+            "end": 18.6,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 18.68,
+            "end": 19.1,
+            "probability": 0.998
+          },
+          {
+            "word": "的",
+            "start": 19.1,
+            "end": 19.34,
+            "probability": 1.0
+          },
+          {
+            "word": "替",
+            "start": 19.34,
+            "end": 19.48,
+            "probability": 1.0
+          },
+          {
+            "word": "代",
+            "start": 19.48,
+            "end": 19.56,
+            "probability": 1.0
+          },
+          {
+            "word": "率",
+            "start": 19.56,
+            "end": 19.7,
             "probability": 1.0
           },
           {
             "word": "在",
-            "start": 70.24,
-            "end": 70.36,
+            "start": 19.7,
+            "end": 19.88,
             "probability": 1.0
           },
           {
-            "word": "消",
-            "start": 70.36,
-            "end": 70.52,
-            "probability": 1.0
+            "word": "白",
+            "start": 19.88,
+            "end": 20.1,
+            "probability": 0.994
           },
           {
-            "word": "失,",
-            "start": 70.52,
-            "end": 70.76,
-            "probability": 1.0
+            "word": "领",
+            "start": 20.1,
+            "end": 20.28,
+            "probability": 0.991
           },
           {
-            "word": "适",
-            "start": 71.06,
-            "end": 71.28,
-            "probability": 1.0
-          },
-          {
-            "word": "应",
-            "start": 71.28,
-            "end": 71.44,
-            "probability": 1.0
-          },
-          {
-            "word": "力",
-            "start": 71.44,
-            "end": 71.54,
-            "probability": 0.999
-          },
-          {
-            "word": "才",
-            "start": 71.54,
-            "end": 71.82,
-            "probability": 1.0
-          },
-          {
-            "word": "是",
-            "start": 71.82,
-            "end": 72.02,
-            "probability": 1.0
-          },
-          {
-            "word": "王",
-            "start": 72.02,
-            "end": 72.16,
+            "word": "领",
+            "start": 20.28,
+            "end": 20.42,
             "probability": 0.998
           },
           {
-            "word": "牌。",
-            "start": 72.16,
-            "end": 72.36,
+            "word": "域",
+            "start": 20.42,
+            "end": 20.54,
+            "probability": 1.0
+          },
+          {
+            "word": "已经",
+            "start": 20.54,
+            "end": 20.78,
+            "probability": 1.0
+          },
+          {
+            "word": "超",
+            "start": 20.78,
+            "end": 21.0,
+            "probability": 1.0
+          },
+          {
+            "word": "过",
+            "start": 21.0,
+            "end": 21.2,
+            "probability": 1.0
+          },
+          {
+            "word": "30",
+            "start": 21.2,
+            "end": 21.4,
+            "probability": 0.997
+          },
+          {
+            "word": "%,",
+            "start": 21.4,
+            "end": 21.94,
+            "probability": 0.933
+          },
+          {
+            "word": "你",
+            "start": 21.94,
+            "end": 22.44,
+            "probability": 0.982
+          },
+          {
+            "word": "品,",
+            "start": 22.44,
+            "end": 22.64,
+            "probability": 0.964
+          },
+          {
+            "word": "这",
+            "start": 22.72,
+            "end": 23.02,
+            "probability": 1.0
+          },
+          {
+            "word": "多",
+            "start": 23.02,
+            "end": 23.18,
+            "probability": 0.999
+          },
+          {
+            "word": "出来",
+            "start": 23.18,
+            "end": 23.4,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 23.4,
+            "end": 23.6,
+            "probability": 1.0
+          },
+          {
+            "word": "真的是",
+            "start": 23.6,
+            "end": 23.86,
+            "probability": 0.56
+          },
+          {
+            "word": "机",
+            "start": 23.86,
+            "end": 24.16,
+            "probability": 0.999
+          },
+          {
+            "word": "会",
+            "start": 24.16,
+            "end": 24.36,
+            "probability": 1.0
+          },
+          {
+            "word": "吗?",
+            "start": 24.36,
+            "end": 24.48,
+            "probability": 0.999
+          }
+        ]
+      },
+      {
+        "start": 24.48,
+        "end": 40.92,
+        "text": "说白了,最大的挑战不是岗位少,而是学历通货膨胀,硕士博士在挤占本科坑位,所有人都在往下卷,同时企业要的不再是螺丝钉,而是能跟AI协作快速解决问题的瑞士军刀,技能错配才是卡住大多数人的脖子。",
+        "words": [
+          {
+            "word": "说",
+            "start": 24.48,
+            "end": 25.04,
+            "probability": 0.916
+          },
+          {
+            "word": "白",
+            "start": 25.04,
+            "end": 25.2,
+            "probability": 0.986
+          },
+          {
+            "word": "了,",
+            "start": 25.2,
+            "end": 25.32,
+            "probability": 1.0
+          },
+          {
+            "word": "最",
+            "start": 25.36,
+            "end": 25.52,
+            "probability": 0.998
+          },
+          {
+            "word": "大的",
+            "start": 25.52,
+            "end": 25.72,
+            "probability": 1.0
+          },
+          {
+            "word": "挑",
+            "start": 25.72,
+            "end": 25.94,
+            "probability": 1.0
+          },
+          {
+            "word": "战",
+            "start": 25.94,
+            "end": 26.16,
+            "probability": 1.0
+          },
+          {
+            "word": "不是",
+            "start": 26.16,
+            "end": 26.32,
+            "probability": 0.998
+          },
+          {
+            "word": "岗",
+            "start": 26.32,
+            "end": 26.6,
+            "probability": 0.999
+          },
+          {
+            "word": "位",
+            "start": 26.6,
+            "end": 26.72,
+            "probability": 1.0
+          },
+          {
+            "word": "少,",
+            "start": 26.72,
+            "end": 26.92,
+            "probability": 1.0
+          },
+          {
+            "word": "而",
+            "start": 27.0,
+            "end": 27.16,
+            "probability": 0.998
+          },
+          {
+            "word": "是",
+            "start": 27.16,
+            "end": 27.32,
+            "probability": 1.0
+          },
+          {
+            "word": "学",
+            "start": 27.32,
+            "end": 27.5,
+            "probability": 0.999
+          },
+          {
+            "word": "历",
+            "start": 27.5,
+            "end": 27.68,
+            "probability": 0.998
+          },
+          {
+            "word": "通",
+            "start": 27.68,
+            "end": 27.82,
+            "probability": 0.999
+          },
+          {
+            "word": "货",
+            "start": 27.82,
+            "end": 27.96,
+            "probability": 0.995
+          },
+          {
+            "word": "膨",
+            "start": 27.96,
+            "end": 28.18,
+            "probability": 1.0
+          },
+          {
+            "word": "胀,",
+            "start": 28.18,
+            "end": 28.34,
+            "probability": 1.0
+          },
+          {
+            "word": "硕",
+            "start": 28.44,
+            "end": 28.92,
+            "probability": 0.998
+          },
+          {
+            "word": "士",
+            "start": 28.92,
+            "end": 29.0,
+            "probability": 1.0
+          },
+          {
+            "word": "博",
+            "start": 29.0,
+            "end": 29.3,
+            "probability": 0.986
+          },
+          {
+            "word": "士",
+            "start": 29.3,
+            "end": 29.5,
+            "probability": 1.0
+          },
+          {
+            "word": "在",
+            "start": 29.5,
+            "end": 29.7,
+            "probability": 0.995
+          },
+          {
+            "word": "挤",
+            "start": 29.7,
+            "end": 29.88,
+            "probability": 0.925
+          },
+          {
+            "word": "占",
+            "start": 29.88,
+            "end": 30.08,
+            "probability": 0.994
+          },
+          {
+            "word": "本",
+            "start": 30.08,
+            "end": 30.28,
+            "probability": 0.999
+          },
+          {
+            "word": "科",
+            "start": 30.28,
+            "end": 30.42,
+            "probability": 1.0
+          },
+          {
+            "word": "坑",
+            "start": 30.42,
+            "end": 30.62,
+            "probability": 0.996
+          },
+          {
+            "word": "位,",
+            "start": 30.62,
+            "end": 30.76,
+            "probability": 1.0
+          },
+          {
+            "word": "所有",
+            "start": 30.9,
+            "end": 31.28,
+            "probability": 0.999
+          },
+          {
+            "word": "人",
+            "start": 31.28,
+            "end": 31.5,
+            "probability": 1.0
+          },
+          {
+            "word": "都",
+            "start": 31.5,
+            "end": 31.6,
+            "probability": 0.998
+          },
+          {
+            "word": "在",
+            "start": 31.6,
+            "end": 31.72,
+            "probability": 1.0
+          },
+          {
+            "word": "往",
+            "start": 31.72,
+            "end": 31.88,
+            "probability": 1.0
+          },
+          {
+            "word": "下",
+            "start": 31.88,
+            "end": 32.06,
+            "probability": 1.0
+          },
+          {
+            "word": "卷,",
+            "start": 32.06,
+            "end": 32.26,
+            "probability": 1.0
+          },
+          {
+            "word": "同",
+            "start": 32.36,
+            "end": 32.72,
+            "probability": 0.999
+          },
+          {
+            "word": "时",
+            "start": 32.72,
+            "end": 32.94,
+            "probability": 1.0
+          },
+          {
+            "word": "企",
+            "start": 32.94,
+            "end": 33.12,
+            "probability": 0.998
+          },
+          {
+            "word": "业",
+            "start": 33.12,
+            "end": 33.34,
+            "probability": 1.0
+          },
+          {
+            "word": "要",
+            "start": 33.34,
+            "end": 33.44,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 33.44,
+            "end": 33.52,
+            "probability": 0.999
+          },
+          {
+            "word": "不",
+            "start": 33.52,
+            "end": 33.74,
+            "probability": 0.999
+          },
+          {
+            "word": "再",
+            "start": 33.74,
+            "end": 33.86,
+            "probability": 0.999
+          },
+          {
+            "word": "是",
+            "start": 33.86,
+            "end": 34.06,
+            "probability": 1.0
+          },
+          {
+            "word": "螺",
+            "start": 34.06,
+            "end": 34.2,
+            "probability": 0.998
+          },
+          {
+            "word": "丝",
+            "start": 34.2,
+            "end": 34.34,
+            "probability": 0.999
+          },
+          {
+            "word": "钉,",
+            "start": 34.34,
+            "end": 34.52,
+            "probability": 0.998
+          },
+          {
+            "word": "而",
+            "start": 34.62,
+            "end": 34.96,
+            "probability": 0.998
+          },
+          {
+            "word": "是",
+            "start": 34.96,
+            "end": 35.06,
+            "probability": 1.0
+          },
+          {
+            "word": "能",
+            "start": 35.06,
+            "end": 35.2,
+            "probability": 0.999
+          },
+          {
+            "word": "跟",
+            "start": 35.2,
+            "end": 35.42,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 35.42,
+            "end": 35.7,
+            "probability": 0.999
+          },
+          {
+            "word": "协",
+            "start": 35.7,
+            "end": 36.0,
+            "probability": 0.997
+          },
+          {
+            "word": "作",
+            "start": 36.0,
+            "end": 36.14,
+            "probability": 0.998
+          },
+          {
+            "word": "快",
+            "start": 36.14,
+            "end": 36.36,
+            "probability": 0.99
+          },
+          {
+            "word": "速",
+            "start": 36.36,
+            "end": 36.58,
+            "probability": 1.0
+          },
+          {
+            "word": "解",
+            "start": 36.58,
+            "end": 36.72,
+            "probability": 1.0
+          },
+          {
+            "word": "决",
+            "start": 36.72,
+            "end": 36.9,
+            "probability": 1.0
+          },
+          {
+            "word": "问题",
+            "start": 36.9,
+            "end": 37.1,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 37.1,
+            "end": 37.36,
+            "probability": 1.0
+          },
+          {
+            "word": "瑞",
+            "start": 37.36,
+            "end": 37.58,
+            "probability": 0.952
+          },
+          {
+            "word": "士",
+            "start": 37.58,
+            "end": 37.66,
+            "probability": 0.999
+          },
+          {
+            "word": "军",
+            "start": 37.66,
+            "end": 37.88,
+            "probability": 0.998
+          },
+          {
+            "word": "刀,",
+            "start": 37.88,
+            "end": 38.02,
+            "probability": 1.0
+          },
+          {
+            "word": "技",
+            "start": 38.2,
+            "end": 38.48,
+            "probability": 0.845
+          },
+          {
+            "word": "能",
+            "start": 38.48,
+            "end": 38.68,
+            "probability": 1.0
+          },
+          {
+            "word": "错",
+            "start": 38.68,
+            "end": 38.8,
+            "probability": 0.995
+          },
+          {
+            "word": "配",
+            "start": 38.8,
+            "end": 39.02,
+            "probability": 0.996
+          },
+          {
+            "word": "才",
+            "start": 39.02,
+            "end": 39.24,
+            "probability": 0.983
+          },
+          {
+            "word": "是",
+            "start": 39.24,
+            "end": 39.44,
+            "probability": 1.0
+          },
+          {
+            "word": "卡",
+            "start": 39.44,
+            "end": 39.58,
+            "probability": 0.999
+          },
+          {
+            "word": "住",
+            "start": 39.58,
+            "end": 39.76,
+            "probability": 1.0
+          },
+          {
+            "word": "大",
+            "start": 39.76,
+            "end": 39.98,
+            "probability": 1.0
+          },
+          {
+            "word": "多",
+            "start": 39.98,
+            "end": 40.18,
+            "probability": 0.999
+          },
+          {
+            "word": "数",
+            "start": 40.18,
+            "end": 40.32,
+            "probability": 1.0
+          },
+          {
+            "word": "人",
+            "start": 40.32,
+            "end": 40.46,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 40.46,
+            "end": 40.6,
+            "probability": 0.999
+          },
+          {
+            "word": "脖",
+            "start": 40.6,
+            "end": 40.76,
+            "probability": 1.0
+          },
+          {
+            "word": "子。",
+            "start": 40.76,
+            "end": 40.92,
             "probability": 1.0
           }
         ]
       },
       {
-        "start": 72.56,
-        "end": 84.9,
-        "text": "犀利点说,这背后是科技伦理与就业公平的博弈,AI是否应该取代人类工作,社会如何保障过渡期,说白了这不只是找工作,是定义未来。",
+        "start": 41.3,
+        "end": 53.88,
+        "text": "但你别慌,机遇就藏在挑战的缝隙里,AI干掉旧岗位,也疯狂催生新职业,提示词工程师,AI伦理师,数据策略分析师,这些五年前闻所未闻的职位正在成为新贵细品。",
         "words": [
           {
-            "word": "犀",
-            "start": 72.56,
-            "end": 72.8,
-            "probability": 0.912
+            "word": "但",
+            "start": 41.3,
+            "end": 41.62,
+            "probability": 0.993
           },
           {
-            "word": "利",
-            "start": 72.8,
-            "end": 72.92,
+            "word": "你",
+            "start": 41.62,
+            "end": 41.8,
+            "probability": 0.999
+          },
+          {
+            "word": "别",
+            "start": 41.8,
+            "end": 41.94,
             "probability": 1.0
           },
           {
-            "word": "点",
-            "start": 72.92,
-            "end": 73.06,
-            "probability": 0.995
-          },
-          {
-            "word": "说,",
-            "start": 73.06,
-            "end": 73.3,
+            "word": "慌,",
+            "start": 41.94,
+            "end": 42.2,
             "probability": 1.0
           },
           {
-            "word": "这",
-            "start": 73.48,
-            "end": 73.8,
-            "probability": 1.0
+            "word": "机",
+            "start": 42.46,
+            "end": 42.58,
+            "probability": 0.998
           },
           {
-            "word": "背",
-            "start": 73.8,
-            "end": 74.0,
-            "probability": 1.0
-          },
-          {
-            "word": "后",
-            "start": 74.0,
-            "end": 74.26,
-            "probability": 1.0
-          },
-          {
-            "word": "是",
-            "start": 74.26,
-            "end": 74.44,
-            "probability": 1.0
-          },
-          {
-            "word": "科",
-            "start": 74.44,
-            "end": 74.66,
-            "probability": 1.0
-          },
-          {
-            "word": "技",
-            "start": 74.66,
-            "end": 74.94,
-            "probability": 1.0
-          },
-          {
-            "word": "伦",
-            "start": 74.94,
-            "end": 75.12,
-            "probability": 1.0
-          },
-          {
-            "word": "理",
-            "start": 75.12,
-            "end": 75.34,
-            "probability": 1.0
-          },
-          {
-            "word": "与",
-            "start": 75.34,
-            "end": 75.82,
-            "probability": 0.939
+            "word": "遇",
+            "start": 42.58,
+            "end": 42.8,
+            "probability": 0.999
           },
           {
             "word": "就",
-            "start": 75.82,
-            "end": 75.98,
-            "probability": 0.999
-          },
-          {
-            "word": "业",
-            "start": 75.98,
-            "end": 76.2,
+            "start": 42.8,
+            "end": 42.96,
             "probability": 1.0
           },
           {
-            "word": "公",
-            "start": 76.2,
-            "end": 76.38,
+            "word": "藏",
+            "start": 42.96,
+            "end": 43.2,
             "probability": 1.0
           },
           {
-            "word": "平",
-            "start": 76.38,
-            "end": 76.66,
+            "word": "在",
+            "start": 43.2,
+            "end": 43.36,
+            "probability": 1.0
+          },
+          {
+            "word": "挑",
+            "start": 43.36,
+            "end": 43.54,
             "probability": 0.999
+          },
+          {
+            "word": "战",
+            "start": 43.54,
+            "end": 43.78,
+            "probability": 1.0
           },
           {
             "word": "的",
-            "start": 76.66,
-            "end": 76.76,
+            "start": 43.78,
+            "end": 43.84,
             "probability": 1.0
           },
           {
-            "word": "博",
-            "start": 76.76,
-            "end": 76.92,
-            "probability": 0.999
+            "word": "缝",
+            "start": 43.84,
+            "end": 44.02,
+            "probability": 1.0
           },
           {
-            "word": "弈,",
-            "start": 76.92,
-            "end": 77.06,
+            "word": "隙",
+            "start": 44.02,
+            "end": 44.16,
+            "probability": 1.0
+          },
+          {
+            "word": "里,",
+            "start": 44.16,
+            "end": 44.32,
             "probability": 1.0
           },
           {
             "word": "AI",
-            "start": 77.2,
-            "end": 77.7,
-            "probability": 0.996
+            "start": 44.4,
+            "end": 44.76,
+            "probability": 0.995
           },
           {
-            "word": "是",
-            "start": 77.7,
-            "end": 77.92,
-            "probability": 0.999
-          },
-          {
-            "word": "否",
-            "start": 77.92,
-            "end": 78.1,
+            "word": "干",
+            "start": 44.76,
+            "end": 45.0,
             "probability": 1.0
           },
           {
-            "word": "应",
-            "start": 78.1,
+            "word": "掉",
+            "start": 45.0,
+            "end": 45.18,
+            "probability": 1.0
+          },
+          {
+            "word": "旧",
+            "start": 45.18,
+            "end": 45.38,
+            "probability": 0.999
+          },
+          {
+            "word": "岗",
+            "start": 45.38,
+            "end": 45.52,
+            "probability": 0.999
+          },
+          {
+            "word": "位,",
+            "start": 45.52,
+            "end": 45.66,
+            "probability": 1.0
+          },
+          {
+            "word": "也",
+            "start": 45.7,
+            "end": 45.86,
+            "probability": 0.999
+          },
+          {
+            "word": "疯",
+            "start": 45.86,
+            "end": 46.08,
+            "probability": 1.0
+          },
+          {
+            "word": "狂",
+            "start": 46.08,
+            "end": 46.24,
+            "probability": 1.0
+          },
+          {
+            "word": "催",
+            "start": 46.24,
+            "end": 46.44,
+            "probability": 1.0
+          },
+          {
+            "word": "生",
+            "start": 46.44,
+            "end": 46.58,
+            "probability": 0.999
+          },
+          {
+            "word": "新",
+            "start": 46.58,
+            "end": 46.72,
+            "probability": 1.0
+          },
+          {
+            "word": "职",
+            "start": 46.72,
+            "end": 46.88,
+            "probability": 1.0
+          },
+          {
+            "word": "业,",
+            "start": 46.88,
+            "end": 47.04,
+            "probability": 1.0
+          },
+          {
+            "word": "提",
+            "start": 47.12,
+            "end": 47.26,
+            "probability": 0.982
+          },
+          {
+            "word": "示",
+            "start": 47.26,
+            "end": 47.42,
+            "probability": 0.954
+          },
+          {
+            "word": "词",
+            "start": 47.42,
+            "end": 47.64,
+            "probability": 0.645
+          },
+          {
+            "word": "工",
+            "start": 47.64,
+            "end": 47.78,
+            "probability": 0.997
+          },
+          {
+            "word": "程",
+            "start": 47.78,
+            "end": 47.9,
+            "probability": 1.0
+          },
+          {
+            "word": "师,",
+            "start": 47.9,
+            "end": 48.12,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 48.2,
+            "end": 48.44,
+            "probability": 0.998
+          },
+          {
+            "word": "伦",
+            "start": 48.44,
+            "end": 48.66,
+            "probability": 0.998
+          },
+          {
+            "word": "理",
+            "start": 48.66,
+            "end": 48.76,
+            "probability": 1.0
+          },
+          {
+            "word": "师,",
+            "start": 48.76,
+            "end": 48.94,
+            "probability": 1.0
+          },
+          {
+            "word": "数",
+            "start": 49.06,
+            "end": 49.2,
+            "probability": 1.0
+          },
+          {
+            "word": "据",
+            "start": 49.2,
+            "end": 49.42,
+            "probability": 1.0
+          },
+          {
+            "word": "策",
+            "start": 49.42,
+            "end": 49.6,
+            "probability": 1.0
+          },
+          {
+            "word": "略",
+            "start": 49.6,
+            "end": 49.7,
+            "probability": 1.0
+          },
+          {
+            "word": "分",
+            "start": 49.7,
+            "end": 49.84,
+            "probability": 1.0
+          },
+          {
+            "word": "析",
+            "start": 49.84,
+            "end": 49.98,
+            "probability": 1.0
+          },
+          {
+            "word": "师,",
+            "start": 49.98,
+            "end": 50.16,
+            "probability": 1.0
+          },
+          {
+            "word": "这",
+            "start": 50.28,
+            "end": 50.78,
+            "probability": 0.997
+          },
+          {
+            "word": "些",
+            "start": 50.78,
+            "end": 50.94,
+            "probability": 1.0
+          },
+          {
+            "word": "五",
+            "start": 50.94,
+            "end": 51.06,
+            "probability": 0.843
+          },
+          {
+            "word": "年前",
+            "start": 51.06,
+            "end": 51.32,
+            "probability": 1.0
+          },
+          {
+            "word": "闻",
+            "start": 51.32,
+            "end": 51.7,
+            "probability": 0.965
+          },
+          {
+            "word": "所",
+            "start": 51.7,
+            "end": 51.84,
+            "probability": 0.995
+          },
+          {
+            "word": "未",
+            "start": 51.84,
+            "end": 51.96,
+            "probability": 1.0
+          },
+          {
+            "word": "闻",
+            "start": 51.96,
+            "end": 52.12,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 52.12,
+            "end": 52.22,
+            "probability": 1.0
+          },
+          {
+            "word": "职",
+            "start": 52.22,
+            "end": 52.4,
+            "probability": 1.0
+          },
+          {
+            "word": "位",
+            "start": 52.4,
+            "end": 52.5,
+            "probability": 1.0
+          },
+          {
+            "word": "正",
+            "start": 52.5,
+            "end": 52.7,
+            "probability": 0.926
+          },
+          {
+            "word": "在",
+            "start": 52.7,
+            "end": 52.82,
+            "probability": 1.0
+          },
+          {
+            "word": "成",
+            "start": 52.82,
+            "end": 53.0,
+            "probability": 1.0
+          },
+          {
+            "word": "为",
+            "start": 53.0,
+            "end": 53.16,
+            "probability": 1.0
+          },
+          {
+            "word": "新",
+            "start": 53.16,
+            "end": 53.34,
+            "probability": 0.996
+          },
+          {
+            "word": "贵",
+            "start": 53.34,
+            "end": 53.52,
+            "probability": 0.998
+          },
+          {
+            "word": "细",
+            "start": 53.52,
+            "end": 53.72,
+            "probability": 0.826
+          },
+          {
+            "word": "品。",
+            "start": 53.72,
+            "end": 53.88,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 53.96,
+        "end": 54.46,
+        "text": "这不就是你吗?",
+        "words": [
+          {
+            "word": "这",
+            "start": 53.96,
+            "end": 54.24,
+            "probability": 0.938
+          },
+          {
+            "word": "不",
+            "start": 54.24,
+            "end": 54.32,
+            "probability": 1.0
+          },
+          {
+            "word": "就是",
+            "start": 54.32,
+            "end": 54.46,
+            "probability": 0.684
+          },
+          {
+            "word": "你",
+            "start": 54.46,
+            "end": 54.46,
+            "probability": 0.011
+          },
+          {
+            "word": "吗?",
+            "start": 54.46,
+            "end": 54.46,
+            "probability": 0.209
+          }
+        ]
+      },
+      {
+        "start": 55.78,
+        "end": 71.56,
+        "text": "未来的就业市场会急速两极分化,一极是超级个体,他们善用AI杠杆,一个人就是一个团队,另一极是算法难民,他们只会执行命令,最终被自动化取代,中间地带正在迅速塌缩。",
+        "words": [
+          {
+            "word": "未",
+            "start": 55.78,
+            "end": 56.18,
+            "probability": 0.497
+          },
+          {
+            "word": "来",
+            "start": 56.18,
+            "end": 56.58,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 56.58,
+            "end": 56.72,
+            "probability": 0.992
+          },
+          {
+            "word": "就",
+            "start": 56.72,
+            "end": 56.92,
+            "probability": 0.985
+          },
+          {
+            "word": "业",
+            "start": 56.92,
+            "end": 57.06,
+            "probability": 1.0
+          },
+          {
+            "word": "市",
+            "start": 57.06,
+            "end": 57.2,
+            "probability": 0.999
+          },
+          {
+            "word": "场",
+            "start": 57.2,
+            "end": 57.46,
+            "probability": 1.0
+          },
+          {
+            "word": "会",
+            "start": 57.46,
+            "end": 57.72,
+            "probability": 0.991
+          },
+          {
+            "word": "急",
+            "start": 57.72,
+            "end": 58.04,
+            "probability": 0.98
+          },
+          {
+            "word": "速",
+            "start": 58.04,
+            "end": 58.28,
+            "probability": 1.0
+          },
+          {
+            "word": "两",
+            "start": 58.28,
+            "end": 58.52,
+            "probability": 0.999
+          },
+          {
+            "word": "极",
+            "start": 58.52,
+            "end": 58.8,
+            "probability": 0.96
+          },
+          {
+            "word": "分",
+            "start": 58.8,
+            "end": 58.92,
+            "probability": 0.999
+          },
+          {
+            "word": "化,",
+            "start": 58.92,
+            "end": 59.14,
+            "probability": 1.0
+          },
+          {
+            "word": "一",
+            "start": 59.24,
+            "end": 59.62,
+            "probability": 0.998
+          },
+          {
+            "word": "极",
+            "start": 59.62,
+            "end": 59.9,
+            "probability": 0.635
+          },
+          {
+            "word": "是",
+            "start": 59.9,
+            "end": 60.1,
+            "probability": 1.0
+          },
+          {
+            "word": "超",
+            "start": 60.1,
+            "end": 60.42,
+            "probability": 1.0
+          },
+          {
+            "word": "级",
+            "start": 60.42,
+            "end": 60.62,
+            "probability": 0.997
+          },
+          {
+            "word": "个",
+            "start": 60.62,
+            "end": 60.74,
+            "probability": 0.999
+          },
+          {
+            "word": "体,",
+            "start": 60.74,
+            "end": 60.98,
+            "probability": 1.0
+          },
+          {
+            "word": "他们",
+            "start": 61.1,
+            "end": 61.48,
+            "probability": 0.983
+          },
+          {
+            "word": "善",
+            "start": 61.48,
+            "end": 61.78,
+            "probability": 0.972
+          },
+          {
+            "word": "用",
+            "start": 61.78,
+            "end": 61.98,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 61.98,
+            "end": 62.2,
+            "probability": 0.999
+          },
+          {
+            "word": "杠",
+            "start": 62.2,
+            "end": 62.48,
+            "probability": 0.997
+          },
+          {
+            "word": "杆,",
+            "start": 62.48,
+            "end": 62.68,
+            "probability": 0.999
+          },
+          {
+            "word": "一个",
+            "start": 62.78,
+            "end": 63.2,
+            "probability": 1.0
+          },
+          {
+            "word": "人",
+            "start": 63.2,
+            "end": 63.42,
+            "probability": 1.0
+          },
+          {
+            "word": "就是",
+            "start": 63.42,
+            "end": 63.64,
+            "probability": 1.0
+          },
+          {
+            "word": "一个",
+            "start": 63.64,
+            "end": 63.86,
+            "probability": 1.0
+          },
+          {
+            "word": "团",
+            "start": 63.86,
+            "end": 64.12,
+            "probability": 1.0
+          },
+          {
+            "word": "队,",
+            "start": 64.12,
+            "end": 64.32,
+            "probability": 1.0
+          },
+          {
+            "word": "另",
+            "start": 64.38,
+            "end": 64.74,
+            "probability": 0.998
+          },
+          {
+            "word": "一",
+            "start": 64.74,
+            "end": 64.88,
+            "probability": 1.0
+          },
+          {
+            "word": "极",
+            "start": 64.88,
+            "end": 65.06,
+            "probability": 0.999
+          },
+          {
+            "word": "是",
+            "start": 65.06,
+            "end": 65.24,
+            "probability": 1.0
+          },
+          {
+            "word": "算",
+            "start": 65.24,
+            "end": 65.52,
+            "probability": 1.0
+          },
+          {
+            "word": "法",
+            "start": 65.52,
+            "end": 65.7,
+            "probability": 1.0
+          },
+          {
+            "word": "难",
+            "start": 65.7,
+            "end": 65.86,
+            "probability": 0.996
+          },
+          {
+            "word": "民,",
+            "start": 65.86,
+            "end": 66.08,
+            "probability": 0.998
+          },
+          {
+            "word": "他们",
+            "start": 66.22,
+            "end": 66.6,
+            "probability": 1.0
+          },
+          {
+            "word": "只",
+            "start": 66.6,
+            "end": 66.82,
+            "probability": 1.0
+          },
+          {
+            "word": "会",
+            "start": 66.82,
+            "end": 67.0,
+            "probability": 1.0
+          },
+          {
+            "word": "执",
+            "start": 67.0,
+            "end": 67.22,
+            "probability": 1.0
+          },
+          {
+            "word": "行",
+            "start": 67.22,
+            "end": 67.36,
+            "probability": 1.0
+          },
+          {
+            "word": "命",
+            "start": 67.36,
+            "end": 67.5,
+            "probability": 1.0
+          },
+          {
+            "word": "令,",
+            "start": 67.5,
+            "end": 67.68,
+            "probability": 1.0
+          },
+          {
+            "word": "最",
+            "start": 67.76,
+            "end": 68.0,
+            "probability": 1.0
+          },
+          {
+            "word": "终",
+            "start": 68.0,
+            "end": 68.22,
+            "probability": 1.0
+          },
+          {
+            "word": "被",
+            "start": 68.22,
+            "end": 68.36,
+            "probability": 1.0
+          },
+          {
+            "word": "自",
+            "start": 68.36,
+            "end": 68.56,
+            "probability": 1.0
+          },
+          {
+            "word": "动",
+            "start": 68.56,
+            "end": 68.74,
+            "probability": 0.999
+          },
+          {
+            "word": "化",
+            "start": 68.74,
+            "end": 68.88,
+            "probability": 1.0
+          },
+          {
+            "word": "取",
+            "start": 68.88,
+            "end": 69.04,
+            "probability": 1.0
+          },
+          {
+            "word": "代,",
+            "start": 69.04,
+            "end": 69.2,
+            "probability": 1.0
+          },
+          {
+            "word": "中",
+            "start": 69.38,
+            "end": 69.72,
+            "probability": 0.999
+          },
+          {
+            "word": "间",
+            "start": 69.72,
+            "end": 69.96,
+            "probability": 0.999
+          },
+          {
+            "word": "地",
+            "start": 69.96,
+            "end": 70.08,
+            "probability": 0.999
+          },
+          {
+            "word": "带",
+            "start": 70.08,
+            "end": 70.3,
+            "probability": 0.999
+          },
+          {
+            "word": "正",
+            "start": 70.3,
+            "end": 70.54,
+            "probability": 1.0
+          },
+          {
+            "word": "在",
+            "start": 70.54,
+            "end": 70.72,
+            "probability": 1.0
+          },
+          {
+            "word": "迅",
+            "start": 70.72,
+            "end": 71.0,
+            "probability": 1.0
+          },
+          {
+            "word": "速",
+            "start": 71.0,
+            "end": 71.18,
+            "probability": 1.0
+          },
+          {
+            "word": "塌",
+            "start": 71.18,
+            "end": 71.32,
+            "probability": 0.89
+          },
+          {
+            "word": "缩。",
+            "start": 71.32,
+            "end": 71.56,
+            "probability": 0.999
+          }
+        ]
+      },
+      {
+        "start": 71.56,
+        "end": 87.54,
+        "text": "对于毕业生和投资者来说,逻辑已经变了,投资自己不再是烤个铁饭碗,而是培养机器无法替代的共情力,创造力与复杂决策力,投资企业要看它是在用AI替代人,还是在用AI成就人。",
+        "words": [
+          {
+            "word": "对",
+            "start": 71.56,
+            "end": 72.14,
+            "probability": 0.453
+          },
+          {
+            "word": "于",
+            "start": 72.14,
+            "end": 72.38,
+            "probability": 1.0
+          },
+          {
+            "word": "毕",
+            "start": 72.38,
+            "end": 72.58,
+            "probability": 1.0
+          },
+          {
+            "word": "业",
+            "start": 72.58,
+            "end": 72.68,
+            "probability": 1.0
+          },
+          {
+            "word": "生",
+            "start": 72.68,
+            "end": 72.8,
+            "probability": 1.0
+          },
+          {
+            "word": "和",
+            "start": 72.8,
+            "end": 73.0,
+            "probability": 1.0
+          },
+          {
+            "word": "投",
+            "start": 73.0,
+            "end": 73.16,
+            "probability": 1.0
+          },
+          {
+            "word": "资",
+            "start": 73.16,
+            "end": 73.34,
+            "probability": 1.0
+          },
+          {
+            "word": "者",
+            "start": 73.34,
+            "end": 73.48,
+            "probability": 1.0
+          },
+          {
+            "word": "来",
+            "start": 73.48,
+            "end": 73.62,
+            "probability": 0.999
+          },
+          {
+            "word": "说,",
+            "start": 73.62,
+            "end": 73.82,
+            "probability": 1.0
+          },
+          {
+            "word": "逻",
+            "start": 73.94,
+            "end": 74.4,
+            "probability": 0.999
+          },
+          {
+            "word": "辑",
+            "start": 74.4,
+            "end": 74.5,
+            "probability": 1.0
+          },
+          {
+            "word": "已经",
+            "start": 74.5,
+            "end": 74.7,
+            "probability": 1.0
+          },
+          {
+            "word": "变",
+            "start": 74.7,
+            "end": 75.02,
+            "probability": 1.0
+          },
+          {
+            "word": "了,",
+            "start": 75.02,
+            "end": 75.2,
+            "probability": 1.0
+          },
+          {
+            "word": "投",
+            "start": 75.26,
+            "end": 75.62,
+            "probability": 0.999
+          },
+          {
+            "word": "资",
+            "start": 75.62,
+            "end": 75.84,
+            "probability": 1.0
+          },
+          {
+            "word": "自己",
+            "start": 75.84,
+            "end": 76.04,
+            "probability": 0.998
+          },
+          {
+            "word": "不",
+            "start": 76.04,
+            "end": 76.54,
+            "probability": 0.975
+          },
+          {
+            "word": "再",
+            "start": 76.54,
+            "end": 76.7,
+            "probability": 1.0
+          },
+          {
+            "word": "是",
+            "start": 76.7,
+            "end": 76.86,
+            "probability": 1.0
+          },
+          {
+            "word": "烤",
+            "start": 76.86,
+            "end": 77.12,
+            "probability": 0.815
+          },
+          {
+            "word": "个",
+            "start": 77.12,
+            "end": 77.26,
+            "probability": 0.999
+          },
+          {
+            "word": "铁",
+            "start": 77.26,
+            "end": 77.38,
+            "probability": 1.0
+          },
+          {
+            "word": "饭",
+            "start": 77.38,
+            "end": 77.56,
+            "probability": 1.0
+          },
+          {
+            "word": "碗,",
+            "start": 77.56,
+            "end": 77.76,
+            "probability": 1.0
+          },
+          {
+            "word": "而",
+            "start": 77.82,
+            "end": 78.16,
+            "probability": 0.999
+          },
+          {
+            "word": "是",
+            "start": 78.16,
             "end": 78.26,
             "probability": 1.0
           },
           {
-            "word": "该",
+            "word": "培",
             "start": 78.26,
             "end": 78.48,
             "probability": 1.0
           },
           {
-            "word": "取",
+            "word": "养",
             "start": 78.48,
-            "end": 78.66,
+            "end": 78.62,
+            "probability": 1.0
+          },
+          {
+            "word": "机",
+            "start": 78.62,
+            "end": 78.86,
+            "probability": 0.999
+          },
+          {
+            "word": "器",
+            "start": 78.86,
+            "end": 79.14,
+            "probability": 1.0
+          },
+          {
+            "word": "无",
+            "start": 79.14,
+            "end": 79.26,
+            "probability": 1.0
+          },
+          {
+            "word": "法",
+            "start": 79.26,
+            "end": 79.5,
+            "probability": 1.0
+          },
+          {
+            "word": "替",
+            "start": 79.5,
+            "end": 79.7,
             "probability": 1.0
           },
           {
             "word": "代",
-            "start": 78.66,
-            "end": 78.82,
+            "start": 79.7,
+            "end": 79.84,
             "probability": 1.0
           },
           {
-            "word": "人",
-            "start": 78.82,
-            "end": 78.98,
+            "word": "的",
+            "start": 79.84,
+            "end": 79.96,
             "probability": 1.0
           },
           {
-            "word": "类",
-            "start": 78.98,
-            "end": 79.16,
-            "probability": 1.0
-          },
-          {
-            "word": "工作,",
-            "start": 79.16,
-            "end": 79.4,
-            "probability": 1.0
-          },
-          {
-            "word": "社",
-            "start": 79.64,
-            "end": 79.92,
+            "word": "共",
+            "start": 79.96,
+            "end": 80.12,
             "probability": 0.998
           },
           {
-            "word": "会",
-            "start": 79.92,
-            "end": 80.12,
-            "probability": 1.0
-          },
-          {
-            "word": "如何",
+            "word": "情",
             "start": 80.12,
             "end": 80.34,
-            "probability": 1.0
+            "probability": 0.992
           },
           {
-            "word": "保",
+            "word": "力,",
             "start": 80.34,
-            "end": 80.62,
+            "end": 80.54,
             "probability": 1.0
           },
           {
-            "word": "障",
-            "start": 80.62,
-            "end": 80.88,
+            "word": "创",
+            "start": 80.66,
+            "end": 81.02,
             "probability": 1.0
           },
           {
-            "word": "过",
-            "start": 80.88,
-            "end": 81.04,
+            "word": "造",
+            "start": 81.02,
+            "end": 81.2,
             "probability": 1.0
           },
           {
-            "word": "渡",
-            "start": 81.04,
-            "end": 81.22,
-            "probability": 0.995
-          },
-          {
-            "word": "期,",
-            "start": 81.22,
-            "end": 81.48,
+            "word": "力",
+            "start": 81.2,
+            "end": 81.32,
             "probability": 1.0
           },
           {
-            "word": "说",
+            "word": "与",
+            "start": 81.32,
+            "end": 81.6,
+            "probability": 0.999
+          },
+          {
+            "word": "复",
             "start": 81.6,
-            "end": 81.98,
-            "probability": 0.996
+            "end": 81.78,
+            "probability": 0.997
           },
           {
-            "word": "白",
+            "word": "杂",
+            "start": 81.78,
+            "end": 81.98,
+            "probability": 1.0
+          },
+          {
+            "word": "决",
             "start": 81.98,
             "end": 82.14,
             "probability": 1.0
           },
           {
-            "word": "了",
+            "word": "策",
             "start": 82.14,
-            "end": 82.36,
+            "end": 82.28,
             "probability": 1.0
           },
           {
-            "word": "这",
-            "start": 82.36,
-            "end": 82.56,
-            "probability": 0.384
-          },
-          {
-            "word": "不",
-            "start": 82.56,
-            "end": 82.76,
+            "word": "力,",
+            "start": 82.28,
+            "end": 82.42,
             "probability": 1.0
           },
           {
-            "word": "只是",
-            "start": 82.76,
-            "end": 83.02,
-            "probability": 0.975
-          },
-          {
-            "word": "找",
-            "start": 83.02,
-            "end": 83.26,
-            "probability": 0.996
-          },
-          {
-            "word": "工作,",
-            "start": 83.26,
-            "end": 83.64,
+            "word": "投",
+            "start": 82.52,
+            "end": 82.88,
             "probability": 0.999
+          },
+          {
+            "word": "资",
+            "start": 82.88,
+            "end": 83.08,
+            "probability": 1.0
+          },
+          {
+            "word": "企",
+            "start": 83.08,
+            "end": 83.24,
+            "probability": 1.0
+          },
+          {
+            "word": "业",
+            "start": 83.24,
+            "end": 83.44,
+            "probability": 1.0
+          },
+          {
+            "word": "要",
+            "start": 83.44,
+            "end": 83.78,
+            "probability": 0.98
+          },
+          {
+            "word": "看",
+            "start": 83.78,
+            "end": 84.0,
+            "probability": 1.0
+          },
+          {
+            "word": "它",
+            "start": 84.0,
+            "end": 84.14,
+            "probability": 0.609
           },
           {
             "word": "是",
-            "start": 83.78,
-            "end": 84.1,
-            "probability": 0.988
-          },
-          {
-            "word": "定",
-            "start": 84.1,
-            "end": 84.3,
-            "probability": 0.992
-          },
-          {
-            "word": "义",
-            "start": 84.3,
-            "end": 84.5,
+            "start": 84.14,
+            "end": 84.34,
             "probability": 1.0
           },
           {
-            "word": "未",
-            "start": 84.5,
-            "end": 84.7,
-            "probability": 0.983
+            "word": "在",
+            "start": 84.34,
+            "end": 84.48,
+            "probability": 1.0
           },
           {
-            "word": "来。",
+            "word": "用",
+            "start": 84.48,
+            "end": 84.7,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
             "start": 84.7,
-            "end": 84.9,
+            "end": 85.0,
             "probability": 0.999
+          },
+          {
+            "word": "替",
+            "start": 85.0,
+            "end": 85.34,
+            "probability": 1.0
+          },
+          {
+            "word": "代",
+            "start": 85.34,
+            "end": 85.46,
+            "probability": 1.0
+          },
+          {
+            "word": "人,",
+            "start": 85.46,
+            "end": 85.58,
+            "probability": 1.0
+          },
+          {
+            "word": "还是",
+            "start": 85.7,
+            "end": 86.1,
+            "probability": 0.999
+          },
+          {
+            "word": "在",
+            "start": 86.1,
+            "end": 86.28,
+            "probability": 1.0
+          },
+          {
+            "word": "用",
+            "start": 86.28,
+            "end": 86.52,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 86.52,
+            "end": 86.82,
+            "probability": 1.0
+          },
+          {
+            "word": "成",
+            "start": 86.82,
+            "end": 87.14,
+            "probability": 0.999
+          },
+          {
+            "word": "就",
+            "start": 87.14,
+            "end": 87.36,
+            "probability": 0.998
+          },
+          {
+            "word": "人。",
+            "start": 87.36,
+            "end": 87.54,
+            "probability": 1.0
           }
         ]
       },
       {
-        "start": 85.68,
-        "end": 95.36,
-        "text": "记住,挑战是机遇的磨刀石,技术重塑世界,但人性点亮方向觉得有启发,点赞转发,让更多人看清前路。",
+        "start": 88.0,
+        "end": 95.0,
+        "text": "所以,2026不是终点,而是起点,它考验的不是我们适应变化的能力,而是我们定义变化的能力。",
         "words": [
           {
-            "word": "记",
-            "start": 85.68,
-            "end": 86.12,
-            "probability": 0.079
+            "word": "所以,",
+            "start": 88.0,
+            "end": 88.36,
+            "probability": 0.999
           },
           {
-            "word": "住,",
-            "start": 86.12,
-            "end": 86.56,
-            "probability": 0.997
+            "word": "20",
+            "start": 88.42,
+            "end": 88.7,
+            "probability": 0.945
           },
           {
-            "word": "挑",
-            "start": 86.64,
-            "end": 86.98,
+            "word": "26",
+            "start": 88.7,
+            "end": 89.02,
+            "probability": 1.0
+          },
+          {
+            "word": "不是",
+            "start": 89.02,
+            "end": 89.46,
+            "probability": 1.0
+          },
+          {
+            "word": "终",
+            "start": 89.46,
+            "end": 89.78,
             "probability": 0.998
           },
           {
-            "word": "战",
-            "start": 86.98,
-            "end": 87.28,
+            "word": "点,",
+            "start": 89.78,
+            "end": 89.96,
+            "probability": 1.0
+          },
+          {
+            "word": "而",
+            "start": 90.02,
+            "end": 90.18,
             "probability": 1.0
           },
           {
             "word": "是",
-            "start": 87.28,
-            "end": 87.4,
+            "start": 90.18,
+            "end": 90.26,
             "probability": 1.0
           },
           {
-            "word": "机",
-            "start": 87.4,
-            "end": 87.62,
-            "probability": 0.925
+            "word": "起",
+            "start": 90.26,
+            "end": 90.44,
+            "probability": 0.999
           },
           {
-            "word": "遇",
-            "start": 87.62,
-            "end": 87.82,
+            "word": "点,",
+            "start": 90.44,
+            "end": 90.64,
+            "probability": 1.0
+          },
+          {
+            "word": "它",
+            "start": 90.78,
+            "end": 91.08,
+            "probability": 0.999
+          },
+          {
+            "word": "考",
+            "start": 91.08,
+            "end": 91.28,
+            "probability": 1.0
+          },
+          {
+            "word": "验",
+            "start": 91.28,
+            "end": 91.44,
             "probability": 1.0
           },
           {
             "word": "的",
-            "start": 87.82,
-            "end": 87.92,
+            "start": 91.44,
+            "end": 91.54,
             "probability": 1.0
           },
           {
-            "word": "磨",
-            "start": 87.92,
-            "end": 88.08,
+            "word": "不是",
+            "start": 91.54,
+            "end": 91.76,
+            "probability": 1.0
+          },
+          {
+            "word": "我们",
+            "start": 91.76,
+            "end": 92.02,
+            "probability": 1.0
+          },
+          {
+            "word": "适",
+            "start": 92.02,
+            "end": 92.28,
+            "probability": 1.0
+          },
+          {
+            "word": "应",
+            "start": 92.28,
+            "end": 92.42,
+            "probability": 1.0
+          },
+          {
+            "word": "变",
+            "start": 92.42,
+            "end": 92.6,
+            "probability": 1.0
+          },
+          {
+            "word": "化",
+            "start": 92.6,
+            "end": 92.74,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 92.74,
+            "end": 92.86,
+            "probability": 1.0
+          },
+          {
+            "word": "能",
+            "start": 92.86,
+            "end": 92.96,
+            "probability": 1.0
+          },
+          {
+            "word": "力,",
+            "start": 92.96,
+            "end": 93.14,
+            "probability": 1.0
+          },
+          {
+            "word": "而",
+            "start": 93.24,
+            "end": 93.58,
+            "probability": 1.0
+          },
+          {
+            "word": "是",
+            "start": 93.58,
+            "end": 93.66,
+            "probability": 1.0
+          },
+          {
+            "word": "我们",
+            "start": 93.66,
+            "end": 93.84,
+            "probability": 1.0
+          },
+          {
+            "word": "定",
+            "start": 93.84,
+            "end": 94.1,
+            "probability": 1.0
+          },
+          {
+            "word": "义",
+            "start": 94.1,
+            "end": 94.26,
+            "probability": 1.0
+          },
+          {
+            "word": "变",
+            "start": 94.26,
+            "end": 94.48,
+            "probability": 1.0
+          },
+          {
+            "word": "化",
+            "start": 94.48,
+            "end": 94.62,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 94.62,
+            "end": 94.72,
+            "probability": 1.0
+          },
+          {
+            "word": "能",
+            "start": 94.72,
+            "end": 94.82,
+            "probability": 1.0
+          },
+          {
+            "word": "力。",
+            "start": 94.82,
+            "end": 95.0,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 95.16,
+        "end": 101.42,
+        "text": "记住,未来不会淘汰人,只会淘汰那些固守旧地图的人,觉得有用,转发给需要的人。",
+        "words": [
+          {
+            "word": "记",
+            "start": 95.16,
+            "end": 95.52,
             "probability": 0.994
           },
           {
-            "word": "刀",
-            "start": 88.08,
-            "end": 88.24,
+            "word": "住,",
+            "start": 95.52,
+            "end": 95.7,
             "probability": 1.0
           },
           {
-            "word": "石,",
-            "start": 88.24,
-            "end": 88.4,
-            "probability": 0.994
+            "word": "未",
+            "start": 95.76,
+            "end": 95.96,
+            "probability": 0.997
           },
           {
-            "word": "技",
-            "start": 88.5,
-            "end": 88.66,
-            "probability": 0.987
-          },
-          {
-            "word": "术",
-            "start": 88.66,
-            "end": 88.92,
+            "word": "来",
+            "start": 95.96,
+            "end": 96.18,
             "probability": 1.0
           },
           {
-            "word": "重",
-            "start": 88.92,
-            "end": 89.16,
-            "probability": 0.98
+            "word": "不会",
+            "start": 96.18,
+            "end": 96.36,
+            "probability": 1.0
           },
           {
-            "word": "塑",
-            "start": 89.16,
-            "end": 89.46,
+            "word": "淘",
+            "start": 96.36,
+            "end": 96.66,
+            "probability": 1.0
+          },
+          {
+            "word": "汰",
+            "start": 96.66,
+            "end": 96.78,
+            "probability": 1.0
+          },
+          {
+            "word": "人,",
+            "start": 96.78,
+            "end": 96.94,
+            "probability": 1.0
+          },
+          {
+            "word": "只",
+            "start": 97.02,
+            "end": 97.2,
+            "probability": 0.998
+          },
+          {
+            "word": "会",
+            "start": 97.2,
+            "end": 97.38,
+            "probability": 1.0
+          },
+          {
+            "word": "淘",
+            "start": 97.38,
+            "end": 97.58,
+            "probability": 1.0
+          },
+          {
+            "word": "汰",
+            "start": 97.58,
+            "end": 97.7,
+            "probability": 1.0
+          },
+          {
+            "word": "那",
+            "start": 97.7,
+            "end": 97.84,
+            "probability": 1.0
+          },
+          {
+            "word": "些",
+            "start": 97.84,
+            "end": 98.08,
+            "probability": 1.0
+          },
+          {
+            "word": "固",
+            "start": 98.08,
+            "end": 98.28,
+            "probability": 0.99
+          },
+          {
+            "word": "守",
+            "start": 98.28,
+            "end": 98.44,
+            "probability": 0.997
+          },
+          {
+            "word": "旧",
+            "start": 98.44,
+            "end": 98.68,
+            "probability": 1.0
+          },
+          {
+            "word": "地",
+            "start": 98.68,
+            "end": 98.78,
             "probability": 0.999
           },
           {
-            "word": "世界,",
-            "start": 89.46,
-            "end": 89.7,
-            "probability": 0.999
+            "word": "图",
+            "start": 98.78,
+            "end": 98.94,
+            "probability": 1.0
           },
           {
-            "word": "但",
-            "start": 89.86,
-            "end": 90.26,
-            "probability": 0.999
-          },
-          {
-            "word": "人",
-            "start": 90.26,
-            "end": 90.5,
-            "probability": 0.999
-          },
-          {
-            "word": "性",
-            "start": 90.5,
-            "end": 90.8,
-            "probability": 0.999
-          },
-          {
-            "word": "点",
-            "start": 90.8,
-            "end": 90.98,
-            "probability": 0.999
-          },
-          {
-            "word": "亮",
-            "start": 90.98,
-            "end": 91.16,
-            "probability": 0.991
-          },
-          {
-            "word": "方",
-            "start": 91.16,
-            "end": 91.3,
-            "probability": 0.999
-          },
-          {
-            "word": "向",
-            "start": 91.3,
-            "end": 91.58,
+            "word": "的人,",
+            "start": 98.94,
+            "end": 99.08,
             "probability": 1.0
           },
           {
             "word": "觉得",
-            "start": 91.58,
-            "end": 91.88,
-            "probability": 0.865
+            "start": 99.3,
+            "end": 99.76,
+            "probability": 0.996
           },
           {
             "word": "有",
-            "start": 91.88,
-            "end": 92.12,
+            "start": 99.76,
+            "end": 99.98,
             "probability": 1.0
           },
           {
-            "word": "启",
-            "start": 92.12,
-            "end": 92.34,
-            "probability": 1.0
-          },
-          {
-            "word": "发,",
-            "start": 92.34,
-            "end": 92.5,
-            "probability": 1.0
-          },
-          {
-            "word": "点",
-            "start": 92.62,
-            "end": 92.98,
-            "probability": 1.0
-          },
-          {
-            "word": "赞",
-            "start": 92.98,
-            "end": 93.24,
+            "word": "用,",
+            "start": 99.98,
+            "end": 100.2,
             "probability": 1.0
           },
           {
             "word": "转",
-            "start": 93.24,
-            "end": 93.44,
+            "start": 100.24,
+            "end": 100.54,
+            "probability": 1.0
+          },
+          {
+            "word": "发",
+            "start": 100.54,
+            "end": 100.7,
+            "probability": 1.0
+          },
+          {
+            "word": "给",
+            "start": 100.7,
+            "end": 100.88,
+            "probability": 1.0
+          },
+          {
+            "word": "需要",
+            "start": 100.88,
+            "end": 101.2,
+            "probability": 1.0
+          },
+          {
+            "word": "的人。",
+            "start": 101.2,
+            "end": 101.42,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 101.56,
+        "end": 101.9,
+        "text": "请不吝点赞,订阅,转发支持明镜与点点栏目",
+        "words": [
+          {
+            "word": "请",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.026
+          },
+          {
+            "word": "不",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.822
+          },
+          {
+            "word": "吝",
+            "start": 101.56,
+            "end": 101.56,
             "probability": 0.999
           },
           {
-            "word": "发,",
-            "start": 93.44,
-            "end": 93.62,
+            "word": "点",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.999
+          },
+          {
+            "word": "赞,",
+            "start": 101.56,
+            "end": 101.56,
             "probability": 1.0
           },
           {
-            "word": "让",
-            "start": 93.68,
-            "end": 93.9,
+            "word": "订",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.984
+          },
+          {
+            "word": "阅,",
+            "start": 101.56,
+            "end": 101.56,
             "probability": 1.0
           },
           {
-            "word": "更",
-            "start": 93.9,
-            "end": 94.14,
-            "probability": 1.0
-          },
-          {
-            "word": "多",
-            "start": 94.14,
-            "end": 94.34,
-            "probability": 1.0
-          },
-          {
-            "word": "人",
-            "start": 94.34,
-            "end": 94.52,
-            "probability": 1.0
-          },
-          {
-            "word": "看",
-            "start": 94.52,
-            "end": 94.74,
-            "probability": 1.0
-          },
-          {
-            "word": "清",
-            "start": 94.74,
-            "end": 94.96,
+            "word": "转",
+            "start": 101.56,
+            "end": 101.56,
             "probability": 0.998
           },
           {
-            "word": "前",
-            "start": 94.96,
-            "end": 95.14,
+            "word": "发",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.998
+          },
+          {
+            "word": "支持",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.001
+          },
+          {
+            "word": "明",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 0.997
+          },
+          {
+            "word": "镜",
+            "start": 101.56,
+            "end": 101.56,
+            "probability": 1.0
+          },
+          {
+            "word": "与",
+            "start": 101.56,
+            "end": 101.66,
             "probability": 0.999
           },
           {
-            "word": "路。",
-            "start": 95.14,
-            "end": 95.36,
+            "word": "点",
+            "start": 101.66,
+            "end": 101.66,
             "probability": 1.0
+          },
+          {
+            "word": "点",
+            "start": 101.66,
+            "end": 101.66,
+            "probability": 1.0
+          },
+          {
+            "word": "栏",
+            "start": 101.66,
+            "end": 101.9,
+            "probability": 1.0
+          },
+          {
+            "word": "目",
+            "start": 101.9,
+            "end": 101.9,
+            "probability": 0.999
           }
         ]
       }
     ],
     "language": "zh",
-    "duration": 95.68
+    "duration": 101.92
   },
-  "bgm_duration": 100.68,
+  "bgm_duration": 106.88,
   "storyboard_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\storyboard.json",
   "storyboard": [
     {
       "scene_id": 1,
-      "visual_type": "quote_hero",
-      "concept": "开场将观众带入一个充满悬念与困惑的数字化未来空间。一个巨大的、闪烁的问号在深邃的数据网格中显现，随后被一道霓虹光线穿透，引出核心议题，营造出强烈的代入感和思考氛围。",
-      "mood": "赛博朋克式的未知与探索感，充满数字迷雾与霓虹微光，参考《银翼杀手2049》的视觉基调。",
-      "depth_layers": {
-        "background": "radial-glow (青色)， data-grid (浅青)",
-        "midground": "核心问题文字",
-        "foreground": "particle-drift (发光尘埃)， ghost-text (2026)"
-      },
-      "density_target": 9,
+      "visual_type": "hud",
+      "concept": "观众仿佛置身一个深邃的科技实验场，无数数据流在黑暗中穿梭、汇聚，共同构建出一个充满未知与挑战的未来图景。紧迫感和悬念通过视觉语言直接传递。",
       "key_elements": [
-        "巨型闪烁问号",
-        "数据网格背景",
-        "破碎的毕业帽剪影",
-        "“2026”霓虹文字",
-        "流动的粒子光轨",
-        "半透明文字层 (挑战/机遇)",
-        "心率波纹线",
-        "微光界面边框"
+        "data-grid (背景，逐渐亮起)",
+        "radial-glow (中心聚光)",
+        "数字雨 (前景层，坠落)",
+        "警告符号 (霓虹色，闪烁)",
+        "光标矩阵 (中景，铺满画面)",
+        "glitch-text (‘生存实验’字样)",
+        "扫描线 (从上至下划过)",
+        "电路纹理 (背景层，若隐若现)"
       ],
-      "narration": "你绝对想不到，2026高校毕业生就业：挑战与机遇并存。这年头，毕业即失业？别急着下结论，咱们得细品背后的逻辑。",
-      "duration": 10.0,
-      "animations": {
-        "title": "SLAMS",
-        "subtitle": "DROPS",
-        "data": "FLOATS",
-        "decoration": "PULSES"
-      },
-      "transition": {
-        "in": "glitch_transition",
-        "out": "data_dissolve"
-      }
+      "narration": "你绝对想不到，2026年高校毕业生的就业市场，数据可能让你后背发凉。这已经不是简单的找工作，而是一场关于未来的生存实验。",
+      "duration": 9.1
     },
     {
       "scene_id": 2,
       "visual_type": "data_impact",
-      "concept": "视觉冲击力全开，巨大的数字“1250万”如陨石般砸入画面，伴随刺耳的警报声效和红色脉冲光，直观展现毕业生规模创纪录的压迫感。随后画面分屏，展示传统行业招聘数据如瀑布般下滑。",
-      "mood": "数据爆炸与危机感，如同控制中心发出的红色警报，参考《攻壳机动队》的数据界面风格。",
-      "depth_layers": {
-        "background": "radial-glow (红色脉冲)",
-        "midground": "“1250万”主数据， 趋势图表",
-        "foreground": "警报闪光， 粒子冲击波， 数据碎片"
-      },
-      "density_target": 10,
+      "concept": "两个关键数字——‘1200万’毕业生与‘1500万’岗位，以极具冲击力的视觉形式对抗、碰撞，直观呈现供需的悬殊差距。金色的数据与粉色的警示形成强烈对比，制造出‘后背发凉’的扎心感。",
       "key_elements": [
-        "“1250万”巨幅数字",
-        "上升的进度条与箭头",
-        "分屏对比：左侧传统行业图标（工厂、柜台）+下跌曲线，右侧AI芯片图标",
-        "红色警报闪光",
-        "数据网格背景（加深）",
-        "破碎的招聘简章碎片",
-        "“历史新高”霓虹标签",
-        "增长趋势线"
+        "数字‘1200万’ (巨型，霓虹蓝，PUNCHES IN)",
+        "数字‘1500万’ (稍小，霓虹粉，SLAMS IN)",
+        "进度条/对比条 (从两端向中间生长)",
+        "‘优质’引号 (闪烁，强调)",
+        "破碎的玻璃效果 (叠加在数字上)",
+        "数据网格线 (背景)",
+        "粒子流 (从大数字向小数字流动)",
+        "警告三角 (‘真相’字样旁)"
       ],
-      "narration": "先看数据。我翻遍全网，预计2026年毕业生将突破一二五零万，创历史新高。但传统行业招聘缩水百分之三零，AI自动化取代大量重复性工作。你品，这供需失衡有多夸张？",
-      "duration": 14.6,
-      "animations": {
-        "title": "CRASHES",
-        "subtitle": "SLIDES",
-        "data": "COUNTS UP",
-        "decoration": "GLOWS"
-      },
-      "transition": {
-        "in": "impact_transition",
-        "out": "slide_left"
-      }
+      "narration": "我翻遍全网，看到一个扎心的数据：2026年毕业生预计突破一二零零万，而市场新增的‘优质’岗位，可能只有一五零零万。但真相是，AI的替代率在白领领域已经超过百分之三零。你品，这多出来的，真的是机会吗？",
+      "duration": 15.2
     },
     {
       "scene_id": 3,
-      "visual_type": "compare",
-      "concept": "画面一分为二，左侧是高薪技术岗的“引力场”，金钱符号与招聘图标不断向上飞升；右侧是基础行政岗的“角斗场”，无数竞争者的剪影在红色警告光下激烈碰撞。鲜明对比揭示就业市场的撕裂。",
-      "mood": "两极分化的张力，冰冷的财富吸引与灼热的生存竞争，参考游戏UI中的阵营选择界面。",
-      "depth_layers": {
-        "background": "data-grid (左青右红)",
-        "midground": "对比数据面板与图标",
-        "foreground": "飞升的金钱符号 / 碰撞的头像剪影"
-      },
-      "density_target": 8,
+      "visual_type": "dashboard",
+      "concept": "以一个未来感仪表盘的视角，并列展示导致挑战的多个核心‘故障指标’。‘学历通胀’、‘技能错配’、‘内卷压力’等抽象问题被转化为可视化的数据条和警示灯，让人一目了然地看到问题的复杂性。",
       "key_elements": [
-        "画面分裂线（霓虹）",
-        "左侧：AI工程师图标、百万年薪数字、向上箭头",
-        "右侧：行政岗图标、千分比竞争率、警告三角",
-        "“高薪”vs“激烈”标签",
-        "左侧向上粒子流",
-        "右侧密集人形剪影",
-        "天平/跷跷板隐喻图形",
-        "“结构性变化”动态文字"
+        "仪表盘外框 (HUD风格，发光边框)",
+        "‘学历通胀’指标 (向上飙红的箭头+博士帽图标)",
+        "‘技能错配’指标 (断裂的齿轮图标)",
+        "‘螺丝钉’到‘瑞士军刀’的图标对比 (核心)",
+        "压力指数表 (从黄到红)",
+        "多重硕士头像 (层叠挤压效果)",
+        "数据流 (连接各指标)",
+        "背景：城市剪影与无尽阶梯"
       ],
-      "narration": "关键影响？就业市场两极分化更严重。高薪技术岗如AI工程师，年薪百万还招不到人；基础行政岗，竞争比考公还激烈。说白了，不是没工作，是机会变了天。",
-      "duration": 12.6,
-      "animations": {
-        "title": "PUNCHES",
-        "subtitle": "CASCADES",
-        "data": "MORPHS",
-        "decoration": "BREATHES"
-      },
-      "transition": {
-        "in": "split_transition",
-        "out": "fade_center"
-      }
+      "narration": "说白了，最大的挑战不是岗位少，而是‘学历通货膨胀’。硕士博士在挤占本科坑位，所有人都在往下卷。同时，企业要的不再是‘螺丝钉’，而是能跟AI协作、快速解决问题的‘瑞士军刀’。技能错配，才是卡住大多数人的脖子。",
+      "duration": 16.4
     },
     {
       "scene_id": 4,
       "visual_type": "flow",
-      "concept": "一条发光的未来时间线在画面中央展开，依次点亮“数字孪生”、“元宇宙策划”、“低碳金融”等新兴赛道图标。图标背后是蓬勃生长的科技树状图，展示这些领域从无到有的爆发式增长路径。",
-      "mood": "希望与可能性，如同星图被点亮，充满探索的兴奋感，参考《星际穿越》的五维空间与科技树可视化。",
-      "depth_layers": {
-        "background": "radial-glow (暖金色)",
-        "midground": "发光时间线与赛道图标",
-        "foreground": "科技树分支， 粒子光点， “井喷”标签"
-      },
-      "density_target": 9,
+      "concept": "视觉叙事从一个代表‘旧岗位’的破碎图标开始，沿着一条充满能量的发光路径，演进、衍生出一系列‘新职业’的卡片。这条路径象征着在挑战中开辟新机遇的过程，充满动态与希望。",
       "key_elements": [
-        "发光主时间线（过去-现在-未来）",
-        "三个主要赛道图标（数字孪生、元宇宙、低碳金融）",
-        "从图标中生发的科技树状图",
-        "爆炸增长的箭头与粒子",
-        "“十年前”与“现在”的对比文本框",
-        "需求缺口数字动态显示",
-        "“香饽饽”霓虹标注",
-        "全球互联的微光线条"
+        "起始点：破碎的传统行业图标 (如工厂、文员)",
+        "发光的主路径 (霓虹蓝，蜿蜒向前)",
+        "新职业卡片 (‘提示词工程师’‘AI伦理师’等，依次滑入)",
+        "AI芯片图标 (置于路径中点，脉冲光效)",
+        "‘五年内可能消失’与‘新生’标签",
+        "数据点/小图标 (沿途漂浮)",
+        "背景：抽象神经网络",
+        "粒子流 (沿着路径移动)"
       ],
-      "narration": "机遇在哪？新兴赛道井喷：数字孪生、元宇宙策划、低碳金融，这些领域缺口巨大。细品，十年前这些词儿都还没发明，现在成了香饽饽。",
-      "duration": 11.3,
-      "animations": {
-        "title": "SLAMS",
-        "subtitle": "SLIDES",
-        "data": "FLOATS",
-        "decoration": "PULSES"
-      },
-      "transition": {
-        "in": "zoom_through",
-        "out": "flow_out"
-      }
+      "narration": "但你别慌，机遇就藏在挑战的缝隙里。AI干掉旧岗位，也疯狂催生新职业。提示词工程师、AI伦理师、数据策略分析师……这些五年前闻所未闻的职位，正在成为新贵。细品，这不就是技术革命的典型剧本吗？",
+      "duration": 12.6
     },
     {
       "scene_id": 5,
-      "visual_type": "list_alert",
-      "concept": "如同一份刺眼的红色诊断报告在屏幕上生成。左侧是破碎的大学文凭和过时的课程表，右侧是企业需求的技能清单（实战、AI应用等），中间用醒目的“错配”符号和警告光连接，批判教育体系的滞后性。",
-      "mood": "警报与批判，冷静的诊断与尖锐的差距感，参考医疗监控仪的警报界面与安全漏洞报告。",
-      "depth_layers": {
-        "background": "data-grid (红色警告光)",
-        "midground": "对比清单与“错配”符号",
-        "foreground": "破碎的纸张碎片， 扫描线， 警告图标"
-      },
-      "density_target": 10,
+      "visual_type": "compare",
+      "concept": "画面一分为二，强烈对比未来就业市场的‘天堂’与‘地狱’模式。左侧的‘超级个体’被明亮的科技光环和工具链包围，右侧的‘算法难民’则被灰色的数据牢笼和重复指令所禁锢。视觉对立直接引发思考。",
       "key_elements": [
-        "红色“技能错配”大标题",
-        "左侧：破碎的书本、毕业帽图标",
-        "右侧：企业需求技能条目（发光）",
-        "“理论”vs“实战”对比图表",
-        "巨大的“X”或“断开的链条”符号",
-        "扫描线与数据分析动画",
-        "“文凭≠能力”警示语",
-        "齿轮卡死的图标动画"
+        "分割线 (霓虹蓝，垂直中线)",
+        "左侧：人形剪影+多重工具/光环 (金色，漂浮)",
+        "右侧：人形剪影+数据锁链+指令流 (灰色，禁锢)",
+        "‘超级个体’ vs ‘算法难民’标题",
+        "图标：杠杆、团队协作 vs 单调齿轮、重复符号",
+        "背景粒子：左侧为上升的光点，右侧为下坠的数字碎片",
+        "霓虹边框 (分别包裹两侧)"
       ],
-      "narration": "挑战呢？技能错配是硬伤。大学课程滞后，学生毕业即过时。企业要实战经验，毕业生只有理论纸。别被文凭忽悠了，能力才是硬通货。",
-      "duration": 11.5,
-      "animations": {
-        "title": "PUNCHES",
-        "subtitle": "DROPS",
-        "data": "MORPHS",
-        "decoration": "GLOWS"
-      },
-      "transition": {
-        "in": "screen_glitch",
-        "out": "shatter"
-      }
+      "narration": "未来的就业市场会极速两极分化。一极是‘超级个体’，他们善用AI杠杆，一个人就是一个团队；另一极是‘算法难民’，他们只会执行命令，最终被自动化取代。中间地带正在迅速塌缩。",
+      "duration": 17.6
     },
     {
       "scene_id": 6,
-      "visual_type": "hud",
-      "concept": "呈现一个未来主义HUD界面，全球地图上浮现出东京、纽约、班加罗尔等多个光点，代表竞争者。虚拟连接线（代表远程办公）将它们与一个“你”的本地光点相连，展示竞争的无边界性与适应力的关键。",
-      "mood": "全球化视野与冷静的监控感，如同战略指挥中心的全息投影，参考《三体》中的全球监控界面。",
-      "depth_layers": {
-        "background": "radial-glow (蓝色)， data-grid (浅蓝)",
-        "midground": "全球地图HUD与数据浮窗",
-        "foreground": "虚拟连接线， 竞争者光点， 数据标签"
-      },
-      "density_target": 8,
+      "visual_type": "list_alert",
+      "concept": "为毕业生和投资者同时点亮一盏‘导航灯’。关键能力点以清晰、有力的清单形式列出，并被高亮强调。视觉上如同一个简洁的指令面板，传递出‘逻辑已变’的核心信息与行动方向。",
       "key_elements": [
-        "全息地球或全球地图",
-        "多个发光竞争者光点（标注城市）",
-        "本地“你”的光点",
-        "连接所有点的虚线网络",
-        "“远程办公”图标",
-        "“全球化竞争”数据浮窗",
-        "适应力指数进度条",
-        "“优势消失”提示文字"
+        "标题：‘新逻辑’ (SLAMS IN)",
+        "双列清单布局：‘毕业生’ / ‘投资者’",
+        "条目：‘共情力’‘创造力’‘复杂决策力’ (依次高亮，强调)",
+        "脑、心、齿轮图标 (分别对应三项能力)",
+        "传统‘铁饭碗’图标 (被划掉，淡出)",
+        "投资增长曲线 (上升趋势)",
+        "条目入场动画 (逐条滑入)",
+        "背景：简洁电路板纹理"
       ],
-      "narration": "未来趋势？远程办公常态化，全球人才竞争白热化。你可能坐在家里，对手在东京或纽约。别被忽悠了，本地优势在消失，适应力才是王牌。",
-      "duration": 11.2,
-      "animations": {
-        "title": "SLAMS",
-        "subtitle": "CASCADES",
-        "data": "FLOATS",
-        "decoration": "BREATHES"
-      },
-      "transition": {
-        "in": "scan_transition",
-        "out": "hud_off"
-      }
+      "narration": "对于毕业生和投资者来说，逻辑已经变了。投资自己，不再是考个铁饭碗，而是培养‘机器无法替代的共情力、创造力与复杂决策力’。投资企业，要看它是在用AI替代人，还是在用AI成就人。",
+      "duration": 15.9
     },
     {
       "scene_id": 7,
       "visual_type": "quote_hero",
-      "concept": "画面中央，一个由代码和齿轮组成的大脑图标与一个象征人类的抽象图标（如DNA链或手掌）缓慢旋转、博弈。背景是复杂的伦理天平与科技符号交织的网络，引发关于科技取代、公平过渡的深层思考。",
-      "mood": "哲学思辨与科技伦理的沉重感，冰冷的技术逻辑与温暖的人性微光交织，参考《黑镜》的冷峻反思风格。",
-      "depth_layers": {
-        "background": "radial-glow (青紫混合)， 神经网络纹理",
-        "midground": "核心辩论图标（大脑vs人类）",
-        "foreground": "伦理天平剪影， 浮动的哲学符号， 数据流"
-      },
-      "density_target": 9,
+      "concept": "场景回归宏大与深邃，核心金句‘未来不会淘汰人，只会淘汰人’以压倒性的视觉形式占据中心。光线从中心爆发，象征希望与觉醒，最终汇聚成行动的号召，完成情绪升华与主题收束。",
       "key_elements": [
-        "核心图标：代码齿轮大脑",
-        "对抗图标：人类抽象符号",
-        "缓缓旋转的伦理天平",
-        "背景复杂的神经网络与科技符号",
-        "“AI vs 人类”动态文字",
-        "“公平”“伦理”关键词闪烁",
-        "象征过渡期的“桥梁”图形",
-        "数据流中的问号"
+        "核心金句 (巨型，居中，渐变霓虹色)",
+        "背景：深空+缓慢旋转的星球或抽象未来城市",
+        "‘起点’文字 (底部，浮入)",
+        "光线束 (从金句中心向四周发射)",
+        "‘定义变化的能力’关键词 (环绕或叠加在金句上)",
+        "微型人形群像 (在光线中逐渐清晰)",
+        "粒子爆发效果 (高潮处)",
+        "收束光晕 (最终聚焦)"
       ],
-      "narration": "犀利点说，这背后是科技伦理与就业公平的博弈。AI是否应该取代人类工作？社会如何保障过渡期？说白了，这不只是找工作，是定义未来社会的缩影。",
-      "duration": 12.3,
-      "animations": {
-        "title": "CRASHES",
-        "subtitle": "SLIDES",
-        "data": "MORPHS",
-        "decoration": "GLOWS"
-      },
-      "transition": {
-        "in": "deep_focus_in",
-        "out": "fade_to_black"
-      }
-    },
-    {
-      "scene_id": 8,
-      "visual_type": "quote_hero",
-      "concept": "最终画面凝聚为一句充满力量的金句：“挑战是机遇的磨刀石”。文字如刀锋般锐利，背景是冰冷的数字风暴，但文字中心和延伸出的光线逐渐变得温暖、明亮，象征人性点亮方向。结尾出现清晰的行动号召按钮。",
-      "mood": "升华与号召，从冷静的科技感过渡到温暖而坚定的人文力量，参考励志海报与高级UI动效的结合。",
-      "depth_layers": {
-        "background": "数据风暴 (粒子与代码流)， 渐变光芒",
-        "midground": "金句主文字",
-        "foreground": "心形光芒， 行动号召按钮， 光点汇聚"
-      },
-      "density_target": 8,
-      "key_elements": [
-        "“挑战是机遇的磨刀石”金句大字",
-        "文字如刀锋般的设计",
-        "背景：冰冷的数字粒子流",
-        "从文字中心散发的温暖光芒",
-        "“人性点亮方向”辅助文字",
-        "“点赞转发”行动号召按钮（霓虹边框）",
-        "汇聚的光点与心形微光",
-        "最终定版的栏目Logo/Tag"
-      ],
-      "narration": "记住，挑战是机遇的磨刀石。技术重塑世界，但人性点亮方向。觉得有启发？点赞转发，让更多人看清前路！",
-      "duration": 9.7,
-      "animations": {
-        "title": "SLAMS",
-        "subtitle": "DROPS",
-        "data": "COUNTS UP",
-        "decoration": "PULSES"
-      },
-      "transition": {
-        "in": "focus_transition",
-        "out": "heroic_expand"
-      }
+      "narration": "所以，2026不是终点，而是起点。它考验的不是我们适应变化的能力，而是我们定义变化的能力。记住，未来不会淘汰人，只会淘汰那些固守旧地图的人。觉得有用？转发给需要的人！",
+      "duration": 13.4
     }
   ],
   "design_md_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\design.md",
   "design_style": "赛博朋克科技风",
   "design_style_key": "cyber_tech",
-  "_design_md": "---\nname: 赛博朋克科技风\nstyle_key: cyber_tech\ndescription: 深黑背景+霓虹发光，科技暗黑风格\ncolors:\n  background: \"#0a0a0a\"\n  primary: \"#00D4FF\"\n  accent: \"#FF4081\"\n  data: \"#FFD700\"\n  text: \"#FFFFFF\"\n  text_secondary: \"#999999\"\ntypography:\n  headline:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"72-120px\"\n    fontWeight: bold\n  body:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"28-36px\"\n    fontWeight: regular\n  data:\n    fontFamily: \"JetBrains Mono, monospace\"\n    fontSize: \"48-80px\"\n    fontWeight: bold\nrounded:\n  sm: 16px\n  md: 24px\nspacing:\n  scene_padding: \"80-120px\"\n  element_gap: \"24-40px\"\n  card_radius: \"16px\"\nmotion:\n  energy: high\n  easing:\n    entry: \"expo.out\"\n    exit: \"power4.in\"\n  atmosphere: [\"radial-glow\", \"data-grid\", \"neon-lines\", \"particle-drift\", \"ghost-text\"]\n---\n## Overview\n\n2026高校毕业生就业：挑战与机遇并存 -- 采用赛博朋克科技风视觉风格，科技感、未来感、冲击力调性。\n\n**视觉隐喻**: 深黑背景+霓虹发光，科技暗黑风格\n\n**情绪关键词**: 科技感、未来感、冲击力\n\n**最适合**: 科技、AI、互联网、数码\n\n## Colors\n\n| 用途 | 颜色 | Hex |\n|------|------|-----|\n| 背景 | 主背景 | #0a0a0a |\n| 主色 | 标题/强调 | #00D4FF |\n| 强调 | 高亮/CTA | #FF4081 |\n| 数据 | 数字/图表 | #FFD700 |\n| 文字 | 主要文字 | #FFFFFF |\n\n## Typography\n\n| 层级 | 字体 | 大小 | 重量 |\n|------|------|------|------|\n| 标题 | Noto Sans SC | 72-120px | bold |\n| 正文 | Noto Sans SC | 28-36px | regular |\n| 数据 | JetBrains Mono | 48-80px | bold |\n\n## 视觉层次\n\n每个场景必须包含3层：\n\n1. **背景层**: radial-glow, data-grid, neon-lines\n2. **中景层**: 核心内容 -- 必须填满画面60-80%\n3. **前景层**: particle-drift, ghost-text\n\n## 装饰元素\n\n- radial-glow\n- data-grid\n- neon-lines\n- particle-drift\n- ghost-text\n\n## 场景变体\n\n# 场景变体设计指导\n\n## 1. Opening 场景\n- **背景层**：深黑色背景 #0a0a0a，添加动态数字网格和霓虹光晕，增强科技感和未来氛围。\n- **中景层**：填满60-80%的区域，展示一个虚拟毕业生头像或未来校园轮廓，使用主色 #00D4FF 的高光线条描绘，突出主体。\n- **前景层**：漂浮的几何形状和数据流粒子，颜色使用强调 #FF4081，增加视觉冲击力。\n- **动画**：头像缓慢旋转，背景网格脉动发光，前景粒子流动，营造动态开场效果。\n- **密度**：8-10元素，包括背景网格、主体头像、前景粒子等，保持视觉丰富。\n\n## 2. Data 场景\n- **背景层**：深黑色背景，叠加动态数据图表背景，如波动的折线图或3D柱状图，使用 #00D4FF 和 #FF4081 的色调。\n- **中景层**：填满60-80%的区域，显示关键就业数据（如就业率、失业率），以霓虹风格数字呈现，主色 #00D4FF。\n- **前景层**：闪烁的数据点或图标（如简历、公司logo），使用强调 #FF4081，增强视觉层次。\n- **动画**：数据图表动态更新，数字滚动上升，前景图标闪烁或移动，模拟实时数据流。\n- **密度**：8-10元素，包括背景图表、数字、图标等，确保信息清晰。\n\n## 3. Comparison 场景\n- **背景层**：深黑色背景，采用分屏设计，左侧使用蓝色调代表挑战，右侧使用粉色调代表机遇，突出对比。\n- **中景层**：填满60-80%的区域，左侧显示挑战元素（如失业图标、竞争符号），右侧显示机遇元素（如上升箭头、创新图标），使用对应颜色。\n- **前景层**：中央分界线，使用动态光线或霓虹条，增强视觉分割和冲击力。\n- **动画**：左侧元素下沉或闪烁红色光效，右侧元素上升或发光，分界线动态变化，强化对比感。\n- **密度**：8-10元素，平衡左右两侧元素，保持视觉协调。\n\n## 4. Quote 场景\n- **背景层**：深黑色背景，添加柔和的光晕或文字阴影效果，营造沉浸式氛围。\n- **中景层**：填满60-80%的区域，显示引言文字（如“挑战与机遇并存”），以赛博朋克字体呈现，主色 #00D4FF，关键词用强调 #FF4081 高亮。\n- **前景层**：漂浮的符号或装饰元素（如引号、星星、电路图案），使用强调色 #FF4081，增加视觉兴趣。\n- **动画**：文字逐字出现或闪烁，背景光晕缓慢移动，前景元素漂浮动效，增强节奏感。\n- **密度**：8-10元素，包括文字、装饰符号等，确保文本突出。\n\n## 5. Closing 场景\n- **背景层**：深黑色背景，渐变为更深色调或添加结束元素（如“未来已来”标语），象征收尾和展望。\n- **中景层**：填满60-80%的区域，显示总结性内容（如呼吁行动或希望符号），使用主色 #00D4FF 的线条和光效。\n- **前景层**：聚光或粒子爆发效果，使用强调 #FF4081，象征未来转折或高潮。\n- **动画**：背景渐变暗化，中景内容突出显示，前景效果动态展开，营造震撼结尾。\n- **密度**：8-10元素，整合所有视觉元素，保持流畅过渡。\n\n## Density\n\n- 每个场景 **8-10个视觉元素**\n- 至少2个装饰元素是主动添加的\n\n## Scale\n\n- 标题: 72-120px，占画面宽度60-80%\n- 正文: 28-36px\n- 数据: 48-80px\n- 装饰透明度: 15-25%\n- 边框: 2-4px\n\n## Don'ts\n\n- 明亮自然色彩\n- 卡通化元素\n- font-size低于24px\n- 纯色平面背景\n- 居中浮动布局\n\n---\n\n*风格由design-system skill自动生成，visual-author必须遵循以上约束。*\n",
+  "_design_md": "---\nname: 赛博朋克科技风\nstyle_key: cyber_tech\ndescription: 深黑背景+霓虹发光，科技暗黑风格\ncolors:\n  background: \"#0a0a0a\"\n  primary: \"#00D4FF\"\n  accent: \"#FF4081\"\n  data: \"#FFD700\"\n  text: \"#FFFFFF\"\n  text_secondary: \"#999999\"\ntypography:\n  headline:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"72-120px\"\n    fontWeight: bold\n  body:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"28-36px\"\n    fontWeight: regular\n  data:\n    fontFamily: \"JetBrains Mono, monospace\"\n    fontSize: \"48-80px\"\n    fontWeight: bold\nrounded:\n  sm: 16px\n  md: 24px\nspacing:\n  scene_padding: \"80-120px\"\n  element_gap: \"24-40px\"\n  card_radius: \"16px\"\nmotion:\n  energy: high\n  easing:\n    entry: \"expo.out\"\n    exit: \"power4.in\"\n  atmosphere: [\"radial-glow\", \"data-grid\", \"neon-lines\", \"particle-drift\", \"ghost-text\"]\n---\n## Overview\n\n2026高校毕业生就业：挑战与机遇并存 -- 采用赛博朋克科技风视觉风格，科技感、未来感、冲击力调性。\n\n**视觉隐喻**: 深黑背景+霓虹发光，科技暗黑风格\n\n**情绪关键词**: 科技感、未来感、冲击力\n\n**最适合**: 科技、AI、互联网、数码\n\n## Colors\n\n| 用途 | 颜色 | Hex |\n|------|------|-----|\n| 背景 | 主背景 | #0a0a0a |\n| 主色 | 标题/强调 | #00D4FF |\n| 强调 | 高亮/CTA | #FF4081 |\n| 数据 | 数字/图表 | #FFD700 |\n| 文字 | 主要文字 | #FFFFFF |\n\n## Typography\n\n| 层级 | 字体 | 大小 | 重量 |\n|------|------|------|------|\n| 标题 | Noto Sans SC | 72-120px | bold |\n| 正文 | Noto Sans SC | 28-36px | regular |\n| 数据 | JetBrains Mono | 48-80px | bold |\n\n## 视觉层次\n\n每个场景必须包含3层：\n\n1. **背景层**: radial-glow, data-grid, neon-lines\n2. **中景层**: 核心内容 -- 必须填满画面60-80%\n3. **前景层**: particle-drift, ghost-text\n\n## 装饰元素\n\n- radial-glow\n- data-grid\n- neon-lines\n- particle-drift\n- ghost-text\n\n## 场景变体\n\n# 2026高校毕业生就业：挑战与机遇并存 - 赛博朋克风格场景设计指导\n\n## 1. Opening - 赛博格征途启程\n**背景层**：深空黑 (#0a0a0a) 底色，表面流动着极细微的、发着微弱蓝光 (#00D4FF) 的电路纹理，如同神经网络的脉络。\n**中景层（占比70%）**：一个巨大的、半透明的全息招聘面板在画面中央破碎、重组。面板上快速滚动着招聘关键词、公司LOGO碎片与动态代码。面板周围环绕着无数漂浮的、代表不同职业路径的几何化图标（如AI、生物科技、新能源图标）。\n**前景层**：飘散的数字粒子尘埃和几缕动态的蓝光线条，模拟数据流或网络信号。底部边缘有简约的UI元素，如扫描线和进度条。\n**动画**：破碎的全息面板以故障艺术风格（Glitch Art）快速重组；漂浮图标环绕核心缓慢公转；数据粒子持续向上或向下漂移。\n**密度**：约10个主要视觉元素（核心面板+1个主要图标群+5个关键动态元素+3层UI/粒子效果）。\n\n## 2. Data - 数据洪流与真相\n**背景层**：深空黑底，但背景中隐约可见由无数细小光点构成的、巨大的“2026”年份数字轮廓。\n**中景层（占比80%）**：画面主体是多个悬浮的、半透明的全息数据立方体，立方体内实时流动着关于毕业生人数、行业需求增长、薪资中位数等关键数据的动态图表（柱状图、折线图）。一个巨大的、发光的 (#00D4FF) 箭头图表指示着总体趋势。\n**前景层**：快速流过的、类似《黑客帝国》的绿色或蓝色代码雨，但主色调控制为蓝色 (#00D4FF) 与粉色 (#FF4081)。几条粉色的警告线或感叹号图标在数据流中闪烁。\n**动画**：数据在立方体内持续流动、更新；代码雨匀速下落；趋势图表的箭头缓慢但坚定地向上延伸或波动。\n**密度**：约9个主要视觉元素（3-4个数据立方体+1个趋势主图+背景年份+3层代码/警告特效）。\n\n## 3. Comparison - 双生城市的分屏\n**背景层**：画面被一道强烈的、发光的 (#00D4FF) 中线垂直分割。\n**中景层（占比75%）**：\n*   **左侧（挑战）**：阴暗、拥挤的赛博朋克城市剪影，建筑高耸但杂乱，空中悬浮着红色 (#FF4081) 的警告标识（如“过剩”、“竞争”），地面有故障（Glitch）效果的拥堵人潮剪影。\n*   **右侧（机遇）**：明亮、有序的未来城市剪影，建筑流畅且有发光的蓝色 (#00D4FF) 轮廓线，空中是清晰的职业路径图、上升的火箭图标和闪烁的“新兴领域”全息标签。\n**前景层**：分屏中线本身持续发出能量脉冲，并向两侧发射粒子。两侧前景均飘落着代表性的图标碎片（左侧是简历、证书碎片；右侧是技能徽章、创新灯泡图标）。\n**动画**：中线能量脉冲周期性爆发；两侧的图标/警告标识有微小的浮动或闪烁；人潮剪影有微弱的流动感。\n**密度**：约10个主要视觉元素（分屏结构+左右各2-3个核心象征物+动态中线+前景图标组）。\n\n## 4. Quote - 未来的回响\n**背景层**：深空黑底，背景中有缓慢旋转的、巨大的淡蓝色 (#00D4FF) 二进制代码环，营造出深邃的科技感。\n**中景层（占比65%）**：画面核心是一句引述，如“**在代码与机遇的缝隙中，重写规则**”。文字采用粗体科技字体，主色为发光的蓝色 (#00D4FF)。引号使用粉色 (#FF4081) 强调。文字后方有一个巨大的、抽象的、由光线路构成的“毕业生”人形轮廓。\n**前景层**：无数微小的、发光的粉色 (#FF4081) 和蓝色 (#00D4FF) 光点从四面八方汇聚向引述文字，仿佛想法正在凝结。前景底部有简约的麦克风或通讯设备图标剪影。\n**动画**：背景二进制环持续缓慢旋转；引述文字有呼吸般的微光脉动；光点持续向文字中心汇聚。\n**密度**：约8个主要视觉元素（核心引述+背景代码环+人形轮廓+光点流+前景图标）。\n\n## 5. Closing - 通往黎明的路径\n**背景层**：深空黑底向上方渐变为深邃的午夜蓝，地平线上有一道强烈的、粉蓝交织 (#00D4FF & #FF4081) 的光晕，象征黎明。\n**中景层（占比70%）**：一条由无数发光数据块和路径线构成的“光之通路”，从画面底部中央笔直延伸向远方的地平线光晕。通路两侧，是众多毕业生剪影，他们正走向或已踏上这条路，剪影中有些已泛着蓝色 (#00D4FF) 的光芒。\n**前景层**：大颗粒的、闪烁的“希望”粒子，主要为蓝色，夹杂少量粉色，向上方飞舞。一个代表“未来”的、抽象的多面体光标在通路起点闪烁。\n**动画**：光之通路上的数据块像星辰般明灭闪烁，并缓慢向前流动；毕业生剪影坚定前行；前景粒子持续上升。\n**密度**：约9个主要视觉元素（光之通路核心+1组毕业生剪影+地平线光晕+前景粒子+光标）。\n\n## Density\n\n- 每个场景 **8-10个视觉元素**\n- 至少2个装饰元素是主动添加的\n\n## Scale\n\n- 标题: 72-120px，占画面宽度60-80%\n- 正文: 28-36px\n- 数据: 48-80px\n- 装饰透明度: 15-25%\n- 边框: 2-4px\n\n## Don'ts\n\n- 明亮自然色彩\n- 卡通化元素\n- font-size低于24px\n- 纯色平面背景\n- 居中浮动布局\n\n---\n\n*风格由design-system skill自动生成，visual-author必须遵循以上约束。*\n",
   "_design_specs": {},
   "rendered_video": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\hf_render_project\\rendered.mp4",
-  "video_duration": 99.2,
-  "video_size": 2340133,
+  "video_duration": 106.233333,
+  "video_size": 2696482,
   "mixed_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\step11_final.mp4"
 }

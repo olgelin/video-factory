@@ -1,93 +1,208 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-2" data-width="1920" data-height="1080" style="background:#1a1a2e;">
-<head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#0a0a0a;font-family:'Inter','Noto Sans SC',sans-serif;">
-<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
-
-  <!-- Layer 0: Grid pattern -->
-  <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(6,182,212,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.03) 1px,transparent 1px);background-size:60px 60px;opacity:0.5;"></div>
-
-  <!-- Layer 1: Glow orbs -->
-  <div style="position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,#00D4FF15,transparent 70%);border-radius:50%;filter:blur(60px);"></div>
-  <div style="position:absolute;bottom:-20%;left:-10%;width:500px;height:500px;background:radial-gradient(circle,#FF408110,transparent 70%);border-radius:50%;filter:blur(60px);"></div>
-
-  <!-- Layer 2: Ghost text watermark -->
-  <div class="ghost-text" style="position:absolute;font-size:240px;font-weight:900;color:#00D4FF05;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'JetBrains Mono',monospace;">先看数据</div>
-
-  <!-- Layer 3: Scan line -->
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00D4FF60,transparent);animation:scan 4s linear infinite;pointer-events:none;z-index:10;"></div>
-
-  <!-- Content -->
-  <div style="position:relative;z-index:5;padding:80px 100px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:28px;">
-
-    <!-- Title bar -->
-    <div style="display:flex;align-items:center;gap:16px;">
-      <div style="width:5px;height:56px;background:linear-gradient(180deg,#00D4FF,#FF4081);border-radius:3px;"></div>
-      <h1 class="title" style="font-size:88px;font-weight:900;color:#fff;margin:0;text-shadow:0 0 30px #00D4FF60,0 0 60px #00D4FF30;line-height:1.1;">先看数据我翻遍全网预计2026</h1>
+<body style="margin: 0; padding: 0; background: #0a0a0a; overflow: hidden; width: 1920px; height: 1080px; font-family: 'Inter', 'Noto Sans SC', sans-serif;">
+<div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; background: #1a1a2e; overflow: hidden; padding: 100px;">
+    
+    <!-- Background grid -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0, 212, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.06) 1px, transparent 1px); background-size: 100px 100px; pointer-events: none; opacity: 0.7;" id="grid-lines"></div>
+    
+    <!-- Radial glow -->
+    <div style="position: absolute; top: 30%; left: 40%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none;" id="radial-glow"></div>
+    
+    <!-- Ghost text watermark -->
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 300px; font-weight: bold; color: rgba(255, 255, 255, 0.04); pointer-events: none; white-space: nowrap; font-family: 'JetBrains Mono', monospace;">1200万 vs 1500万</div>
+    
+    <!-- Scan line -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0, 212, 255, 0.3); pointer-events: none; opacity: 0;" id="scan-line"></div>
+    
+    <!-- Particle dots -->
+    <div style="position: absolute; top: 20%; left: 15%; width: 4px; height: 4px; background: #00D4FF; border-radius: 50%; opacity: 0.6; pointer-events: none;" id="particle-1"></div>
+    <div style="position: absolute; top: 40%; left: 75%; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; opacity: 0.5; pointer-events: none;" id="particle-2"></div>
+    <div style="position: absolute; top: 65%; left: 30%; width: 5px; height: 5px; background:#1a1a2e; border-radius: 50%; opacity: 0.4; pointer-events: none;" id="particle-3"></div>
+    <div style="position: absolute; top: 35%; left: 60%; width: 3px; height: 3px; background: #00D4FF; border-radius: 50%; opacity: 0.3; pointer-events: none;" id="particle-4"></div>
+    
+    <!-- Corner decorations -->
+    <div style="position: absolute; top: 120px; left: 120px; width: 60px; height: 3px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; top: 120px; left: 120px; width: 3px; height: 60px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; top: 120px; right: 120px; width: 60px; height: 3px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; top: 120px; right: 120px; width: 3px; height: 60px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: 120px; left: 120px; width: 60px; height: 3px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: 120px; left: 120px; width: 3px; height: 60px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: 120px; right: 120px; width: 60px; height: 3px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: 120px; right: 120px; width: 3px; height: 60px; background: rgba(0, 212, 255, 0.3); pointer-events: none;"></div>
+    
+    <!-- Main content area -->
+    <div style="display: flex; height: calc(100% - 200px); position: relative; z-index: 10;">
+        <!-- Left column (60%) -->
+        <div style="width: 60%; padding-right: 40px;">
+            <!-- Main headline -->
+            <h1 id="main-title" style="font-size: 88px; font-weight: bold; color: #FFFFFF; margin: 0 0 60px 0; text-shadow: 0 0 30px rgba(0, 212, 255, 0.7); line-height: 1.2; opacity: 0;">2026高校毕业生就业<br>挑战与机遇并存</h1>
+            
+            <!-- Data cards container -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px;">
+                <!-- 1200万 card -->
+                <div id="data-1200" style="background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 24px; padding: 40px; width: 45%; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden; opacity: 0;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
+                    <div style="font-size: 16px; color: #999999; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">预计毕业生总数</div>
+                    <div style="font-size: 120px; font-weight: bold; color: #00D4FF; font-family: 'JetBrains Mono', monospace; text-shadow: 0 0 40px rgba(0, 212, 255, 0.8); line-height: 1;">1200万</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; width: 10px; height: 10px; background: #00D4FF; border-radius: 50; animation: pulse 2.5s 3;"></div>
+                </div>
+                
+                <!-- VS divider -->
+                <div style="font-size: 48px; color: #FF4081; font-weight: bold; text-shadow: 0 0 20px rgba(255, 64, 129, 0.5); opacity: 0;" id="vs-divider">VS</div>
+                
+                <!-- 1500万 card -->
+                <div id="data-1500" style="background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 24px; padding: 40px; width: 45%; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden; opacity: 0;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
+                    <div style="font-size: 16px; color: #999999; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;">市场新增"优质"岗位</div>
+                    <div style="font-size: 100px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace; text-shadow: 0 0 40px rgba(255, 64, 129, 0.8); line-height: 1;">1500万</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; width: 10px; height: 10px; background:#1a1a2e; border-radius: 50; animation: pulse 2s 3;"></div>
+                </div>
+            </div>
+            
+            <!-- Progress bar -->
+            <div id="progress-container" style="margin-bottom: 40px; opacity: 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-size: 18px; color: #00D4FF;">毕业生数量</span>
+                    <span style="font-size: 18px; color: #FF4081;">岗位数量</span>
+                </div>
+                <div style="height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; position: relative; overflow: hidden;">
+                    <div id="progress-bar-left" style="position: absolute; left: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, #00D4FF, #00a0cc); border-radius: 4px;"></div>
+                    <div id="progress-bar-right" style="position: absolute; right: 0; top: 0; height: 100%; width: 0; background: linear-gradient(90deg, #cc3366, #FF4081); border-radius: 4px;"></div>
+                </div>
+            </div>
+            
+            <!-- Quote with warning -->
+            <div id="quote-container" style="background: rgba(255, 64, 129, 0.1); border-left: 4px solid #FF4081; padding: 20px; border-radius: 0 16px 16px 0; margin-bottom: 30px; opacity: 0;">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <div style="color: #FFD700; font-size: 24px; margin-right: 10px;">⚠</div>
+                    <div style="font-size: 20px; color: #FF4081; font-weight: bold;">真相警告</div>
+                </div>
+                <div style="font-size: 24px; color: #FFFFFF; line-height: 1.6;">AI的替代率在白领领域已经超过<span style="color: #FFD700; font-weight: bold; font-size: 28px;">30%</span>。你品，这多出来的，真的是机会吗？</div>
+            </div>
+        </div>
+        
+        <!-- Right column (40%) -->
+        <div style="width: 40%; padding-left: 40px;">
+            <!-- Speech bubble -->
+            <div id="speech-bubble" style="background: rgba(26, 26, 46, 0.9); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 24px; padding: 40px; margin-bottom: 40px; position: relative; opacity: 0;">
+                <div style="position: absolute; top: -20px; left: 40px; width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 20px solid rgba(26, 26, 46, 0.9);"></div>
+                <div style="font-size: 16px; color: #00D4FF; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace;">/// 数据来源分析 ///</div>
+                <div style="font-size: 22px; color: #FFFFFF; line-height: 1.8;">我翻遍全网，看到一个扎心的数据：2026年毕业生预计突破<span style="color: #00D4FF; font-weight: bold;">1200万</span>，而市场新增的<span style="color: #FF4081; font-weight: bold; position: relative;">'优质'<span style="position: absolute; top: -5px; right: -15px; font-size: 14px; color: #FFD700; animation: blink 1.5s 3;">*</span></span>岗位，可能只有<span style="color: #FF4081; font-weight: bold;">1500万</span>。</div>
+            </div>
+            
+            <!-- Data visualization -->
+            <div id="data-vis" style="background: rgba(26, 26, 46, 0.7); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 16px; padding: 30px; margin-bottom: 40px; opacity: 0;">
+                <div style="font-size: 16px; color: #FFD700; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace;">供需差距可视化</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <div style="width: 30px; height: 20px; background: #00D4FF; margin-right: 10px;"></div>
+                    <span style="font-size: 18px; color: #FFFFFF;">毕业生</span>
+                    <div style="flex-grow: 1; margin: 0 20px; height: 2px; background: rgba(255,255,255,0.2); align-self: center;"></div>
+                    <span style="font-size: 18px; color: #FFFFFF;">岗位</span>
+                    <div style="width: 30px; height: 20px; background:#1a1a2e; margin-left: 10px;"></div>
+                </div>
+                <div style="height: 40px; background: rgba(255,255,255,0.05); border-radius: 4px; position: relative; overflow: hidden;">
+                    <div style="position: absolute; left: 0; top: 0; height: 100%; width: 65%; background: linear-gradient(90deg, rgba(0, 212, 255, 0.8), rgba(0, 212, 255, 0.2)); border-radius: 4px;"></div>
+                    <div style="position: absolute; left: 65%; top: 0; height: 100%; width: 5%; background: rgba(255, 64, 129, 0.6); border-radius: 0 4px 4px 0;"></div>
+                    <div style="position: absolute; right: 0; top: 0; height: 100%; width: 30%; background: linear-gradient(90deg, rgba(255, 64, 129, 0.2), rgba(255, 64, 129, 0.8)); border-radius: 4px;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                    <span style="font-size: 14px; color: #00D4FF;">1200万</span>
+                    <span style="font-size: 14px; color: #FF4081;">1500万</span>
+                </div>
+            </div>
+            
+            <!-- Tags -->
+            <div id="tags-container" style="display: flex; flex-wrap: wrap; gap: 15px; opacity: 0;">
+                <div style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 50px; padding: 10px 25px; font-size: 18px; color: #00D4FF;"># 就业压力</div>
+                <div style="background: rgba(255, 64, 129, 0.1); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 50px; padding: 10px 25px; font-size: 18px; color: #FF4081;"># AI替代</div>
+                <div style="background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 50px; padding: 10px 25px; font-size: 18px; color: #FFD700;"># 结构性失业</div>
+                <div style="background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 50px; padding: 10px 25px; font-size: 18px; color: #00D4FF;"># 技能升级</div>
+            </div>
+        </div>
     </div>
-
-    <!-- Quote from narration -->
-    <div class="quote" style="font-size:20px;color:#A0A0B0;max-width:900px;line-height:1.7;border-left:3px solid #00D4FF40;padding-left:16px;margin-top:-8px;">先看数据。我翻遍全网，预计2026年毕业生将突破一二五零万，创历史新高。但传统行业招聘缩水百分之三零，AI自动化取代大量</div>
-
-    <!-- Data cards row -->
-    <div style="display:flex;gap:20px;margin-top:8px;"><div class="card" style="flex:1;background:rgba(10,10,10,0.7);border:1px solid #06b6d440;border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(10px);">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#06b6d4,#06b6d460);border-radius:16px 16px 0 0;"></div>
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at top,#06b6d408,transparent 70%);pointer-events:none;"></div>
-          <div class="stat" style="font-size:42px;font-weight:900;color:#06b6d4;font-family:'JetBrains Mono','Noto Sans SC',monospace;text-shadow:0 0 20px #06b6d440;">先看数据</div>
-          <div style="font-size:13px;color:#A0A0B0;margin-top:10px;letter-spacing:1px;"></div>
-        </div><div class="card" style="flex:1;background:rgba(10,10,10,0.7);border:1px solid #7c3aed40;border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(10px);">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c3aed,#7c3aed60);border-radius:16px 16px 0 0;"></div>
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at top,#7c3aed08,transparent 70%);pointer-events:none;"></div>
-          <div class="stat" style="font-size:42px;font-weight:900;color:#7c3aed;font-family:'JetBrains Mono','Noto Sans SC',monospace;text-shadow:0 0 20px #7c3aed40;">你品，这供需</div>
-          <div style="font-size:13px;color:#A0A0B0;margin-top:10px;letter-spacing:1px;">失衡有多夸张？</div>
-        </div><div class="card" style="flex:1;background:rgba(10,10,10,0.7);border:1px solid #C9A96E40;border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(10px);">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#C9A96E,#C9A96E60);border-radius:16px 16px 0 0;"></div>
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at top,#C9A96E08,transparent 70%);pointer-events:none;"></div>
-          <div class="stat" style="font-size:42px;font-weight:900;color:#C9A96E;font-family:'JetBrains Mono','Noto Sans SC',monospace;text-shadow:0 0 20px #C9A96E40;">先看数据。我</div>
-          <div style="font-size:13px;color:#A0A0B0;margin-top:10px;letter-spacing:1px;">翻遍全网</div>
-        </div><div class="card" style="flex:1;background:rgba(10,10,10,0.7);border:1px solid #00FF8840;border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(10px);">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00FF88,#00FF8860);border-radius:16px 16px 0 0;"></div>
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at top,#00FF8808,transparent 70%);pointer-events:none;"></div>
-          <div class="stat" style="font-size:42px;font-weight:900;color:#00FF88;font-family:'JetBrains Mono','Noto Sans SC',monospace;text-shadow:0 0 20px #00FF8840;">预计2026</div>
-          <div style="font-size:13px;color:#A0A0B0;margin-top:10px;letter-spacing:1px;">年毕业生将突破一二五零万</div>
-        </div></div>
-
-    <!-- Progress bars + Tags row -->
-    <div style="display:flex;gap:60px;align-items:flex-start;">
-      <div style="flex:1;max-width:500px;"><div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:#A0A0B0;margin-bottom:6px;"><span>先看数据</span><span style="color:#06b6d4;font-family:'JetBrains Mono',monospace;">78%</span></div>
-          <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div class="bar" style="width:78%;height:100%;background:linear-gradient(90deg,#06b6d4,#06b6d460);border-radius:3px;box-shadow:0 0 8px #06b6d440;"></div></div>
-        </div><div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:#A0A0B0;margin-bottom:6px;"><span>你品，这供需失衡有多夸张</span><span style="color:#7c3aed;font-family:'JetBrains Mono',monospace;">62%</span></div>
-          <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div class="bar" style="width:62%;height:100%;background:linear-gradient(90deg,#7c3aed,#7c3aed60);border-radius:3px;box-shadow:0 0 8px #7c3aed40;"></div></div>
-        </div><div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:#A0A0B0;margin-bottom:6px;"><span>先看数据。我翻遍全网</span><span style="color:#C9A96E;font-family:'JetBrains Mono',monospace;">45%</span></div>
-          <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div class="bar" style="width:45%;height:100%;background:linear-gradient(90deg,#C9A96E,#C9A96E60);border-radius:3px;box-shadow:0 0 8px #C9A96E40;"></div></div>
-        </div></div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;"><span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:#06b6d412;border:1px solid #06b6d430;font-size:12px;color:#06b6d4;margin:3px;letter-spacing:1px;">先看数据</span><span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:#7c3aed12;border:1px solid #7c3aed30;font-size:12px;color:#7c3aed;margin:3px;letter-spacing:1px;">我翻遍全网</span><span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:#C9A96E12;border:1px solid #C9A96E30;font-size:12px;color:#C9A96E;margin:3px;letter-spacing:1px;">预计</span><span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:#00FF8812;border:1px solid #00FF8830;font-size:12px;color:#00FF88;margin:3px;letter-spacing:1px;">年毕业生将突</span><span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:#FF6B6B12;border:1px solid #FF6B6B30;font-size:12px;color:#FF6B6B;margin:3px;letter-spacing:1px;">破一二五零万</span></div>
+    
+    <!-- Bottom info bar -->
+    <div id="bottom-bar" style="position: absolute; bottom: 120px; left: 120px; right: 120px; display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); opacity: 0;">
+        <div style="display: flex; align-items: center;">
+            <div style="width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%; margin-right: 15px;"></div>
+            <span style="font-size: 18px; color: #999999;">数据时间：2026年预测 | 来源：综合多平台统计</span>
+        </div>
+        <div style="display: flex; gap: 40px;">
+            <div style="text-align: center;">
+                <div style="font-size: 32px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">30%</div>
+                <div style="font-size: 16px; color: #999999;">AI白领替代率</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 32px; font-weight: bold; color: #00D4FF; font-family: 'JetBrains Mono', monospace;">-300万</div>
+                <div style="font-size: 16px; color: #999999;">岗位净缺口</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 32px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace;">2.5x</div>
+                <div style="font-size: 16px; color: #999999;">竞争激烈度</div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <style>
-@keyframes scan { from{top:0} to{top:100%} }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
 </style>
+
 <script>
-(function() {
-  var cid = "beat-2";
-  var tl = gsap.timeline({paused:true});
-  tl.from("[data-composition-id=" + cid + "] .ghost-text", {scale:0.8, opacity:0, duration:1.2, ease:"power3.out"}, 0);
-  tl.from("[data-composition-id=" + cid + "] .title", {y:60, opacity:0, duration:0.7, ease:"power3.out"}, 0.2);
-  tl.from("[data-composition-id=" + cid + "] .quote", {y:30, opacity:0, duration:0.5, ease:"power2.out"}, 0.4);
-  tl.from("[data-composition-id=" + cid + "] .card", {y:40, opacity:0, scale:0.9, duration:0.5, stagger:0.1, ease:"back.out(1.5)"}, 0.5);
-  gsap.to("[data-composition-id=" + cid + "] .card", {scale:1.02, duration:2.5, repeat:-1, yoyo:true, ease:"sine.inOut", stagger:0.3});
-  tl.from("[data-composition-id=" + cid + "] .bar", {width:0, duration:0.8, ease:"power2.inOut"}, 0.8);
-  tl.from("[data-composition-id=" + cid + "] .tag", {y:20, opacity:0, scale:0.8, duration:0.3, stagger:0.05, ease:"power2.out"}, 1.0);
-  window.__timelines = window.__timelines || {};
-  window.__timelines[cid] = tl;
-})();
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+window.__timelines["beat-2"] = tl;
+
+// Animation sequence
+tl.from("#grid-lines", { opacity: 0, duration: 1.2, ease: "power1.inOut" })
+  .from("#radial-glow", { opacity: 0, scale: 0.8, duration: 1.5, ease: "power2.inOut" }, 0.2)
+  .from("#scan-line", { opacity: 0, y: -1080, duration: 4, ease: "none", repeat: 0 }, 0.5)
+  .from("#particle-1", { opacity: 0, y: 20, duration: 1.5, ease: "power2.out" }, 0.3)
+  .from("#particle-2", { opacity: 0, y: 30, duration: 2, ease: "power2.out" }, 0.5)
+  .from("#particle-3", { opacity: 0, y: 25, duration: 1.8, ease: "power2.out" }, 0.7)
+  .from("#particle-4", { opacity: 0, y: 15, duration: 1.6, ease: "power2.out" }, 0.9)
+  .from("#main-title", { y: -50, opacity: 0, duration: 0.8, ease: "power3.out" }, 1.0)
+  .from("#data-1200", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 1.2)
+  .from("#vs-divider", { scale: 0, opacity: 0, duration: 0.5, ease: "back.out(2)" }, 1.5)
+  .from("#data-1500", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 1.6)
+  .to("#progress-bar-left", { width: "65%", duration: 1.2, ease: "power2.inOut" }, 1.8)
+  .to("#progress-bar-right", { width: "35%", duration: 1.2, ease: "power2.inOut" }, 2.0)
+  .from("#quote-container", { x: -30, opacity: 0, duration: 0.5, ease: "power2.out" }, 2.2)
+  .from("#speech-bubble", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, 2.4)
+  .from("#data-vis", { scale: 0.9, opacity: 0, duration: 0.7, ease: "back.out(1.7)" }, 2.6)
+  .from("#tags-container", { x: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 2.8)
+  .from("#bottom-bar", { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 3.0);
+
+// Breathing animations
+gsap.to("#data-1200", { scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut" });
+gsap.to("#data-1500", { scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut" });
+gsap.to("#main-title", { textShadow: "0 0 40px rgba(0, 212, 255, 0.9)", duration: 2.5, repeat: 0, yoyo: true });
+
+// Floating particles
+gsap.to("#particle-1", { y: -30, duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut" });
+gsap.to("#particle-2", { y: 20, duration: 6, repeat: 0, yoyo: true, ease: "sine.inOut" });
+gsap.to("#particle-3", { x: 15, duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut" });
+gsap.to("#particle-4", { y: -25, duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut" });
+
+// Start animation
+tl.play();
 </script>
 </body>
 </html>

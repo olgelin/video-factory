@@ -2,283 +2,224 @@
 <html data-composition-id="beat-6" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
 <meta charset="UTF-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<title>Beat 6</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin:0; padding:0; background:#1a1a2e; overflow:hidden; width:1920px; height:1080px; font-family:'Inter','Noto Sans SC',sans-serif;">
-<div class="scene" style="position:relative; width:100%; height:100%; overflow:hidden;">
+<body style="margin:0;padding:0;background:#1a1a2e;overflow:hidden;">
+<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;color:#FFFFFF;">
     
-    <!-- Background decorative layers -->
-    <div id="bg-grid" style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size:100px 100px; opacity:0;"></div>
+    <!-- Decorative Layer 1: Grid -->
+    <div style="position:absolute;inset:0;background:linear-gradient(rgba(0,212,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.07) 1px, transparent 1px);background-size:100px 100px;opacity:1;"></div>
     
-    <div id="bg-glow" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:800px; background:radial-gradient(circle, rgba(0,212,255,0.15) 0%, rgba(0,212,255,0.05) 40%, transparent 70%); opacity:0;"></div>
+    <!-- Decorative Layer 2: Radial Glow -->
+    <div style="position:absolute;left:50%;top:40%;width:1200px;height:800px;background:radial-gradient(ellipse at center, rgba(0,212,255,0.12) 0%, transparent 70%);transform:translate(-50%, -50%);opacity:1;"></div>
     
-    <!-- Ghost text watermark -->
-    <div id="ghost-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:280px; font-weight:bold; color:rgba(255,255,255,0.04); font-family:'JetBrains Mono',monospace; opacity:1; white-space:nowrap;">GLOBAL</div>
+    <!-- Decorative Layer 3: Ghost Text -->
+    <div style="position:absolute;top:50px;left:100px;font-size:280px;font-weight:bold;color:rgba(255,255,255,0.03);line-height:1;opacity:1;">ALGORITHM</div>
     
-    <!-- Scan line -->
-    <div id="scan-line" style="position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent); opacity:0;"></div>
+    <!-- Decorative Layer 4: Scan Line -->
+    <div style="position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent);opacity:1;"></div>
     
-    <!-- Corner decorations -->
-    <div style="position:absolute; top:100px; left:100px; width:60px; height:2px; background:rgba(0,212,255,0.3);"></div>
-    <div style="position:absolute; top:100px; left:100px; width:2px; height:60px; background:rgba(0,212,255,0.3);"></div>
-    <div style="position:absolute; top:100px; right:100px; width:60px; height:2px; background:rgba(0,212,255,0.3);"></div>
-    <div style="position:absolute; top:100px; right:100px; width:2px; height:60px; background:rgba(0,212,255,0.3); transform:translateX(58px);"></div>
-    <div style="position:absolute; bottom:100px; left:100px; width:60px; height:2px; background:rgba(0,212,255,0.3);"></div>
-    <div style="position:absolute; bottom:100px; left:100px; width:2px; height:60px; background:rgba(0,212,255,0.3); transform:translateY(-58px);"></div>
-    <div style="position:absolute; bottom:100px; right:100px; width:60px; height:2px; background:rgba(0,212,255,0.3);"></div>
-    <div style="position:absolute; bottom:100px; right:100px; width:2px; height:60px; background:rgba(0,212,255,0.3); transform:translate(58px,-58px);"></div>
-    
-    <!-- Main title -->
-    <div id="main-title" style="position:absolute; top:80px; left:100px; font-size:96px; font-weight:bold; color:#00D4FF; text-shadow:0 0 30px rgba(0,212,255,0.6); opacity:1; line-height:1.2;">
-        2026高校毕业生就业：挑战与机遇并存
-    </div>
-    
-    <!-- Subtitle -->
-    <div id="subtitle" style="position:absolute; top:200px; left:100px; font-size:36px; color:rgba(0,212,255,0.7); opacity:1;">
-        未来趋势？远程办公常态化，全球人才竞争白热化
-    </div>
-    
-    <!-- HUD Map Container -->
-    <div id="hud-container" style="position:absolute; top:220px; left:100px; width:1200px; height:550px; background:rgba(10,10,30,0.6); border:1px solid rgba(0,212,255,0.2); border-radius:24px; padding:40px; backdrop-filter:blur(10px); box-shadow:0 8px 32px rgba(0,0,0,0.4); opacity:1;">
-        <!-- Map header -->
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <div style="font-size:24px; color:#999999;">全球人才竞争网络</div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:8px; height:8px; background:#00D4FF; border-radius:50; box-shadow:0 0 10px #00D4FF;"></div>
-                <span style="color:#00D4FF; font-size:20px;">实时数据流</span>
-            </div>
-        </div>
+    <!-- Decorative Layer 5: Corner Lines -->
+    <div style="position:absolute;top:100px;left:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;top:100px;left:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;top:100px;right:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;top:100px;right:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;bottom:100px;left:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;bottom:100px;left:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;bottom:100px;right:100px;width:60px;height:2px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+    <div style="position:absolute;bottom:100px;right:100px;width:2px;height:60px;background:rgba(0,212,255,0.3);opacity:1;"></div>
+
+    <!-- Main Content Area -->
+    <div style="position:absolute;left:100px;top:80px;width:1720px;height:920px;">
         
-        <!-- Global Map with dots -->
-        <div id="global-map" style="position:relative; width:100%; height:400px; background:radial-gradient(circle at 50% 50%, rgba(0,212,255,0.1) 0%, transparent 70%); border-radius:16px; margin-bottom:30px;">
+        <!-- Title: 新逻辑 -->
+        <div id="beat6-title" style="position:absolute;left:0;top:0;font-size:96px;font-weight:bold;color:#00D4FF;text-shadow:0 0 30px rgba(0,212,255,0.6);letter-spacing:8px;opacity:1;">新逻辑</div>
+        
+        <!-- Subtitle -->
+        <div id="beat6-subtitle" style="position:absolute;left:0;top:140px;font-size:32px;color:rgba(0,212,255,0.5);letter-spacing:4px;opacity:1;">NEW PARADIGM FOR 2026</div>
+        
+        <!-- Two-Column List Container -->
+        <div style="position:absolute;left:0;top:220px;width:1040px;height:500px;">
             
-            <!-- City dots -->
-            <div id="dot-beijing" style="position:absolute; top:35%; left:65%; width:16px; height:16px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 15px #FFD700, 0 0 30px rgba(255,215,0,0.5);">
-                <div style="position:absolute; top:-30px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:16px; color:#FFD700; text-shadow:0 0 10px rgba(255,215,0,0.5);">北京·你</div>
-            </div>
-            
-            <div id="dot-tokyo" style="position:absolute; top:30%; left:75%; width:12px; height:12px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 15px #FF4081, 0 0 30px rgba(255,64,129,0.5);">
-                <div style="position:absolute; top:-30px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:14px; color:#FF4081; text-shadow:0 0 10px rgba(255,64,129,0.5);">东京</div>
-            </div>
-            
-            <div id="dot-newyork" style="position:absolute; top:35%; left:20%; width:12px; height:12px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 15px #FF4081, 0 0 30px rgba(255,64,129,0.5);">
-                <div style="position:absolute; top:-30px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:14px; color:#FF4081; text-shadow:0 0 10px rgba(255,64,129,0.5);">纽约</div>
-            </div>
-            
-            <div id="dot-bangalore" style="position:absolute; top:60%; left:55%; width:12px; height:12px; background:#1a1a2e; border-radius:50%; box-shadow:0 0 15px #FF4081, 0 0 30px rgba(255,64,129,0.5);">
-                <div style="position:absolute; top:-30px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:14px; color:#FF4081; text-shadow:0 0 10px rgba(255,64,129,0.5);">班加罗尔</div>
-            </div>
-            
-            <!-- Connection lines (simulated with SVG) -->
-            <svg id="connection-lines" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0;">
-                <line x1="65%" y1="35%" x2="75%" y2="30%" stroke="#00D4FF" stroke-width="1" stroke-dasharray="5,5" opacity="0.6"/>
-                <line x1="65%" y1="35%" x2="20%" y2="35%" stroke="#00D4FF" stroke-width="1" stroke-dasharray="5,5" opacity="0.6"/>
-                <line x1="65%" y1="35%" x2="55%" y2="60%" stroke="#00D4FF" stroke-width="1" stroke-dasharray="5,5" opacity="0.6"/>
-                <line x1="20%" y1="35%" x2="75%" y2="30%" stroke="#00D4FF" stroke-width="1" stroke-dasharray="5,5" opacity="0.3"/>
-                <line x1="75%" y1="30%" x2="55%" y2="60%" stroke="#00D4FF" stroke-width="1" stroke-dasharray="5,5" opacity="0.3"/>
-                <line x1="20%" y1="35%" x2="55%" y2="60%" stroke="#00D4FF" stroke-width="1" stroke-dasharray="5,5" opacity="0.3"/>
-            </svg>
-            
-            <!-- Remote work icon -->
-            <div id="remote-icon" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:10px; background:rgba(0,212,255,0.1); padding:10px 20px; border-radius:8px; border:1px solid rgba(0,212,255,0.3); opacity:1;">
-                <div style="width:30px; height:30px; background:rgba(0,212,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                    <div style="width:15px; height:15px; background:#00D4FF; border-radius:3px;"></div>
+            <!-- Left Column: 毕业生 -->
+            <div style="position:absolute;left:0;top:0;width:480px;height:500px;">
+                <div id="beat6-col-grad-title" style="font-size:36px;color:#FFFFFF;margin-bottom:40px;opacity:1;">毕业生</div>
+                <!-- Item 1: 共情力 -->
+                <div id="beat6-item-1" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
+                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(255,64,129,0.15);border:1px solid rgba(255,64,129,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <!-- Heart Icon -->
+                        <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="#FF4081" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                    <div style="font-size:40px;font-weight:bold;color:#FF4081;text-shadow:0 0 20px rgba(255,64,129,0.4);">共情力</div>
                 </div>
-                <span style="color:#00D4FF; font-size:18px;">远程办公常态化</span>
-            </div>
-        </div>
-        
-        <!-- Map footer info -->
-        <div style="display:flex; justify-content:space-between; padding:0 20px;">
-            <div style="color:#666666; font-size:16px;">竞争者数量：<span style="color:#FFD700; font-family:'JetBrains Mono',monospace;">147,892</span></div>
-            <div style="color:#666666; font-size:16px;">覆盖国家：<span style="color:#FFD700; font-family:'JetBrains Mono',monospace;">89</span></div>
-            <div style="color:#666666; font-size:16px;">时区跨越：<span style="color:#FFD700; font-family:'JetBrains Mono',monospace;">12</span></div>
-        </div>
-    </div>
-    
-    <!-- Right side data cards -->
-    <div id="data-cards" style="position:absolute; top:220px; right:100px; width:500px; display:flex; flex-direction:column; gap:24px; opacity:1;">
-        
-        <!-- Globalization competition card -->
-        <div id="globalization-card" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:24px; padding:30px; box-shadow:0 8px 32px rgba(0,0,0,0.4); position:relative; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00D4FF, #FF4081);"></div>
-            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top center, rgba(0,212,255,0.08) 0%, transparent 70%);"></div>
-            <div style="color:#999999; font-size:18px; margin-bottom:10px;">全球化竞争指数</div>
-            <div style="font-size:72px; font-weight:bold; color:#FFD700; font-family:'JetBrains Mono',monospace; margin-bottom:15px;">87.4%</div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="color:#00D4FF; font-size:16px;">↑ 年增长 23.6%</div>
-                <div style="color:#FF4081; font-size:14px; background:rgba(255,64,129,0.1); padding:5px 10px; border-radius:4px;">热力图</div>
-            </div>
-        </div>
-        
-        <!-- Adaptability index card -->
-        <div id="adaptability-card" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:24px; padding:30px; box-shadow:0 8px 32px rgba(0,0,0,0.4); position:relative; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00D4FF, #FFD700);"></div>
-            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top center, rgba(255,215,0,0.08) 0%, transparent 70%);"></div>
-            <div style="color:#999999; font-size:18px; margin-bottom:10px;">适应力指数</div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px;">
-                <div style="font-size:64px; font-weight:bold; color:#00D4FF; font-family:'JetBrains Mono',monospace;">72.8</div>
-                <div style="color:#999999; font-size:16px; margin-bottom:10px;">/100</div>
-            </div>
-            <!-- Progress bar -->
-            <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden; margin-bottom:15px;">
-                <div id="progress-bar" style="width:0%; height:100%; background:linear-gradient(90deg, #00D4FF, #FFD700); border-radius:4px;"></div>
-            </div>
-            <div style="display:flex; justify-content:space-between;">
-                <div style="color:#666666; font-size:14px;">技能多样性</div>
-                <div style="color:#666666; font-size:14px;">学习速度</div>
-                <div style="color:#666666; font-size:14px;">跨文化沟通</div>
-            </div>
-        </div>
-        
-        <!-- Warning card -->
-        <div id="warning-card" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,64,129,0.3); border-radius:24px; padding:30px; box-shadow:0 8px 32px rgba(0,0,0,0.4); position:relative; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #FF4081, #FFD700);"></div>
-            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top center, rgba(255,64,129,0.08) 0%, transparent 70%);"></div>
-            <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
-                <div style="width:40px; height:40px; background:rgba(255,64,129,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                    <div style="width:20px; height:20px; background:#1a1a2e; border-radius:50%;"></div>
+                <!-- Item 2: 创造力 -->
+                <div id="beat6-item-2" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
+                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <!-- Brain Icon -->
+                        <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"></path>
+                            <path d="M8 12h8M12 8v8"></path>
+                        </svg>
+                    </div>
+                    <div style="font-size:40px;font-weight:bold;color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,0.4);">创造力</div>
                 </div>
-                <div style="font-size:24px; color:#FF4081; font-weight:bold;">优势消失警告</div>
+                <!-- Item 3: 复杂决策力 -->
+                <div id="beat6-item-3" style="display:flex;align-items:center;opacity:1;">
+                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <!-- Gear Icon -->
+                        <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <div style="font-size:40px;font-weight:bold;color:#00D4FF;text-shadow:0 0 20px rgba(0,212,255,0.4);">复杂决策力</div>
+                </div>
             </div>
-            <div style="color:#FFFFFF; font-size:18px; line-height:1.6;">
-                本地优势正在消失，适应力才是王牌。你可能坐在家里，对手在东京或纽约。
-            </div>
-        </div>
-    </div>
-    
-    <!-- Bottom information area -->
-    <div id="bottom-info" style="position:absolute; bottom:100px; left:100px; width:1820px; display:flex; justify-content:space-between; opacity:1;">
-        <div style="display:flex; gap:30px;">
-            <div style="background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.3); border-radius:8px; padding:10px 20px;">
-                <span style="color:#00D4FF; font-size:16px;">远程办公</span>
-            </div>
-            <div style="background:rgba(255,64,129,0.1); border:1px solid rgba(255,64,129,0.3); border-radius:8px; padding:10px 20px;">
-                <span style="color:#FF4081; font-size:16px;">全球化竞争</span>
-            </div>
-            <div style="background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.3); border-radius:8px; padding:10px 20px;">
-                <span style="color:#FFD700; font-size:16px;">技能进化</span>
-            </div>
-            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:10px 20px;">
-                <span style="color:#FFFFFF; font-size:16px;">2026届</span>
+            
+            <!-- Right Column: 投资者 -->
+            <div style="position:absolute;left:560px;top:0;width:480px;height:500px;">
+                <div id="beat6-col-invest-title" style="font-size:36px;color:#FFFFFF;margin-bottom:40px;opacity:1;">投资者</div>
+                <!-- Item 1: 机器无法替代 -->
+                <div id="beat6-item-4" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
+                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(255,64,129,0.15);border:1px solid rgba(255,64,129,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <div style="font-size:20px;color:#FF4081;">AI</div>
+                    </div>
+                    <div style="font-size:36px;color:#FFFFFF;">看它是在用AI <span style="color:#FF4081;font-weight:bold;">替代</span> 人</div>
+                </div>
+                <!-- Item 2: 成就人 -->
+                <div id="beat6-item-5" style="display:flex;align-items:center;margin-bottom:30px;opacity:1;">
+                    <div style="width:48px;height:48px;margin-right:20px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <div style="font-size:20px;color:#00D4FF;">AI</div>
+                    </div>
+                    <div style="font-size:36px;color:#FFFFFF;">还是在用AI <span style="color:#00D4FF;font-weight:bold;">成就</span> 人</div>
+                </div>
+                <!-- Item 3: Growth Curve -->
+                <div id="beat6-item-6" style="margin-top:40px;opacity:1;">
+                    <div style="font-size:20px;color:#999999;margin-bottom:10px;">投资增长趋势</div>
+                    <svg style="width:400px;height:120px;" viewBox="0 0 400 120">
+                        <polyline points="0,100 50,90 100,70 150,80 200,40 250,50 300,20 350,30 400,10" fill="none" stroke="#FFD700" stroke-width="3"/>
+                        <polygon points="0,100 50,90 100,70 150,80 200,40 250,50 300,20 350,30 400,10 400,120 0,120" fill="url(#chartGradient)" opacity="0.3"/>
+                        <defs>
+                            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#FFD700"/>
+                                <stop offset="100%" stop-color="transparent"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
         </div>
         
-        <div style="color:#666666; font-size:16px; display:flex; align-items:center;">
-            <div style="width:8px; height:8px; background:#00D4FF; border-radius:50; margin-right:10px; animation: pulse 2s 3;"></div>
-            数据更新时间：2026.03.15
+        <!-- Crossed-out Traditional Icon -->
+        <div id="beat6-old-icon" style="position:absolute;right:200px;top:250px;width:200px;height:200px;border:2px solid rgba(153,153,153,0.3);border-radius:24px;display:flex;align-items:center;justify-content:center;background:rgba(153,153,153,0.05);opacity:1;">
+            <div style="font-size:60px;color:rgba(153,153,153,0.4);">铁饭碗</div>
+            <!-- Slash line -->
+            <div style="position:absolute;width:180%;height:2px;background:#1a1a2e;transform:rotate(45deg);"></div>
+            <div style="position:absolute;width:180%;height:2px;background:#1a1a2e;transform:rotate(-45deg);"></div>
+        </div>
+        
+        <!-- Bottom Info Area -->
+        <div id="beat6-bottom" style="position:absolute;left:0;bottom:0;width:100%;display:flex;justify-content:space-between;align-items:flex-end;opacity:1;">
+            <div style="font-size:24px;color:#999999;">2026高校毕业生就业：挑战与机遇并存</div>
+            <div style="display:flex;gap:20px;">
+                <div style="background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);border-radius:8px;padding:8px 20px;font-size:18px;color:#00D4FF;">逻辑已变</div>
+                <div style="background:rgba(255,64,129,0.15);border:1px solid rgba(255,64,129,0.3);border-radius:8px;padding:8px 20px;font-size:18px;color:#FF4081;">投资自己</div>
+                <div style="background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:8px 20px;font-size:18px;color:#FFD700;">投资企业</div>
+            </div>
         </div>
     </div>
     
-    <!-- Floating particles -->
-    <div class="particle" style="position:absolute; top:20%; left:10%; width:4px; height:4px; background:#00D4FF; border-radius:50%; opacity:0;"></div>
-    <div class="particle" style="position:absolute; top:40%; left:80%; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
-    <div class="particle" style="position:absolute; top:70%; left:30%; width:2px; height:2px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
-    <div class="particle" style="position:absolute; top:15%; left:60%; width:3px; height:3px; background:#00D4FF; border-radius:50%; opacity:0;"></div>
-    <div class="particle" style="position:absolute; top:80%; left:70%; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0;"></div>
-    
-    <!-- Global Competition text overlay -->
-    <div id="global-competition-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:120px; font-weight:bold; color:rgba(0,212,255,0.03); font-family:'JetBrains Mono',monospace; white-space:nowrap; opacity:1;">GLOBAL COMPETITION</div>
-    
+    <!-- Particle Dots -->
+    <div class="particle" style="position:absolute;width:4px;height:4px;background:#00D4FF;border-radius:50%;left:300px;top:400px;opacity:0;"></div>
+    <div class="particle" style="position:absolute;width:3px;height:3px;background:#1a1a2e;border-radius:50%;left:800px;top:300px;opacity:0;"></div>
+    <div class="particle" style="position:absolute;width:5px;height:5px;background:#1a1a2e;border-radius:50%;left:1200px;top:600px;opacity:0;"></div>
+    <div class="particle" style="position:absolute;width:3px;height:3px;background:#00D4FF;border-radius:50%;left:1600px;top:200px;opacity:0;"></div>
+    <div class="particle" style="position:absolute;width:4px;height:4px;background:#1a1a2e;border-radius:50%;left:500px;top:700px;opacity:0;"></div>
+
 </div>
 
 <script>
-    // Initialize GSAP timeline
     window.__timelines = window.__timelines || {};
-    window.__timelines["beat-6"] = gsap.timeline({paused: true});
-    
-    const tl = window.__timelines["beat-6"];
-    
-    // Background decorative layers - first to appear
-    tl.from("#bg-grid", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0)
-      .from("#bg-glow", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15)
-      .from("#scan-line", {opacity: 0, y: -1080, duration: 4, ease: "none", repeat: 0}, 0.3)
-      .from(".particle", {opacity: 0, scale: 0, duration: 1, stagger: 0.15, ease: "power2.out"}, 0.3);
-    
-    // Ghost text - appears after background
-    tl.from("#ghost-text", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.6)
-      .from("#global-competition-text", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, 0.75);
-    
-    // Main title - slides in from top
-    tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 1.0);
-    
-    // Subtitle
-    tl.from("#subtitle", {x: -50, opacity: 0, duration: 0.7, ease: "power2.out"}, 1.15);
-    
-    // HUD container - slides in from left
-    tl.from("#hud-container", {x: -100, opacity: 0, duration: 0.9, ease: "back.out(1.7)"}, 1.3);
-    
-    // City dots - pop in with stagger
-    tl.from("#dot-beijing", {scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2)"}, 1.6)
-      .from("#dot-tokyo", {scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2)"}, 1.7)
-      .from("#dot-newyork", {scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2)"}, 1.8)
-      .from("#dot-bangalore", {scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2)"}, 1.9);
-    
-    // Connection lines - fade in
-    tl.from("#connection-lines", {opacity: 0, duration: 1.5, ease: "power2.inOut"}, 2.0);
-    
-    // Remote work icon
-    tl.from("#remote-icon", {opacity: 0, y: 20, duration: 0.7, ease: "power2.out"}, 2.2);
-    
-    // Data cards - slide in from right
-    tl.from("#globalization-card", {x: 100, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.4)
-      .from("#adaptability-card", {x: 100, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.55)
-      .from("#warning-card", {x: 100, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.7);
-    
-    // Progress bar animation
-    tl.from("#progress-bar", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 3.0);
-    
-    // Bottom information - fade in last
-    tl.from("#bottom-info", {opacity: 0, y: 30, duration: 0.8, ease: "power2.out"}, 3.2);
-    
-    // Add breathing animations (repeat: 0)
-    gsap.to("#globalization-card", {
-        scale: 1.015,
-        duration: 3,
-        repeat: 0,
-        yoyo: true,
-        ease: "sine.inOut"
+    const tl = gsap.timeline({paused: true});
+    window.__timelines["beat-6"] = tl;
+
+    // 1. Background decorative layers
+    tl.from("body > .scene > div:nth-child(1)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
+    tl.from("body > .scene > div:nth-child(2)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
+    tl.from("body > .scene > div:nth-child(3)", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3);
+
+    // 2. Scan line
+    tl.from("body > .scene > div:nth-child(4)", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 0.45);
+    tl.to("body > .scene > div:nth-child(4)", {y: 1080, duration: 4, ease: "none", repeat: 0}, 0.45);
+
+    // 3. Corner lines
+    const corners = document.querySelectorAll("body > .scene > div:nth-child(n+5):nth-child(-n+12)");
+    corners.forEach((corner, i) => {
+        tl.from(corner, {opacity: 0, duration: 0.8, ease: "power1.inOut"}, 0.6 + (i * 0.05));
     });
-    
-    gsap.to("#main-title", {
-        textShadow: "0 0 40px rgba(0,212,255,0.8), 0 0 80px rgba(0,212,255,0.4)",
-        opacity: 0.85,
+
+    // 4. Main title
+    tl.from("#beat6-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.9);
+    tl.from("#beat6-subtitle", {y: -30, opacity: 0, duration: 0.6, ease: "power3.out"}, 1.05);
+
+    // 5. Column titles
+    tl.from("#beat6-col-grad-title", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.2);
+    tl.from("#beat6-col-invest-title", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.35);
+
+    // 6. List items (staggered)
+    tl.from("#beat6-item-1", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.5);
+    tl.from("#beat6-item-2", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.65);
+    tl.from("#beat6-item-3", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.8);
+    tl.from("#beat6-item-4", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.95);
+    tl.from("#beat6-item-5", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.1);
+    tl.from("#beat6-item-6", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.25);
+
+    // 7. Old icon (crossed out)
+    tl.from("#beat6-old-icon", {opacity: 0, scale: 0.8, duration: 0.8, ease: "back.out(1.7)"}, 2.4);
+
+    // 8. Bottom info
+    tl.from("#beat6-bottom", {opacity: 0, y: 30, duration: 0.6, ease: "power2.out"}, 2.6);
+
+    // 9. Particles
+    tl.from(".particle", {opacity: 0, stagger: 0.1, duration: 0.5}, 2.8);
+
+    // 10. Breathing animations (limited to 2-3 elements)
+    // Title glow pulse
+    gsap.to("#beat6-title", {
+        textShadow: "0 0 40px rgba(0,212,255,0.8)",
         duration: 2.5,
         repeat: 0,
         yoyo: true,
         ease: "sine.inOut"
     });
-    
-    gsap.to("#bg-glow", {
-        x: "random(-20, 20)",
-        y: "random(-20, 20)",
-        duration: 10,
-        repeat: 0,
-        ease: "none"
-    });
-    
-    gsap.to(".particle", {
-        y: "random(-100, 100)",
-        x: "random(-50, 50)",
-        duration: 8,
+
+    // Data cards breathing (applied to item containers)
+    gsap.to("#beat6-item-1, #beat6-item-2, #beat6-item-3, #beat6-item-4, #beat6-item-5", {
+        scale: 1.015,
+        duration: 3,
         repeat: 0,
         yoyo: true,
         ease: "sine.inOut",
+        stagger: 0.5
+    });
+
+    // Particle drift
+    gsap.to(".particle", {
+        y: "+=50",
+        x: "+=20",
+        duration: 8,
+        repeat: 0,
+        yoyo: true,
+        ease: "none",
         stagger: {
-            each: 1.5,
+            each: 2,
             from: "random"
         }
     });
-    
-    // Pulsing effect for bottom time indicator
-    gsap.to(".particle:first-child", {
-        opacity: 0.7,
-        duration: 1,
-        repeat: 0,
-        yoyo: true,
-        ease: "sine.inOut"
-    });
-    
+
     // Start the timeline
     tl.play();
 </script>

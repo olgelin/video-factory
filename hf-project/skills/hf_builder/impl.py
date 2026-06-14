@@ -738,20 +738,73 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 # 主流程
 # ============================================================
 
+def validate_scene_html(html: str, scene: dict) -> bool:
+    """用LLM验证场景HTML是否有实质内容"""
+    if not html or len(html) < 3000:
+        return False
+    
+    # 提取关键信息
+    narration = scene.get("narration", "")[:100]
+    key_elements = scene.get("key_elements", [])
+    key_text = ", ".join(key_elements[:3]) if key_elements else ""
+    
+    prompt = f"""检查这个HTML场景是否有实质内容。
+
+场景口播：{narration}
+关键元素：{key_text}
+
+HTML长度：{len(html)}字符
+
+判断标准：
+1. 是否有可见的文字内容（不是只有背景）
+2. 是否有数据卡片或标题
+3. 是否有实质性的视觉元素
+
+只回答"合格"或"不合格"，不要解释。"""
+    
+    try:
+        result = call_llm(prompt, max_tokens=50)
+        if result and "合格" in result and "不合格" not in result:
+            return True
+    except:
+        pass
+    
+    # 降级检查：检查HTML是否有足够多的元素
+    # 统计包含文字内容的div数量
+    import re
+    text_elements = re.findall(r'font-size:\s*\d+px[^"]*"[^>]*>[^<]{3,}', html)
+    if len(text_elements) >= 3:
+        return True
+    
+    return False
+
+
 def generate_and_build(scene, sid, total, ctx=None):
-    """单个场景：LLM 生成 HTML + 验证"""
+    """单个场景：LLM 生成 HTML + 验证 + 重试"""
     ctx = ctx or {}
     design_md = ctx.get("_design_md", "")
     design_specs = ctx.get("_design_specs", {})
     spec = design_specs.get(sid, {})
     composition_id = f"beat-{sid}"
-
-    html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id)
-
-    if not html:
-        print(f"    ⚠️ [Scene {sid}] LLM 生成失败，用 fallback", flush=True)
-        html = fallback_scene_html(scene, sid, design_md, composition_id)
-
+    
+    max_retries = 3
+    
+    for attempt in range(max_retries):
+        html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id)
+        
+        if not html:
+            print(f"    ⚠️ [Scene {sid}] LLM 生成失败，尝试 {attempt+1}/{max_retries}", flush=True)
+            continue
+        
+        # 验证HTML质量
+        if validate_scene_html(html, scene):
+            return sid, html
+        else:
+            print(f"    ⚠️ [Scene {sid}] HTML质量不合格，重试 {attempt+1}/{max_retries}", flush=True)
+    
+    # 所有重试都失败，使用fallback
+    print(f"    ⚠️ [Scene {sid}] 所有尝试失败，使用 fallback", flush=True)
+    html = fallback_scene_html(scene, sid, design_md, composition_id)
     return sid, html
 
 
@@ -812,25 +865,11 @@ def build_outro_html() -> str:
 
 
 def build_index_html(scenes: list, topic: str = "") -> str:
-    """构建 index.html — 所有场景在同一 track 顺序播放，包含片头片尾"""
+    """构建 index.html — 所有场景在同一 track 顺序播放，只有片尾"""
     beats = ''
     t = 0.0
     
-    # 片头 - 不闻AI (3秒)
-    intro_dur = 3.0
-    beats += f'''
-      <div id="beat-intro" class="clip"
-           data-composition-id="beat-intro"
-           data-composition-src="compositions/beat-intro.html"
-           data-start="{t}"
-           data-duration="{intro_dur}"
-           data-track-index="0"
-           data-width="1920"
-           data-height="1080">
-      </div>'''
-    t += intro_dur
-    
-    # 主体场景
+    # 主体场景（没有片头）
     for i, scene in enumerate(scenes):
         sid = i + 1
         dur = scene.get('duration', 8.0)
@@ -938,14 +977,11 @@ def run(context: dict) -> dict:
                 sid = futures[future]
                 print(f"  ❌ [{sid}/{total}] {e}", flush=True)
 
-    # 生成片头片尾HTML
-    intro_html = build_intro_html(topic)
+    # 生成片尾HTML（没有片头）
     outro_html = build_outro_html()
-    with open(compositions_dir / "beat-intro.html", "w", encoding="utf-8") as f:
-        f.write(intro_html)
     with open(compositions_dir / "beat-outro.html", "w", encoding="utf-8") as f:
         f.write(outro_html)
-    print(f"[hf_builder] 片头片尾已生成")
+    print(f"[hf_builder] 片尾已生成")
     
     # index.html
     index_html = build_index_html(scenes, topic)
