@@ -753,6 +753,13 @@ def validate_scene_html(html: str, scene: dict) -> bool:
     if not html or len(html) < 3000:
         return False
     
+    # 检查CSS opacity:0（不允许在CSS中设置）
+    import re
+    css_opacity_count = len(re.findall(r'style="[^"]*opacity:\s*0', html))
+    if css_opacity_count > 5:
+        print(f"      ⚠️ CSS opacity:0过多: {css_opacity_count}个", flush=True)
+        return False
+    
     # 提取关键信息
     narration = scene.get("narration", "")[:100]
     key_elements = scene.get("key_elements", [])
@@ -781,7 +788,6 @@ HTML长度：{len(html)}字符
     
     # 降级检查：检查HTML是否有足够多的元素
     # 统计包含文字内容的div数量
-    import re
     text_elements = re.findall(r'font-size:\s*\d+px[^"]*"[^>]*>[^<]{3,}', html)
     if len(text_elements) >= 3:
         return True
