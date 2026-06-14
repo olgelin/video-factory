@@ -1,191 +1,139 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-composition-id="beat-1" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<html lang="zh" data-composition-id="beat-1" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026高校毕业生就业：挑战与机遇并存</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0a; overflow: hidden; }
-    </style>
+    <title>2026高校毕业生就业</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
-    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; background: #1a1a2e; overflow: hidden; font-family: 'Inter', 'Noto Sans SC', sans-serif;">
-        <!-- Grid Layer -->
-        <div style="position: absolute; inset: 0; background: linear-gradient(rgba(0,212,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.06) 1px, transparent 1px); background-size: 100px 100px; opacity: 0;"></div>
-        <!-- Radial Glow Layer -->
-        <div style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 60%); opacity: 0;"></div>
-        <!-- Ghost Text -->
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 300px; font-weight: 900; color: rgba(255,255,255,0.03); white-space: nowrap; user-select: none; pointer-events: none; opacity: 0;">FUTURE</div>
-        <div style="position: absolute; top: 65%; left: 30%; font-family: 'JetBrains Mono', monospace; font-size: 200px; font-weight: 900; color: rgba(255,255,255,0.03); white-space: nowrap; user-select: none; pointer-events: none; opacity: 0;">DATA</div>
-        <!-- Scanning Line -->
-        <div style="position: absolute; left: 100px; right: 100px; top: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent); opacity: 0;"></div>
-        <!-- Particles -->
-        <div style="position: absolute; top: 15%; left: 20%; width: 4px; height: 4px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px #00D4FF; opacity: 0;"></div>
-        <div style="position: absolute; top: 80%; left: 75%; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px #FF4081; opacity: 0;"></div>
-        <div style="position: absolute; top: 40%; left: 85%; width: 2px; height: 2px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 6px #FFD700; opacity: 0;"></div>
-        <div style="position: absolute; top: 60%; left: 15%; width: 3px; height: 3px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 8px #00D4FF; opacity: 0;"></div>
-        <div style="position: absolute; top: 25%; left: 60%; width: 2px; height: 2px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 6px #FF4081; opacity: 0;"></div>
-        <div style="position: absolute; top: 70%; left: 40%; width: 4px; height: 4px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700; opacity: 0;"></div>
+<body style="margin: 0; padding: 0; overflow: hidden; background-color: #1a1a2e; font-family: 'Inter', 'Noto Sans SC', sans-serif;">
+    <div class="scene" style="background:#1a1a2e;width: 100vw; height: 100vh; position: relative; overflow: hidden;">
+        <!-- Decorative Layers -->
+        <div class="grid-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px); background-size: 100px 100px; opacity: 0;"></div>
+        <div class="glow-layer" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1200px; height: 1200px; background: radial-gradient(circle, rgba(0,212,255,0.15) 0%, rgba(0,212,255,0) 70%); opacity: 0;"></div>
+        <div class="ghost-text" style="position: absolute; top: 100px; left: -50px; font-family: 'JetBrains Mono', monospace; font-size: 250px; font-weight: bold; color: rgba(255,255,255,0.04); transform: rotate(-5deg); user-select: none; pointer-events: none; opacity: 0;">2026</div>
+        <div class="scan-line" style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent); transform: translateY(-100%); opacity: 0;"></div>
         <!-- Corner Decorations -->
-        <div style="position: absolute; top: 100px; left: 100px; width: 60px; height: 60px; border-top: 2px solid rgba(0,212,255,0.3); border-left: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
-        <div style="position: absolute; top: 100px; right: 100px; width: 60px; height: 60px; border-top: 2px solid rgba(0,212,255,0.3); border-right: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
-        <div style="position: absolute; bottom: 100px; left: 100px; width: 60px; height: 60px; border-bottom: 2px solid rgba(0,212,255,0.3); border-left: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
-        <div style="position: absolute; bottom: 100px; right: 100px; width: 60px; height: 60px; border-bottom: 2px solid rgba(0,212,255,0.3); border-right: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
+        <div style="position: absolute; top: 100px; left: 100px; width: 60px; height: 60px; border-left: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
+        <div style="position: absolute; top: 100px; right: 100px; width: 60px; height: 60px; border-right: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
+        <div style="position: absolute; bottom: 100px; left: 100px; width: 60px; height: 60px; border-left: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
+        <div style="position: absolute; bottom: 100px; right: 100px; width: 60px; height: 60px; border-right: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); opacity: 0;"></div>
 
-        <!-- Content Container -->
-        <div style="position: absolute; top: 80px; left: 100px; right: 100px; bottom: 100px; display: flex; flex-direction: column;">
-            <!-- Main Title -->
-            <div style="text-align: center; margin-bottom: 60px;">
-                <div style="font-size: 36px; color: rgba(0,212,255,0.6); font-weight: 400; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 20px; opacity: 0;">2026高校毕业生就业</div>
-                <div style="font-size: 96px; font-weight: 900; color: #FFFFFF; line-height: 1.1; text-shadow: 0 0 40px rgba(0,212,255,0.6), 0 0 80px rgba(0,212,255,0.3); opacity: 0;">挑战与机遇并存</div>
-            </div>
+        <!-- Title Area -->
+        <div class="title-area" style="position: absolute; top: 100px; left: 100px; width: calc(100% - 200px);">
+            <h1 class="main-title" style="font-size: 96px; font-weight: bold; color: #00D4FF; margin: 0; text-shadow: 0 0 30px rgba(0,212,255,0.8); opacity: 0; transform: translateY(-50px);">2026高校毕业生就业</h1>
+            <p class="subtitle" style="font-size: 32px; color: rgba(0,212,255,0.5); margin: 15px 0 0 0; opacity: 0; transform: translateY(-30px);">挑战与机遇并存的未来图景</p>
+        </div>
 
-            <!-- Middle Content -->
-            <div style="flex: 1; display: flex; gap: 40px; align-items: center;">
-                <!-- Left Panel -->
-                <div style="flex: 6; display: flex; flex-direction: column; gap: 30px;">
-                    <!-- Data Card 1 -->
-                    <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 40px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); opacity: 0;">
-                        <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 60%);"></div>
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; color: rgba(153,153,153,0.8); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px;">GLOBAL TREND</div>
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 120px; font-weight: 700; color: #FFD700; line-height: 1; margin-bottom: 10px;">+47%</div>
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="font-size: 28px; color: rgba(255,255,255,0.8);">年增长率</div>
-                            <div style="font-size: 20px; color: #00D4FF; display: flex; align-items: center;">↑ 持续上升</div>
-                        </div>
-                    </div>
-                    <!-- Data Card 2 -->
-                    <div style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; padding: 35px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); opacity: 0;">
-                        <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
-                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(255,64,129,0.08) 0%, transparent 60%);"></div>
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: rgba(153,153,153,0.8); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">AI岗位需求</div>
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 80px; font-weight: 700; color: #FF4081; line-height: 1;">2.8万亿</div>
-                        <div style="font-size: 24px; color: rgba(255,255,255,0.7); margin-top: 8px;">同比增长32%</div>
-                    </div>
+        <!-- Core Content Area -->
+        <div style="position: absolute; top: 250px; left: 100px; width: calc(100% - 200px); height: 500px; display: flex; gap: 40px;">
+            <!-- Left Column (60%) -->
+            <div style="flex: 0 0 60%; display: flex; flex-direction: column; gap: 30px;">
+                <!-- Main Data Card -->
+                <div class="data-card" style="background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4); opacity: 0; transform: translateY(60px) scale(0.9);">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top, rgba(0,212,255,0.08) 0%, transparent 70%); border-radius: 24px;"></div>
+                    <div style="font-size: 24px; color: #999999; margin-bottom: 15px;">核心议题</div>
+                    <div class="giant-question" style="font-family: 'JetBrains Mono', monospace; font-size: 120px; font-weight: bold; color: #FFD700; line-height: 1; margin-bottom: 20px; text-shadow: 0 0 20px rgba(255,215,0,0.5);">?</div>
+                    <div style="font-size: 30px; color: #FFFFFF; line-height: 1.6;">你绝对想不到，2026高校毕业生就业：挑战与机遇并存。这年头，毕业即失业？别急着下结论，咱们得细品背后的逻辑。</div>
                 </div>
-
-                <!-- Right Panel -->
-                <div style="flex: 4; display: flex; flex-direction: column; gap: 25px; justify-content: center;">
-                    <!-- Tag Pills -->
-                    <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px;">
-                        <div style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.4); border-radius: 50px; padding: 15px 30px; font-size: 22px; color: #00D4FF; text-align: center; opacity: 0;">科技赋能</div>
-                        <div style="background: rgba(255,64,129,0.1); border: 1px solid rgba(255,64,129,0.4); border-radius: 50px; padding: 15px 30px; font-size: 22px; color: #FF4081; text-align: center; opacity: 0;">产业升级</div>
-                        <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.4); border-radius: 50px; padding: 15px 30px; font-size: 22px; color: #FFD700; text-align: center; opacity: 0;">数字转型</div>
-                        <div style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.4); border-radius: 50px; padding: 15px 30px; font-size: 22px; color: #00D4FF; text-align: center; opacity: 0;">新质生产力</div>
+                <!-- Progress Bar -->
+                <div style="background: rgba(26,26,46,0.5); border-radius: 16px; padding: 25px 30px; opacity: 0; transform: translateX(-30px);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="font-size: 20px; color: #999999;">不确定性指数</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #FF4081;">78%</span>
                     </div>
-                    <!-- Quote -->
-                    <div style="background: rgba(26,26,46,0.5); border-left: 4px solid #00D4FF; padding: 30px; border-radius: 0 16px 16px 0; opacity: 0;">
-                        <div style="font-size: 28px; color: rgba(255,255,255,0.9); line-height: 1.6; font-style: italic;">"就业市场正在经历结构性变革，传统岗位与新兴职业并存，要求毕业生具备更强的适应力和跨界能力。"</div>
-                        <div style="font-size: 20px; color: rgba(153,153,153,0.7); margin-top: 20px; text-align: right;">— 人社部就业指导中心</div>
+                    <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                        <div class="progress-fill" style="width: 78%; height: 100%; background: linear-gradient(90deg, #FF4081, #00D4FF); border-radius: 4px; transform: scaleX(0); transform-origin: left;"></div>
                     </div>
-                    <!-- Neon Line -->
-                    <div style="height: 3px; background: linear-gradient(90deg, transparent, #00D4FF, transparent); opacity: 0;"></div>
                 </div>
             </div>
 
-            <!-- Bottom Info -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px; opacity: 0;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; color: rgba(153,153,153,0.7);">TIMELINE: 2024-2026</div>
-                <div style="width: 400px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-                    <div style="width: 65%; height: 100%; background: linear-gradient(90deg, #00D4FF, #FF4081); border-radius: 4px;"></div>
+            <!-- Right Column (40%) -->
+            <div style="flex: 0 0 40%; display: flex; flex-direction: column; gap: 25px;">
+                <!-- Tag Pills -->
+                <div class="tag-pill" style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); border-radius: 50px; padding: 15px 25px; display: inline-flex; align-items: center; gap: 10px; width: fit-content; opacity: 0; transform: translateX(-30px);">
+                    <div style="width: 10px; height: 10px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px #00D4FF;"></div>
+                    <span style="font-size: 24px; color: #FFFFFF;">就业市场剧变</span>
                 </div>
-                <div style="font-size: 18px; color: rgba(153,153,153,0.6);">数据来源：教育部 & 人社部 2025年度报告</div>
+                <div class="tag-pill" style="background: rgba(255,64,129,0.1); border: 1px solid rgba(255,64,129,0.3); border-radius: 50px; padding: 15px 25px; display: inline-flex; align-items: center; gap: 10px; width: fit-content; opacity: 0; transform: translateX(-30px);">
+                    <div style="width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FF4081;"></div>
+                    <span style="font-size: 24px; color: #FFFFFF;">技术重塑岗位</span>
+                </div>
+                <div class="tag-pill" style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 50px; padding: 15px 25px; display: inline-flex; align-items: center; gap: 10px; width: fit-content; opacity: 0; transform: translateX(-30px);">
+                    <div style="width: 10px; height: 10px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700;"></div>
+                    <span style="font-size: 24px; color: #FFFFFF;">结构性机会涌现</span>
+                </div>
+                <!-- Small Info Card -->
+                <div style="background: rgba(26,26,46,0.5); border-radius: 16px; padding: 30px; border-left: 3px solid #FFD700; opacity: 0; transform: translateX(30px);">
+                    <div style="font-size: 18px; color: #999999; margin-bottom: 15px;">关键数据</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: bold; color: #FFD700; line-height: 1; margin-bottom: 10px;">2万亿</div>
+                    <div style="font-size: 22px; color: #FFFFFF;">新经济领域潜在人才需求</div>
+                </div>
             </div>
         </div>
+
+        <!-- Bottom Info Area -->
+        <div style="position: absolute; bottom: 100px; left: 100px; width: calc(100% - 200px); display: flex; justify-content: space-between; align-items: flex-end; opacity: 0;">
+            <div style="font-size: 20px; color: #666666;">
+                <span style="color: #00D4FF;">#</span> 未来趋势 · 2026就业前瞻
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #666666;">
+                <span style="color: #FF4081;">TREND</span> :: QUANTUM_ANALYSIS
+            </div>
+        </div>
+
+        <!-- Particle Effects -->
+        <div style="position: absolute; top: 200px; left: 1500px; width: 4px; height: 4px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px #00D4FF; opacity: 0;"></div>
+        <div style="position: absolute; top: 500px; left: 300px; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px #FF4081; opacity: 0;"></div>
+        <div style="position: absolute; top: 700px; left: 900px; width: 2px; height: 2px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 6px #FFD700; opacity: 0;"></div>
+        <div style="position: absolute; top: 350px; left: 1600px; width: 3px; height: 3px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px #FFFFFF; opacity: 0;"></div>
+        <div style="position: absolute; top: 600px; left: 200px; width: 4px; height: 4px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px #00D4FF; opacity: 0;"></div>
     </div>
 
     <script>
         window.__timelines = window.__timelines || {};
-        
-        const tl = gsap.timeline({paused: true});
-        
-        // Layer 1: Background decorations
-        tl.from('.scene > div:nth-child(1)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0)
-          .from('.scene > div:nth-child(2)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15)
-          .from('.scene > div:nth-child(3)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3)
-          .from('.scene > div:nth-child(4)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.45)
-          .from('.scene > div:nth-child(5)', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.6);
-        
-        // Layer 2: Ghost text
-        tl.from('.scene > div:nth-child(6)', {opacity: 0, duration: 0.8, ease: "power2.inOut"}, 0.8)
-          .from('.scene > div:nth-child(7)', {opacity: 0, duration: 0.8, ease: "power2.inOut"}, 0.95);
-        
-        // Layer 3: Scanning line
-        tl.from('.scene > div:nth-child(8)', {opacity: 0, y: -100, duration: 1.5, ease: "power1.inOut"}, 1.1);
-        
-        // Layer 4: Particles
-        tl.from('.scene > div:nth-child(9)', {opacity: 0, scale: 0, duration: 0.6, ease: "back.out(1.7)"}, 1.3)
-          .from('.scene > div:nth-child(10)', {opacity: 0, scale: 0, duration: 0.6, ease: "back.out(1.7)"}, 1.45)
-          .from('.scene > div:nth-child(11)', {opacity: 0, scale: 0, duration: 0.6, ease: "back.out(1.7)"}, 1.6)
-          .from('.scene > div:nth-child(12)', {opacity: 0, scale: 0, duration: 0.6, ease: "back.out(1.7)"}, 1.75)
-          .from('.scene > div:nth-child(13)', {opacity: 0, scale: 0, duration: 0.6, ease: "back.out(1.7)"}, 1.9)
-          .from('.scene > div:nth-child(14)', {opacity: 0, scale: 0, duration: 0.6, ease: "back.out(1.7)"}, 2.05);
-        
-        // Layer 5: Corner decorations
-        tl.from('.scene > div:nth-child(15)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 2.2)
-          .from('.scene > div:nth-child(16)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 2.35)
-          .from('.scene > div:nth-child(17)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 2.5)
-          .from('.scene > div:nth-child(18)', {opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.out"}, 2.65);
-        
-        // Layer 6: Main title
-        tl.from('.scene div:has(> div:contains("2026高校毕业生就业"))', {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 2.8)
-          .from('.scene div:has(> div:contains("挑战与机遇并存"))', {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 2.95);
-        
-        // Layer 7: Data cards
-        tl.from('.scene div:has(> div:contains("GLOBAL TREND"))', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 3.1)
-          .from('.scene div:has(> div:contains("AI岗位需求"))', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 3.25);
-        
-        // Layer 8: Tags and quote
-        tl.from('.scene div:has(> div:contains("科技赋能"))', {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.4)
-          .from('.scene div:has(> div:contains("产业升级"))', {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.55)
-          .from('.scene div:has(> div:contains("数字转型"))', {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.7)
-          .from('.scene div:has(> div:contains("新质生产力"))', {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.85)
-          .from('.scene div:has(> div:contains("就业市场正在经历结构性变革"))', {y: 30, opacity: 0, duration: 0.6, ease: "power2.out"}, 4)
-          .from('.scene div:has(> div:contains("人社部就业指导中心"))', {opacity: 0, duration: 0.4, ease: "power2.out"}, 4.15);
-        
-        // Layer 9: Neon line
-        tl.from('.scene div:has(> div:contains("TIMELINE"))', {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 4.3);
-        
-        // Layer 10: Bottom info
-        tl.from('.scene div:has(> div:contains("TIMELINE: 2024-2026"))', {opacity: 0, duration: 0.6, ease: "power2.out"}, 4.5)
-          .from('.scene div:has(> div:contains("数据来源"))', {opacity: 0, duration: 0.6, ease: "power2.out"}, 4.65);
-        
-        // Breathing animations
-        gsap.to('.scene div:has(> div:contains("GLOBAL TREND"))', {
-            scale: 1.015,
-            duration: 3,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        gsap.to('.scene div:contains("挑战与机遇并存")', {
-            textShadow: "0 0 60px rgba(0,212,255,0.8), 0 0 120px rgba(0,212,255,0.4)",
-            opacity: 0.9,
-            duration: 2.5,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        // Particle drift animations
-        gsap.to('.scene > div:nth-child(9)', {y: "+=40", x: "+=20", duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('.scene > div:nth-child(10)', {y: "-=30", x: "-=15", duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('.scene > div:nth-child(11)', {y: "+=25", x: "-=30", duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('.scene > div:nth-child(12)', {y: "-=20", x: "+=25", duration: 9, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('.scene > div:nth-child(13)', {y: "+=35", x: "+=10", duration: 11, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('.scene > div:nth-child(14)', {y: "-=15", x: "-=20", duration: 7, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        
-        // Scanning line animation
-        gsap.fromTo('.scene > div:nth-child(8)', 
-            {y: -100}, 
-            {y: 1080, duration: 5, repeat: 0, ease: "none"}
-        );
-        
+        const tl = gsap.timeline({ paused: true });
         window.__timelines["beat-1"] = tl;
+
+        // Decorative layers - appear first
+        tl.from(".grid-layer", { opacity: 0, duration: 1.2, ease: "power1.inOut" }, 0);
+        tl.from(".glow-layer", { opacity: 0, scale: 0.8, duration: 2, ease: "power1.inOut" }, 0);
+        tl.from(".ghost-text", { opacity: 0, duration: 1.5, ease: "power1.inOut" }, 0.15);
+        tl.from(".scan-line", { y: "100vh", duration: 4, ease: "none" }, 0.3);
+
+        // Corner decorations
+        tl.from("div[style*='border-left: 2px solid rgba(0,212,255,0.3)']", { opacity: 0, duration: 0.8, ease: "power2.out" }, 0.45);
+        tl.from("div[style*='border-right: 2px solid rgba(0,212,255,0.3)']", { opacity: 0, duration: 0.8, ease: "power2.out" }, 0.6);
+
+        // Title area - SLAMS in
+        tl.from(".main-title", { y: -50, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.75);
+        tl.from(".subtitle", { y: -30, opacity: 0, duration: 0.7, ease: "power2.out" }, 0.9);
+
+        // Core content - main card FLOATS in
+        tl.from(".data-card", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 1.05);
+
+        // Progress bar scales in
+        tl.from(".progress-fill", { scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut" }, 1.2);
+
+        // Tag pills DROPS in from side
+        tl.from(".tag-pill", { x: -30, opacity: 0, duration: 0.5, ease: "power2.out", stagger: 0.15 }, 1.2);
+
+        // Bottom info fades in last
+        tl.from("div[style*='bottom: 100px; left: 100px; width: calc(100% - 200px)']", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, 1.5);
+
+        // Particle drift animations
+        tl.from("div[style*='background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px #00D4FF']", { opacity: 0, duration: 1.5, ease: "power1.inOut" }, 0.5);
+        tl.from("div[style*='background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px #FF4081']", { opacity: 0, duration: 1.5, ease: "power1.inOut" }, 0.65);
+        tl.from("div[style*='background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 6px #FFD700']", { opacity: 0, duration: 1.5, ease: "power1.inOut" }, 0.8);
+        tl.from("div[style*='background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px #FFFFFF']", { opacity: 0, duration: 1.5, ease: "power1.inOut" }, 0.95);
+
+        // Breathing animations (only specific elements)
+        gsap.to(".data-card", { scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".main-title", { textShadow: "0 0 30px rgba(0,212,255,0.5)", duration: 2.5, repeat: 0, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".glow-layer", { x: "random(-20, 20)", y: "random(-20, 20)", duration: 10, repeat: 0, ease: "none" });
+
+        // Play the timeline
+        tl.play();
     </script>
 </body>
 </html>

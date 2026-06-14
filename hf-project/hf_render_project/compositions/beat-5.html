@@ -3,240 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技能错配分析报告</title>
+<style>
+
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin: 0; padding: 0; background: #1a1a2e; overflow: hidden; font-family: 'Inter', 'Noto Sans SC', sans-serif; color: #FFFFFF;">
-<div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; overflow: hidden;">
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.12) 0%, transparent 60%); pointer-events: none;" id="radial-glow"></div>
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(0, 212, 255, 0.06) 1px, transparent 1px), linear-gradient(180deg, rgba(0, 212, 255, 0.06) 1px, transparent 1px); background-size: 100px 100px; pointer-events: none;" id="grid-lines"></div>
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent); opacity: 0; animation: scan-line 5s linear 3;" id="scan-line"></div>
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 280px; font-weight: bold; color: rgba(255, 255, 255, 0.04); pointer-events: none; white-space: nowrap;" id="ghost-text">DASHBOARD</div>
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 220px; font-weight: bold; color: rgba(255, 255, 255, 0.03); pointer-events: none; white-space: nowrap; transform: translate(-50%, -50%) rotate(-5deg);" id="ghost-text-2">供需错配</div>
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;font-family:'Inter','Noto Sans SC',sans-serif;">
+<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
     
-    <div style="position: absolute; top: 120px; left: 100px; font-size: 100px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 30px rgba(0, 212, 255, 0.5), 0 0 60px rgba(0, 212, 255, 0.3); letter-spacing: 4px;" id="main-title">经济系统运行监测</div>
-    <div style="position: absolute; top: 240px; left: 100px; font-size: 32px; color: rgba(0, 212, 255, 0.7); letter-spacing: 2px;" id="sub-title">人才供需 · 投资热点 · 经济影响</div>
+    <!-- Background layers -->
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,64,129,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,64,129,0.03) 1px,transparent 1px);background-size:100px 100px;opacity:1.8;pointer-events:none;"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(255,64,129,0.15) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+    <div style="position:absolute;top:15%;left:5%;font-size:220px;font-weight:bold;color:rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;letter-spacing:10px;pointer-events:none;user-select:none;">MISMATCH</div>
     
-    <div style="position: absolute; top: 320px; left: 100px; width: 1100px; display: flex; flex-wrap: wrap; gap: 24px;">
-        <div style="width: 340px; height: 200px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 24px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.08), transparent 70%);"></div>
-            <div style="font-size: 18px; color: #999999; margin-bottom: 8px;">供需错配指数</div>
-            <div style="font-size: 64px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;" id="mismatch-index">87.3</div>
-            <div style="display: flex; align-items: center; margin-top: 8px;">
-                <div style="width: 60%; height: 6px; background: rgba(255, 64, 129, 0.2); border-radius: 3px; overflow: hidden;">
-                    <div style="width: 87%; height: 100%; background: linear-gradient(90deg, #FF4081, #FFD700); border-radius: 3px;"></div>
-                </div>
-                <span style="margin-left: 10px; font-size: 14px; color: #FF4081;">▲ 12%</span>
+    <!-- Scan line animation -->
+    <div style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,64,129,0.3),transparent);animation: scan 4s linear 3;pointer-events:none;"></div>
+    
+    <!-- Particle dots -->
+    <div style="position:absolute;top:30%;left:20%;width:4px;height:4px;background:rgba(255,64,129,0.4);border-radius:50%;animation: drift 8s ease-in-out 3;"></div>
+    <div style="position:absolute;top:70%;left:75%;width:3px;height:3px;background:rgba(0,212,255,0.3);border-radius:50%;animation: drift 10s ease-in-out 3 1s;"></div>
+    <div style="position:absolute;top:45%;left:60%;width:2px;height:2px;background:rgba(255,215,0,0.3);border-radius:50%;animation: drift 6s ease-in-out 3 2s;"></div>
+    
+    <!-- Corner decorations -->
+    <div style="position:absolute;top:100px;left:100px;width:60px;height:60px;border-left:2px solid rgba(255,64,129,0.3);border-top:2px solid rgba(255,64,129,0.3);"></div>
+    <div style="position:absolute;top:100px;right:100px;width:60px;height:60px;border-right:2px solid rgba(255,64,129,0.3);border-top:2px solid rgba(255,64,129,0.3);"></div>
+    <div style="position:absolute;bottom:100px;left:100px;width:60px;height:60px;border-left:2px solid rgba(255,64,129,0.3);border-bottom:2px solid rgba(255,64,129,0.3);"></div>
+    <div style="position:absolute;bottom:100px;right:100px;width:60px;height:60px;border-right:2px solid rgba(255,64,129,0.3);border-bottom:2px solid rgba(255,64,129,0.3);"></div>
+    
+    <!-- Main title -->
+    <div id="mainTitle" style="position:absolute;top:80px;left:50%;transform:translateX(-50%);text-align:center;z-index:10;">
+        <div style="font-size:120px;font-weight:bold;color:#FF4081;text-shadow:0 0 30px rgba(255,64,129,0.6),0 0 60px rgba(255,64,129,0.3);letter-spacing:5px;">技能错配</div>
+        <div style="font-size:28px;color:#999;margin-top:10px;letter-spacing:3px;">SKILL MISMATCH DIAGNOSIS REPORT</div>
+    </div>
+    
+    <!-- Warning symbol -->
+    <div id="warningSymbol" style="position:absolute;top:250px;left:50%;transform:translateX(-50%);width:120px;height:120px;display:flex;align-items:center;justify-content:center;z-index:10;">
+        <div style="font-size:120px;color:#FF4081;text-shadow:0 0 30px rgba(255,64,129,0.7);font-weight:bold;">✕</div>
+    </div>
+    
+    <!-- Left panel - Education -->
+    <div id="leftPanel" style="position:absolute;top:320px;left:200px;width:600px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,64,129,0.3);border-radius:16px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:10;">
+        <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,rgba(255,64,129,0.8),transparent);border-radius:16px 16px 0 0;"></div>
+        <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at top,rgba(255,64,129,0.08),transparent 70%);pointer-events:none;"></div>
+        
+        <div style="display:flex;align-items:center;margin-bottom:20px;">
+            <div style="width:40px;height:40px;background:rgba(255,64,129,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:15px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="#FF4081" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 22V12" stroke="#FF4081" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 7L12 12L3 7" stroke="#FF4081" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 17L12 12L21 17" stroke="#FF4081" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div>
+                <div style="font-size:16px;color:#999;">传统教育体系</div>
+                <div style="font-size:32px;color:#FF4081;font-weight:bold;">理论导向</div>
             </div>
         </div>
         
-        <div style="width: 340px; height: 200px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 24px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(255, 64, 129, 0.08), transparent 70%);"></div>
-            <div style="font-size: 18px; color: #999999; margin-bottom: 8px;">人才缺口数量</div>
-            <div style="font-size: 64px; font-weight: bold; color: #00D4FF; font-family: 'JetBrains Mono', monospace;" id="talent-gap">240万</div>
-            <div style="font-size: 16px; color: #999999; margin-top: 8px;">主要集中领域：AI、新能源、集成电路</div>
+        <div style="background:rgba(255,64,129,0.1);border-radius:12px;padding:20px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
+                <div style="font-size:20px;color:#FF4081;">📚 课程内容</div>
+                <div style="font-size:20px;color:#FF4081;">滞后</div>
+            </div>
+            <div style="height:8px;background:rgba(255,64,129,0.1);border-radius:4px;overflow:hidden;">
+                <div style="height:100%;width:30%;background:linear-gradient(90deg,#FF4081,#FF79A8);border-radius:4px;"></div>
+            </div>
+            <div style="font-size:14px;color:#999;margin-top:10px;">30% 与行业需求匹配</div>
         </div>
         
-        <div style="width: 340px; height: 200px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 24px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.08), transparent 70%);"></div>
-            <div style="font-size: 18px; color: #999999; margin-bottom: 8px;">投资热点指数</div>
-            <div style="font-size: 64px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace;" id="investment-hot">92.7</div>
-            <div style="display: flex; align-items: center; margin-top: 8px;">
-                <div style="display: flex; gap: 4px;">
-                    <div style="width: 8px; height: 8px; background:#1a1a2e; border-radius: 50%;"></div>
-                    <div style="width: 8px; height: 8px; background: #00D4FF; border-radius: 50%;"></div>
-                    <div style="width: 8px; height: 8px; background:#1a1a2e; border-radius: 50%;"></div>
-                </div>
-                <span style="margin-left: 12px; font-size: 14px; color: #FFD700;">AI、硬科技</span>
+        <div style="display:flex;justify-content:space-between;">
+            <div style="text-align:center;flex:1;">
+                <div style="font-size:48px;color:#FFD700;font-weight:bold;font-family:'JetBrains Mono',monospace;">85%</div>
+                <div style="font-size:14px;color:#999;">理论教学占比</div>
+            </div>
+            <div style="text-align:center;flex:1;">
+                <div style="font-size:48px;color:#FF4081;font-weight:bold;font-family:'JetBrains Mono',monospace;">15%</div>
+                <div style="font-size:14px;color:#999;">实践教学占比</div>
             </div>
         </div>
     </div>
     
-    <div style="position: absolute; top: 560px; left: 100px; width: 680px; height: 240px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 24px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-        <div style="font-size: 18px; color: #999999; margin-bottom: 12px;">人才缺口热力图</div>
-        <div style="display: flex; gap: 12px; height: 160px;">
-            <div style="flex: 1; background: rgba(255, 64, 129, 0.1); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">东部</div>
-                <div style="font-size: 36px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace;">72万</div>
-                <div style="width: 40%; height: 4px; background: rgba(255, 64, 129, 0.3); border-radius: 2px; margin-top: 8px;">
-                    <div style="width: 72%; height: 100%; background:#1a1a2e; border-radius: 2px;"></div>
-                </div>
+    <!-- Right panel - Industry -->
+    <div id="rightPanel" style="position:absolute;top:320px;right:200px;width:600px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:10;">
+        <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,rgba(0,212,255,0.8),transparent);border-radius:16px 16px 0 0;"></div>
+        <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at top,rgba(0,212,255,0.08),transparent 70%);pointer-events:none;"></div>
+        
+        <div style="display:flex;align-items:center;margin-bottom:20px;">
+            <div style="width:40px;height:40px;background:rgba(0,212,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:15px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 7L12 3L4 7M20 7L12 11M20 7V17L12 21M12 11L4 7M12 11V21M4 7V17L12 21" stroke="#00D4FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
-            <div style="flex: 1; background: rgba(0, 212, 255, 0.1); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">中部</div>
-                <div style="font-size: 36px; font-weight: bold; color: #00D4FF; font-family: 'JetBrains Mono', monospace;">85万</div>
-                <div style="width: 40%; height: 4px; background: rgba(0, 212, 255, 0.3); border-radius: 2px; margin-top: 8px;">
-                    <div style="width: 85%; height: 100%; background: #00D4FF; border-radius: 2px;"></div>
-                </div>
+            <div>
+                <div style="font-size:16px;color:#999;">企业需求</div>
+                <div style="font-size:32px;color:#00D4FF;font-weight:bold;">实战能力</div>
             </div>
-            <div style="flex: 1; background: rgba(255, 215, 0, 0.1); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">西部</div>
-                <div style="font-size: 36px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">83万</div>
-                <div style="width: 40%; height: 4px; background: rgba(255, 215, 0, 0.3); border-radius: 2px; margin-top: 8px;">
-                    <div style="width: 83%; height: 100%; background:#1a1a2e; border-radius: 2px;"></div>
-                </div>
+        </div>
+        
+        <div style="margin-bottom:25px;">
+            <div style="font-size:18px;color:#00D4FF;margin-bottom:15px;">核心技能需求：</div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:20px;padding:8px 16px;font-size:14px;color:#00D4FF;">AI应用开发</div>
+                <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:20px;padding:8px 16px;font-size:14px;color:#00D4FF;">数据分析</div>
+                <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:20px;padding:8px 16px;font-size:14px;color:#00D4FF;">云计算架构</div>
+                <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:20px;padding:8px 16px;font-size:14px;color:#00D4FF;">产品思维</div>
+                <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:20px;padding:8px 16px;font-size:14px;color:#00D4FF;">项目管理</div>
+                <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:20px;padding:8px 16px;font-size:14px;color:#00D4FF;">跨领域协作</div>
+            </div>
+        </div>
+        
+        <div style="background:rgba(0,212,255,0.1);border-radius:12px;padding:20px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
+                <div style="font-size:20px;color:#00D4FF;">💼 人才需求</div>
+                <div style="font-size:20px;color:#00D4FF;">增长</div>
+            </div>
+            <div style="height:8px;background:rgba(0,212,255,0.1);border-radius:4px;overflow:hidden;">
+                <div style="height:100%;width:75%;background:linear-gradient(90deg,#00D4FF,#7FEFFF);border-radius:4px;"></div>
+            </div>
+            <div style="font-size:14px;color:#999;margin-top:10px;">75% 岗位需要实战经验</div>
+        </div>
+    </div>
+    
+    <!-- Comparison section -->
+    <div id="comparison" style="position:absolute;top:720px;left:50%;transform:translateX(-50%);display:flex;align-items:center;z-index:10;">
+        <div style="text-align:center;margin-right:40px;">
+            <div style="font-size:64px;color:#FF4081;font-weight:bold;font-family:'JetBrains Mono',monospace;">理论</div>
+            <div style="font-size:20px;color:#999;">THEORY</div>
+        </div>
+        
+        <div style="display:flex;align-items:center;">
+            <div style="width:200px;height:20px;background:rgba(255,64,129,0.2);border-radius:10px;overflow:hidden;">
+                <div style="height:100%;width:30%;background:linear-gradient(90deg,#FF4081,#FF79A8);border-radius:10px;"></div>
+            </div>
+            <div style="margin:0 20px;font-size:36px;color:#FFD700;font-weight:bold;font-family:'JetBrains Mono',monospace;">VS</div>
+            <div style="width:200px;height:20px;background:rgba(0,212,255,0.2);border-radius:10px;overflow:hidden;">
+                <div style="height:100%;width:70%;background:linear-gradient(90deg,#00D4FF,#7FEFFF);border-radius:10px;"></div>
+            </div>
+        </div>
+        
+        <div style="text-align:center;margin-left:40px;">
+            <div style="font-size:64px;color:#00D4FF;font-weight:bold;font-family:'JetBrains Mono',monospace;">实战</div>
+            <div style="font-size:20px;color:#999;">PRACTICE</div>
+        </div>
+    </div>
+    
+    <!-- Bottom section -->
+    <div id="bottomSection" style="position:absolute;bottom:120px;left:50%;transform:translateX(-50%);text-align:center;z-index:10;">
+        <div style="font-size:42px;color:#FFD700;font-weight:bold;text-shadow:0 0 20px rgba(255,215,0,0.4);margin-bottom:20px;">文凭 ≠ 能力</div>
+        <div style="font-size:24px;color:#999;max-width:800px;margin:0 auto;line-height:1.6;">
+            别被文凭忽悠了，能力才是硬通货。企业要的是解决问题的能力，不是一纸证书。
+        </div>
+        
+        <div style="display:flex;justify-content:center;gap:40px;margin-top:30px;">
+            <div style="background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);border-radius:24px;padding:12px 24px;font-size:18px;color:#FFD700;">
+                <div style="font-size:14px;color:#999;margin-bottom:5px;">当前错配率</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-weight:bold;">68.5%</div>
+            </div>
+            <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:24px;padding:12px 24px;font-size:18px;color:#00D4FF;">
+                <div style="font-size:14px;color:#999;margin-bottom:5px;">理想匹配度</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-weight:bold;">>85%</div>
+            </div>
+            <div style="background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.3);border-radius:24px;padding:12px 24px;font-size:18px;color:#FF4081;">
+                <div style="font-size:14px;color:#999;margin-bottom:5px;">技能更新周期</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-weight:bold;">18个月</div>
             </div>
         </div>
     </div>
     
-    <div style="position: absolute; top: 320px; right: 100px; width: 600px; height: 300px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 24px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FFD700, transparent);"></div>
-        <div style="font-size: 18px; color: #999999; margin-bottom: 16px;">投资热点雷达图</div>
-        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
-            <div style="position: absolute; top: 50%; left: 50%; width: 180px; height: 180px; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 50%; transform: translate(-50%, -50%);"></div>
-            <div style="position: absolute; top: 50%; left: 50%; width: 140px; height: 140px; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 50%; transform: translate(-50%, -50%);"></div>
-            <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 50%; transform: translate(-50%, -50%);"></div>
-            <div style="position: absolute; top: 50%; left: 50%; width: 60px; height: 60px; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 50%; transform: translate(-50%, -50%);"></div>
-            <div style="position: absolute; top: 10%; left: 50%; width: 2px; height: 80%; background: linear-gradient(to bottom, #FFD700, transparent); transform: translateX(-50%);"></div>
-            <div style="position: absolute; top: 50%; left: 10%; width: 80%; height: 2px; background: linear-gradient(to right, #FFD700, transparent); transform: translateY(-50%);"></div>
-            <div style="position: absolute; top: 30%; left: 20%; width: 60%; height: 60%; border: 2px solid #FFD700; border-radius: 50%; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); opacity: 0.8;"></div>
-        </div>
-        <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-            <div style="text-align: center;">
-                <div style="font-size: 14px; color: #999999;">AI</div>
-                <div style="font-size: 24px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">95%</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 14px; color: #999999;">新能源</div>
-                <div style="font-size: 24px; font-weight: bold; color: #FF4081; font-family: 'JetBrains Mono', monospace;">88%</div>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 14px; color: #999999;">集成电路</div>
-                <div style="font-size: 24px; font-weight: bold; color: #00D4FF; font-family: 'JetBrains Mono', monospace;">82%</div>
-            </div>
-        </div>
+    <!-- Gear animation -->
+    <div style="position:absolute;top:450px;left:50%;transform:translateX(-50%);z-index:5;opacity:1.3;">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 15L45 25H55L50 35L60 40L50 45L55 55H45L40 65L35 55H25L30 45L20 40L30 35L25 25H35L40 15Z" stroke="#FF4081" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="40" r="8" stroke="#FF4081" stroke-width="2"/>
+        </svg>
     </div>
-    
-    <div style="position: absolute; top: 650px; right: 100px; width: 600px; height: 120px; background: rgba(26, 26, 46, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 24px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-        <div style="font-size: 18px; color: #999999; margin-bottom: 12px;">经济影响曲线</div>
-        <div style="height: 40px; display: flex; align-items: flex-end; gap: 4px;">
-            <div style="width: 30px; height: 30%; background: linear-gradient(to top, #00D4FF, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 45%; background: linear-gradient(to top, #00D4FF, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 60%; background: linear-gradient(to top, #00D4FF, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 75%; background: linear-gradient(to top, #00D4FF, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 90%; background: linear-gradient(to top, #00D4FF, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 100%; background: linear-gradient(to top, #FF4081, #00D4FF); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 85%; background: linear-gradient(to top, #FF4081, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 70%; background: linear-gradient(to top, #FF4081, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 55%; background: linear-gradient(to top, #FF4081, transparent); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 40%; background: linear-gradient(to top, #FF4081, transparent); border-radius: 4px 4px 0 0;"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-top: 8px;">
-            <span style="font-size: 12px; color: #999999;">Q1</span>
-            <span style="font-size: 12px; color: #999999;">Q2</span>
-            <span style="font-size: 12px; color: #999999;">Q3</span>
-            <span style="font-size: 12px; color: #999999;">Q4</span>
-        </div>
-    </div>
-    
-    <div style="position: absolute; bottom: 180px; left: 100px; display: flex; gap: 16px;">
-        <div style="padding: 12px 24px; background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 30px; font-size: 18px; color: #00D4FF;" id="tag-1">供需监测</div>
-        <div style="padding: 12px 24px; background: rgba(255, 64, 129, 0.1); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 30px; font-size: 18px; color: #FF4081;" id="tag-2">人才缺口</div>
-        <div style="padding: 12px 24px; background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 30px; font-size: 18px; color: #FFD700;" id="tag-3">投资热点</div>
-    </div>
-    
-    <div style="position: absolute; bottom: 100px; left: 100px; width: 600px; font-size: 28px; line-height: 1.6; color: rgba(255, 255, 255, 0.8);" id="narration">
-        这对经济和社会是场硬仗。企业招不到合适人才，毕业生找不到好工作，供需错配严重。
-    </div>
-    
-    <div style="position: absolute; bottom: 100px; right: 100px; text-align: right;">
-        <div style="font-size: 18px; color: #999999;">投资者须知</div>
-        <div style="font-size: 28px; color: #FFD700; font-weight: bold;" id="investor-tip">盯紧人才缺口，那里藏着金矿</div>
-    </div>
-    
-    <div style="position: absolute; top: 0; left: 0; width: 40px; height: 40px; border-left: 3px solid rgba(0, 212, 255, 0.3); border-top: 3px solid rgba(0, 212, 255, 0.3); margin: 100px;" id="corner-tl"></div>
-    <div style="position: absolute; top: 0; right: 0; width: 40px; height: 40px; border-right: 3px solid rgba(0, 212, 255, 0.3); border-top: 3px solid rgba(0, 212, 255, 0.3); margin: 100px;" id="corner-tr"></div>
-    <div style="position: absolute; bottom: 0; left: 0; width: 40px; height: 40px; border-left: 3px solid rgba(0, 212, 255, 0.3); border-bottom: 3px solid rgba(0, 212, 255, 0.3); margin: 100px;" id="corner-bl"></div>
-    <div style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; border-right: 3px solid rgba(0, 212, 255, 0.3); border-bottom: 3px solid rgba(0, 212, 255, 0.3); margin: 100px;" id="corner-br"></div>
-    
-    <div style="position: absolute; top: 40%; left: 20%; width: 4px; height: 4px; background: rgba(0, 212, 255, 0.6); border-radius: 50%;" id="particle-1"></div>
-    <div style="position: absolute; top: 60%; left: 30%; width: 3px; height: 3px; background: rgba(255, 64, 129, 0.6); border-radius: 50%;" id="particle-2"></div>
-    <div style="position: absolute; top: 30%; right: 25%; width: 5px; height: 5px; background: rgba(255, 215, 0, 0.6); border-radius: 50%;" id="particle-3"></div>
-    <div style="position: absolute; top: 70%; right: 35%; width: 4px; height: 4px; background: rgba(0, 212, 255, 0.4); border-radius: 50%;" id="particle-4"></div>
-    <div style="position: absolute; top: 45%; left: 40%; width: 3px; height: 3px; background: rgba(255, 64, 129, 0.4); border-radius: 50%;" id="particle-5"></div>
-    
-    <div style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px;" id="dashboard-controls">
-        <div style="width: 12px; height: 12px; background: #00D4FF; border-radius: 50;"></div>
-        <div style="width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%;"></div>
-        <div style="width: 12px; height: 12px; background:#1a1a2e; border-radius: 50%;"></div>
-    </div>
+
 </div>
 
 <script>
-    window.__timelines = window.__timelines || {};
-    window.__timelines["beat-5"] = gsap.timeline({paused: true});
-    
-    const tl = window.__timelines["beat-5"];
-    
-    // Background decorations
-    tl.from("#radial-glow", {opacity: 0, duration: 1.5, ease: "power1.inOut"})
-      .from("#grid-lines", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, "-=1.0")
-      .from("#ghost-text", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, "-=0.8")
-      .from("#ghost-text-2", {opacity: 0, duration: 1.5, ease: "power1.inOut"}, "-=1.2")
-      .from("#scan-line", {opacity: 0, duration: 1.0, ease: "power1.inOut"}, "-=1.0")
-      .from("#corner-tl", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.8")
-      .from("#corner-tr", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.8")
-      .from("#corner-bl", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.8")
-      .from("#corner-br", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.8")
-    
-    // Main title
-    .from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, "-=0.6")
-    .from("#sub-title", {x: -80, opacity: 0, duration: 0.7, ease: "power3.out"}, "-=0.5")
-    
-    // Data cards with stagger
-    .from("#mismatch-index", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, "-=0.4")
-    .from("#talent-gap", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, "-=0.5")
-    .from("#investment-hot", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, "-=0.5")
-    
-    // Heatmap and radar
-    .from("#talent-heatmap", {y: 40, opacity: 0, duration: 0.6, ease: "power2.out"}, "-=0.3")
-    .from("#radar-chart", {y: 40, opacity: 0, duration: 0.6, ease: "power2.out"}, "-=0.4")
-    .from("#economic-curve", {y: 40, opacity: 0, duration: 0.6, ease: "power2.out"}, "-=0.4")
-    
-    // Tags and narration
-    .from("#tag-1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, "-=0.3")
-    .from("#tag-2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, "-=0.4")
-    .from("#tag-3", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, "-=0.4")
-    .from("#narration", {y: 30, opacity: 0, duration: 0.6, ease: "power2.out"}, "-=0.3")
-    .from("#investor-tip", {y: 30, opacity: 0, duration: 0.6, ease: "power2.out"}, "-=0.4")
-    
-    // Particles
-    .from("#particle-1", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.5")
-    .from("#particle-2", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.6")
-    .from("#particle-3", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.7")
-    .from("#particle-4", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.8")
-    .from("#particle-5", {opacity: 0, duration: 0.8, ease: "power1.inOut"}, "-=0.9")
-    
-    // Dashboard controls
-    .from("#dashboard-controls", {y: 20, opacity: 0, duration: 0.5, ease: "power2.out"}, "-=0.4");
-    
-    // Breathing animations
-    gsap.to("#mismatch-index", {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#talent-gap", {scale: 1.015, duration: 3.5, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#investment-hot", {scale: 1.015, duration: 4, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#main-title", {textShadow: "0 0 40px rgba(0, 212, 255, 0.7), 0 0 80px rgba(0, 212, 255, 0.4)", duration: 2.5, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    
-    // Scan line animation
-    gsap.to("#scan-line", {y: 1080, duration: 5, repeat: 0, ease: "none"});
-    
-    // Particle movements
-    gsap.to("#particle-1", {x: 50, y: 30, duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#particle-2", {x: -40, y: 60, duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#particle-3", {x: 60, y: -40, duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#particle-4", {x: -30, y: -50, duration: 9, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#particle-5", {x: 40, y: 40, duration: 11, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    
-    // Tag border pulse
-    gsap.to("#tag-1", {borderColor: "rgba(0, 212, 255, 0.8)", duration: 2, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#tag-2", {borderColor: "rgba(255, 64, 129, 0.8)", duration: 2.5, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#tag-3", {borderColor: "rgba(255, 215, 0, 0.8)", duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    
-    // Start the timeline
-    tl.play();
+// Register timeline
+window.__timelines = window.__timelines || {};
+window.__timelines["beat-5"] = gsap.timeline({paused: true});
+
+// Entry animations
+const tl = window.__timelines["beat-5"];
+
+// Background layers first
+tl.from("#mainTitle", {
+    y: -50,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+}, 0);
+
+tl.from("#warningSymbol", {
+    scale: 0.5,
+    opacity: 0,
+    duration: 0.7,
+    ease: "back.out(1.7)"
+}, 0.15);
+
+tl.from("#leftPanel", {
+    x: -80,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+}, 0.3);
+
+tl.from("#rightPanel", {
+    x: 80,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+}, 0.45);
+
+tl.from("#comparison", {
+    y: 60,
+    opacity: 0,
+    duration: 0.7,
+    ease: "back.out(1.7)"
+}, 0.6);
+
+tl.from("#bottomSection", {
+    y: 40,
+    opacity: 0,
+    duration: 0.6,
+    ease: "power2.out"
+}, 0.75);
+
+// Breathing animations
+gsap.to("#leftPanel", {
+    scale: 1.015,
+    duration: 3,
+    repeat: 0,
+    yoyo: true,
+    ease: "sine.inOut"
+});
+
+gsap.to("#rightPanel", {
+    scale: 1.015,
+    duration: 3,
+    repeat: 0,
+    yoyo: true,
+    ease: "sine.inOut",
+    delay: 1
+});
+
+gsap.to("#mainTitle div:first-child", {
+    textShadow: "0 0 40px rgba(255,64,129,0.8), 0 0 80px rgba(255,64,129,0.4)",
+    duration: 2.5,
+    repeat: 0,
+    yoyo: true,
+    ease: "power1.inOut"
+});
+
+// Scan line animation
+@keyframes scan {
+    0% {top: 0%;}
+    100% {top: 100%;}
+}
+
+// Particle drift animation
+@keyframes drift {
+    0%, 100% {transform: translate(0, 0);}
+    25% {transform: translate(10px, 15px);}
+    50% {transform: translate(-5px, 20px);}
+    75% {transform: translate(15px, 5px);}
+}
 </script>
 </body>
 </html>

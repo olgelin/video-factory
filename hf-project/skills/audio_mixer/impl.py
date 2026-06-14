@@ -75,9 +75,22 @@ def run(context: dict) -> dict:
         # 有BGM：混合配音+BGM
         print(f"  [audio-mixer] 混合配音+BGM...")
 
-        # 先混合音频
+        # 先对配音做音量均衡（loudnorm）
+        normalized_voice = OUTPUT_DIR / "normalized_voice.wav"
+        cmd = f"""ffmpeg -y -i {voice_path} \
+            -af "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=summary" \
+            -ar 48000 {normalized_voice}"""
+        
+        if run_ffmpeg(cmd):
+            print(f"  [audio-mixer] ✅ 配音音量均衡完成")
+            voice_for_mix = normalized_voice
+        else:
+            print(f"  ⚠️ [audio-mixer] 音量均衡失败，使用原始配音")
+            voice_for_mix = voice_path
+
+        # 混合音频：配音1.5倍，BGM 0.2倍
         mixed_audio = OUTPUT_DIR / "mixed_audio.wav"
-        cmd = f"""ffmpeg -y -i {voice_path} -i {bgm_path} \
+        cmd = f"""ffmpeg -y -i {voice_for_mix} -i {bgm_path} \
             -filter_complex "[0:a]volume=1.5[voice];[1:a]volume=0.2[bgm];[voice][bgm]amix=inputs=2:duration=first[out]" \
             -map "[out]" {mixed_audio}"""
 
