@@ -112,7 +112,12 @@ def main():
             "topic": args.topic,
             "angle": f"深度解析: {args.topic}",
             "hook": f"你绝对想不到，{args.topic}",
-            "key_elements": ["数据", "趋势", "影响"],
+            "key_points": [
+                {"point": "核心数据和背景", "data": ""},
+                {"point": "关键影响和意义", "data": ""},
+                {"point": "未来趋势和展望", "data": ""}
+            ],
+            "target_audience": "科技爱好者、投资者、关注时事的网民",
             "sources": [],
             "score": {"total": 55, "max": 60}
         }

@@ -1,203 +1,164 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-3" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
 </head>
-<body style="margin: 0; padding: 0; background: #1a1a2e; font-family: 'Inter', 'Noto Sans SC', sans-serif; overflow: hidden; width: 1920px; height: 1080px;">
-    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #1a1a2e;">
-        
-        <!-- 装饰层1: Grid网格线 -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.08; background: linear-gradient(0deg, rgba(0,212,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px); background-size: 100px 100px; pointer-events: none; z-index: 1;" id="grid-decoration"></div>
-        
-        <!-- 装饰层2: 径向光晕 -->
-        <div style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, rgba(0,212,255,0) 70%); border-radius: 50%; pointer-events: none; z-index: 2;" id="radial-glow"></div>
-        
-        <!-- 装饰层3: Ghost text水印 -->
-        <div style="position: absolute; top: 10%; left: 5%; font-family: 'JetBrains Mono', monospace; font-size: 280px; font-weight: bold; color: rgba(255,255,255,0.04); letter-spacing: 10px; pointer-events: none; z-index: 3;">GPT-5</div>
-        
-        <!-- 装饰层4: 扫描线 -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent); pointer-events: none; z-index: 4;" id="scan-line"></div>
-        
-        <!-- 装饰层5: 粒子点 -->
-        <div style="position: absolute; width: 4px; height: 4px; background: rgba(0,212,255,0.6); border-radius: 50%; top: 20%; left: 15%; z-index: 5;" id="particle-1"></div>
-        <div style="position: absolute; width: 3px; height: 3px; background: rgba(255,64,129,0.5); border-radius: 50%; top: 45%; left: 80%; z-index: 5;" id="particle-2"></div>
-        <div style="position: absolute; width: 4px; height: 4px; background: rgba(0,212,255,0.4); border-radius: 50%; top: 70%; left: 30%; z-index: 5;" id="particle-3"></div>
-        <div style="position: absolute; width: 2px; height: 2px; background: rgba(255,215,0,0.5); border-radius: 50%; top: 15%; left: 65%; z-index: 5;" id="particle-4"></div>
-        <div style="position: absolute; width: 3px; height: 3px; background: rgba(0,212,255,0.3); border-radius: 50%; top: 55%; left: 90%; z-index: 5;" id="particle-5"></div>
-        <div style="position: absolute; width: 4px; height: 4px; background: rgba(255,64,129,0.4); border-radius: 50%; top: 80%; left: 50%; z-index: 5;" id="particle-6"></div>
-        
-        <!-- 装饰层6: 边角装饰 -->
-        <div style="position: absolute; top: 100px; left: 100px; width: 60px; height: 60px; border-left: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
-        <div style="position: absolute; top: 100px; right: 100px; width: 60px; height: 60px; border-right: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
-        <div style="position: absolute; bottom: 100px; left: 100px; width: 60px; height: 60px; border-left: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
-        <div style="position: absolute; bottom: 100px; right: 100px; width: 60px; height: 60px; border-right: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
-        
-        <!-- 主标题区 -->
-        <div style="position: absolute; top: 80px; left: 0; width: 100%; text-align: center; z-index: 10;" id="main-title">
-            <div style="font-size: 96px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 30px rgba(0,212,255,0.8), 0 0 60px rgba(0,212,255,0.4); letter-spacing: 4px; line-height: 1.2;">硬核数据</div>
-        </div>
-        
-        <!-- 核心内容区 - 三个核心数据卡片 -->
-        <div style="position: absolute; top: 200px; left: 100px; width: 1720px; height: 550px; display: flex; justify-content: space-around; align-items: center; z-index: 10;">
-            
-            <!-- 卡片1: 准确率 - 环形进度图 -->
-            <div style="width: 500px; height: 450px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" id="accuracy-card">
-                <!-- 顶部高光 -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent); border-radius: 24px 24px 0 0;"></div>
-                <!-- 内部光晕 -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(0,212,255,0.08), transparent 70%); border-radius: 24px; pointer-events: none;"></div>
-                <!-- 卡片内容 -->
-                <div style="text-align: center; position: relative; z-index: 2;">
-                    <div style="font-size: 28px; color: #999999; margin-bottom: 20px;">准确率</div>
-                    <!-- 环形进度图 -->
-                    <div style="width: 200px; height: 200px; margin: 0 auto 30px; position: relative;">
-                        <svg width="200" height="200" viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(0,212,255,0.2)" stroke-width="20"/>
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="#FFD700" stroke-width="20" stroke-dasharray="502.4" stroke-dashoffset="125.6" transform="rotate(-90 100 100)" id="accuracy-progress"/>
-                        </svg>
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                            <div style="font-size: 100px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; line-height: 1;">+30</div>
-                            <div style="font-size: 48px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">%</div>
-                        </div>
-                    </div>
-                    <div style="font-size: 24px; color: rgba(0,212,255,0.5);">语言理解能力提升</div>
-                </div>
-            </div>
-            
-            <!-- 卡片2: 处理速度 - 动态进度条 -->
-            <div style="width: 500px; height: 450px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" id="speed-card">
-                <!-- 顶部高光 -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FF4081, transparent); border-radius: 24px 24px 0 0;"></div>
-                <!-- 内部光晕 -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(255,64,129,0.08), transparent 70%); border-radius: 24px; pointer-events: none;"></div>
-                <!-- 卡片内容 -->
-                <div style="text-align: center; position: relative; z-index: 2;">
-                    <div style="font-size: 28px; color: #999999; margin-bottom: 20px;">处理速度</div>
-                    <!-- 大号计数器 -->
-                    <div style="font-size: 140px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 30px; line-height: 1;">x2</div>
-                    <!-- 动态进度条 -->
-                    <div style="width: 100%; height: 12px; background: rgba(255,64,129,0.2); border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
-                        <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #FF4081, #00D4FF); border-radius: 6px; transform-origin: left;" id="speed-progress"></div>
-                    </div>
-                    <div style="font-size: 24px; color: rgba(255,64,129,0.5);">推理效率倍增</div>
-                </div>
-            </div>
-            
-            <!-- 卡片3: 综合提升 - 数字翻牌 -->
-            <div style="width: 500px; height: 450px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" id="improvement-card">
-                <!-- 顶部高光 -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FFD700, transparent); border-radius: 24px 24px 0 0;"></div>
-                <!-- 内部光晕 -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(255,215,0,0.08), transparent 70%); border-radius: 24px; pointer-events: none;"></div>
-                <!-- 卡片内容 -->
-                <div style="text-align: center; position: relative; z-index: 2;">
-                    <div style="font-size: 28px; color: #999999; margin-bottom: 20px;">综合提升</div>
-                    <!-- 大号计数器 -->
-                    <div style="font-size: 140px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; line-height: 1;">287</div>
-                    <div style="font-size: 48px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 30px;">%</div>
-                    <div style="font-size: 24px; color: rgba(255,215,0,0.5);">生成质量飙升</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 底部信息区 - 辅助数据标签与口播 -->
-        <div style="position: absolute; bottom: 80px; left: 100px; width: 1720px; z-index: 10;" id="bottom-info">
-            <!-- 辅助数据标签 -->
-            <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 30px;">
-                <div style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #00D4FF;">语言理解</div>
-                <div style="background: rgba(255,64,129,0.1); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #FF4081;">推理能力</div>
-                <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #FFD700;">生成质量</div>
-                <div style="background: rgba(153,153,153,0.1); border: 1px solid rgba(153,153,153,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #999999;">多模态</div>
-            </div>
-            <!-- 口播文字 -->
-            <div style="text-align: center; font-size: 28px; color: #FFFFFF; line-height: 1.6; letter-spacing: 1px;">
-                我翻遍全网，扒了三天资料，发现GPT-5在语言理解、推理和生成上，准确率飙升30%，处理速度翻倍，这数据太硬核了。
-            </div>
-        </div>
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;font-family:'Noto Sans SC','Inter',sans-serif;">
+<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
+  <!-- Background decorative layers -->
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(0,212,255,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.08) 1px,transparent 1px);background-size:100px 100px;opacity:0;pointer-events:none;" id="grid-layer"></div>
+  <div style="position:absolute;top:50%;left:40%;width:800px;height:800px;background:radial-gradient(circle,rgba(0,212,255,0.12),transparent 70%);transform:translate(-50%,-50%);opacity:0;pointer-events:none;" id="glow-layer"></div>
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:280px;font-weight:bold;color:rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;white-space:nowrap;opacity:1;pointer-events:none;" id="ghost-text">DATA IMPACT</div>
+  <div style="position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.2),transparent);opacity:0;pointer-events:none;" id="scan-line"></div>
+  <!-- Particles -->
+  <div style="position:absolute;top:20%;left:15%;width:4px;height:4px;border-radius:50%;background:#1a1a2e;opacity:0;" id="particle1"></div>
+  <div style="position:absolute;top:60%;left:80%;width:3px;height:3px;border-radius:50%;background:#00D4FF;opacity:0;" id="particle2"></div>
+  <div style="position:absolute;top:40%;left:30%;width:3px;height:3px;border-radius:50%;background:#1a1a2e;opacity:0;" id="particle3"></div>
+  <div style="position:absolute;top:75%;left:65%;width:2px;height:2px;border-radius:50%;background:#1a1a2e;opacity:0;" id="particle4"></div>
+  <div style="position:absolute;top:85%;left:25%;width:4px;height:4px;border-radius:50%;background:#00D4FF;opacity:0;" id="particle5"></div>
+  <!-- Corner decorations -->
+  <div style="position:absolute;top:80px;left:80px;width:60px;height:60px;border-left:3px solid rgba(0,212,255,0.3);border-top:3px solid rgba(0,212,255,0.3);opacity:0;" id="corner-tl"></div>
+  <div style="position:absolute;top:80px;right:80px;width:60px;height:60px;border-right:3px solid rgba(0,212,255,0.3);border-top:3px solid rgba(0,212,255,0.3);opacity:0;" id="corner-tr"></div>
+  <div style="position:absolute;bottom:80px;left:80px;width:60px;height:60px;border-left:3px solid rgba(0,212,255,0.3);border-bottom:3px solid rgba(0,212,255,0.3);opacity:0;" id="corner-bl"></div>
+  <div style="position:absolute;bottom:80px;right:80px;width:60px;height:60px;border-right:3px solid rgba(0,212,255,0.3);border-bottom:3px solid rgba(0,212,255,0.3);opacity:0;" id="corner-br"></div>
+  <!-- Main title -->
+  <div style="position:absolute;top:120px;left:120px;width:1680px;font-size:96px;font-weight:bold;color:#00D4FF;text-shadow:0 0 30px rgba(0,212,255,0.8);opacity:1;" id="main-title">数据冲击力：准确率飙升30%</div>
+  <!-- Core content area - left 60% -->
+  <div style="position:absolute;top:250px;left:120px;width:960px;height:500px;">
+    <!-- Data card 1 -->
+    <div style="position:absolute;top:0;left:0;width:420px;height:300px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(0,212,255,0.3);border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:1;" id="data-card-1">
+      <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,#00D4FF,transparent);border-radius:24px 24px 0 0;"></div>
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at top,rgba(0,212,255,0.08),transparent 70%);border-radius:24px;pointer-events:none;"></div>
+      <div style="font-size:20px;color:#999999;margin-bottom:20px;font-family:'Noto Sans SC',sans-serif;">准确率提升</div>
+      <div style="font-size:120px;font-weight:bold;color:#FFD700;font-family:'JetBrains Mono',monospace;line-height:1;">30%</div>
+      <div style="font-size:18px;color:#00D4FF;margin-top:20px;font-family:'Noto Sans SC',sans-serif;">↑ 飙升30%</div>
     </div>
+    <!-- Data card 2 -->
+    <div style="position:absolute;top:0;left:460px;width:420px;height:300px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(0,212,255,0.3);border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:1;" id="data-card-2">
+      <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,#FF4081,transparent);border-radius:24px 24px 0 0;"></div>
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at top,rgba(255,64,129,0.08),transparent 70%);border-radius:24px;pointer-events:none;"></div>
+      <div style="font-size:20px;color:#999999;margin-bottom:20px;font-family:'Noto Sans SC',sans-serif;">处理速度</div>
+      <div style="font-size:100px;font-weight:bold;color:#FF4081;font-family:'JetBrains Mono',monospace;line-height:1;">2x</div>
+      <div style="font-size:18px;color:#FF4081;margin-top:20px;font-family:'Noto Sans SC',sans-serif;">翻倍提升</div>
+    </div>
+    <!-- Progress bar -->
+    <div style="position:absolute;top:350px;left:0;width:800px;height:30px;background:rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;opacity:1;" id="progress-bar">
+      <div style="width:80%;height:100%;background:linear-gradient(90deg,#00D4FF,#FF4081);border-radius:16px;transform:scaleX(0);transform-origin:left;" id="progress-fill"></div>
+    </div>
+    <!-- Tags pills -->
+    <div style="position:absolute;top:420px;left:0;display:flex;gap:20px;opacity:1;" id="tags-container">
+      <div style="padding:10px 20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:16px;font-size:18px;color:#00D4FF;font-family:'Noto Sans SC',sans-serif;">语言理解</div>
+      <div style="padding:10px 20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:16px;font-size:18px;color:#00D4FF;font-family:'Noto Sans SC',sans-serif;">推理能力</div>
+      <div style="padding:10px 20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:16px;font-size:18px;color:#00D4FF;font-family:'Noto Sans SC',sans-serif;">生成质量</div>
+    </div>
+  </div>
+  <!-- Right 40% - auxiliary info and decorations -->
+  <div style="position:absolute;top:250px;left:1200px;width:600px;height:500px;">
+    <!-- Subtitle -->
+    <div style="font-size:28px;color:rgba(0,212,255,0.5);margin-bottom:40px;opacity:1;font-family:'Noto Sans SC',sans-serif;" id="subtitle">GPT-5 核心数据指标</div>
+    <!-- Additional data points -->
+    <div style="display:flex;flex-direction:column;gap:30px;">
+      <div style="padding:30px;background:rgba(26,26,46,0.5);backdrop-filter:blur(5px);border:1px solid rgba(0,212,255,0.2);border-radius:16px;opacity:1;" id="data-point-1">
+        <div style="font-size:18px;color:#999999;margin-bottom:10px;font-family:'Noto Sans SC',sans-serif;">推理延迟降低</div>
+        <div style="font-size:48px;font-weight:bold;color:#FFD700;font-family:'JetBrains Mono',monospace;">-40ms</div>
+      </div>
+      <div style="padding:30px;background:rgba(26,26,46,0.5);backdrop-filter:blur(5px);border:1px solid rgba(0,212,255,0.2);border-radius:16px;opacity:1;" id="data-point-2">
+        <div style="font-size:18px;color:#999999;margin-bottom:10px;font-family:'Noto Sans SC',sans-serif;">上下文窗口扩展</div>
+        <div style="font-size:48px;font-weight:bold;color:#FFD700;font-family:'JetBrains Mono',monospace;">128K</div>
+      </div>
+    </div>
+  </div>
+  <!-- Bottom info area -->
+  <div style="position:absolute;bottom:120px;left:120px;width:1680px;display:flex;justify-content:space-between;align-items:flex-end;opacity:1;" id="bottom-info">
+    <div style="font-size:20px;color:#999999;font-family:'Noto Sans SC',sans-serif;">数据来源：GPT-5 技术报告 | 2023年基准测试</div>
+    <div style="font-size:20px;color:#999999;font-family:'Noto Sans SC',sans-serif;">时间戳：2023-11-15</div>
+  </div>
+</div>
 
-    <script>
-        // 注册时间线到window对象
-        window.__timelines = window.__timelines || {};
-        const timeline = gsap.timeline({paused: true});
-        window.__timelines["beat-3"] = timeline;
-        
-        // 装饰层入场动画
-        timeline.from('#grid-decoration', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0)
-               .from('#radial-glow', {opacity: 0, scale: 0.8, duration: 1.2, ease: "power1.inOut"}, 0.15)
-               .from('.ghost-text', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3)
-               .from('#scan-line', {y: -1080, duration: 1.2, ease: "power1.inOut"}, 0.45);
-        
-        // 主标题入场
-        timeline.from('#main-title', {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.6);
-        
-        // 数据卡片入场
-        timeline.from('#accuracy-card', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.75)
-               .from('#speed-card', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.9)
-               .from('#improvement-card', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.05);
-        
-        // 进度条动画
-        timeline.from('#accuracy-progress', {strokeDashoffset: 502.4, duration: 1.5, ease: "power2.inOut"}, 1.2)
-               .from('#speed-progress', {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 1.35);
-        
-        // 底部信息入场
-        timeline.from('#bottom-info', {y: 30, opacity: 0, duration: 0.8, ease: "power2.out"}, 1.5);
-        
-        // 粒子点入场
-        timeline.from('#particle-1', {opacity: 0, duration: 0.5, ease: "power2.out"}, 1.65)
-               .from('#particle-2', {opacity: 0, duration: 0.5, ease: "power2.out"}, 1.8)
-               .from('#particle-3', {opacity: 0, duration: 0.5, ease: "power2.out"}, 1.95)
-               .from('#particle-4', {opacity: 0, duration: 0.5, ease: "power2.out"}, 2.1)
-               .from('#particle-5', {opacity: 0, duration: 0.5, ease: "power2.out"}, 2.25)
-               .from('#particle-6', {opacity: 0, duration: 0.5, ease: "power2.out"}, 2.4);
-        
-        // 边角装饰入场
-        timeline.from('.corner-decoration', {opacity: 0, duration: 0.8, ease: "power2.out"}, 2.55);
-        
-        // 呼吸动画（核心数据卡片）
-        gsap.to('#accuracy-card', {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('#speed-card', {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 1});
-        gsap.to('#improvement-card', {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 2});
-        
-        // 主标题文字发光脉动
-        gsap.to('#main-title div', {
-            textShadow: "0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.6)",
-            duration: 2.5,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        // 背景光晕缓慢位移
-        gsap.to('#radial-glow', {
-            x: 50,
-            y: 30,
-            duration: 10,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        // 扫描线动画
-        gsap.to('#scan-line', {
-            y: 1080,
-            duration: 6,
-            repeat: 0,
-            ease: "none"
-        });
-        
-        // 粒子点漂移动画
-        gsap.to('#particle-1', {x: 100, y: -50, duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut"});
-        gsap.to('#particle-2', {x: -80, y: 30, duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 2});
-        gsap.to('#particle-3', {x: 60, y: -40, duration: 14, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 4});
-        gsap.to('#particle-4', {x: -40, y: 50, duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 1});
-        gsap.to('#particle-5', {x: 90, y: -60, duration: 16, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 3});
-        gsap.to('#particle-6', {x: -70, y: 40, duration: 11, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 5});
-        
-        // 启动时间线
-        timeline.play();
-    </script>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({paused: true});
+
+// Background layers entrance
+tl.from("#grid-layer", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
+tl.from("#glow-layer", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
+tl.from("#ghost-text", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3);
+tl.from("#scan-line", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.45);
+tl.from("#particle1", {opacity: 0, duration: 0.8, ease: "power2.out"}, 0.6);
+tl.from("#particle2", {opacity: 0, duration: 0.8, ease: "power2.out"}, 0.75);
+tl.from("#particle3", {opacity: 0, duration: 0.8, ease: "power2.out"}, 0.9);
+tl.from("#particle4", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.05);
+tl.from("#particle5", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.2);
+tl.from("#corner-tl", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.35);
+tl.from("#corner-tr", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.5);
+tl.from("#corner-bl", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.65);
+tl.from("#corner-br", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.8);
+
+// Main title entrance
+tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 1.95);
+
+// Core data cards entrance
+tl.from("#data-card-1", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.1);
+tl.from("#data-card-2", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.25);
+
+// Progress bar entrance
+tl.from("#progress-bar", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 2.4);
+
+// Tags pills entrance
+tl.from("#tags-container", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.55);
+
+// Subtitle and data points entrance
+tl.from("#subtitle", {opacity: 0, duration: 0.6, ease: "power2.out"}, 2.7);
+tl.from("#data-point-1", {y: 40, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.85);
+tl.from("#data-point-2", {y: 40, opacity: 0, duration: 0.5, ease: "power2.out"}, 3.0);
+
+// Bottom info entrance
+tl.from("#bottom-info", {opacity: 0, duration: 0.8, ease: "power2.out"}, 3.15);
+
+// Breathing animations (only 2-3 elements)
+// Data card 1 breathing
+gsap.to("#data-card-1", {
+  scale: 1.015,
+  duration: 3,
+  repeat: 0,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+// Main title text-shadow pulse
+gsap.to("#main-title", {
+  textShadow: "0 0 40px rgba(0,212,255,1)",
+  opacity: 0.8,
+  duration: 2.5,
+  repeat: 0,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+// Background glow slow movement
+gsap.to("#glow-layer", {
+  x: 50,
+  y: 30,
+  duration: 10,
+  repeat: 0,
+  yoyo: true,
+  ease: "none"
+});
+
+// Scan line movement
+gsap.to("#scan-line", {
+  y: 1080,
+  duration: 5,
+  repeat: 0,
+  ease: "none"
+});
+
+// Particles slow drift
+gsap.to("#particle1", {y: -30, x: 20, duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut"});
+gsap.to("#particle2", {y: 40, x: -30, duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut"});
+gsap.to("#particle3", {y: -20, x: -25, duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut"});
+gsap.to("#particle4", {y: 30, x: 15, duration: 6, repeat: 0, yoyo: true, ease: "sine.inOut"});
+gsap.to("#particle5", {y: -40, x: 40, duration: 9, repeat: 0, yoyo: true, ease: "sine.inOut"});
+
+window.__timelines["beat-3"] = tl;
+</script>
 </body>
 </html>

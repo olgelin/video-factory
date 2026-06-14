@@ -1,158 +1,396 @@
 [
   {
     "scene_id": 1,
-    "visual_type": "hud",
-    "concept": "深空般的场景中心，一个由霓虹蓝光线构成的AI之眼缓缓睁开，伴随着心跳般的脉冲光效。悬浮的代码流与‘GPT-5’字样若隐若现，在观众眼前构筑一个充满未知与潜能的科技深渊，瞬间将注意力吸入。",
+    "visual_type": "quote_hero",
+    "concept": "观众被一个悬念开场瞬间抓住，感受到AI能力飞跃的震撼前兆。深黑背景中，霓虹文字闪烁，营造出未知与期待的氛围，聚焦于发布核心信息。",
+    "mood": "科技感未来冲击力，参考赛博朋克风格的深黑背景霓虹发光，强调悬念和冲击。",
+    "depth_layers": {
+      "background": [
+        "radial-glow",
+        "data-grid",
+        "neon-lines"
+      ],
+      "midground": [
+        "GPT-5标题文字",
+        "霓虹光效"
+      ],
+      "foreground": [
+        "particle-drift",
+        "ghost-text"
+      ]
+    },
+    "density_target": 8,
     "key_elements": [
-      "AI之眼（核心光环）",
-      "霓虹代码流",
-      "悬浮的‘GPT-5’全息文字",
-      "心跳脉冲光环",
+      "GPT-5标题",
+      "霓虹光效",
       "数据网格背景",
-      "粒子漂浮物",
-      "微弱的扫描线",
-      "光晕渐变"
+      "粒子漂浮",
+      "悬念文字",
+      "深黑背景",
+      "强调色点缀",
+      "未来感线条"
     ],
     "narration": "你绝对想不到，OpenAI发布GPT-五：AI能力再次飞跃。",
-    "duration": 4.6
+    "duration": 4.4,
+    "animations": {
+      "title": "SLAMS",
+      "ambient": "PULSES"
+    },
+    "transition": {
+      "in": "fade_in",
+      "out": "dissolve"
+    }
   },
   {
     "scene_id": 2,
     "visual_type": "data_impact",
-    "concept": "画面被一个巨大的、代表‘旧天花板’的玻璃面板占据，‘GPT-5’的霓虹冲击波如数据洪流般将其瞬间击碎，碎片化作无数光点和向上飞升的趋势箭头。强烈的视觉冲击直观传达‘突破极限’与‘行业震动’的信息。",
+    "concept": "观众感受到科技圈的震动，数据和趋势箭头突出发布的重要性。大数字和进度条冲击视觉，强调突破性和行业沸腾感。",
+    "mood": "冲击力科技风，霓虹强调色突出关键信息，营造科技暗黑中的能量爆发。",
+    "depth_layers": {
+      "background": [
+        "radial-glow",
+        "data-grid",
+        "neon-lines"
+      ],
+      "midground": [
+        "大数字",
+        "趋势箭头",
+        "进度条"
+      ],
+      "foreground": [
+        "particle-drift",
+        "ghost-text"
+      ]
+    },
+    "density_target": 9,
     "key_elements": [
-      "破碎的玻璃面板",
-      "数据冲击波（从中心爆裂）",
-      "向上飞升的趋势箭头",
-      "爆炸的光点与碎片",
-      "核心标题‘捅了个窟窿’",
-      "震动波纹背景",
-      "霓虹强调高光",
-      "‘科技圈炸了锅’的文字碎片"
+      "大数字显示",
+      "趋势上升箭头",
+      "动态进度条",
+      "霓虹强调边框",
+      "数据冲击动画",
+      "背景光晕",
+      "科技线条",
+      "冲击文字",
+      "行业震动图标"
     ],
     "narration": "说白了，这次GPT-五的发布，直接把AI的天花板又捅了个窟窿。OpenAI这次玩真的，不搞虚的，整个科技圈都炸了锅。",
-    "duration": 9.3
+    "duration": 9.2,
+    "animations": {
+      "title": "CRASHES",
+      "data": "COUNTS UP",
+      "ambient": "GLOWS"
+    },
+    "transition": {
+      "in": "slide_in",
+      "out": "glitch_out"
+    }
   },
   {
     "scene_id": 3,
-    "visual_type": "dashboard",
-    "concept": "一个全息风格的数据仪表盘在画面中央展开，三大核心指标——准确率（+30%）、处理速度（x2）、综合提升（飙升）以环形图、进度条和数字翻牌的形式并列展示。数据以FFD700（金色）高亮呈现，数字不断计数上涨，营造硬核、精准的科技实证感。",
+    "visual_type": "data_impact",
+    "concept": "观众看到硬核数据，准确率飙升30%和处理速度翻倍以动态方式呈现，体验数据的冲击力和可信度。",
+    "mood": "数据驱动科技感，金色数据突出重要性，赛博朋克风中的数据可视化。",
+    "depth_layers": {
+      "background": [
+        "data-grid",
+        "neon-lines",
+        "radial-glow"
+      ],
+      "midground": [
+        "百分比图表",
+        "速度条",
+        "动态数据点"
+      ],
+      "foreground": [
+        "ghost-text",
+        "particle-drift"
+      ]
+    },
+    "density_target": 10,
     "key_elements": [
-      "主标题‘硬核数据’",
-      "环形进度图（准确率）",
-      "动态进度条（处理速度）",
-      "大号计数器（综合提升）",
-      "辅助数据标签与图标",
-      "网格化背景底纹",
-      "扫描线动态效果",
-      "‘%’ 和 ‘x2’ 符号",
-      "微粒数据流"
+      "百分比数字30%",
+      "速度翻倍图表",
+      "动态进度条",
+      "数据网格背景",
+      "霓虹光效",
+      "强调色数据",
+      "科技线条",
+      "数据标签",
+      "趋势曲线",
+      "金点高亮"
     ],
     "narration": "我翻遍全网，扒了三天资料，发现GPT-五在语言理解、推理和生成上，准确率飙升百分之三零，处理速度翻倍，这数据太硬核了。",
-    "duration": 9.8
+    "duration": 10.6,
+    "animations": {
+      "title": "PUNCHES",
+      "data": "MORPHS",
+      "ambient": "BREATHES"
+    },
+    "transition": {
+      "in": "zoom_in",
+      "out": "fade_out"
+    }
   },
   {
     "scene_id": 4,
-    "visual_type": "list_alert",
-    "concept": "一系列半透明的、带霓虹边框的清单卡片以瀑布流方式入场并强调显示。每张卡片代表一个应用案例（写小说、编代码、科研分析），并伴有对应的抽象图标（书本、代码符号、DNA链）。卡片的叠加与高亮强调多模态能力的全面性与‘封神’地位。",
+    "visual_type": "dashboard",
+    "concept": "观众体验多模态能力的全面展示，各种应用案例如仪表盘般并列，封神能力一览无余，视觉上丰富而有条理。",
+    "mood": "科技仪表盘风，多色彩强调不同应用，赛博朋克风格中的信息密集展示。",
+    "depth_layers": {
+      "background": [
+        "radial-glow",
+        "data-grid"
+      ],
+      "midground": [
+        "应用图标",
+        "指标卡片",
+        "案例图表"
+      ],
+      "foreground": [
+        "particle-drift",
+        "ghost-text"
+      ]
+    },
+    "density_target": 8,
     "key_elements": [
-      "主标题‘封神应用’",
-      "应用案例卡片（3-4张）",
-      "图标：书本/代码/DNA链",
-      "霓虹边框与高亮强调色块",
-      "‘数不过来’的数字水印",
-      "背景数据网格",
-      "卡片入场动画线",
-      "微弱的光晕扩散"
+      "多模态应用图标",
+      "指标卡片",
+      "案例数据图表",
+      "霓虹边框",
+      "仪表盘布局",
+      "强调色分组",
+      "背景光晕",
+      "科技线条"
     ],
     "narration": "你品，它现在能像真人一样写小说、编代码，甚至帮你做复杂的科研分析，多模态能力直接封神，案例多到数不过来。",
-    "duration": 9.7
+    "duration": 10.0,
+    "animations": {
+      "title": "SLIDES",
+      "data": "FLOATS",
+      "ambient": "PULSES"
+    },
+    "transition": {
+      "in": "split_in",
+      "out": "merge_out"
+    }
   },
   {
     "scene_id": 5,
     "visual_type": "flow",
-    "concept": "以发光的连接线和节点，构建一个‘混合专家架构’与‘强化学习’的抽象技术流程图。从数据输入开始，经过多个处理节点（专家模块），最终汇聚成一个更明亮、更复杂的‘AI大脑’核心。整个流程动画流畅，象征学习效率的指数级跃升与技术革命。",
+    "concept": "观众跟随技术流程，理解混合专家架构和强化学习的创新，体验指数级提升的革命性，视觉上连贯而清晰。",
+    "mood": "未来技术流程风，线条和节点连接，赛博朋克风格中的科技流程可视化。",
+    "depth_layers": {
+      "background": [
+        "neon-lines",
+        "data-grid",
+        "radial-glow"
+      ],
+      "midground": [
+        "流程图节点",
+        "连接线",
+        "架构标签"
+      ],
+      "foreground": [
+        "ghost-text",
+        "particle-drift"
+      ]
+    },
+    "density_target": 9,
     "key_elements": [
-      "流程标题‘技术革命’",
-      "输入数据流节点",
-      "多个‘专家模块’节点",
-      "强化学习反馈环",
-      "中心汇聚的‘AI大脑’",
-      "发光连接线（霓虹蓝）",
-      "能量流动粒子",
-      "背景抽象电路板纹理",
-      "效率指数曲线暗示"
+      "流程图节点",
+      "霓虹连接线",
+      "混合专家架构标签",
+      "强化学习图标",
+      "指数级提升指示",
+      "科技背景线条",
+      "数据网格",
+      "强调色节点",
+      "动态路径"
     ],
     "narration": "细品背后的技术，OpenAI用了全新的混合专家架构和强化学习，让模型更聪明，学习效率指数级提升，这是真正的技术革命。",
-    "duration": 10.8
+    "duration": 10.1,
+    "animations": {
+      "title": "CASCADES",
+      "data": "MORPHS",
+      "ambient": "GLOWS"
+    },
+    "transition": {
+      "in": "wipe_in",
+      "out": "dissolve_out"
+    }
   },
   {
     "scene_id": 6,
-    "visual_type": "compare",
-    "concept": "画面一分为二，左侧是代表‘机会’的金色上升趋势图和积极行业图标（教育、医疗），右侧是代表‘风险’的红色下降数据和警示符号。中间由一道动态的、象征‘深不见底影响’的数据深渊连接，直观展现双刃剑效应。",
+    "visual_type": "list_alert",
+    "concept": "观众看到各行业被颠覆的清单，强调机会和风险，视觉上以条目和强调突出影响深度，引发警惕和思考。",
+    "mood": "警告科技风，红色强调风险，赛博朋克风格中的警示信息展示。",
+    "depth_layers": {
+      "background": [
+        "radial-glow",
+        "neon-lines"
+      ],
+      "midground": [
+        "行业图标",
+        "影响条目",
+        "强调边框"
+      ],
+      "foreground": [
+        "particle-drift",
+        "ghost-text"
+      ]
+    },
+    "density_target": 10,
     "key_elements": [
-      "对比标题‘机会 vs 风险’",
-      "左侧：金色上升图表/行业图标",
-      "右侧：红色警示数据/下降符号",
-      "中央数据深渊（渐变光带）",
-      "行业关键词浮动（内容、教育、医疗）",
-      "动态分割线",
-      "背景网格",
-      "警示闪烁光点"
+      "行业影响列表",
+      "内容创作图标",
+      "教育医疗标签",
+      "工作方式条目",
+      "强调色边框",
+      "数据标签",
+      "机会风险指示",
+      "背景光晕",
+      "科技线条",
+      "警示动画"
     ],
     "narration": "别被忽悠了，这玩意儿会颠覆内容创作、教育、医疗，甚至改变你的工作方式，影响深不见底，机会和风险并存。",
-    "duration": 7.6
+    "duration": 9.1,
+    "animations": {
+      "title": "PUNCHES",
+      "data": "COUNTS UP",
+      "ambient": "BREATHES"
+    },
+    "transition": {
+      "in": "fade_in",
+      "out": "slide_out"
+    }
   },
   {
     "scene_id": 7,
     "visual_type": "compare",
-    "concept": "一个象征‘伦理天平’的抽象视觉在中心悬浮。一侧托盘承载‘数据隐私’、‘算法偏见’、‘就业冲击’的图标与数据，向‘挑战’侧倾斜；另一侧承载‘机遇’、‘效率’的象征物。背景是复杂的、时而稳定时而紊乱的数据流风暴，呼应‘冷静看待’的呼吁。",
+    "concept": "观众对比AI能力的飞跃带来的挑战和机会，视觉上平衡展示伦理问题和正面影响，强调冷静看待的重要性。",
+    "mood": "平衡对比风，双色对比突出挑战与机会，赛博朋克风格中的伦理思考可视化。",
+    "depth_layers": {
+      "background": [
+        "neon-lines",
+        "data-grid"
+      ],
+      "midground": [
+        "对比图表",
+        "挑战标签",
+        "机会标签"
+      ],
+      "foreground": [
+        "ghost-text",
+        "particle-drift"
+      ]
+    },
+    "density_target": 8,
     "key_elements": [
-      "主标题‘冷静看待’",
-      "抽象天平视觉",
-      "挑战侧托盘与图标",
-      "机遇侧托盘与象征",
-      "背景数据风暴流",
-      "平衡与失衡的动画",
-      "警示红点与冷静蓝光",
-      "复杂的数据网格背景",
-      "关键词（隐私、偏见、就业）"
+      "挑战 vs 机会对比图",
+      "数据隐私泄露图标",
+      "算法偏见标签",
+      "就业市场冲击",
+      "正面影响指标",
+      "平衡指示器",
+      "强调色分区",
+      "背景线条",
+      "霓虹光效"
     ],
     "narration": "但真相是，AI能力飞跃也带来挑战，比如数据隐私泄露、算法偏见加剧，还有对就业市场的巨大冲击，咱们得冷静看待。",
-    "duration": 11.8
+    "duration": 11.5,
+    "animations": {
+      "title": "CRASHES",
+      "data": "FLOATS",
+      "ambient": "PULSES"
+    },
+    "transition": {
+      "in": "split_in",
+      "out": "merge_out"
+    }
   },
   {
     "scene_id": 8,
     "visual_type": "quote_hero",
-    "concept": "一句核心引言“让AI增强人类，而非替代”以巨大的、带有霓虹光晕的字体充满画面。背景是从深黑中浮现的、由无数微小数据光点构成的未来城市剪影或网络节点图，象征AI如电力般普及的未来。光点如呼吸般明灭，展现“黄金时代”的愿景。",
+    "concept": "观众展望AI像电力一样普及的未来，金句突出关键思想，增强人类能力的愿景，视觉上充满希望和科技感。",
+    "mood": "未来希望科技风，金色光芒象征普及和增强，赛博朋克风格中的乐观展望。",
+    "depth_layers": {
+      "background": [
+        "radial-glow",
+        "data-grid",
+        "neon-lines"
+      ],
+      "midground": [
+        "金句文字",
+        "电力隐喻图标"
+      ],
+      "foreground": [
+        "particle-drift",
+        "ghost-text"
+      ]
+    },
+    "density_target": 9,
     "key_elements": [
-      "巨幅核心引言",
-      "霓虹蓝光晕字体",
-      "背景未来城市/网络剪影",
-      "呼吸明灭的数据光点",
-      "标题‘黄金时代’",
-      "轻微的粒子上升效果",
-      "平滑的渐变背景",
-      "强调的关键词高亮"
+      "未来场景图",
+      "AI普及金句",
+      "电力隐喻符号",
+      "增强人类能力图标",
+      "金色光芒效果",
+      "背景数据网格",
+      "霓虹强调",
+      "科技线条",
+      "希望氛围粒子"
     ],
     "narration": "未来，AI会像电力一样普及，关键是咱们怎么用好它，让它增强人类能力，而不是替代。用对了，就是黄金时代。",
-    "duration": 8.8
+    "duration": 9.6,
+    "animations": {
+      "title": "SLAMS",
+      "ambient": "GLOWS"
+    },
+    "transition": {
+      "in": "zoom_in",
+      "out": "fade_out"
+    }
   },
   {
     "scene_id": 9,
     "visual_type": "quote_hero",
-    "concept": "最终金句“技术无罪，人心决定方向”以庄严的字体缓缓浮现，笔画由流动的金色数据构成。背景转为深邃、平静的星空，其中一颗代表‘创造价值’的星辰格外明亮。一个抽象的人形剪影面向星空，寓意掌握工具、面向未来。",
+    "concept": "观众被金句激发思考，技术无罪的观念以视觉方式强化，引发行动和创造价值的决心，视觉上简洁而有力。",
+    "mood": "启发科技风，简洁有力的霓虹文字，赛博朋克风格中的哲学收尾。",
+    "depth_layers": {
+      "background": [
+        "neon-lines",
+        "radial-glow"
+      ],
+      "midground": [
+        "核心金句",
+        "工具图标"
+      ],
+      "foreground": [
+        "ghost-text",
+        "particle-drift"
+      ]
+    },
+    "density_target": 8,
     "key_elements": [
-      "最终金句文字",
-      "流动的金色笔触数据",
-      "深邃星空背景",
-      "明亮‘创造价值’星辰",
-      "抽象人形剪影",
-      "“科技向善”副标题",
-      "温和的光晕呼吸",
-      "飘散的微光粒子"
+      "核心金句文字",
+      "GPT-5工具图标",
+      "创造价值符号",
+      "科技向善标语",
+      "背景霓虹线条",
+      "光晕效果",
+      "简洁布局",
+      "未来可期氛围"
     ],
     "narration": "记住，技术无罪，人心决定方向。GPT-五是工具，用它创造价值才是王道。科技向善，未来可期。",
-    "duration": 8.8
+    "duration": 8.1,
+    "animations": {
+      "title": "PUNCHES",
+      "ambient": "BREATHES"
+    },
+    "transition": {
+      "in": "fade_in",
+      "out": "fade_out"
+    }
   }
 ]

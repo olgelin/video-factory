@@ -1,176 +1,2733 @@
 {
-  "topic": "OpenAI发布GPT-5：AI能力再次飞跃",
+  "topic": "SpaceX上市：马斯克成为人类首位万亿美元富豪",
   "output_dir": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output",
   "project_root": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project",
   "voice_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\step05_voice.wav",
   "bgm_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\bgm.wav",
   "video_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\step10_video.mp4",
+  "voice_duration": 85.44,
+  "transcript_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\whisperx_transcript.json",
+  "captions_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\captions.srt",
+  "transcript_data": {
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 4.38,
+        "text": "你绝对想不到,OpenAI发布GPT-5,AI能力再次飞跃。",
+        "words": [
+          {
+            "word": "你",
+            "start": 0.0,
+            "end": 0.1,
+            "probability": 0.99
+          },
+          {
+            "word": "绝",
+            "start": 0.1,
+            "end": 0.26,
+            "probability": 0.998
+          },
+          {
+            "word": "对",
+            "start": 0.26,
+            "end": 0.38,
+            "probability": 1.0
+          },
+          {
+            "word": "想",
+            "start": 0.38,
+            "end": 0.5,
+            "probability": 1.0
+          },
+          {
+            "word": "不到,",
+            "start": 0.5,
+            "end": 0.7,
+            "probability": 1.0
+          },
+          {
+            "word": "Open",
+            "start": 0.86,
+            "end": 1.32,
+            "probability": 0.97
+          },
+          {
+            "word": "AI",
+            "start": 1.32,
+            "end": 1.56,
+            "probability": 0.987
+          },
+          {
+            "word": "发",
+            "start": 1.56,
+            "end": 1.9,
+            "probability": 0.999
+          },
+          {
+            "word": "布",
+            "start": 1.9,
+            "end": 2.08,
+            "probability": 1.0
+          },
+          {
+            "word": "G",
+            "start": 2.08,
+            "end": 2.24,
+            "probability": 0.974
+          },
+          {
+            "word": "P",
+            "start": 2.24,
+            "end": 2.42,
+            "probability": 0.998
+          },
+          {
+            "word": "T",
+            "start": 2.42,
+            "end": 2.56,
+            "probability": 1.0
+          },
+          {
+            "word": "-",
+            "start": 2.56,
+            "end": 2.56,
+            "probability": 0.975
+          },
+          {
+            "word": "5,",
+            "start": 2.56,
+            "end": 2.68,
+            "probability": 0.999
+          },
+          {
+            "word": "AI",
+            "start": 2.86,
+            "end": 3.26,
+            "probability": 0.998
+          },
+          {
+            "word": "能",
+            "start": 3.26,
+            "end": 3.46,
+            "probability": 1.0
+          },
+          {
+            "word": "力",
+            "start": 3.46,
+            "end": 3.66,
+            "probability": 1.0
+          },
+          {
+            "word": "再",
+            "start": 3.66,
+            "end": 3.8,
+            "probability": 0.999
+          },
+          {
+            "word": "次",
+            "start": 3.8,
+            "end": 4.04,
+            "probability": 1.0
+          },
+          {
+            "word": "飞",
+            "start": 4.04,
+            "end": 4.24,
+            "probability": 1.0
+          },
+          {
+            "word": "跃。",
+            "start": 4.24,
+            "end": 4.38,
+            "probability": 0.995
+          }
+        ]
+      },
+      {
+        "start": 4.58,
+        "end": 13.8,
+        "text": "说白了,这次GPT-5的发布,直接把AI的天花板又捅了个窟窿,OpenAI这次玩真的不搞虚的,整个科技圈都炸了锅。",
+        "words": [
+          {
+            "word": "说",
+            "start": 4.58,
+            "end": 4.94,
+            "probability": 0.998
+          },
+          {
+            "word": "白",
+            "start": 4.94,
+            "end": 5.14,
+            "probability": 1.0
+          },
+          {
+            "word": "了,",
+            "start": 5.14,
+            "end": 5.32,
+            "probability": 1.0
+          },
+          {
+            "word": "这",
+            "start": 5.34,
+            "end": 5.46,
+            "probability": 1.0
+          },
+          {
+            "word": "次",
+            "start": 5.46,
+            "end": 5.68,
+            "probability": 1.0
+          },
+          {
+            "word": "G",
+            "start": 5.68,
+            "end": 5.88,
+            "probability": 1.0
+          },
+          {
+            "word": "P",
+            "start": 5.88,
+            "end": 6.0,
+            "probability": 1.0
+          },
+          {
+            "word": "T",
+            "start": 6.0,
+            "end": 6.2,
+            "probability": 1.0
+          },
+          {
+            "word": "-",
+            "start": 6.2,
+            "end": 6.2,
+            "probability": 1.0
+          },
+          {
+            "word": "5",
+            "start": 6.2,
+            "end": 6.3,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 6.3,
+            "end": 6.46,
+            "probability": 0.999
+          },
+          {
+            "word": "发",
+            "start": 6.46,
+            "end": 6.62,
+            "probability": 1.0
+          },
+          {
+            "word": "布,",
+            "start": 6.62,
+            "end": 6.78,
+            "probability": 1.0
+          },
+          {
+            "word": "直接",
+            "start": 6.88,
+            "end": 7.3,
+            "probability": 0.999
+          },
+          {
+            "word": "把",
+            "start": 7.3,
+            "end": 7.52,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 7.52,
+            "end": 7.78,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 7.78,
+            "end": 8.02,
+            "probability": 1.0
+          },
+          {
+            "word": "天",
+            "start": 8.02,
+            "end": 8.18,
+            "probability": 1.0
+          },
+          {
+            "word": "花",
+            "start": 8.18,
+            "end": 8.26,
+            "probability": 0.997
+          },
+          {
+            "word": "板",
+            "start": 8.26,
+            "end": 8.48,
+            "probability": 1.0
+          },
+          {
+            "word": "又",
+            "start": 8.48,
+            "end": 8.64,
+            "probability": 1.0
+          },
+          {
+            "word": "捅",
+            "start": 8.64,
+            "end": 8.86,
+            "probability": 0.999
+          },
+          {
+            "word": "了",
+            "start": 8.86,
+            "end": 8.98,
+            "probability": 1.0
+          },
+          {
+            "word": "个",
+            "start": 8.98,
+            "end": 9.08,
+            "probability": 1.0
+          },
+          {
+            "word": "窟",
+            "start": 9.08,
+            "end": 9.26,
+            "probability": 0.997
+          },
+          {
+            "word": "窿,",
+            "start": 9.26,
+            "end": 9.4,
+            "probability": 0.997
+          },
+          {
+            "word": "Open",
+            "start": 9.5,
+            "end": 9.92,
+            "probability": 0.996
+          },
+          {
+            "word": "AI",
+            "start": 9.92,
+            "end": 10.24,
+            "probability": 1.0
+          },
+          {
+            "word": "这",
+            "start": 10.24,
+            "end": 10.6,
+            "probability": 1.0
+          },
+          {
+            "word": "次",
+            "start": 10.6,
+            "end": 10.78,
+            "probability": 1.0
+          },
+          {
+            "word": "玩",
+            "start": 10.78,
+            "end": 10.94,
+            "probability": 0.846
+          },
+          {
+            "word": "真的",
+            "start": 10.94,
+            "end": 11.18,
+            "probability": 0.999
+          },
+          {
+            "word": "不",
+            "start": 11.18,
+            "end": 11.44,
+            "probability": 1.0
+          },
+          {
+            "word": "搞",
+            "start": 11.44,
+            "end": 11.58,
+            "probability": 0.998
+          },
+          {
+            "word": "虚",
+            "start": 11.58,
+            "end": 11.8,
+            "probability": 0.997
+          },
+          {
+            "word": "的,",
+            "start": 11.8,
+            "end": 11.9,
+            "probability": 1.0
+          },
+          {
+            "word": "整",
+            "start": 12.04,
+            "end": 12.34,
+            "probability": 0.999
+          },
+          {
+            "word": "个",
+            "start": 12.34,
+            "end": 12.52,
+            "probability": 1.0
+          },
+          {
+            "word": "科",
+            "start": 12.52,
+            "end": 12.66,
+            "probability": 1.0
+          },
+          {
+            "word": "技",
+            "start": 12.66,
+            "end": 12.84,
+            "probability": 0.999
+          },
+          {
+            "word": "圈",
+            "start": 12.84,
+            "end": 13.06,
+            "probability": 1.0
+          },
+          {
+            "word": "都",
+            "start": 13.06,
+            "end": 13.26,
+            "probability": 1.0
+          },
+          {
+            "word": "炸",
+            "start": 13.26,
+            "end": 13.52,
+            "probability": 1.0
+          },
+          {
+            "word": "了",
+            "start": 13.52,
+            "end": 13.64,
+            "probability": 1.0
+          },
+          {
+            "word": "锅。",
+            "start": 13.64,
+            "end": 13.8,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 14.2,
+        "end": 24.76,
+        "text": "我翻遍全网扒了三天资料,发现GPT-5在语言理解、推理和生成上准确率飙升30%,处理速度翻倍,这数据太硬核了。",
+        "words": [
+          {
+            "word": "我",
+            "start": 14.2,
+            "end": 14.56,
+            "probability": 0.998
+          },
+          {
+            "word": "翻",
+            "start": 14.56,
+            "end": 14.76,
+            "probability": 1.0
+          },
+          {
+            "word": "遍",
+            "start": 14.76,
+            "end": 14.96,
+            "probability": 1.0
+          },
+          {
+            "word": "全",
+            "start": 14.96,
+            "end": 15.14,
+            "probability": 1.0
+          },
+          {
+            "word": "网",
+            "start": 15.14,
+            "end": 15.36,
+            "probability": 1.0
+          },
+          {
+            "word": "扒",
+            "start": 15.36,
+            "end": 15.6,
+            "probability": 0.946
+          },
+          {
+            "word": "了",
+            "start": 15.6,
+            "end": 15.72,
+            "probability": 1.0
+          },
+          {
+            "word": "三",
+            "start": 15.72,
+            "end": 15.84,
+            "probability": 0.998
+          },
+          {
+            "word": "天",
+            "start": 15.84,
+            "end": 16.02,
+            "probability": 1.0
+          },
+          {
+            "word": "资",
+            "start": 16.02,
+            "end": 16.22,
+            "probability": 1.0
+          },
+          {
+            "word": "料,",
+            "start": 16.22,
+            "end": 16.34,
+            "probability": 1.0
+          },
+          {
+            "word": "发",
+            "start": 16.42,
+            "end": 16.82,
+            "probability": 1.0
+          },
+          {
+            "word": "现",
+            "start": 16.82,
+            "end": 17.06,
+            "probability": 1.0
+          },
+          {
+            "word": "G",
+            "start": 17.06,
+            "end": 17.24,
+            "probability": 1.0
+          },
+          {
+            "word": "P",
+            "start": 17.24,
+            "end": 17.4,
+            "probability": 1.0
+          },
+          {
+            "word": "T",
+            "start": 17.4,
+            "end": 17.56,
+            "probability": 1.0
+          },
+          {
+            "word": "-",
+            "start": 17.56,
+            "end": 17.56,
+            "probability": 1.0
+          },
+          {
+            "word": "5",
+            "start": 17.56,
+            "end": 17.7,
+            "probability": 1.0
+          },
+          {
+            "word": "在",
+            "start": 17.7,
+            "end": 17.92,
+            "probability": 1.0
+          },
+          {
+            "word": "语",
+            "start": 17.92,
+            "end": 18.16,
+            "probability": 1.0
+          },
+          {
+            "word": "言",
+            "start": 18.16,
+            "end": 18.32,
+            "probability": 1.0
+          },
+          {
+            "word": "理",
+            "start": 18.32,
+            "end": 18.44,
+            "probability": 1.0
+          },
+          {
+            "word": "解、",
+            "start": 18.44,
+            "end": 18.7,
+            "probability": 1.0
+          },
+          {
+            "word": "推",
+            "start": 18.74,
+            "end": 18.94,
+            "probability": 1.0
+          },
+          {
+            "word": "理",
+            "start": 18.94,
+            "end": 19.14,
+            "probability": 1.0
+          },
+          {
+            "word": "和",
+            "start": 19.14,
+            "end": 19.32,
+            "probability": 1.0
+          },
+          {
+            "word": "生",
+            "start": 19.32,
+            "end": 19.52,
+            "probability": 0.994
+          },
+          {
+            "word": "成",
+            "start": 19.52,
+            "end": 19.62,
+            "probability": 0.999
+          },
+          {
+            "word": "上",
+            "start": 19.62,
+            "end": 19.8,
+            "probability": 1.0
+          },
+          {
+            "word": "准",
+            "start": 19.8,
+            "end": 20.38,
+            "probability": 0.679
+          },
+          {
+            "word": "确",
+            "start": 20.38,
+            "end": 20.56,
+            "probability": 1.0
+          },
+          {
+            "word": "率",
+            "start": 20.56,
+            "end": 20.72,
+            "probability": 1.0
+          },
+          {
+            "word": "飙",
+            "start": 20.72,
+            "end": 21.0,
+            "probability": 0.995
+          },
+          {
+            "word": "升",
+            "start": 21.0,
+            "end": 21.14,
+            "probability": 1.0
+          },
+          {
+            "word": "30",
+            "start": 21.14,
+            "end": 21.4,
+            "probability": 0.984
+          },
+          {
+            "word": "%,",
+            "start": 21.4,
+            "end": 21.98,
+            "probability": 0.954
+          },
+          {
+            "word": "处",
+            "start": 21.98,
+            "end": 22.38,
+            "probability": 1.0
+          },
+          {
+            "word": "理",
+            "start": 22.38,
+            "end": 22.5,
+            "probability": 1.0
+          },
+          {
+            "word": "速",
+            "start": 22.5,
+            "end": 22.62,
+            "probability": 1.0
+          },
+          {
+            "word": "度",
+            "start": 22.62,
+            "end": 22.82,
+            "probability": 1.0
+          },
+          {
+            "word": "翻",
+            "start": 22.82,
+            "end": 22.96,
+            "probability": 1.0
+          },
+          {
+            "word": "倍,",
+            "start": 22.96,
+            "end": 23.14,
+            "probability": 1.0
+          },
+          {
+            "word": "这",
+            "start": 23.24,
+            "end": 23.66,
+            "probability": 0.999
+          },
+          {
+            "word": "数",
+            "start": 23.66,
+            "end": 23.82,
+            "probability": 1.0
+          },
+          {
+            "word": "据",
+            "start": 23.82,
+            "end": 24.0,
+            "probability": 1.0
+          },
+          {
+            "word": "太",
+            "start": 24.0,
+            "end": 24.2,
+            "probability": 1.0
+          },
+          {
+            "word": "硬",
+            "start": 24.2,
+            "end": 24.42,
+            "probability": 0.997
+          },
+          {
+            "word": "核",
+            "start": 24.42,
+            "end": 24.62,
+            "probability": 0.999
+          },
+          {
+            "word": "了。",
+            "start": 24.62,
+            "end": 24.76,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 24.76,
+        "end": 34.8,
+        "text": "你品,它现在能像真人一样,写小说、编代码,甚至帮你做复杂的科研分析,多模态能力直接封神,案例多到数不过来。",
+        "words": [
+          {
+            "word": "你",
+            "start": 24.76,
+            "end": 25.24,
+            "probability": 0.807
+          },
+          {
+            "word": "品,",
+            "start": 25.24,
+            "end": 25.42,
+            "probability": 0.986
+          },
+          {
+            "word": "它",
+            "start": 25.54,
+            "end": 25.84,
+            "probability": 0.63
+          },
+          {
+            "word": "现在",
+            "start": 25.84,
+            "end": 26.12,
+            "probability": 1.0
+          },
+          {
+            "word": "能",
+            "start": 26.12,
+            "end": 26.34,
+            "probability": 1.0
+          },
+          {
+            "word": "像",
+            "start": 26.34,
+            "end": 26.52,
+            "probability": 1.0
+          },
+          {
+            "word": "真",
+            "start": 26.52,
+            "end": 26.8,
+            "probability": 1.0
+          },
+          {
+            "word": "人",
+            "start": 26.8,
+            "end": 26.92,
+            "probability": 1.0
+          },
+          {
+            "word": "一",
+            "start": 26.92,
+            "end": 27.06,
+            "probability": 1.0
+          },
+          {
+            "word": "样,",
+            "start": 27.06,
+            "end": 27.26,
+            "probability": 1.0
+          },
+          {
+            "word": "写",
+            "start": 27.32,
+            "end": 27.7,
+            "probability": 0.999
+          },
+          {
+            "word": "小",
+            "start": 27.7,
+            "end": 27.84,
+            "probability": 1.0
+          },
+          {
+            "word": "说、",
+            "start": 27.84,
+            "end": 28.1,
+            "probability": 1.0
+          },
+          {
+            "word": "编",
+            "start": 28.16,
+            "end": 28.4,
+            "probability": 1.0
+          },
+          {
+            "word": "代",
+            "start": 28.4,
+            "end": 28.56,
+            "probability": 0.998
+          },
+          {
+            "word": "码,",
+            "start": 28.56,
+            "end": 28.72,
+            "probability": 1.0
+          },
+          {
+            "word": "甚",
+            "start": 28.78,
+            "end": 29.12,
+            "probability": 1.0
+          },
+          {
+            "word": "至",
+            "start": 29.12,
+            "end": 29.32,
+            "probability": 1.0
+          },
+          {
+            "word": "帮",
+            "start": 29.32,
+            "end": 29.52,
+            "probability": 1.0
+          },
+          {
+            "word": "你",
+            "start": 29.52,
+            "end": 29.66,
+            "probability": 1.0
+          },
+          {
+            "word": "做",
+            "start": 29.66,
+            "end": 29.8,
+            "probability": 1.0
+          },
+          {
+            "word": "复",
+            "start": 29.8,
+            "end": 29.98,
+            "probability": 0.999
+          },
+          {
+            "word": "杂",
+            "start": 29.98,
+            "end": 30.2,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 30.2,
+            "end": 30.32,
+            "probability": 1.0
+          },
+          {
+            "word": "科",
+            "start": 30.32,
+            "end": 30.5,
+            "probability": 0.999
+          },
+          {
+            "word": "研",
+            "start": 30.5,
+            "end": 30.6,
+            "probability": 1.0
+          },
+          {
+            "word": "分",
+            "start": 30.6,
+            "end": 30.76,
+            "probability": 1.0
+          },
+          {
+            "word": "析,",
+            "start": 30.76,
+            "end": 31.0,
+            "probability": 1.0
+          },
+          {
+            "word": "多",
+            "start": 31.08,
+            "end": 31.54,
+            "probability": 0.997
+          },
+          {
+            "word": "模",
+            "start": 31.54,
+            "end": 31.76,
+            "probability": 0.953
+          },
+          {
+            "word": "态",
+            "start": 31.76,
+            "end": 31.92,
+            "probability": 0.996
+          },
+          {
+            "word": "能",
+            "start": 31.92,
+            "end": 32.1,
+            "probability": 1.0
+          },
+          {
+            "word": "力",
+            "start": 32.1,
+            "end": 32.32,
+            "probability": 1.0
+          },
+          {
+            "word": "直接",
+            "start": 32.32,
+            "end": 32.62,
+            "probability": 0.941
+          },
+          {
+            "word": "封",
+            "start": 32.62,
+            "end": 32.92,
+            "probability": 0.814
+          },
+          {
+            "word": "神,",
+            "start": 32.92,
+            "end": 33.1,
+            "probability": 0.974
+          },
+          {
+            "word": "案",
+            "start": 33.32,
+            "end": 33.7,
+            "probability": 0.972
+          },
+          {
+            "word": "例",
+            "start": 33.7,
+            "end": 33.82,
+            "probability": 1.0
+          },
+          {
+            "word": "多",
+            "start": 33.82,
+            "end": 34.02,
+            "probability": 1.0
+          },
+          {
+            "word": "到",
+            "start": 34.02,
+            "end": 34.16,
+            "probability": 0.998
+          },
+          {
+            "word": "数",
+            "start": 34.16,
+            "end": 34.32,
+            "probability": 1.0
+          },
+          {
+            "word": "不",
+            "start": 34.32,
+            "end": 34.46,
+            "probability": 0.999
+          },
+          {
+            "word": "过",
+            "start": 34.46,
+            "end": 34.6,
+            "probability": 1.0
+          },
+          {
+            "word": "来。",
+            "start": 34.6,
+            "end": 34.8,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 35.34,
+        "end": 45.38,
+        "text": "细品背后的技术,OpenAI用了全新的混合专家架构和强化学习,让模型更聪明,学习效率指数级提升,这是真正的技术革命。",
+        "words": [
+          {
+            "word": "细",
+            "start": 35.34,
+            "end": 35.62,
+            "probability": 0.852
+          },
+          {
+            "word": "品",
+            "start": 35.62,
+            "end": 35.8,
+            "probability": 1.0
+          },
+          {
+            "word": "背",
+            "start": 35.8,
+            "end": 35.94,
+            "probability": 1.0
+          },
+          {
+            "word": "后",
+            "start": 35.94,
+            "end": 36.14,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 36.14,
+            "end": 36.28,
+            "probability": 1.0
+          },
+          {
+            "word": "技",
+            "start": 36.28,
+            "end": 36.38,
+            "probability": 1.0
+          },
+          {
+            "word": "术,",
+            "start": 36.38,
+            "end": 36.62,
+            "probability": 1.0
+          },
+          {
+            "word": "Open",
+            "start": 36.8,
+            "end": 37.12,
+            "probability": 0.977
+          },
+          {
+            "word": "AI",
+            "start": 37.12,
+            "end": 37.38,
+            "probability": 0.993
+          },
+          {
+            "word": "用",
+            "start": 37.38,
+            "end": 37.7,
+            "probability": 0.999
+          },
+          {
+            "word": "了",
+            "start": 37.7,
+            "end": 37.86,
+            "probability": 1.0
+          },
+          {
+            "word": "全",
+            "start": 37.86,
+            "end": 38.02,
+            "probability": 1.0
+          },
+          {
+            "word": "新",
+            "start": 38.02,
+            "end": 38.28,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 38.28,
+            "end": 38.42,
+            "probability": 1.0
+          },
+          {
+            "word": "混",
+            "start": 38.42,
+            "end": 38.6,
+            "probability": 1.0
+          },
+          {
+            "word": "合",
+            "start": 38.6,
+            "end": 38.8,
+            "probability": 0.999
+          },
+          {
+            "word": "专",
+            "start": 38.8,
+            "end": 38.96,
+            "probability": 1.0
+          },
+          {
+            "word": "家",
+            "start": 38.96,
+            "end": 39.12,
+            "probability": 1.0
+          },
+          {
+            "word": "架",
+            "start": 39.12,
+            "end": 39.32,
+            "probability": 1.0
+          },
+          {
+            "word": "构",
+            "start": 39.32,
+            "end": 39.5,
+            "probability": 1.0
+          },
+          {
+            "word": "和",
+            "start": 39.5,
+            "end": 39.72,
+            "probability": 0.999
+          },
+          {
+            "word": "强",
+            "start": 39.72,
+            "end": 39.98,
+            "probability": 1.0
+          },
+          {
+            "word": "化",
+            "start": 39.98,
+            "end": 40.08,
+            "probability": 1.0
+          },
+          {
+            "word": "学",
+            "start": 40.08,
+            "end": 40.26,
+            "probability": 1.0
+          },
+          {
+            "word": "习,",
+            "start": 40.26,
+            "end": 40.54,
+            "probability": 1.0
+          },
+          {
+            "word": "让",
+            "start": 40.62,
+            "end": 40.94,
+            "probability": 0.999
+          },
+          {
+            "word": "模",
+            "start": 40.94,
+            "end": 41.12,
+            "probability": 1.0
+          },
+          {
+            "word": "型",
+            "start": 41.12,
+            "end": 41.34,
+            "probability": 1.0
+          },
+          {
+            "word": "更",
+            "start": 41.34,
+            "end": 41.5,
+            "probability": 1.0
+          },
+          {
+            "word": "聪",
+            "start": 41.5,
+            "end": 41.78,
+            "probability": 1.0
+          },
+          {
+            "word": "明,",
+            "start": 41.78,
+            "end": 41.96,
+            "probability": 1.0
+          },
+          {
+            "word": "学",
+            "start": 42.04,
+            "end": 42.4,
+            "probability": 1.0
+          },
+          {
+            "word": "习",
+            "start": 42.4,
+            "end": 42.58,
+            "probability": 1.0
+          },
+          {
+            "word": "效",
+            "start": 42.58,
+            "end": 42.8,
+            "probability": 1.0
+          },
+          {
+            "word": "率",
+            "start": 42.8,
+            "end": 42.98,
+            "probability": 1.0
+          },
+          {
+            "word": "指",
+            "start": 42.98,
+            "end": 43.12,
+            "probability": 0.998
+          },
+          {
+            "word": "数",
+            "start": 43.12,
+            "end": 43.3,
+            "probability": 1.0
+          },
+          {
+            "word": "级",
+            "start": 43.3,
+            "end": 43.44,
+            "probability": 0.872
+          },
+          {
+            "word": "提",
+            "start": 43.44,
+            "end": 43.58,
+            "probability": 1.0
+          },
+          {
+            "word": "升,",
+            "start": 43.58,
+            "end": 43.78,
+            "probability": 1.0
+          },
+          {
+            "word": "这是",
+            "start": 43.9,
+            "end": 44.26,
+            "probability": 1.0
+          },
+          {
+            "word": "真",
+            "start": 44.26,
+            "end": 44.48,
+            "probability": 1.0
+          },
+          {
+            "word": "正",
+            "start": 44.48,
+            "end": 44.68,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 44.68,
+            "end": 44.8,
+            "probability": 1.0
+          },
+          {
+            "word": "技",
+            "start": 44.8,
+            "end": 44.92,
+            "probability": 1.0
+          },
+          {
+            "word": "术",
+            "start": 44.92,
+            "end": 45.06,
+            "probability": 1.0
+          },
+          {
+            "word": "革",
+            "start": 45.06,
+            "end": 45.24,
+            "probability": 1.0
+          },
+          {
+            "word": "命。",
+            "start": 45.24,
+            "end": 45.38,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 45.5,
+        "end": 54.56,
+        "text": "别被忽悠了,这玩意儿会颠覆内容、创作、教育、医疗,甚至改变你的工作方式,影响深不见底、机会和风险。",
+        "words": [
+          {
+            "word": "别",
+            "start": 45.5,
+            "end": 45.82,
+            "probability": 0.992
+          },
+          {
+            "word": "被",
+            "start": 45.82,
+            "end": 46.0,
+            "probability": 0.999
+          },
+          {
+            "word": "忽",
+            "start": 46.0,
+            "end": 46.26,
+            "probability": 1.0
+          },
+          {
+            "word": "悠",
+            "start": 46.26,
+            "end": 46.38,
+            "probability": 0.995
+          },
+          {
+            "word": "了,",
+            "start": 46.38,
+            "end": 46.56,
+            "probability": 1.0
+          },
+          {
+            "word": "这",
+            "start": 46.64,
+            "end": 47.0,
+            "probability": 1.0
+          },
+          {
+            "word": "玩",
+            "start": 47.0,
+            "end": 47.16,
+            "probability": 1.0
+          },
+          {
+            "word": "意",
+            "start": 47.16,
+            "end": 47.3,
+            "probability": 0.999
+          },
+          {
+            "word": "儿",
+            "start": 47.3,
+            "end": 47.32,
+            "probability": 0.882
+          },
+          {
+            "word": "会",
+            "start": 47.32,
+            "end": 47.46,
+            "probability": 1.0
+          },
+          {
+            "word": "颠",
+            "start": 47.46,
+            "end": 47.72,
+            "probability": 0.998
+          },
+          {
+            "word": "覆",
+            "start": 47.72,
+            "end": 47.9,
+            "probability": 1.0
+          },
+          {
+            "word": "内",
+            "start": 47.9,
+            "end": 48.06,
+            "probability": 1.0
+          },
+          {
+            "word": "容、",
+            "start": 48.06,
+            "end": 48.26,
+            "probability": 1.0
+          },
+          {
+            "word": "创",
+            "start": 48.34,
+            "end": 48.68,
+            "probability": 1.0
+          },
+          {
+            "word": "作、",
+            "start": 48.68,
+            "end": 48.92,
+            "probability": 1.0
+          },
+          {
+            "word": "教",
+            "start": 48.96,
+            "end": 49.2,
+            "probability": 1.0
+          },
+          {
+            "word": "育、",
+            "start": 49.2,
+            "end": 49.38,
+            "probability": 1.0
+          },
+          {
+            "word": "医",
+            "start": 49.48,
+            "end": 49.68,
+            "probability": 1.0
+          },
+          {
+            "word": "疗,",
+            "start": 49.68,
+            "end": 49.9,
+            "probability": 1.0
+          },
+          {
+            "word": "甚",
+            "start": 50.04,
+            "end": 50.4,
+            "probability": 1.0
+          },
+          {
+            "word": "至",
+            "start": 50.4,
+            "end": 50.62,
+            "probability": 1.0
+          },
+          {
+            "word": "改",
+            "start": 50.62,
+            "end": 50.8,
+            "probability": 1.0
+          },
+          {
+            "word": "变",
+            "start": 50.8,
+            "end": 51.02,
+            "probability": 1.0
+          },
+          {
+            "word": "你的",
+            "start": 51.02,
+            "end": 51.16,
+            "probability": 1.0
+          },
+          {
+            "word": "工作",
+            "start": 51.16,
+            "end": 51.46,
+            "probability": 1.0
+          },
+          {
+            "word": "方",
+            "start": 51.46,
+            "end": 51.68,
+            "probability": 1.0
+          },
+          {
+            "word": "式,",
+            "start": 51.68,
+            "end": 51.9,
+            "probability": 1.0
+          },
+          {
+            "word": "影",
+            "start": 51.96,
+            "end": 52.16,
+            "probability": 0.998
+          },
+          {
+            "word": "响",
+            "start": 52.16,
+            "end": 52.4,
+            "probability": 1.0
+          },
+          {
+            "word": "深",
+            "start": 52.4,
+            "end": 52.62,
+            "probability": 0.615
+          },
+          {
+            "word": "不",
+            "start": 52.62,
+            "end": 52.78,
+            "probability": 0.998
+          },
+          {
+            "word": "见",
+            "start": 52.78,
+            "end": 52.92,
+            "probability": 0.997
+          },
+          {
+            "word": "底、",
+            "start": 52.92,
+            "end": 53.12,
+            "probability": 1.0
+          },
+          {
+            "word": "机",
+            "start": 53.28,
+            "end": 53.56,
+            "probability": 0.999
+          },
+          {
+            "word": "会",
+            "start": 53.56,
+            "end": 53.86,
+            "probability": 1.0
+          },
+          {
+            "word": "和",
+            "start": 53.86,
+            "end": 54.1,
+            "probability": 1.0
+          },
+          {
+            "word": "风",
+            "start": 54.1,
+            "end": 54.32,
+            "probability": 0.999
+          },
+          {
+            "word": "险。",
+            "start": 54.32,
+            "end": 54.56,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 54.76,
+        "end": 55.06,
+        "text": "并存。",
+        "words": [
+          {
+            "word": "并",
+            "start": 54.76,
+            "end": 54.86,
+            "probability": 0.51
+          },
+          {
+            "word": "存。",
+            "start": 54.86,
+            "end": 55.06,
+            "probability": 0.999
+          }
+        ]
+      },
+      {
+        "start": 55.54,
+        "end": 66.3,
+        "text": "但真相是,AI能力飞跃也带来挑战,比如数据隐私泄露、算法偏见加剧,还有对就业市场的巨大冲击,咱们得冷静看待。",
+        "words": [
+          {
+            "word": "但",
+            "start": 55.54,
+            "end": 55.94,
+            "probability": 0.991
+          },
+          {
+            "word": "真",
+            "start": 55.94,
+            "end": 56.26,
+            "probability": 0.999
+          },
+          {
+            "word": "相",
+            "start": 56.26,
+            "end": 56.46,
+            "probability": 0.999
+          },
+          {
+            "word": "是,",
+            "start": 56.46,
+            "end": 56.68,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 56.78,
+            "end": 57.32,
+            "probability": 0.997
+          },
+          {
+            "word": "能",
+            "start": 57.32,
+            "end": 57.58,
+            "probability": 0.997
+          },
+          {
+            "word": "力",
+            "start": 57.58,
+            "end": 57.82,
+            "probability": 1.0
+          },
+          {
+            "word": "飞",
+            "start": 57.82,
+            "end": 58.02,
+            "probability": 1.0
+          },
+          {
+            "word": "跃",
+            "start": 58.02,
+            "end": 58.22,
+            "probability": 0.976
+          },
+          {
+            "word": "也",
+            "start": 58.22,
+            "end": 58.48,
+            "probability": 0.998
+          },
+          {
+            "word": "带",
+            "start": 58.48,
+            "end": 58.72,
+            "probability": 1.0
+          },
+          {
+            "word": "来",
+            "start": 58.72,
+            "end": 58.82,
+            "probability": 1.0
+          },
+          {
+            "word": "挑",
+            "start": 58.82,
+            "end": 58.94,
+            "probability": 1.0
+          },
+          {
+            "word": "战,",
+            "start": 58.94,
+            "end": 59.18,
+            "probability": 1.0
+          },
+          {
+            "word": "比如",
+            "start": 59.28,
+            "end": 59.72,
+            "probability": 0.998
+          },
+          {
+            "word": "数",
+            "start": 59.72,
+            "end": 60.2,
+            "probability": 0.894
+          },
+          {
+            "word": "据",
+            "start": 60.2,
+            "end": 60.46,
+            "probability": 1.0
+          },
+          {
+            "word": "隐",
+            "start": 60.46,
+            "end": 60.62,
+            "probability": 1.0
+          },
+          {
+            "word": "私",
+            "start": 60.62,
+            "end": 60.74,
+            "probability": 1.0
+          },
+          {
+            "word": "泄",
+            "start": 60.74,
+            "end": 61.06,
+            "probability": 0.999
+          },
+          {
+            "word": "露、",
+            "start": 61.06,
+            "end": 61.16,
+            "probability": 0.966
+          },
+          {
+            "word": "算",
+            "start": 61.24,
+            "end": 61.52,
+            "probability": 0.998
+          },
+          {
+            "word": "法",
+            "start": 61.52,
+            "end": 61.72,
+            "probability": 1.0
+          },
+          {
+            "word": "偏",
+            "start": 61.72,
+            "end": 61.94,
+            "probability": 1.0
+          },
+          {
+            "word": "见",
+            "start": 61.94,
+            "end": 62.08,
+            "probability": 0.995
+          },
+          {
+            "word": "加",
+            "start": 62.08,
+            "end": 62.26,
+            "probability": 0.997
+          },
+          {
+            "word": "剧,",
+            "start": 62.26,
+            "end": 62.52,
+            "probability": 0.998
+          },
+          {
+            "word": "还有",
+            "start": 62.58,
+            "end": 63.0,
+            "probability": 0.999
+          },
+          {
+            "word": "对",
+            "start": 63.0,
+            "end": 63.22,
+            "probability": 1.0
+          },
+          {
+            "word": "就",
+            "start": 63.22,
+            "end": 63.48,
+            "probability": 0.988
+          },
+          {
+            "word": "业",
+            "start": 63.48,
+            "end": 63.62,
+            "probability": 1.0
+          },
+          {
+            "word": "市",
+            "start": 63.62,
+            "end": 63.76,
+            "probability": 1.0
+          },
+          {
+            "word": "场",
+            "start": 63.76,
+            "end": 63.96,
+            "probability": 1.0
+          },
+          {
+            "word": "的",
+            "start": 63.96,
+            "end": 64.06,
+            "probability": 1.0
+          },
+          {
+            "word": "巨",
+            "start": 64.06,
+            "end": 64.26,
+            "probability": 1.0
+          },
+          {
+            "word": "大",
+            "start": 64.26,
+            "end": 64.38,
+            "probability": 1.0
+          },
+          {
+            "word": "冲",
+            "start": 64.38,
+            "end": 64.54,
+            "probability": 1.0
+          },
+          {
+            "word": "击,",
+            "start": 64.54,
+            "end": 64.76,
+            "probability": 1.0
+          },
+          {
+            "word": "咱",
+            "start": 64.84,
+            "end": 65.18,
+            "probability": 0.999
+          },
+          {
+            "word": "们",
+            "start": 65.18,
+            "end": 65.28,
+            "probability": 1.0
+          },
+          {
+            "word": "得",
+            "start": 65.28,
+            "end": 65.4,
+            "probability": 1.0
+          },
+          {
+            "word": "冷",
+            "start": 65.4,
+            "end": 65.74,
+            "probability": 0.999
+          },
+          {
+            "word": "静",
+            "start": 65.74,
+            "end": 65.98,
+            "probability": 1.0
+          },
+          {
+            "word": "看",
+            "start": 65.98,
+            "end": 66.12,
+            "probability": 1.0
+          },
+          {
+            "word": "待。",
+            "start": 66.12,
+            "end": 66.3,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 66.46,
+        "end": 76.1,
+        "text": "未来,AI会像电力一样普及,关键是,咱们怎么用好它,让它增强人类能力,而不是替代,用对了就是黄金时代。",
+        "words": [
+          {
+            "word": "未",
+            "start": 66.46,
+            "end": 66.76,
+            "probability": 0.995
+          },
+          {
+            "word": "来,",
+            "start": 66.76,
+            "end": 67.08,
+            "probability": 1.0
+          },
+          {
+            "word": "AI",
+            "start": 67.08,
+            "end": 67.38,
+            "probability": 0.998
+          },
+          {
+            "word": "会",
+            "start": 67.38,
+            "end": 67.62,
+            "probability": 1.0
+          },
+          {
+            "word": "像",
+            "start": 67.62,
+            "end": 67.8,
+            "probability": 1.0
+          },
+          {
+            "word": "电",
+            "start": 67.8,
+            "end": 68.06,
+            "probability": 0.999
+          },
+          {
+            "word": "力",
+            "start": 68.06,
+            "end": 68.24,
+            "probability": 0.999
+          },
+          {
+            "word": "一",
+            "start": 68.24,
+            "end": 68.36,
+            "probability": 1.0
+          },
+          {
+            "word": "样",
+            "start": 68.36,
+            "end": 68.56,
+            "probability": 1.0
+          },
+          {
+            "word": "普",
+            "start": 68.56,
+            "end": 68.68,
+            "probability": 1.0
+          },
+          {
+            "word": "及,",
+            "start": 68.68,
+            "end": 68.86,
+            "probability": 1.0
+          },
+          {
+            "word": "关",
+            "start": 69.04,
+            "end": 69.38,
+            "probability": 0.998
+          },
+          {
+            "word": "键",
+            "start": 69.38,
+            "end": 69.62,
+            "probability": 1.0
+          },
+          {
+            "word": "是,",
+            "start": 69.62,
+            "end": 69.86,
+            "probability": 1.0
+          },
+          {
+            "word": "咱",
+            "start": 69.9,
+            "end": 70.24,
+            "probability": 1.0
+          },
+          {
+            "word": "们",
+            "start": 70.24,
+            "end": 70.38,
+            "probability": 1.0
+          },
+          {
+            "word": "怎么",
+            "start": 70.38,
+            "end": 70.54,
+            "probability": 1.0
+          },
+          {
+            "word": "用",
+            "start": 70.54,
+            "end": 70.82,
+            "probability": 1.0
+          },
+          {
+            "word": "好",
+            "start": 70.82,
+            "end": 71.04,
+            "probability": 1.0
+          },
+          {
+            "word": "它,",
+            "start": 71.04,
+            "end": 71.22,
+            "probability": 1.0
+          },
+          {
+            "word": "让",
+            "start": 71.28,
+            "end": 71.46,
+            "probability": 0.999
+          },
+          {
+            "word": "它",
+            "start": 71.46,
+            "end": 71.6,
+            "probability": 1.0
+          },
+          {
+            "word": "增",
+            "start": 71.6,
+            "end": 71.86,
+            "probability": 1.0
+          },
+          {
+            "word": "强",
+            "start": 71.86,
+            "end": 72.0,
+            "probability": 1.0
+          },
+          {
+            "word": "人",
+            "start": 72.0,
+            "end": 72.16,
+            "probability": 1.0
+          },
+          {
+            "word": "类",
+            "start": 72.16,
+            "end": 72.36,
+            "probability": 1.0
+          },
+          {
+            "word": "能",
+            "start": 72.36,
+            "end": 72.48,
+            "probability": 1.0
+          },
+          {
+            "word": "力,",
+            "start": 72.48,
+            "end": 72.7,
+            "probability": 1.0
+          },
+          {
+            "word": "而",
+            "start": 72.76,
+            "end": 73.06,
+            "probability": 1.0
+          },
+          {
+            "word": "不是",
+            "start": 73.06,
+            "end": 73.24,
+            "probability": 1.0
+          },
+          {
+            "word": "替",
+            "start": 73.24,
+            "end": 73.6,
+            "probability": 1.0
+          },
+          {
+            "word": "代,",
+            "start": 73.6,
+            "end": 73.8,
+            "probability": 1.0
+          },
+          {
+            "word": "用",
+            "start": 73.88,
+            "end": 74.32,
+            "probability": 1.0
+          },
+          {
+            "word": "对",
+            "start": 74.32,
+            "end": 74.56,
+            "probability": 0.999
+          },
+          {
+            "word": "了",
+            "start": 74.56,
+            "end": 74.8,
+            "probability": 1.0
+          },
+          {
+            "word": "就是",
+            "start": 74.8,
+            "end": 75.06,
+            "probability": 0.996
+          },
+          {
+            "word": "黄",
+            "start": 75.06,
+            "end": 75.46,
+            "probability": 1.0
+          },
+          {
+            "word": "金",
+            "start": 75.46,
+            "end": 75.7,
+            "probability": 1.0
+          },
+          {
+            "word": "时",
+            "start": 75.7,
+            "end": 75.86,
+            "probability": 0.999
+          },
+          {
+            "word": "代。",
+            "start": 75.86,
+            "end": 76.1,
+            "probability": 1.0
+          }
+        ]
+      },
+      {
+        "start": 76.64,
+        "end": 84.74,
+        "text": "记住,技术无罪,人心决定方向,GPT-5是工具,用它创造价值才是王道,科技向善,未来可靠。",
+        "words": [
+          {
+            "word": "记",
+            "start": 76.64,
+            "end": 77.04,
+            "probability": 0.989
+          },
+          {
+            "word": "住,",
+            "start": 77.04,
+            "end": 77.22,
+            "probability": 1.0
+          },
+          {
+            "word": "技",
+            "start": 77.32,
+            "end": 77.66,
+            "probability": 0.999
+          },
+          {
+            "word": "术",
+            "start": 77.66,
+            "end": 77.84,
+            "probability": 1.0
+          },
+          {
+            "word": "无",
+            "start": 77.84,
+            "end": 77.98,
+            "probability": 1.0
+          },
+          {
+            "word": "罪,",
+            "start": 77.98,
+            "end": 78.16,
+            "probability": 1.0
+          },
+          {
+            "word": "人",
+            "start": 78.26,
+            "end": 78.6,
+            "probability": 0.999
+          },
+          {
+            "word": "心",
+            "start": 78.6,
+            "end": 78.82,
+            "probability": 1.0
+          },
+          {
+            "word": "决",
+            "start": 78.82,
+            "end": 79.04,
+            "probability": 1.0
+          },
+          {
+            "word": "定",
+            "start": 79.04,
+            "end": 79.18,
+            "probability": 1.0
+          },
+          {
+            "word": "方",
+            "start": 79.18,
+            "end": 79.34,
+            "probability": 1.0
+          },
+          {
+            "word": "向,",
+            "start": 79.34,
+            "end": 79.6,
+            "probability": 1.0
+          },
+          {
+            "word": "G",
+            "start": 79.84,
+            "end": 80.14,
+            "probability": 0.974
+          },
+          {
+            "word": "P",
+            "start": 80.14,
+            "end": 80.28,
+            "probability": 0.998
+          },
+          {
+            "word": "T",
+            "start": 80.28,
+            "end": 80.44,
+            "probability": 1.0
+          },
+          {
+            "word": "-",
+            "start": 80.44,
+            "end": 80.44,
+            "probability": 0.973
+          },
+          {
+            "word": "5",
+            "start": 80.44,
+            "end": 80.54,
+            "probability": 0.777
+          },
+          {
+            "word": "是",
+            "start": 80.54,
+            "end": 80.76,
+            "probability": 0.999
+          },
+          {
+            "word": "工",
+            "start": 80.76,
+            "end": 80.92,
+            "probability": 0.999
+          },
+          {
+            "word": "具,",
+            "start": 80.92,
+            "end": 81.14,
+            "probability": 1.0
+          },
+          {
+            "word": "用",
+            "start": 81.2,
+            "end": 81.44,
+            "probability": 0.999
+          },
+          {
+            "word": "它",
+            "start": 81.44,
+            "end": 81.58,
+            "probability": 1.0
+          },
+          {
+            "word": "创",
+            "start": 81.58,
+            "end": 81.84,
+            "probability": 1.0
+          },
+          {
+            "word": "造",
+            "start": 81.84,
+            "end": 81.94,
+            "probability": 1.0
+          },
+          {
+            "word": "价",
+            "start": 81.94,
+            "end": 82.12,
+            "probability": 1.0
+          },
+          {
+            "word": "值",
+            "start": 82.12,
+            "end": 82.34,
+            "probability": 1.0
+          },
+          {
+            "word": "才",
+            "start": 82.34,
+            "end": 82.54,
+            "probability": 0.855
+          },
+          {
+            "word": "是",
+            "start": 82.54,
+            "end": 82.76,
+            "probability": 1.0
+          },
+          {
+            "word": "王",
+            "start": 82.76,
+            "end": 82.9,
+            "probability": 0.999
+          },
+          {
+            "word": "道,",
+            "start": 82.9,
+            "end": 83.08,
+            "probability": 1.0
+          },
+          {
+            "word": "科",
+            "start": 83.18,
+            "end": 83.54,
+            "probability": 0.989
+          },
+          {
+            "word": "技",
+            "start": 83.54,
+            "end": 83.76,
+            "probability": 1.0
+          },
+          {
+            "word": "向",
+            "start": 83.76,
+            "end": 83.9,
+            "probability": 0.998
+          },
+          {
+            "word": "善,",
+            "start": 83.9,
+            "end": 84.14,
+            "probability": 0.974
+          },
+          {
+            "word": "未",
+            "start": 84.18,
+            "end": 84.38,
+            "probability": 0.985
+          },
+          {
+            "word": "来",
+            "start": 84.38,
+            "end": 84.58,
+            "probability": 1.0
+          },
+          {
+            "word": "可",
+            "start": 84.58,
+            "end": 84.66,
+            "probability": 0.307
+          },
+          {
+            "word": "靠。",
+            "start": 84.66,
+            "end": 84.74,
+            "probability": 0.57
+          }
+        ]
+      },
+      {
+        "start": 84.76,
+        "end": 84.94,
+        "text": "谢谢。",
+        "words": [
+          {
+            "word": "谢谢。",
+            "start": 84.76,
+            "end": 84.94,
+            "probability": 0.015
+          }
+        ]
+      }
+    ],
+    "language": "zh",
+    "duration": 85.44
+  },
+  "bgm_duration": 90.4,
   "storyboard_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\storyboard.json",
   "storyboard": [
     {
       "scene_id": 1,
-      "visual_type": "hud",
-      "concept": "深空般的场景中心，一个由霓虹蓝光线构成的AI之眼缓缓睁开，伴随着心跳般的脉冲光效。悬浮的代码流与‘GPT-5’字样若隐若现，在观众眼前构筑一个充满未知与潜能的科技深渊，瞬间将注意力吸入。",
+      "visual_type": "quote_hero",
+      "concept": "观众被一个悬念开场瞬间抓住，感受到AI能力飞跃的震撼前兆。深黑背景中，霓虹文字闪烁，营造出未知与期待的氛围，聚焦于发布核心信息。",
+      "mood": "科技感未来冲击力，参考赛博朋克风格的深黑背景霓虹发光，强调悬念和冲击。",
+      "depth_layers": {
+        "background": [
+          "radial-glow",
+          "data-grid",
+          "neon-lines"
+        ],
+        "midground": [
+          "GPT-5标题文字",
+          "霓虹光效"
+        ],
+        "foreground": [
+          "particle-drift",
+          "ghost-text"
+        ]
+      },
+      "density_target": 8,
       "key_elements": [
-        "AI之眼（核心光环）",
-        "霓虹代码流",
-        "悬浮的‘GPT-5’全息文字",
-        "心跳脉冲光环",
+        "GPT-5标题",
+        "霓虹光效",
         "数据网格背景",
-        "粒子漂浮物",
-        "微弱的扫描线",
-        "光晕渐变"
+        "粒子漂浮",
+        "悬念文字",
+        "深黑背景",
+        "强调色点缀",
+        "未来感线条"
       ],
       "narration": "你绝对想不到，OpenAI发布GPT-五：AI能力再次飞跃。",
-      "duration": 4.6
+      "duration": 4.4,
+      "animations": {
+        "title": "SLAMS",
+        "ambient": "PULSES"
+      },
+      "transition": {
+        "in": "fade_in",
+        "out": "dissolve"
+      }
     },
     {
       "scene_id": 2,
       "visual_type": "data_impact",
-      "concept": "画面被一个巨大的、代表‘旧天花板’的玻璃面板占据，‘GPT-5’的霓虹冲击波如数据洪流般将其瞬间击碎，碎片化作无数光点和向上飞升的趋势箭头。强烈的视觉冲击直观传达‘突破极限’与‘行业震动’的信息。",
+      "concept": "观众感受到科技圈的震动，数据和趋势箭头突出发布的重要性。大数字和进度条冲击视觉，强调突破性和行业沸腾感。",
+      "mood": "冲击力科技风，霓虹强调色突出关键信息，营造科技暗黑中的能量爆发。",
+      "depth_layers": {
+        "background": [
+          "radial-glow",
+          "data-grid",
+          "neon-lines"
+        ],
+        "midground": [
+          "大数字",
+          "趋势箭头",
+          "进度条"
+        ],
+        "foreground": [
+          "particle-drift",
+          "ghost-text"
+        ]
+      },
+      "density_target": 9,
       "key_elements": [
-        "破碎的玻璃面板",
-        "数据冲击波（从中心爆裂）",
-        "向上飞升的趋势箭头",
-        "爆炸的光点与碎片",
-        "核心标题‘捅了个窟窿’",
-        "震动波纹背景",
-        "霓虹强调高光",
-        "‘科技圈炸了锅’的文字碎片"
+        "大数字显示",
+        "趋势上升箭头",
+        "动态进度条",
+        "霓虹强调边框",
+        "数据冲击动画",
+        "背景光晕",
+        "科技线条",
+        "冲击文字",
+        "行业震动图标"
       ],
       "narration": "说白了，这次GPT-五的发布，直接把AI的天花板又捅了个窟窿。OpenAI这次玩真的，不搞虚的，整个科技圈都炸了锅。",
-      "duration": 9.3
+      "duration": 9.2,
+      "animations": {
+        "title": "CRASHES",
+        "data": "COUNTS UP",
+        "ambient": "GLOWS"
+      },
+      "transition": {
+        "in": "slide_in",
+        "out": "glitch_out"
+      }
     },
     {
       "scene_id": 3,
-      "visual_type": "dashboard",
-      "concept": "一个全息风格的数据仪表盘在画面中央展开，三大核心指标——准确率（+30%）、处理速度（x2）、综合提升（飙升）以环形图、进度条和数字翻牌的形式并列展示。数据以FFD700（金色）高亮呈现，数字不断计数上涨，营造硬核、精准的科技实证感。",
+      "visual_type": "data_impact",
+      "concept": "观众看到硬核数据，准确率飙升30%和处理速度翻倍以动态方式呈现，体验数据的冲击力和可信度。",
+      "mood": "数据驱动科技感，金色数据突出重要性，赛博朋克风中的数据可视化。",
+      "depth_layers": {
+        "background": [
+          "data-grid",
+          "neon-lines",
+          "radial-glow"
+        ],
+        "midground": [
+          "百分比图表",
+          "速度条",
+          "动态数据点"
+        ],
+        "foreground": [
+          "ghost-text",
+          "particle-drift"
+        ]
+      },
+      "density_target": 10,
       "key_elements": [
-        "主标题‘硬核数据’",
-        "环形进度图（准确率）",
-        "动态进度条（处理速度）",
-        "大号计数器（综合提升）",
-        "辅助数据标签与图标",
-        "网格化背景底纹",
-        "扫描线动态效果",
-        "‘%’ 和 ‘x2’ 符号",
-        "微粒数据流"
+        "百分比数字30%",
+        "速度翻倍图表",
+        "动态进度条",
+        "数据网格背景",
+        "霓虹光效",
+        "强调色数据",
+        "科技线条",
+        "数据标签",
+        "趋势曲线",
+        "金点高亮"
       ],
       "narration": "我翻遍全网，扒了三天资料，发现GPT-五在语言理解、推理和生成上，准确率飙升百分之三零，处理速度翻倍，这数据太硬核了。",
-      "duration": 9.8
+      "duration": 10.6,
+      "animations": {
+        "title": "PUNCHES",
+        "data": "MORPHS",
+        "ambient": "BREATHES"
+      },
+      "transition": {
+        "in": "zoom_in",
+        "out": "fade_out"
+      }
     },
     {
       "scene_id": 4,
-      "visual_type": "list_alert",
-      "concept": "一系列半透明的、带霓虹边框的清单卡片以瀑布流方式入场并强调显示。每张卡片代表一个应用案例（写小说、编代码、科研分析），并伴有对应的抽象图标（书本、代码符号、DNA链）。卡片的叠加与高亮强调多模态能力的全面性与‘封神’地位。",
+      "visual_type": "dashboard",
+      "concept": "观众体验多模态能力的全面展示，各种应用案例如仪表盘般并列，封神能力一览无余，视觉上丰富而有条理。",
+      "mood": "科技仪表盘风，多色彩强调不同应用，赛博朋克风格中的信息密集展示。",
+      "depth_layers": {
+        "background": [
+          "radial-glow",
+          "data-grid"
+        ],
+        "midground": [
+          "应用图标",
+          "指标卡片",
+          "案例图表"
+        ],
+        "foreground": [
+          "particle-drift",
+          "ghost-text"
+        ]
+      },
+      "density_target": 8,
       "key_elements": [
-        "主标题‘封神应用’",
-        "应用案例卡片（3-4张）",
-        "图标：书本/代码/DNA链",
-        "霓虹边框与高亮强调色块",
-        "‘数不过来’的数字水印",
-        "背景数据网格",
-        "卡片入场动画线",
-        "微弱的光晕扩散"
+        "多模态应用图标",
+        "指标卡片",
+        "案例数据图表",
+        "霓虹边框",
+        "仪表盘布局",
+        "强调色分组",
+        "背景光晕",
+        "科技线条"
       ],
       "narration": "你品，它现在能像真人一样写小说、编代码，甚至帮你做复杂的科研分析，多模态能力直接封神，案例多到数不过来。",
-      "duration": 9.7
+      "duration": 10.0,
+      "animations": {
+        "title": "SLIDES",
+        "data": "FLOATS",
+        "ambient": "PULSES"
+      },
+      "transition": {
+        "in": "split_in",
+        "out": "merge_out"
+      }
     },
     {
       "scene_id": 5,
       "visual_type": "flow",
-      "concept": "以发光的连接线和节点，构建一个‘混合专家架构’与‘强化学习’的抽象技术流程图。从数据输入开始，经过多个处理节点（专家模块），最终汇聚成一个更明亮、更复杂的‘AI大脑’核心。整个流程动画流畅，象征学习效率的指数级跃升与技术革命。",
+      "concept": "观众跟随技术流程，理解混合专家架构和强化学习的创新，体验指数级提升的革命性，视觉上连贯而清晰。",
+      "mood": "未来技术流程风，线条和节点连接，赛博朋克风格中的科技流程可视化。",
+      "depth_layers": {
+        "background": [
+          "neon-lines",
+          "data-grid",
+          "radial-glow"
+        ],
+        "midground": [
+          "流程图节点",
+          "连接线",
+          "架构标签"
+        ],
+        "foreground": [
+          "ghost-text",
+          "particle-drift"
+        ]
+      },
+      "density_target": 9,
       "key_elements": [
-        "流程标题‘技术革命’",
-        "输入数据流节点",
-        "多个‘专家模块’节点",
-        "强化学习反馈环",
-        "中心汇聚的‘AI大脑’",
-        "发光连接线（霓虹蓝）",
-        "能量流动粒子",
-        "背景抽象电路板纹理",
-        "效率指数曲线暗示"
+        "流程图节点",
+        "霓虹连接线",
+        "混合专家架构标签",
+        "强化学习图标",
+        "指数级提升指示",
+        "科技背景线条",
+        "数据网格",
+        "强调色节点",
+        "动态路径"
       ],
       "narration": "细品背后的技术，OpenAI用了全新的混合专家架构和强化学习，让模型更聪明，学习效率指数级提升，这是真正的技术革命。",
-      "duration": 10.8
+      "duration": 10.1,
+      "animations": {
+        "title": "CASCADES",
+        "data": "MORPHS",
+        "ambient": "GLOWS"
+      },
+      "transition": {
+        "in": "wipe_in",
+        "out": "dissolve_out"
+      }
     },
     {
       "scene_id": 6,
-      "visual_type": "compare",
-      "concept": "画面一分为二，左侧是代表‘机会’的金色上升趋势图和积极行业图标（教育、医疗），右侧是代表‘风险’的红色下降数据和警示符号。中间由一道动态的、象征‘深不见底影响’的数据深渊连接，直观展现双刃剑效应。",
+      "visual_type": "list_alert",
+      "concept": "观众看到各行业被颠覆的清单，强调机会和风险，视觉上以条目和强调突出影响深度，引发警惕和思考。",
+      "mood": "警告科技风，红色强调风险，赛博朋克风格中的警示信息展示。",
+      "depth_layers": {
+        "background": [
+          "radial-glow",
+          "neon-lines"
+        ],
+        "midground": [
+          "行业图标",
+          "影响条目",
+          "强调边框"
+        ],
+        "foreground": [
+          "particle-drift",
+          "ghost-text"
+        ]
+      },
+      "density_target": 10,
       "key_elements": [
-        "对比标题‘机会 vs 风险’",
-        "左侧：金色上升图表/行业图标",
-        "右侧：红色警示数据/下降符号",
-        "中央数据深渊（渐变光带）",
-        "行业关键词浮动（内容、教育、医疗）",
-        "动态分割线",
-        "背景网格",
-        "警示闪烁光点"
+        "行业影响列表",
+        "内容创作图标",
+        "教育医疗标签",
+        "工作方式条目",
+        "强调色边框",
+        "数据标签",
+        "机会风险指示",
+        "背景光晕",
+        "科技线条",
+        "警示动画"
       ],
       "narration": "别被忽悠了，这玩意儿会颠覆内容创作、教育、医疗，甚至改变你的工作方式，影响深不见底，机会和风险并存。",
-      "duration": 7.6
+      "duration": 9.1,
+      "animations": {
+        "title": "PUNCHES",
+        "data": "COUNTS UP",
+        "ambient": "BREATHES"
+      },
+      "transition": {
+        "in": "fade_in",
+        "out": "slide_out"
+      }
     },
     {
       "scene_id": 7,
       "visual_type": "compare",
-      "concept": "一个象征‘伦理天平’的抽象视觉在中心悬浮。一侧托盘承载‘数据隐私’、‘算法偏见’、‘就业冲击’的图标与数据，向‘挑战’侧倾斜；另一侧承载‘机遇’、‘效率’的象征物。背景是复杂的、时而稳定时而紊乱的数据流风暴，呼应‘冷静看待’的呼吁。",
+      "concept": "观众对比AI能力的飞跃带来的挑战和机会，视觉上平衡展示伦理问题和正面影响，强调冷静看待的重要性。",
+      "mood": "平衡对比风，双色对比突出挑战与机会，赛博朋克风格中的伦理思考可视化。",
+      "depth_layers": {
+        "background": [
+          "neon-lines",
+          "data-grid"
+        ],
+        "midground": [
+          "对比图表",
+          "挑战标签",
+          "机会标签"
+        ],
+        "foreground": [
+          "ghost-text",
+          "particle-drift"
+        ]
+      },
+      "density_target": 8,
       "key_elements": [
-        "主标题‘冷静看待’",
-        "抽象天平视觉",
-        "挑战侧托盘与图标",
-        "机遇侧托盘与象征",
-        "背景数据风暴流",
-        "平衡与失衡的动画",
-        "警示红点与冷静蓝光",
-        "复杂的数据网格背景",
-        "关键词（隐私、偏见、就业）"
+        "挑战 vs 机会对比图",
+        "数据隐私泄露图标",
+        "算法偏见标签",
+        "就业市场冲击",
+        "正面影响指标",
+        "平衡指示器",
+        "强调色分区",
+        "背景线条",
+        "霓虹光效"
       ],
       "narration": "但真相是，AI能力飞跃也带来挑战，比如数据隐私泄露、算法偏见加剧，还有对就业市场的巨大冲击，咱们得冷静看待。",
-      "duration": 11.8
+      "duration": 11.5,
+      "animations": {
+        "title": "CRASHES",
+        "data": "FLOATS",
+        "ambient": "PULSES"
+      },
+      "transition": {
+        "in": "split_in",
+        "out": "merge_out"
+      }
     },
     {
       "scene_id": 8,
       "visual_type": "quote_hero",
-      "concept": "一句核心引言“让AI增强人类，而非替代”以巨大的、带有霓虹光晕的字体充满画面。背景是从深黑中浮现的、由无数微小数据光点构成的未来城市剪影或网络节点图，象征AI如电力般普及的未来。光点如呼吸般明灭，展现“黄金时代”的愿景。",
+      "concept": "观众展望AI像电力一样普及的未来，金句突出关键思想，增强人类能力的愿景，视觉上充满希望和科技感。",
+      "mood": "未来希望科技风，金色光芒象征普及和增强，赛博朋克风格中的乐观展望。",
+      "depth_layers": {
+        "background": [
+          "radial-glow",
+          "data-grid",
+          "neon-lines"
+        ],
+        "midground": [
+          "金句文字",
+          "电力隐喻图标"
+        ],
+        "foreground": [
+          "particle-drift",
+          "ghost-text"
+        ]
+      },
+      "density_target": 9,
       "key_elements": [
-        "巨幅核心引言",
-        "霓虹蓝光晕字体",
-        "背景未来城市/网络剪影",
-        "呼吸明灭的数据光点",
-        "标题‘黄金时代’",
-        "轻微的粒子上升效果",
-        "平滑的渐变背景",
-        "强调的关键词高亮"
+        "未来场景图",
+        "AI普及金句",
+        "电力隐喻符号",
+        "增强人类能力图标",
+        "金色光芒效果",
+        "背景数据网格",
+        "霓虹强调",
+        "科技线条",
+        "希望氛围粒子"
       ],
       "narration": "未来，AI会像电力一样普及，关键是咱们怎么用好它，让它增强人类能力，而不是替代。用对了，就是黄金时代。",
-      "duration": 8.8
+      "duration": 9.6,
+      "animations": {
+        "title": "SLAMS",
+        "ambient": "GLOWS"
+      },
+      "transition": {
+        "in": "zoom_in",
+        "out": "fade_out"
+      }
     },
     {
       "scene_id": 9,
       "visual_type": "quote_hero",
-      "concept": "最终金句“技术无罪，人心决定方向”以庄严的字体缓缓浮现，笔画由流动的金色数据构成。背景转为深邃、平静的星空，其中一颗代表‘创造价值’的星辰格外明亮。一个抽象的人形剪影面向星空，寓意掌握工具、面向未来。",
+      "concept": "观众被金句激发思考，技术无罪的观念以视觉方式强化，引发行动和创造价值的决心，视觉上简洁而有力。",
+      "mood": "启发科技风，简洁有力的霓虹文字，赛博朋克风格中的哲学收尾。",
+      "depth_layers": {
+        "background": [
+          "neon-lines",
+          "radial-glow"
+        ],
+        "midground": [
+          "核心金句",
+          "工具图标"
+        ],
+        "foreground": [
+          "ghost-text",
+          "particle-drift"
+        ]
+      },
+      "density_target": 8,
       "key_elements": [
-        "最终金句文字",
-        "流动的金色笔触数据",
-        "深邃星空背景",
-        "明亮‘创造价值’星辰",
-        "抽象人形剪影",
-        "“科技向善”副标题",
-        "温和的光晕呼吸",
-        "飘散的微光粒子"
+        "核心金句文字",
+        "GPT-5工具图标",
+        "创造价值符号",
+        "科技向善标语",
+        "背景霓虹线条",
+        "光晕效果",
+        "简洁布局",
+        "未来可期氛围"
       ],
       "narration": "记住，技术无罪，人心决定方向。GPT-五是工具，用它创造价值才是王道。科技向善，未来可期。",
-      "duration": 8.8
+      "duration": 8.1,
+      "animations": {
+        "title": "PUNCHES",
+        "ambient": "BREATHES"
+      },
+      "transition": {
+        "in": "fade_in",
+        "out": "fade_out"
+      }
     }
   ],
   "design_md_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\design.md",
   "design_style": "赛博朋克科技风",
   "design_style_key": "cyber_tech",
-  "_design_md": "---\nname: 赛博朋克科技风\nstyle_key: cyber_tech\ndescription: 深黑背景+霓虹发光，科技暗黑风格\ncolors:\n  background: \"#0a0a0a\"\n  primary: \"#00D4FF\"\n  accent: \"#FF4081\"\n  data: \"#FFD700\"\n  text: \"#FFFFFF\"\n  text_secondary: \"#999999\"\ntypography:\n  headline:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"72-120px\"\n    fontWeight: bold\n  body:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"28-36px\"\n    fontWeight: regular\n  data:\n    fontFamily: \"JetBrains Mono, monospace\"\n    fontSize: \"48-80px\"\n    fontWeight: bold\nrounded:\n  sm: 16px\n  md: 24px\nspacing:\n  scene_padding: \"80-120px\"\n  element_gap: \"24-40px\"\n  card_radius: \"16px\"\nmotion:\n  energy: high\n  easing:\n    entry: \"expo.out\"\n    exit: \"power4.in\"\n  atmosphere: [\"radial-glow\", \"data-grid\", \"neon-lines\", \"particle-drift\", \"ghost-text\"]\n---\n## Overview\n\nOpenAI发布GPT-5：AI能力再次飞跃 -- 采用赛博朋克科技风视觉风格，科技感、未来感、冲击力调性。\n\n**视觉隐喻**: 深黑背景+霓虹发光，科技暗黑风格\n\n**情绪关键词**: 科技感、未来感、冲击力\n\n**最适合**: 科技、AI、互联网、数码\n\n## Colors\n\n| 用途 | 颜色 | Hex |\n|------|------|-----|\n| 背景 | 主背景 | #0a0a0a |\n| 主色 | 标题/强调 | #00D4FF |\n| 强调 | 高亮/CTA | #FF4081 |\n| 数据 | 数字/图表 | #FFD700 |\n| 文字 | 主要文字 | #FFFFFF |\n\n## Typography\n\n| 层级 | 字体 | 大小 | 重量 |\n|------|------|------|------|\n| 标题 | Noto Sans SC | 72-120px | bold |\n| 正文 | Noto Sans SC | 28-36px | regular |\n| 数据 | JetBrains Mono | 48-80px | bold |\n\n## 视觉层次\n\n每个场景必须包含3层：\n\n1. **背景层**: radial-glow, data-grid, neon-lines\n2. **中景层**: 核心内容 -- 必须填满画面60-80%\n3. **前景层**: particle-drift, ghost-text\n\n## 装饰元素\n\n- radial-glow\n- data-grid\n- neon-lines\n- particle-drift\n- ghost-text\n\n## 场景变体\n\n### Opening 场景\n- **背景层**：深黑色（#0a0a0a）背景，覆盖细微的电路网格线条，采用低透明度主色（#00D4FF）绘制，营造科技基底。\n- **中景层**：占据屏幕70%的全息显示屏，以主色#00D4FF渲染“GPT-5”动态文字，表面有数据流光晕，模拟AI界面。\n- **前景层**：漂浮的半透明UI元素（如齿轮、代码符号），以强调色#FF4081高亮边缘，增加层次感。\n- **动画**：全息显示屏从中心渐现，数据流光从文字向外扩散，前景元素缓慢旋转，整体有微震动效果增强冲击力。\n- **密度**（8元素）：1. 背景电路网格；2. 中景全息“GPT-5”文字；3. 数据流动画光束；4. 前景UI图标（齿轮）；5. 主色光晕；6. 强调色闪光；7. 粒子数字雨；8. 标题文字“OpenAI发布GPT-5”叠加。\n\n### Data 场景\n- **背景层**：暗色数据流网格背景，以#0a0a0a为基底，网格线使用主色#00D4FF低亮度绘制，模拟信息流。\n- **中景层**：3D动态柱状图，占据屏幕75%，显示GPT-5性能指标（如速度、准确度），图表以主色#00D4FF填充，关键数据点用强调色#FF4081高亮。\n- **前景层**：交互式数字标签和箭头指示器，以半透明主色覆盖，引导观众视线。\n- **动画**：柱状图从底部生长动画，数字计数器滚动显示增长百分比，背景数据流持续流动。\n- **密度**（10元素）：1. 背景数据网格；2. 中景3D柱状图；3. 数字计数器；4. 前景交互标签；5. 主色图表填充；6. 强调色数据高亮；7. 动态箭头指示；8. 文字“性能提升50%”；9. 大脑图标；10. 粒子效果模拟二进制流。\n\n### Comparison 场景\n- **背景层**：分屏背景，左半部为深黑#0a0a0a带旧版电路纹理，右半部为未来感网格，使用主色#00D4FF渐变，突出对比。\n- **中景层**：两个对比面板，占据屏幕65%，左侧显示GPT-4界面（简单线条），右侧为GPT-5全息界面（复杂动态），以主色#00D4FF和强调色#FF4081区分。\n- **前景层**：连接线和波浪箭头，以主色绘制，从旧版指向新版，增强过渡感。\n- **动画**：面板从两侧滑入，右侧GPT-5界面逐渐增强光效，连接线动态延伸，数字滚动对比差异。\n- **密度**（9元素）：1. 背景分屏效果；2. 中景GPT-4界面；3. 中景GPT-5界面；4. 前景连接箭头；5. 主色用于GPT-5元素；6. 强调色用于关键差异点；7. 文字“vs”居中；8. 进度条动画显示提升；9. 背景网格微光。\n\n### Quote 场景\n- **背景层**：抽象渐变背景，从#0a0a0a向深蓝色过渡，带有微弱光斑，以突出引文焦点。\n- **中景层**：大型引文文字“GPT-5 represents a quantum leap in AI.”，占据屏幕80%，使用主色#00D4FF字体，带轻微发光效果。\n- **前景层**：装饰性引号符号和光线条，以强调色#FF4081绘制，环绕文字增加视觉冲击。\n- **动画**：引文文字逐字淡入，前景引号符号旋转出现，光效脉冲强调重点词汇。\n- **密度**（8元素）：1. 背景渐变光斑；2. 中景引文文字；3. 前景引号装饰；4. 主色文字发光；5. 强调色下划线；6. 粒子光点围绕；7. 签名“— Sam Altman”淡入；8. 背景微光扫动动画。\n\n### Closing 场景\n- **背景层**：赛博朋克城市天际线剪影，以深黑#0a0a0a为基底，霓虹灯使用主色#00D4FF和强调色#FF4081点缀，营造未来感。\n- **中景层**：OpenAI logo和总结文字“The Future is Here”，占据屏幕70%，logo以主色#00D4FF渲染，文字带动态光晕。\n- **前景层**：CTA按钮“Learn More”以强调色#FF4081填充，悬浮在下方，带交互提示动画。\n- **动画**：城市天际线缓慢平移，logo从中心缩放出现，CTA按钮脉冲发光，数据流粒子向logo汇聚。\n- **密度**（10元素）：1. 背景城市天际线；2. 中景OpenAI logo；3. 中景总结文字；4. 前景CTA按钮；5. 主色logo光效；6. 强调色按钮高亮；7. 数据流粒子动画；8. 霓虹灯闪烁；9. 背景光线扫射；10. 文字“The Future is Here”渐隐效果。\n\n## Density\n\n- 每个场景 **8-10个视觉元素**\n- 至少2个装饰元素是主动添加的\n\n## Scale\n\n- 标题: 72-120px，占画面宽度60-80%\n- 正文: 28-36px\n- 数据: 48-80px\n- 装饰透明度: 15-25%\n- 边框: 2-4px\n\n## Don'ts\n\n- 明亮自然色彩\n- 卡通化元素\n- font-size低于24px\n- 纯色平面背景\n- 居中浮动布局\n\n---\n\n*风格由design-system skill自动生成，visual-author必须遵循以上约束。*\n",
+  "_design_md": "---\nname: 赛博朋克科技风\nstyle_key: cyber_tech\ndescription: 深黑背景+霓虹发光，科技暗黑风格\ncolors:\n  background: \"#0a0a0a\"\n  primary: \"#00D4FF\"\n  accent: \"#FF4081\"\n  data: \"#FFD700\"\n  text: \"#FFFFFF\"\n  text_secondary: \"#999999\"\ntypography:\n  headline:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"72-120px\"\n    fontWeight: bold\n  body:\n    fontFamily: \"Noto Sans SC, PingFang SC\"\n    fontSize: \"28-36px\"\n    fontWeight: regular\n  data:\n    fontFamily: \"JetBrains Mono, monospace\"\n    fontSize: \"48-80px\"\n    fontWeight: bold\nrounded:\n  sm: 16px\n  md: 24px\nspacing:\n  scene_padding: \"80-120px\"\n  element_gap: \"24-40px\"\n  card_radius: \"16px\"\nmotion:\n  energy: high\n  easing:\n    entry: \"expo.out\"\n    exit: \"power4.in\"\n  atmosphere: [\"radial-glow\", \"data-grid\", \"neon-lines\", \"particle-drift\", \"ghost-text\"]\n---\n## Overview\n\nSpaceX上市：马斯克成为人类首位万亿美元富豪 -- 采用赛博朋克科技风视觉风格，科技感、未来感、冲击力调性。\n\n**视觉隐喻**: 深黑背景+霓虹发光，科技暗黑风格\n\n**情绪关键词**: 科技感、未来感、冲击力\n\n**最适合**: 科技、AI、互联网、数码\n\n## Colors\n\n| 用途 | 颜色 | Hex |\n|------|------|-----|\n| 背景 | 主背景 | #0a0a0a |\n| 主色 | 标题/强调 | #00D4FF |\n| 强调 | 高亮/CTA | #FF4081 |\n| 数据 | 数字/图表 | #FFD700 |\n| 文字 | 主要文字 | #FFFFFF |\n\n## Typography\n\n| 层级 | 字体 | 大小 | 重量 |\n|------|------|------|------|\n| 标题 | Noto Sans SC | 72-120px | bold |\n| 正文 | Noto Sans SC | 28-36px | regular |\n| 数据 | JetBrains Mono | 48-80px | bold |\n\n## 视觉层次\n\n每个场景必须包含3层：\n\n1. **背景层**: radial-glow, data-grid, neon-lines\n2. **中景层**: 核心内容 -- 必须填满画面60-80%\n3. **前景层**: particle-drift, ghost-text\n\n## 装饰元素\n\n- radial-glow\n- data-grid\n- neon-lines\n- particle-drift\n- ghost-text\n\n## 场景变体\n\n# SpaceX上市：马斯克成为万亿美元富豪 - 赛博朋克视觉设计\n\n## 1. Opening 场景\n*   **背景层**：深邃的星空（#0a0a0a），布满流动的绿色二进制代码雨和故障扫描线。\n*   **中景层（70%）**：巨大的SpaceX星舰剪影从画面底部升起，表面覆盖流动的霓虹电路纹路。星舰周围环绕着象征“上市”（IPO）和“万亿美元”（$1T）的动态数据环。\n*   **前景层**：破碎的玻璃特效，仿佛屏幕被财富数字冲击破碎。底部快速滚动着代码 `STATUS: LAUNCHED. NET_WORTH: 1,000,000,000,000.00`。\n*   **动画**：代码雨下落，星舰缓慢推进，数据环旋转并闪烁，破碎玻璃效果瞬间出现。\n*   **密度（10元素）**：星舰、代码雨、数据环、破碎玻璃、滚动代码、故障扫描线、星空背景、电路纹理、光晕、粒子尾迹。\n\n## 2. Data 场景\n*   **背景层**：未来城市夜景的轮廓线（#0a0a0a为主，点缀微弱建筑灯光），叠加着不断波动的股票代码数据流。\n*   **中景层（65%）**：核心是一个巨大、透明的全息数据面板，显示马斯克的财富曲线正在呈指数级垂直飙升。曲线由无数闪烁的 #00D4FF 数据点构成，突破一个标有“$1 Trillion”的虚线阈值。\n*   **前景层**：飞溅的数据碎片和代表财富增长的金币状 #FF4081 强调光粒，以夸张的动态飞向观众。\n*   **动画**：财富曲线急速上扬并突破阈值，数据点脉动，数据碎片和光粒向镜头方向飞溅。\n*   **密度（9元素）**：全息面板、财富曲线、数据点、城市轮廓、数据流、阈值线、飞溅数据碎片、强调光粒、扫描网格。\n\n## 3. Comparison 场景\n*   **背景层**：被数字网格覆盖的纯黑空间（#0a0a0a），网格线发出微光。\n*   **中景层（75%）**：画面左侧是贝索斯的虚拟形象（被 #FF4081 数据锁链部分束缚），其财富条增长缓慢。右侧是马斯克的赛博格形象，身体与火箭、星链卫星融为一体，其财富条（#00D4FF）正以爆炸性动态充满整个空间，并击碎左侧的数据锁链。\n*   **前景层**：从马斯克形象中迸发出的强烈 #00D4FF 电流与数据洪流，部分淹没了左侧区域。\n*   **动画**：财富条填充，锁链破碎，数据洪流爆发并扩散，两个形象形成静态与动态的鲜明对比。\n*   **密度（10元素）**：数字网格、贝索斯形象、马斯克形象、财富条（×2）、数据锁链、星链卫星、火箭部件、电流、数据洪流、破碎效果。\n\n## 4. Quote 场景\n*   **背景层**：深空星云与故障艺术色块（#0a0a0a为基，混合 #00D4FF 和 #FF4081 的抽象噪点）。\n*   **中景层（60%）**：马斯克的第一人称视角，眼前是巨大的全息屏幕，上面用霓虹字体显示其名言：“当某件事足够重要时，你就去做它，即使胜算不大。” 屏幕外，是正在组装或发射的星舰全息投影。\n*   **前景层**：屏幕玻璃般的反光和少许划痕，以及漂浮在视角边缘的UI元素，如HUD（平视显示器）边框和警告符号。\n*   **动画**：文字逐字显现，星舰全息投影缓慢旋转，HUD元素轻微浮动。\n*   **密度（8元素）**：全息屏幕、文字、星舰投影、星云背景、故障色块、屏幕反光、HUD边框、警告符号。\n\n## 5. Closing 场景\n*   **背景层**：从地球轨道俯瞰的视角，下方是灯火与数据流交织的地球夜面，上方是深邃宇宙（#0a0a0a）。\n*   **中景层（80%）**：马斯克的赛博格形象背对镜头，站在一个巨大的、发光的 #00D4FF “$”符号平台上。平台向下发射数据光束连接地球，向上延伸出通往火星轨道的虚拟路径。\n*   **前景层**：不断有数据粒子和星辰光点汇聚到“$”符号平台上，形成流动的能量。\n*   **动画**：数据光束持续流动，能量粒子向平台汇聚，虚拟路径上的火星殖民地微光闪烁。\n*   **密度（10元素）**：赛博格形象、“$”平台、地球、数据光束、火星路径、火星微光、数据粒子、星辰、HUD信息窗、平台能量光晕。\n\n## Density\n\n- 每个场景 **8-10个视觉元素**\n- 至少2个装饰元素是主动添加的\n\n## Scale\n\n- 标题: 72-120px，占画面宽度60-80%\n- 正文: 28-36px\n- 数据: 48-80px\n- 装饰透明度: 15-25%\n- 边框: 2-4px\n\n## Don'ts\n\n- 明亮自然色彩\n- 卡通化元素\n- font-size低于24px\n- 纯色平面背景\n- 居中浮动布局\n\n---\n\n*风格由design-system skill自动生成，visual-author必须遵循以上约束。*\n",
   "_design_specs": {},
   "rendered_video": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\hf_render_project\\rendered.mp4",
-  "video_duration": 81.2,
-  "video_size": 7589661,
+  "video_duration": 82.6,
+  "video_size": 5320213,
   "mixed_path": "E:\\Hermes-Agent\\workspace\\xiaoshan\\video-factory\\hf-project\\output\\step11_final.mp4"
 }

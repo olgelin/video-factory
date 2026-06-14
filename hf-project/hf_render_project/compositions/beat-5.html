@@ -3,264 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperFrames - Beat 5</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
-        window.__timelines = window.__timelines || {};
-    </script>
 </head>
-<body style="margin: 0; padding: 0; background: #0a0a0a; font-family: 'Inter', 'Noto Sans SC', sans-serif; overflow: hidden; width: 1920px; height: 1080px;">
-    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; background: #1a1a2e; overflow: hidden;">
-        <!-- Background Grid -->
-        <div id="bg-grid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.08; background: linear-gradient(rgba(0, 212, 255, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.3) 1px, transparent 1px); background-size: 100px 100px;"></div>
-        
-        <!-- Radial Glow -->
-        <div id="radial-glow" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1200px; height: 800px; background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(0, 0, 0, 0) 70%); opacity: 0;"></div>
-        
-        <!-- Ghost Text -->
-        <div id="ghost-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 260px; font-weight: bold; color: rgba(255, 255, 255, 0.04); letter-spacing: 15px; user-select: none; opacity: 0;">TECH</div>
-        
-        <!-- Scan Line -->
-        <div id="scan-line" style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.4), transparent); opacity: 0;"></div>
-        
+<body style="margin:0; padding:0; background:#1a1a2e; overflow:hidden;">
+    <div class="scene" style="position:relative; width:1920px; height:1080px; background:#1a1a2e; overflow:hidden;">
+        <!-- Background Decor Layer -->
+        <div id="background-decor" style="position:absolute; top:0; left:0; width:100%; height:100%;">
+            <!-- Grid Lines -->
+            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image: 
+                linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px);
+                background-size:100px 100px;"></div>
+            <!-- Radial Glow -->
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:800px; background:radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%);"></div>
+            <!-- Scan Line -->
+            <div id="scan-line" style="position:absolute; top:0; left:0; width:100%; height:2px; background:rgba(0,212,255,0.2);"></div>
+        </div>
+
+        <!-- Ghost Text Watermark -->
+        <div id="ghost-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Inter','Noto Sans SC',sans-serif; font-size:300px; color:rgba(255,255,255,0.04); font-weight:bold; text-align:center; pointer-events:none;">
+            TECH
+        </div>
+
         <!-- Main Title -->
-        <div id="main-title" style="position: absolute; top: 100px; left: 100px; font-size: 110px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 212, 255, 0.4); line-height: 1.1; opacity: 0;">
-            技术革命
-            <div style="font-size: 32px; font-weight: regular; color: rgba(255, 255, 255, 0.7); margin-top: 20px; letter-spacing: 4px;">TECHNOLOGICAL REVOLUTION</div>
+        <div id="main-title" style="position:absolute; top:80px; left:100px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:100px; font-weight:bold; color:#00D4FF; text-shadow:0 0 30px rgba(0,212,255,0.8); letter-spacing:2px;">
+            技术流程解析
         </div>
-        
-        <!-- Flowchart Container -->
-        <div id="flowchart" style="position: absolute; top: 200px; left: 100px; width: 1200px; height: 550px;">
-            <!-- Input Node -->
-            <div id="input-node" style="position: absolute; top: 50px; left: 50px; width: 120px; height: 80px; background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); opacity: 0;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #FFD700; text-align: center;">输入数据</div>
-            </div>
-            
-            <!-- Expert Nodes -->
-            <div id="expert1" style="position: absolute; top: 30px; left: 350px; width: 180px; height: 100px; background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); opacity: 0;">
-                <div style="text-align: center;">
-                    <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">专家模块 1</div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #FFD700;">MOE-1</div>
+
+        <!-- Core Content Area (Left 60% / Right 40%) -->
+        <div style="position:absolute; top:200px; left:100px; right:100px; height:550px;">
+            <!-- Left Column (60%) -->
+            <div style="width:60%; height:100%; float:left; padding-right:40px;">
+                <!-- Data Card -->
+                <div id="data-card" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:24px; padding:40px; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.4); margin-bottom:30px;">
+                    <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #00D4FF, transparent);"></div>
+                    <div style="position:absolute; top:0; left:0; right:0; height:100%; background:radial-gradient(ellipse at top, rgba(0,212,255,0.08) 0%, transparent 50%); pointer-events:none;"></div>
+                    <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:24px; color:#999999; margin-bottom:10px;">学习效率提升</div>
+                    <div style="font-family:'JetBrains Mono',monospace; font-size:120px; font-weight:bold; color:#FFD700; line-height:1;">1000%</div>
+                    <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#FF4081; margin-top:10px;">↑ 指数级增长</div>
+                </div>
+
+                <!-- Flowchart Nodes & Connections -->
+                <div style="display:flex; justify-content:space-around; align-items:center; margin-top:40px;">
+                    <div id="node1" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:20px; text-align:center; width:200px;">
+                        <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#00D4FF;">混合专家架构</div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:40px; font-weight:bold; color:#FFFFFF; margin-top:10px;">MoE</div>
+                    </div>
+                    <div style="width:100px; height:2px; background:linear-gradient(90deg, #00D4FF, #FF4081);"></div>
+                    <div id="node2" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(0,212,255,0.3); border-radius:16px; padding:20px; text-align:center; width:200px;">
+                        <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#00D4FF;">强化学习</div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:40px; font-weight:bold; color:#FFFFFF; margin-top:10px;">RL</div>
+                    </div>
+                    <div style="width:100px; height:2px; background:linear-gradient(90deg, #FF4081, #FFD700);"></div>
+                    <div id="node3" style="background:rgba(26,26,46,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,64,129,0.3); border-radius:16px; padding:20px; text-align:center; width:200px;">
+                        <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#FF4081;">指数级提升</div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:40px; font-weight:bold; color:#FFD700; margin-top:10px;">Exponential</div>
+                    </div>
                 </div>
             </div>
-            
-            <div id="expert2" style="position: absolute; top: 180px; left: 350px; width: 180px; height: 100px; background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); opacity: 0;">
-                <div style="text-align: center;">
-                    <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">专家模块 2</div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #FFD700;">MOE-2</div>
+
+            <!-- Right Column (40%) -->
+            <div style="width:40%; height:100%; float:right; padding-left:40px;">
+                <!-- Tag Pills -->
+                <div id="tag1" style="display:inline-block; background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.3); border-radius:50px; padding:10px 20px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#00D4FF; margin-bottom:20px;">
+                    技术创新
                 </div>
-            </div>
-            
-            <div id="expert3" style="position: absolute; top: 330px; left: 350px; width: 180px; height: 100px; background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); opacity: 0;">
-                <div style="text-align: center;">
-                    <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">专家模块 3</div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; color: #FFD700;">MOE-3</div>
+                <div id="tag2" style="display:inline-block; background:rgba(255,64,129,0.1); border:1px solid rgba(255,64,129,0.3); border-radius:50px; padding:10px 20px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#FF4081; margin-bottom:20px; margin-left:10px;">
+                    AI革命
                 </div>
-            </div>
-            
-            <!-- RL Feedback Loop -->
-            <div id="rl-loop" style="position: absolute; top: 150px; left: 700px; width: 250px; height: 200px; border: 2px dashed rgba(255, 215, 0, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0;">
-                <div style="text-align: center;">
-                    <div style="font-size: 16px; color: #999999; margin-bottom: 10px;">强化学习</div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #FFD700;">反馈环</div>
+
+                <!-- Progress Bar -->
+                <div style="margin-top:40px;">
+                    <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:18px; color:#999999; margin-bottom:10px;">模型效率提升</div>
+                    <div id="progress-bar" style="width:100%; height:10px; background:rgba(255,255,255,0.1); border-radius:5px; overflow:hidden;">
+                        <div style="width:80%; height:100%; background:linear-gradient(90deg, #00D4FF, #FFD700); border-radius:5px;"></div>
+                    </div>
+                    <div style="font-family:'JetBrains Mono',monospace; font-size:24px; color:#FFD700; margin-top:10px;">80%</div>
                 </div>
-            </div>
-            
-            <!-- AI Brain Core -->
-            <div id="ai-brain" style="position: absolute; top: 100px; left: 1000px; width: 160px; height: 160px; background: rgba(26, 26, 46, 0.9); border: 2px solid rgba(0, 212, 255, 0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 30px rgba(0, 212, 255, 0.2); opacity: 0;">
-                <div style="text-align: center;">
-                    <div style="font-size: 14px; color: #999999; margin-bottom: 8px;">AI大脑</div>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 28px; color: #FFD700;">CORE</div>
+
+                <!-- Additional Info -->
+                <div style="margin-top:60px; font-family:'Inter','Noto Sans SC',sans-serif; font-size:16px; color:#666666;">
+                    基于OpenAI最新研究
                 </div>
-            </div>
-            
-            <!-- Connection Lines (SVG) -->
-            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;">
-                <!-- Input to Experts -->
-                <line x1="170" y1="90" x2="350" y2="80" stroke="#00D4FF" stroke-width="3" stroke-dasharray="10,5" opacity="0.7"/>
-                <line x1="170" y1="90" x2="350" y2="230" stroke="#00D4FF" stroke-width="3" stroke-dasharray="10,5" opacity="0.7"/>
-                <line x1="170" y1="90" x2="350" y2="380" stroke="#00D4FF" stroke-width="3" stroke-dasharray="10,5" opacity="0.7"/>
-                
-                <!-- Experts to RL Loop -->
-                <line x1="530" y1="80" x2="700" y2="150" stroke="#00D4FF" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
-                <line x1="530" y1="230" x2="700" y2="250" stroke="#00D4FF" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
-                <line x1="530" y1="380" x2="700" y2="350" stroke="#00D4FF" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
-                
-                <!-- RL Loop to AI Brain -->
-                <line x1="950" y1="250" x2="1000" y2="180" stroke="#FFD700" stroke-width="3" stroke-dasharray="12,6" opacity="0.8"/>
-                
-                <!-- RL Loop Feedback Lines -->
-                <path d="M700,150 Q600,250 700,350" fill="none" stroke="#FF4081" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
-            </svg>
-            
-            <!-- Energy Particles -->
-            <div id="particle1" style="position: absolute; top: 85px; left: 250px; width: 8px; height: 8px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 10px #00D4FF; opacity: 0;"></div>
-            <div id="particle2" style="position: absolute; top: 235px; left: 400px; width: 6px; height: 6px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 8px #FF4081; opacity: 0;"></div>
-            <div id="particle3" style="position: absolute; top: 385px; left: 350px; width: 7px; height: 7px; background:#1a1a2e; border-radius: 50%; box-shadow: 0 0 10px #FFD700; opacity: 0;"></div>
-            <div id="particle4" style="position: absolute; top: 250px; left: 800px; width: 5px; height: 5px; background: #00D4FF; border-radius: 50%; box-shadow: 0 0 6px #00D4FF; opacity: 0;"></div>
-        </div>
-        
-        <!-- Right Panel - Narration -->
-        <div id="narration-panel" style="position: absolute; top: 220px; right: 100px; width: 500px; height: 500px;">
-            <div id="narration-title" style="font-size: 36px; font-weight: bold; color: #FFFFFF; margin-bottom: 30px; opacity: 0;">技术突破</div>
-            
-            <div id="narration-text" style="font-size: 28px; color: rgba(255, 255, 255, 0.9); line-height: 1.6; margin-bottom: 40px; opacity: 0;">
-                细品背后的技术，OpenAI用了全新的混合专家架构和强化学习，让模型更聪明，学习效率指数级提升，这是真正的技术革命。
-            </div>
-            
-            <!-- Key Data Cards -->
-            <div id="data-card1" style="background: rgba(26, 26, 46, 0.7); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 16px; padding: 30px; margin-bottom: 20px; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; opacity: 0;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent);"></div>
-                <div style="font-size: 16px; color: #999999; margin-bottom: 10px;">学习效率提升</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: bold; color: #FFD700; line-height: 1;">10X</div>
-                <div style="font-size: 18px; color: #FFFFFF; margin-top: 10px;">指数级跃升</div>
-            </div>
-            
-            <div id="data-card2" style="background: rgba(26, 26, 46, 0.7); border: 1px solid rgba(255, 64, 129, 0.3); border-radius: 16px; padding: 30px; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; opacity: 0;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FF4081, transparent);"></div>
-                <div style="font-size: 16px; color: #999999; margin-bottom: 10px;">架构革新</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: bold; color: #FFD700; line-height: 1;">MOE</div>
-                <div style="font-size: 18px; color: #FFFFFF; margin-top: 10px;">混合专家系统</div>
             </div>
         </div>
-        
-        <!-- Bottom Info Bar -->
-        <div id="bottom-bar" style="position: absolute; bottom: 80px; left: 100px; right: 100px; display: flex; justify-content: space-between; align-items: center; opacity: 0;">
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <div style="background: rgba(0, 212, 255, 0.2); border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 20px; padding: 10px 20px; font-size: 16px; color: #00D4FF;">GPT-5</div>
-                <div style="background: rgba(255, 64, 129, 0.2); border: 1px solid rgba(255, 64, 129, 0.4); border-radius: 20px; padding: 10px 20px; font-size: 16px; color: #FF4081;">2024</div>
-                <div style="background: rgba(255, 215, 0, 0.2); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 20px; padding: 10px 20px; font-size: 16px; color: #FFD700;">OpenAI</div>
+
+        <!-- Bottom Info Area -->
+        <div id="footer-info" style="position:absolute; bottom:100px; left:100px; right:100px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-family:'Inter','Noto Sans SC',sans-serif; font-size:20px; color:#666666;">
+                    HyperFrames | 技术流程可视化
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace; font-size:20px; color:#00D4FF;">
+                    00:10.1
+                </div>
             </div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #999999;">技术演进 · 人工智能新时代</div>
         </div>
-        
+
         <!-- Corner Decorations -->
-        <div style="position: absolute; top: 80px; left: 80px; width: 60px; height: 60px; border-left: 2px solid rgba(0, 212, 255, 0.3); border-top: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
-        <div style="position: absolute; top: 80px; right: 80px; width: 60px; height: 60px; border-right: 2px solid rgba(0, 212, 255, 0.3); border-top: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
-        <div style="position: absolute; bottom: 80px; left: 80px; width: 60px; height: 60px; border-left: 2px solid rgba(0, 212, 255, 0.3); border-bottom: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
-        <div style="position: absolute; bottom: 80px; right: 80px; width: 60px; height: 60px; border-right: 2px solid rgba(0, 212, 255, 0.3); border-bottom: 2px solid rgba(0, 212, 255, 0.3); opacity: 0;"></div>
+        <div style="position:absolute; top:100px; left:100px; width:40px; height:40px; border-left:2px solid rgba(0,212,255,0.3); border-top:2px solid rgba(0,212,255,0.3);"></div>
+        <div style="position:absolute; top:100px; right:100px; width:40px; height:40px; border-right:2px solid rgba(0,212,255,0.3); border-top:2px solid rgba(0,212,255,0.3);"></div>
+        <div style="position:absolute; bottom:100px; left:100px; width:40px; height:40px; border-left:2px solid rgba(0,212,255,0.3); border-bottom:2px solid rgba(0,212,255,0.3);"></div>
+        <div style="position:absolute; bottom:100px; right:100px; width:40px; height:40px; border-right:2px solid rgba(0,212,255,0.3); border-bottom:2px solid rgba(0,212,255,0.3);"></div>
+
+        <!-- Particle Dots -->
+        <div id="particle1" style="position:absolute; top:300px; left:500px; width:4px; height:4px; background:#00D4FF; border-radius:50%; opacity:0.5;"></div>
+        <div id="particle2" style="position:absolute; top:400px; left:800px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0.4;"></div>
+        <div id="particle3" style="position:absolute; top:200px; left:1200px; width:4px; height:4px; background:#1a1a2e; border-radius:50%; opacity:0.5;"></div>
+        <div id="particle4" style="position:absolute; top:600px; left:300px; width:2px; height:2px; background:#00D4FF; border-radius:50%; opacity:0.3;"></div>
+        <div id="particle5" style="position:absolute; top:500px; left:1400px; width:3px; height:3px; background:#1a1a2e; border-radius:50%; opacity:0.4;"></div>
     </div>
 
     <script>
-        window.__timelines["beat-5"] = gsap.timeline({ paused: true });
-        
-        const tl = window.__timelines["beat-5"];
-        
-        // Background elements
-        tl.from("#bg-grid", { opacity: 0, duration: 1.2, ease: "power1.inOut" }, 0)
-          .from("#radial-glow", { opacity: 0, scale: 0.8, duration: 1.5, ease: "power1.inOut" }, 0.15)
-          .from("#ghost-text", { opacity: 0, duration: 1.2, ease: "power1.inOut" }, 0.3)
-          .from("#scan-line", { y: -20, opacity: 0, duration: 2, ease: "power1.inOut" }, 0.45);
-        
-        // Main title
-        tl.from("#main-title", { y: -50, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.6);
-        
-        // Flowchart elements
-        tl.from("#input-node", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 0.75)
-          .from("#expert1", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 0.9)
-          .from("#expert2", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 1.05)
-          .from("#expert3", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 1.2)
-          .from("#rl-loop", { opacity: 0, scale: 0.8, duration: 0.8, ease: "power2.out" }, 1.35)
-          .from("#ai-brain", { scale: 0.5, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, 1.5);
-        
-        // SVG connections
-        tl.from("#flowchart svg", { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 1.6);
-        
-        // Energy particles
-        tl.from("#particle1", { opacity: 0, scale: 0, duration: 0.4, ease: "back.out(1.7)" }, 1.7)
-          .from("#particle2", { opacity: 0, scale: 0, duration: 0.4, ease: "back.out(1.7)" }, 1.75)
-          .from("#particle3", { opacity: 0, scale: 0, duration: 0.4, ease: "back.out(1.7)" }, 1.8)
-          .from("#particle4", { opacity: 0, scale: 0, duration: 0.4, ease: "back.out(1.7)" }, 1.85);
-        
-        // Right panel elements
-        tl.from("#narration-title", { x: -30, opacity: 0, duration: 0.5, ease: "power2.out" }, 1.9)
-          .from("#narration-text", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, 2.0)
-          .from("#data-card1", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 2.1)
-          .from("#data-card2", { y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)" }, 2.2);
-        
-        // Bottom bar
-        tl.from("#bottom-bar", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, 2.3);
-        
-        // Corner decorations
-        tl.from(".scene > div:last-child", { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 2.4);
-        
-        // Add breathing animations
-        gsap.to("#data-card1", {
+        // Initialize timeline and register to window
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({paused: true});
+        window.__timelines["beat-5"] = tl;
+
+        // Entry animations with 0.15s stagger
+        tl.from("#background-decor", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
+        tl.from("#ghost-text", {opacity: 0, duration: 1, ease: "power2.inOut"}, 0.15);
+        tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.3);
+        tl.from("#data-card", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.45);
+        tl.from("#node1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 0.6);
+        tl.from("#node2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 0.75);
+        tl.from("#node3", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 0.9);
+        tl.from("#tag1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.05);
+        tl.from("#tag2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 1.2);
+        tl.from("#progress-bar div", {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 1.35);
+        tl.from("#footer-info", {opacity: 0, duration: 0.8, ease: "power2.out"}, 1.5);
+        tl.from("#particle1", {opacity: 0, duration: 0.5}, 0.5);
+        tl.from("#particle2", {opacity: 0, duration: 0.5}, 0.6);
+        tl.from("#particle3", {opacity: 0, duration: 0.5}, 0.7);
+        tl.from("#particle4", {opacity: 0, duration: 0.5}, 0.8);
+        tl.from("#particle5", {opacity: 0, duration: 0.5}, 0.9);
+
+        // Breathing animations (only for selected elements)
+        gsap.to("#data-card", {
             scale: 1.015,
             duration: 3,
             repeat: 0,
             yoyo: true,
-            ease: "sine.inOut",
-            delay: 2.5
+            ease: "sine.inOut"
         });
-        
-        gsap.to("#ai-brain", {
-            scale: 1.05,
-            duration: 3,
-            repeat: 0,
-            yoyo: true,
-            ease: "sine.inOut",
-            delay: 2.6
-        });
-        
         gsap.to("#main-title", {
-            textShadow: "0 0 40px rgba(0, 212, 255, 1), 0 0 80px rgba(0, 212, 255, 0.6)",
+            textShadow: "0 0 50px rgba(0,212,255,1)",
             duration: 2.5,
             repeat: 0,
             yoyo: true,
-            ease: "sine.inOut",
-            delay: 2.7
+            ease: "sine.inOut"
         });
-        
-        // Particle drift animations
-        gsap.to("#particle1", {
-            x: 100,
-            y: 20,
-            duration: 4,
+        gsap.to("#tag1", {
+            borderColor: "rgba(0,212,255,0.8)",
+            duration: 2,
             repeat: 0,
             yoyo: true,
-            ease: "none",
-            delay: 2.5
+            ease: "sine.inOut"
         });
-        
-        gsap.to("#particle2", {
-            x: -80,
-            y: 40,
-            duration: 5,
-            repeat: 0,
-            yoyo: true,
-            ease: "none",
-            delay: 2.6
-        });
-        
-        gsap.to("#particle3", {
-            x: 120,
-            y: -30,
-            duration: 6,
-            repeat: 0,
-            yoyo: true,
-            ease: "none",
-            delay: 2.7
-        });
-        
-        gsap.to("#particle4", {
-            x: -100,
-            y: 50,
-            duration: 4.5,
-            repeat: 0,
-            yoyo: true,
-            ease: "none",
-            delay: 2.8
-        });
-        
-        // Scan line movement
         gsap.to("#scan-line", {
-            y: 1080,
-            duration: 6,
+            top: "100%",
+            duration: 5,
             repeat: 0,
             ease: "none"
         });
-        
-        // Start the timeline
+        gsap.to("#particle1", {x: "+=50", y: "+=30", duration: 10, repeat: 0, yoyo: true, ease: "none"});
+        gsap.to("#particle2", {x: "-=40", y: "+=20", duration: 12, repeat: 0, yoyo: true, ease: "none"});
+        gsap.to("#particle3", {x: "+=30", y: "-=20", duration: 15, repeat: 0, yoyo: true, ease: "none"});
+        gsap.to("#particle4", {x: "-=20", y: "+=40", duration: 8, repeat: 0, yoyo: true, ease: "none"});
+        gsap.to("#particle5", {x: "+=60", y: "-=10", duration: 14, repeat: 0, yoyo: true, ease: "none"});
+
+        // Start timeline
         tl.play();
     </script>
 </body>

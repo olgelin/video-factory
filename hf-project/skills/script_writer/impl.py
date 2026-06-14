@@ -238,10 +238,30 @@ def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
         return None
 
     # 解析JSON（多层fallback）
+    result = _parse_json_response(llm_response)
+    if result:
+        return result
+    
+    # 第一次失败，重试一次（更严格的prompt）
+    print("  ⚠️ [script-writer] JSON解析失败，重试...")
+    strict_prompt = prompt + "\n\n重要：只输出纯JSON，不要任何markdown代码块，不要任何解释文字。"
+    llm_response = call_llm(strict_prompt, system_prompt, max_tokens=4000)
+    
+    if llm_response:
+        result = _parse_json_response(llm_response)
+        if result:
+            return result
+    
+    print("  ❌ [script-writer] JSON解析失败")
+    return None
+
+
+def _parse_json_response(llm_response: str) -> dict:
+    """多层JSON解析"""
     # Layer 1: 去除markdown代码块
     cleaned = re.sub(r'```json\s*', '', llm_response)
     cleaned = re.sub(r'```\s*$', '', cleaned).strip()
-
+    
     # Layer 2: 尝试直接解析
     try:
         script = json.loads(cleaned)
@@ -249,12 +269,11 @@ def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
             for section in script.get("voiceover_sections", []):
                 section["content"] = preprocess_text(section.get("content", ""))
             return script
-        # 兼容旧格式：如果返回的是scenes，转换为voiceover_sections
         elif "scenes" in script:
             return _convert_scenes_to_sections(script)
     except json.JSONDecodeError:
         pass
-
+    
     # Layer 3: 正则匹配最外层JSON
     json_match = re.search(r'\{.*\}', cleaned, re.DOTALL)
     if json_match:
@@ -268,7 +287,7 @@ def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
                 return _convert_scenes_to_sections(script)
         except json.JSONDecodeError:
             pass
-
+    
     # Layer 4: 提取所有JSON对象，找含voiceover_sections或scenes的那个
     i = 0
     while i < len(cleaned):
@@ -298,24 +317,22 @@ def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
         except json.JSONDecodeError:
             pass
         i = start + 1
-
+    
     # Layer 5: 修复常见JSON问题后重试
-    for attempt_str in [cleaned]:
-        fixed = re.sub(r',\s*}', '}', attempt_str)
-        fixed = re.sub(r',\s*]', ']', fixed)
-        fixed = re.sub(r'//.*$', '', fixed, flags=re.MULTILINE)
-        for m in re.finditer(r'\{[^{}]*"voiceover_sections"[^{}]*\[.*?\]\s*\}', fixed, re.DOTALL):
-            try:
-                candidate = json.loads(m.group())
-                if "voiceover_sections" in candidate:
-                    for section in candidate.get("voiceover_sections", []):
-                        section["content"] = preprocess_text(section.get("content", ""))
-                    print(f"  ✅ [script-writer] Layer5 fallback提取成功")
-                    return candidate
-            except json.JSONDecodeError:
-                pass
-
-    print("  ❌ [script-writer] JSON解析失败")
+    fixed = re.sub(r',\s*}', '}', cleaned)
+    fixed = re.sub(r',\s*]', ']', fixed)
+    fixed = re.sub(r'//.*$', '', fixed, flags=re.MULTILINE)
+    # 尝试解析修复后的整个内容
+    try:
+        script = json.loads(fixed)
+        if "voiceover_sections" in script:
+            for section in script.get("voiceover_sections", []):
+                section["content"] = preprocess_text(section.get("content", ""))
+            print(f"  ✅ [script-writer] Layer5 修复后解析成功")
+            return script
+    except json.JSONDecodeError:
+        pass
+    
     return None
 
 
