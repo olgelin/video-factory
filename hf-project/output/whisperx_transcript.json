@@ -2,2978 +2,2378 @@
   "segments": [
     {
       "start": 0.0,
-      "end": 3.88,
-      "text": "你绝对想不到,居民存款两个月缩水超2万亿,",
+      "end": 4.58,
+      "text": "你绝对想不到,OpenAI发布GPT-5,AI能力再次飞跃",
       "words": [
         {
           "word": "你",
           "start": 0.0,
-          "end": 0.28,
-          "probability": 0.992
+          "end": 0.16,
+          "probability": 0.993
         },
         {
           "word": "绝",
-          "start": 0.28,
-          "end": 0.5,
-          "probability": 0.996
+          "start": 0.16,
+          "end": 0.38,
+          "probability": 0.997
         },
         {
           "word": "对",
-          "start": 0.5,
+          "start": 0.38,
+          "end": 0.48,
+          "probability": 1.0
+        },
+        {
+          "word": "想",
+          "start": 0.48,
           "end": 0.62,
           "probability": 1.0
         },
         {
-          "word": "想",
-          "start": 0.62,
-          "end": 0.76,
-          "probability": 1.0
-        },
-        {
           "word": "不到,",
-          "start": 0.76,
-          "end": 0.96,
+          "start": 0.62,
+          "end": 0.8,
           "probability": 1.0
         },
         {
-          "word": "居",
-          "start": 1.12,
-          "end": 1.58,
-          "probability": 0.999
-        },
-        {
-          "word": "民",
-          "start": 1.58,
-          "end": 1.68,
-          "probability": 1.0
-        },
-        {
-          "word": "存",
-          "start": 1.68,
-          "end": 1.9,
-          "probability": 1.0
-        },
-        {
-          "word": "款",
-          "start": 1.9,
-          "end": 2.08,
-          "probability": 1.0
-        },
-        {
-          "word": "两",
-          "start": 2.08,
-          "end": 2.32,
-          "probability": 0.973
-        },
-        {
-          "word": "个",
-          "start": 2.32,
-          "end": 2.44,
-          "probability": 0.998
-        },
-        {
-          "word": "月",
-          "start": 2.44,
-          "end": 2.64,
-          "probability": 1.0
-        },
-        {
-          "word": "缩",
-          "start": 2.64,
-          "end": 2.9,
-          "probability": 0.997
-        },
-        {
-          "word": "水",
-          "start": 2.9,
-          "end": 3.12,
-          "probability": 1.0
-        },
-        {
-          "word": "超",
-          "start": 3.12,
-          "end": 3.28,
-          "probability": 1.0
-        },
-        {
-          "word": "2",
-          "start": 3.28,
-          "end": 3.48,
-          "probability": 0.755
-        },
-        {
-          "word": "万",
-          "start": 3.48,
-          "end": 3.68,
-          "probability": 0.998
-        },
-        {
-          "word": "亿,",
-          "start": 3.68,
-          "end": 3.88,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 3.96,
-      "end": 8.2,
-      "text": "近10年首次连续下降,老百姓的钱到底去哪了?",
-      "words": [
-        {
-          "word": "近",
-          "start": 3.96,
-          "end": 4.32,
-          "probability": 0.636
-        },
-        {
-          "word": "10",
-          "start": 4.32,
-          "end": 4.62,
-          "probability": 0.852
-        },
-        {
-          "word": "年",
-          "start": 4.62,
-          "end": 4.9,
-          "probability": 1.0
-        },
-        {
-          "word": "首",
-          "start": 4.9,
-          "end": 5.14,
-          "probability": 0.999
-        },
-        {
-          "word": "次",
-          "start": 5.14,
-          "end": 5.46,
-          "probability": 1.0
-        },
-        {
-          "word": "连",
-          "start": 5.46,
-          "end": 5.74,
-          "probability": 0.999
-        },
-        {
-          "word": "续",
-          "start": 5.74,
-          "end": 5.9,
-          "probability": 1.0
-        },
-        {
-          "word": "下",
-          "start": 5.9,
-          "end": 6.04,
-          "probability": 1.0
-        },
-        {
-          "word": "降,",
-          "start": 6.04,
-          "end": 6.28,
-          "probability": 1.0
-        },
-        {
-          "word": "老",
-          "start": 6.42,
-          "end": 6.7,
-          "probability": 1.0
-        },
-        {
-          "word": "百",
-          "start": 6.7,
-          "end": 6.86,
-          "probability": 1.0
-        },
-        {
-          "word": "姓",
-          "start": 6.86,
-          "end": 7.02,
-          "probability": 1.0
-        },
-        {
-          "word": "的",
-          "start": 7.02,
-          "end": 7.16,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 7.16,
-          "end": 7.3,
-          "probability": 1.0
-        },
-        {
-          "word": "到底",
-          "start": 7.3,
-          "end": 7.66,
-          "probability": 1.0
-        },
-        {
-          "word": "去",
-          "start": 7.66,
-          "end": 7.9,
-          "probability": 0.999
-        },
-        {
-          "word": "哪",
-          "start": 7.9,
-          "end": 8.06,
-          "probability": 1.0
-        },
-        {
-          "word": "了?",
-          "start": 8.06,
-          "end": 8.2,
-          "probability": 0.989
-        }
-      ]
-    },
-    {
-      "start": 8.32,
-      "end": 11.7,
-      "text": "我翻遍了央行最新的数据,没错,不是谣言,",
-      "words": [
-        {
-          "word": "我",
-          "start": 8.32,
-          "end": 8.72,
-          "probability": 1.0
-        },
-        {
-          "word": "翻",
-          "start": 8.72,
-          "end": 8.94,
-          "probability": 0.999
-        },
-        {
-          "word": "遍",
-          "start": 8.94,
-          "end": 9.14,
-          "probability": 0.999
-        },
-        {
-          "word": "了",
-          "start": 9.14,
-          "end": 9.28,
-          "probability": 1.0
-        },
-        {
-          "word": "央",
-          "start": 9.28,
-          "end": 9.42,
-          "probability": 1.0
-        },
-        {
-          "word": "行",
-          "start": 9.42,
-          "end": 9.64,
-          "probability": 0.999
-        },
-        {
-          "word": "最",
-          "start": 9.64,
-          "end": 9.82,
-          "probability": 1.0
-        },
-        {
-          "word": "新",
-          "start": 9.82,
-          "end": 10.0,
-          "probability": 1.0
-        },
-        {
-          "word": "的",
-          "start": 10.0,
-          "end": 10.14,
-          "probability": 0.997
-        },
-        {
-          "word": "数",
-          "start": 10.14,
-          "end": 10.26,
-          "probability": 1.0
-        },
-        {
-          "word": "据,",
-          "start": 10.26,
-          "end": 10.5,
-          "probability": 1.0
-        },
-        {
-          "word": "没",
-          "start": 10.56,
-          "end": 10.76,
-          "probability": 1.0
-        },
-        {
-          "word": "错,",
-          "start": 10.76,
-          "end": 10.92,
-          "probability": 1.0
-        },
-        {
-          "word": "不是",
-          "start": 11.02,
-          "end": 11.28,
-          "probability": 1.0
-        },
-        {
-          "word": "谣",
-          "start": 11.28,
-          "end": 11.5,
-          "probability": 1.0
-        },
-        {
-          "word": "言,",
-          "start": 11.5,
-          "end": 11.7,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 11.84,
-      "end": 15.18,
-      "text": "连续两个月存款总额竟减少了超过2万亿,",
-      "words": [
-        {
-          "word": "连",
-          "start": 11.84,
-          "end": 12.22,
-          "probability": 0.999
-        },
-        {
-          "word": "续",
-          "start": 12.22,
-          "end": 12.36,
-          "probability": 1.0
-        },
-        {
-          "word": "两",
-          "start": 12.36,
-          "end": 12.5,
-          "probability": 1.0
-        },
-        {
-          "word": "个",
-          "start": 12.5,
-          "end": 12.64,
-          "probability": 1.0
-        },
-        {
-          "word": "月",
-          "start": 12.64,
-          "end": 12.78,
-          "probability": 1.0
-        },
-        {
-          "word": "存",
-          "start": 12.78,
-          "end": 13.0,
-          "probability": 0.994
-        },
-        {
-          "word": "款",
-          "start": 13.0,
-          "end": 13.22,
-          "probability": 1.0
-        },
-        {
-          "word": "总",
-          "start": 13.22,
-          "end": 13.44,
-          "probability": 1.0
-        },
-        {
-          "word": "额",
-          "start": 13.44,
-          "end": 13.64,
-          "probability": 1.0
-        },
-        {
-          "word": "竟",
-          "start": 13.64,
-          "end": 13.9,
-          "probability": 0.965
-        },
-        {
-          "word": "减",
-          "start": 13.9,
-          "end": 14.08,
-          "probability": 1.0
-        },
-        {
-          "word": "少",
-          "start": 14.08,
-          "end": 14.24,
-          "probability": 1.0
-        },
-        {
-          "word": "了",
-          "start": 14.24,
-          "end": 14.36,
-          "probability": 0.999
-        },
-        {
-          "word": "超",
-          "start": 14.36,
-          "end": 14.5,
-          "probability": 1.0
-        },
-        {
-          "word": "过",
-          "start": 14.5,
-          "end": 14.7,
-          "probability": 1.0
-        },
-        {
-          "word": "2",
-          "start": 14.7,
-          "end": 14.84,
-          "probability": 1.0
-        },
-        {
-          "word": "万",
-          "start": 14.84,
-          "end": 14.98,
-          "probability": 1.0
-        },
-        {
-          "word": "亿,",
-          "start": 14.98,
-          "end": 15.18,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 15.26,
-      "end": 18.74,
-      "text": "上一次出现这种两连跌,还是2011年,你品品,",
-      "words": [
-        {
-          "word": "上",
-          "start": 15.26,
-          "end": 15.64,
-          "probability": 1.0
-        },
-        {
-          "word": "一次",
-          "start": 15.64,
-          "end": 15.86,
-          "probability": 0.999
-        },
-        {
-          "word": "出",
-          "start": 15.86,
-          "end": 16.1,
-          "probability": 1.0
-        },
-        {
-          "word": "现",
-          "start": 16.1,
-          "end": 16.3,
-          "probability": 1.0
-        },
-        {
-          "word": "这",
-          "start": 16.3,
-          "end": 16.42,
-          "probability": 1.0
-        },
-        {
-          "word": "种",
-          "start": 16.42,
-          "end": 16.56,
-          "probability": 1.0
-        },
-        {
-          "word": "两",
-          "start": 16.56,
-          "end": 16.74,
-          "probability": 1.0
-        },
-        {
-          "word": "连",
-          "start": 16.74,
-          "end": 16.92,
-          "probability": 0.863
-        },
-        {
-          "word": "跌,",
-          "start": 16.92,
-          "end": 17.12,
-          "probability": 1.0
-        },
-        {
-          "word": "还是",
-          "start": 17.18,
-          "end": 17.42,
-          "probability": 0.999
-        },
-        {
-          "word": "20",
-          "start": 17.42,
-          "end": 17.66,
-          "probability": 0.999
-        },
-        {
-          "word": "11",
-          "start": 17.66,
-          "end": 17.94,
-          "probability": 1.0
-        },
-        {
-          "word": "年,",
-          "start": 17.94,
-          "end": 18.22,
-          "probability": 0.999
-        },
-        {
-          "word": "你",
-          "start": 18.22,
-          "end": 18.34,
-          "probability": 0.995
-        },
-        {
-          "word": "品",
-          "start": 18.34,
-          "end": 18.56,
-          "probability": 0.791
-        },
-        {
-          "word": "品,",
-          "start": 18.56,
-          "end": 18.74,
-          "probability": 0.998
-        }
-      ]
-    },
-    {
-      "start": 18.84,
-      "end": 20.1,
-      "text": "这次跌得够狠。",
-      "words": [
-        {
-          "word": "这",
-          "start": 18.84,
-          "end": 19.16,
-          "probability": 1.0
-        },
-        {
-          "word": "次",
-          "start": 19.16,
-          "end": 19.38,
-          "probability": 1.0
-        },
-        {
-          "word": "跌",
-          "start": 19.38,
-          "end": 19.7,
-          "probability": 1.0
-        },
-        {
-          "word": "得",
-          "start": 19.7,
-          "end": 19.78,
-          "probability": 0.881
-        },
-        {
-          "word": "够",
-          "start": 19.78,
-          "end": 19.94,
-          "probability": 1.0
-        },
-        {
-          "word": "狠。",
-          "start": 19.94,
-          "end": 20.1,
-          "probability": 0.998
-        }
-      ]
-    },
-    {
-      "start": 20.44,
-      "end": 22.88,
-      "text": "第一个大头,就是提前还房贷,",
-      "words": [
-        {
-          "word": "第一",
-          "start": 20.44,
-          "end": 20.84,
+          "word": "Open",
+          "start": 0.94,
+          "end": 1.28,
           "probability": 0.977
         },
         {
-          "word": "个",
-          "start": 20.84,
-          "end": 21.0,
-          "probability": 1.0
-        },
-        {
-          "word": "大",
-          "start": 21.0,
-          "end": 21.14,
-          "probability": 1.0
-        },
-        {
-          "word": "头,",
-          "start": 21.14,
-          "end": 21.42,
-          "probability": 0.999
-        },
-        {
-          "word": "就是",
-          "start": 21.5,
-          "end": 21.8,
-          "probability": 1.0
-        },
-        {
-          "word": "提",
-          "start": 21.8,
-          "end": 22.04,
-          "probability": 1.0
-        },
-        {
-          "word": "前",
-          "start": 22.04,
-          "end": 22.32,
-          "probability": 0.999
-        },
-        {
-          "word": "还",
-          "start": 22.32,
-          "end": 22.48,
-          "probability": 1.0
-        },
-        {
-          "word": "房",
-          "start": 22.48,
-          "end": 22.68,
-          "probability": 1.0
-        },
-        {
-          "word": "贷,",
-          "start": 22.68,
-          "end": 22.88,
-          "probability": 0.999
-        }
-      ]
-    },
-    {
-      "start": 22.96,
-      "end": 26.18,
-      "text": "现在存量房贷利率和新房贷利差太大,",
-      "words": [
-        {
-          "word": "现在",
-          "start": 22.96,
-          "end": 23.46,
-          "probability": 1.0
-        },
-        {
-          "word": "存",
-          "start": 23.46,
-          "end": 23.72,
-          "probability": 1.0
-        },
-        {
-          "word": "量",
-          "start": 23.72,
-          "end": 23.9,
-          "probability": 0.986
-        },
-        {
-          "word": "房",
-          "start": 23.9,
-          "end": 24.12,
-          "probability": 1.0
-        },
-        {
-          "word": "贷",
-          "start": 24.12,
-          "end": 24.3,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 24.3,
-          "end": 24.46,
-          "probability": 0.998
-        },
-        {
-          "word": "率",
-          "start": 24.46,
-          "end": 24.64,
-          "probability": 1.0
-        },
-        {
-          "word": "和",
-          "start": 24.64,
-          "end": 24.82,
-          "probability": 1.0
-        },
-        {
-          "word": "新",
-          "start": 24.82,
-          "end": 25.0,
-          "probability": 0.999
-        },
-        {
-          "word": "房",
-          "start": 25.0,
-          "end": 25.2,
-          "probability": 1.0
-        },
-        {
-          "word": "贷",
-          "start": 25.2,
-          "end": 25.4,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 25.4,
-          "end": 25.54,
-          "probability": 0.982
-        },
-        {
-          "word": "差",
-          "start": 25.54,
-          "end": 25.72,
-          "probability": 1.0
-        },
-        {
-          "word": "太",
-          "start": 25.72,
-          "end": 25.92,
-          "probability": 1.0
-        },
-        {
-          "word": "大,",
-          "start": 25.92,
-          "end": 26.18,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 26.36,
-      "end": 29.78,
-      "text": "很多人算完账发现拿着钱存银行那点利息,",
-      "words": [
-        {
-          "word": "很多",
-          "start": 26.36,
-          "end": 26.74,
-          "probability": 0.999
-        },
-        {
-          "word": "人",
-          "start": 26.74,
-          "end": 27.0,
-          "probability": 1.0
-        },
-        {
-          "word": "算",
-          "start": 27.0,
-          "end": 27.16,
-          "probability": 1.0
-        },
-        {
-          "word": "完",
-          "start": 27.16,
-          "end": 27.34,
-          "probability": 1.0
-        },
-        {
-          "word": "账",
-          "start": 27.34,
-          "end": 27.52,
-          "probability": 0.997
+          "word": "AI",
+          "start": 1.28,
+          "end": 1.6,
+          "probability": 0.989
         },
         {
           "word": "发",
-          "start": 27.52,
-          "end": 27.64,
-          "probability": 1.0
-        },
-        {
-          "word": "现",
-          "start": 27.64,
-          "end": 27.92,
-          "probability": 1.0
-        },
-        {
-          "word": "拿",
-          "start": 27.92,
-          "end": 28.1,
-          "probability": 0.991
-        },
-        {
-          "word": "着",
-          "start": 28.1,
-          "end": 28.3,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 28.3,
-          "end": 28.52,
-          "probability": 1.0
-        },
-        {
-          "word": "存",
-          "start": 28.52,
-          "end": 28.74,
-          "probability": 1.0
-        },
-        {
-          "word": "银",
-          "start": 28.74,
-          "end": 28.94,
-          "probability": 1.0
-        },
-        {
-          "word": "行",
-          "start": 28.94,
-          "end": 29.12,
-          "probability": 1.0
-        },
-        {
-          "word": "那",
-          "start": 29.12,
-          "end": 29.24,
-          "probability": 0.997
-        },
-        {
-          "word": "点",
-          "start": 29.24,
-          "end": 29.38,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 29.38,
-          "end": 29.52,
+          "start": 1.6,
+          "end": 1.88,
           "probability": 0.999
         },
         {
-          "word": "息,",
-          "start": 29.52,
-          "end": 29.78,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 30.0,
-      "end": 33.1,
-      "text": "还不如赶紧把贷款还了,省下的利息更多,",
-      "words": [
-        {
-          "word": "还",
-          "start": 30.0,
-          "end": 30.22,
-          "probability": 0.875
+          "word": "布",
+          "start": 1.88,
+          "end": 2.08,
+          "probability": 0.999
         },
         {
-          "word": "不",
-          "start": 30.22,
-          "end": 30.34,
-          "probability": 1.0
+          "word": "G",
+          "start": 2.08,
+          "end": 2.22,
+          "probability": 0.988
         },
         {
-          "word": "如",
-          "start": 30.34,
-          "end": 30.52,
-          "probability": 1.0
-        },
-        {
-          "word": "赶",
-          "start": 30.52,
-          "end": 30.72,
-          "probability": 1.0
-        },
-        {
-          "word": "紧",
-          "start": 30.72,
-          "end": 30.86,
-          "probability": 1.0
-        },
-        {
-          "word": "把",
-          "start": 30.86,
-          "end": 31.0,
-          "probability": 1.0
-        },
-        {
-          "word": "贷",
-          "start": 31.0,
-          "end": 31.18,
-          "probability": 1.0
-        },
-        {
-          "word": "款",
-          "start": 31.18,
-          "end": 31.36,
-          "probability": 1.0
-        },
-        {
-          "word": "还",
-          "start": 31.36,
-          "end": 31.5,
-          "probability": 1.0
-        },
-        {
-          "word": "了,",
-          "start": 31.5,
-          "end": 31.72,
-          "probability": 1.0
-        },
-        {
-          "word": "省",
-          "start": 31.76,
-          "end": 32.18,
-          "probability": 1.0
-        },
-        {
-          "word": "下",
-          "start": 32.18,
-          "end": 32.3,
-          "probability": 1.0
-        },
-        {
-          "word": "的",
-          "start": 32.3,
-          "end": 32.44,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 32.44,
-          "end": 32.54,
+          "word": "P",
+          "start": 2.22,
+          "end": 2.42,
           "probability": 0.998
         },
         {
-          "word": "息",
-          "start": 32.54,
-          "end": 32.7,
+          "word": "T",
+          "start": 2.42,
+          "end": 2.56,
           "probability": 1.0
         },
         {
-          "word": "更",
-          "start": 32.7,
-          "end": 32.84,
-          "probability": 1.0
+          "word": "-",
+          "start": 2.56,
+          "end": 2.56,
+          "probability": 0.988
         },
         {
-          "word": "多,",
-          "start": 32.84,
-          "end": 33.1,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 33.2,
-      "end": 36.42,
-      "text": "于是一大波存款就搬到了银行的还款账户。",
-      "words": [
-        {
-          "word": "于",
-          "start": 33.2,
-          "end": 33.6,
+          "word": "5,",
+          "start": 2.56,
+          "end": 2.66,
           "probability": 0.999
         },
         {
-          "word": "是",
-          "start": 33.6,
-          "end": 33.74,
-          "probability": 1.0
-        },
-        {
-          "word": "一",
-          "start": 33.74,
-          "end": 34.02,
-          "probability": 0.986
-        },
-        {
-          "word": "大",
-          "start": 34.02,
-          "end": 34.16,
-          "probability": 1.0
-        },
-        {
-          "word": "波",
-          "start": 34.16,
-          "end": 34.34,
-          "probability": 0.98
-        },
-        {
-          "word": "存",
-          "start": 34.34,
-          "end": 34.54,
-          "probability": 1.0
-        },
-        {
-          "word": "款",
-          "start": 34.54,
-          "end": 34.7,
-          "probability": 1.0
-        },
-        {
-          "word": "就",
-          "start": 34.7,
-          "end": 34.88,
-          "probability": 0.999
-        },
-        {
-          "word": "搬",
-          "start": 34.88,
-          "end": 35.08,
+          "word": "AI",
+          "start": 2.86,
+          "end": 3.26,
           "probability": 0.998
         },
         {
-          "word": "到了",
-          "start": 35.08,
-          "end": 35.26,
-          "probability": 0.999
-        },
-        {
-          "word": "银",
-          "start": 35.26,
-          "end": 35.48,
-          "probability": 1.0
-        },
-        {
-          "word": "行",
-          "start": 35.48,
-          "end": 35.68,
-          "probability": 0.999
-        },
-        {
-          "word": "的",
-          "start": 35.68,
-          "end": 35.8,
-          "probability": 1.0
-        },
-        {
-          "word": "还",
-          "start": 35.8,
-          "end": 35.92,
-          "probability": 0.998
-        },
-        {
-          "word": "款",
-          "start": 35.92,
-          "end": 36.08,
-          "probability": 1.0
-        },
-        {
-          "word": "账",
-          "start": 36.08,
-          "end": 36.26,
-          "probability": 0.999
-        },
-        {
-          "word": "户。",
-          "start": 36.26,
-          "end": 36.42,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 36.68,
-      "end": 41.34,
-      "text": "第二,钱再往理财和债市里搬家,存款利率一降再降,",
-      "words": [
-        {
-          "word": "第二,",
-          "start": 36.68,
-          "end": 37.02,
-          "probability": 0.983
-        },
-        {
-          "word": "钱",
-          "start": 37.32,
-          "end": 37.7,
-          "probability": 0.999
-        },
-        {
-          "word": "再",
-          "start": 37.7,
-          "end": 37.88,
-          "probability": 0.731
-        },
-        {
-          "word": "往",
-          "start": 37.88,
-          "end": 38.08,
-          "probability": 1.0
-        },
-        {
-          "word": "理",
-          "start": 38.08,
-          "end": 38.24,
-          "probability": 0.999
-        },
-        {
-          "word": "财",
-          "start": 38.24,
-          "end": 38.52,
-          "probability": 1.0
-        },
-        {
-          "word": "和",
-          "start": 38.52,
-          "end": 38.7,
-          "probability": 1.0
-        },
-        {
-          "word": "债",
-          "start": 38.7,
-          "end": 38.96,
-          "probability": 0.999
-        },
-        {
-          "word": "市",
-          "start": 38.96,
-          "end": 39.08,
-          "probability": 0.714
-        },
-        {
-          "word": "里",
-          "start": 39.08,
-          "end": 39.22,
-          "probability": 0.999
-        },
-        {
-          "word": "搬",
-          "start": 39.22,
-          "end": 39.4,
-          "probability": 1.0
-        },
-        {
-          "word": "家,",
-          "start": 39.4,
-          "end": 39.6,
-          "probability": 0.924
-        },
-        {
-          "word": "存",
-          "start": 39.78,
-          "end": 40.06,
-          "probability": 0.999
-        },
-        {
-          "word": "款",
-          "start": 40.06,
-          "end": 40.28,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 40.28,
-          "end": 40.44,
-          "probability": 0.999
-        },
-        {
-          "word": "率",
-          "start": 40.44,
-          "end": 40.64,
-          "probability": 0.999
-        },
-        {
-          "word": "一",
-          "start": 40.64,
-          "end": 40.82,
-          "probability": 1.0
-        },
-        {
-          "word": "降",
-          "start": 40.82,
-          "end": 41.0,
-          "probability": 0.999
-        },
-        {
-          "word": "再",
-          "start": 41.0,
-          "end": 41.14,
-          "probability": 0.995
-        },
-        {
-          "word": "降,",
-          "start": 41.14,
-          "end": 41.34,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 41.44,
-      "end": 45.66,
-      "text": "很多人觉得放着就是亏,所以一部分钱去了银行理财,",
-      "words": [
-        {
-          "word": "很多",
-          "start": 41.44,
-          "end": 41.88,
-          "probability": 0.999
-        },
-        {
-          "word": "人",
-          "start": 41.88,
-          "end": 42.1,
-          "probability": 1.0
-        },
-        {
-          "word": "觉得",
-          "start": 42.1,
-          "end": 42.3,
-          "probability": 1.0
-        },
-        {
-          "word": "放",
-          "start": 42.3,
-          "end": 42.62,
-          "probability": 1.0
-        },
-        {
-          "word": "着",
-          "start": 42.62,
-          "end": 42.8,
-          "probability": 1.0
-        },
-        {
-          "word": "就是",
-          "start": 42.8,
-          "end": 42.98,
-          "probability": 1.0
-        },
-        {
-          "word": "亏,",
-          "start": 42.98,
-          "end": 43.24,
-          "probability": 1.0
-        },
-        {
-          "word": "所以",
-          "start": 43.34,
-          "end": 43.9,
-          "probability": 0.999
-        },
-        {
-          "word": "一",
-          "start": 43.9,
-          "end": 44.12,
-          "probability": 1.0
-        },
-        {
-          "word": "部分",
-          "start": 44.12,
-          "end": 44.32,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 44.32,
-          "end": 44.6,
-          "probability": 1.0
-        },
-        {
-          "word": "去了",
-          "start": 44.6,
-          "end": 44.86,
-          "probability": 1.0
-        },
-        {
-          "word": "银",
-          "start": 44.86,
-          "end": 45.08,
-          "probability": 1.0
-        },
-        {
-          "word": "行",
-          "start": 45.08,
-          "end": 45.3,
-          "probability": 1.0
-        },
-        {
-          "word": "理",
-          "start": 45.3,
-          "end": 45.44,
-          "probability": 1.0
-        },
-        {
-          "word": "财,",
-          "start": 45.44,
-          "end": 45.66,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 45.8,
-      "end": 48.54,
-      "text": "另一部分流向了看起来更稳的国债,",
-      "words": [
-        {
-          "word": "另",
-          "start": 45.8,
-          "end": 46.28,
-          "probability": 0.997
-        },
-        {
-          "word": "一",
-          "start": 46.28,
-          "end": 46.42,
-          "probability": 1.0
-        },
-        {
-          "word": "部分",
-          "start": 46.42,
-          "end": 46.64,
-          "probability": 1.0
-        },
-        {
-          "word": "流",
-          "start": 46.64,
-          "end": 47.02,
-          "probability": 0.32
-        },
-        {
-          "word": "向",
-          "start": 47.02,
-          "end": 47.16,
-          "probability": 1.0
-        },
-        {
-          "word": "了",
-          "start": 47.16,
-          "end": 47.34,
-          "probability": 1.0
-        },
-        {
-          "word": "看",
-          "start": 47.34,
-          "end": 47.48,
-          "probability": 1.0
-        },
-        {
-          "word": "起",
-          "start": 47.48,
-          "end": 47.62,
-          "probability": 1.0
-        },
-        {
-          "word": "来",
-          "start": 47.62,
-          "end": 47.7,
-          "probability": 1.0
-        },
-        {
-          "word": "更",
-          "start": 47.7,
-          "end": 47.92,
-          "probability": 1.0
-        },
-        {
-          "word": "稳",
-          "start": 47.92,
-          "end": 48.1,
-          "probability": 1.0
-        },
-        {
-          "word": "的",
-          "start": 48.1,
-          "end": 48.24,
-          "probability": 1.0
-        },
-        {
-          "word": "国",
-          "start": 48.24,
-          "end": 48.36,
-          "probability": 1.0
-        },
-        {
-          "word": "债,",
-          "start": 48.36,
-          "end": 48.54,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 48.86,
-      "end": 51.38,
-      "text": "说白了都是在找比存款利息高一点,",
-      "words": [
-        {
-          "word": "说",
-          "start": 48.86,
-          "end": 49.02,
-          "probability": 1.0
-        },
-        {
-          "word": "白",
-          "start": 49.02,
-          "end": 49.18,
-          "probability": 1.0
-        },
-        {
-          "word": "了",
-          "start": 49.18,
-          "end": 49.36,
-          "probability": 1.0
-        },
-        {
-          "word": "都是",
-          "start": 49.36,
-          "end": 49.62,
-          "probability": 0.875
-        },
-        {
-          "word": "在",
-          "start": 49.62,
-          "end": 49.82,
-          "probability": 1.0
-        },
-        {
-          "word": "找",
-          "start": 49.82,
-          "end": 50.06,
-          "probability": 1.0
-        },
-        {
-          "word": "比",
-          "start": 50.06,
-          "end": 50.24,
-          "probability": 0.999
-        },
-        {
-          "word": "存",
-          "start": 50.24,
-          "end": 50.44,
-          "probability": 1.0
-        },
-        {
-          "word": "款",
-          "start": 50.44,
-          "end": 50.66,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 50.66,
-          "end": 50.82,
-          "probability": 1.0
-        },
-        {
-          "word": "息",
-          "start": 50.82,
-          "end": 50.98,
-          "probability": 1.0
-        },
-        {
-          "word": "高",
-          "start": 50.98,
-          "end": 51.14,
-          "probability": 1.0
-        },
-        {
-          "word": "一点,",
-          "start": 51.14,
-          "end": 51.38,
-          "probability": 0.999
-        }
-      ]
-    },
-    {
-      "start": 51.56,
-      "end": 52.96,
-      "text": "风险又不太大的地方。",
-      "words": [
-        {
-          "word": "风",
-          "start": 51.56,
-          "end": 51.86,
-          "probability": 0.953
-        },
-        {
-          "word": "险",
-          "start": 51.86,
-          "end": 52.06,
-          "probability": 1.0
-        },
-        {
-          "word": "又",
-          "start": 52.06,
-          "end": 52.2,
-          "probability": 1.0
-        },
-        {
-          "word": "不",
-          "start": 52.2,
-          "end": 52.34,
-          "probability": 1.0
-        },
-        {
-          "word": "太",
-          "start": 52.34,
-          "end": 52.5,
-          "probability": 0.998
-        },
-        {
-          "word": "大的",
-          "start": 52.5,
-          "end": 52.7,
-          "probability": 1.0
-        },
-        {
-          "word": "地方。",
-          "start": 52.7,
-          "end": 52.96,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 53.34,
-      "end": 55.66,
-      "text": "还有,别忘了消费在悄悄复苏,",
-      "words": [
-        {
-          "word": "还有,",
-          "start": 53.34,
-          "end": 53.7,
-          "probability": 0.996
-        },
-        {
-          "word": "别",
-          "start": 53.82,
-          "end": 54.1,
-          "probability": 1.0
-        },
-        {
-          "word": "忘",
-          "start": 54.1,
-          "end": 54.26,
-          "probability": 1.0
-        },
-        {
-          "word": "了",
-          "start": 54.26,
-          "end": 54.4,
-          "probability": 1.0
-        },
-        {
-          "word": "消",
-          "start": 54.4,
-          "end": 54.52,
-          "probability": 1.0
-        },
-        {
-          "word": "费",
-          "start": 54.52,
-          "end": 54.76,
-          "probability": 1.0
-        },
-        {
-          "word": "在",
-          "start": 54.76,
-          "end": 54.92,
-          "probability": 0.94
-        },
-        {
-          "word": "悄",
-          "start": 54.92,
-          "end": 55.14,
-          "probability": 0.998
-        },
-        {
-          "word": "悄",
-          "start": 55.14,
-          "end": 55.28,
-          "probability": 1.0
-        },
-        {
-          "word": "复",
-          "start": 55.28,
-          "end": 55.46,
-          "probability": 1.0
-        },
-        {
-          "word": "苏,",
-          "start": 55.46,
-          "end": 55.66,
-          "probability": 0.996
-        }
-      ]
-    },
-    {
-      "start": 55.8,
-      "end": 59.92,
-      "text": "今年大家明显更敢花钱了,旅游下馆子换新手机,",
-      "words": [
-        {
-          "word": "今年",
-          "start": 55.8,
-          "end": 56.26,
-          "probability": 0.993
-        },
-        {
-          "word": "大家",
-          "start": 56.26,
-          "end": 56.52,
-          "probability": 1.0
-        },
-        {
-          "word": "明",
-          "start": 56.52,
-          "end": 56.8,
-          "probability": 1.0
-        },
-        {
-          "word": "显",
-          "start": 56.8,
-          "end": 57.0,
-          "probability": 1.0
-        },
-        {
-          "word": "更",
-          "start": 57.0,
-          "end": 57.22,
-          "probability": 1.0
-        },
-        {
-          "word": "敢",
-          "start": 57.22,
-          "end": 57.4,
-          "probability": 0.995
-        },
-        {
-          "word": "花",
-          "start": 57.4,
-          "end": 57.54,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 57.54,
-          "end": 57.74,
-          "probability": 1.0
-        },
-        {
-          "word": "了,",
-          "start": 57.74,
-          "end": 57.9,
-          "probability": 1.0
-        },
-        {
-          "word": "旅",
-          "start": 58.26,
-          "end": 58.46,
-          "probability": 0.997
-        },
-        {
-          "word": "游",
-          "start": 58.46,
-          "end": 58.64,
-          "probability": 1.0
-        },
-        {
-          "word": "下",
-          "start": 58.64,
-          "end": 58.76,
-          "probability": 0.918
-        },
-        {
-          "word": "馆",
-          "start": 58.76,
-          "end": 58.98,
-          "probability": 0.904
-        },
-        {
-          "word": "子",
-          "start": 58.98,
-          "end": 59.18,
-          "probability": 1.0
-        },
-        {
-          "word": "换",
-          "start": 59.18,
-          "end": 59.4,
-          "probability": 0.995
-        },
-        {
-          "word": "新",
-          "start": 59.4,
-          "end": 59.56,
-          "probability": 1.0
-        },
-        {
-          "word": "手",
-          "start": 59.56,
-          "end": 59.7,
-          "probability": 1.0
-        },
-        {
-          "word": "机,",
-          "start": 59.7,
-          "end": 59.92,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 60.0,
-      "end": 64.08,
-      "text": "这些消费都在增长,钱从储蓄账户流进了消费市场,",
-      "words": [
-        {
-          "word": "这",
-          "start": 60.0,
-          "end": 60.4,
-          "probability": 0.995
-        },
-        {
-          "word": "些",
-          "start": 60.4,
-          "end": 60.5,
-          "probability": 1.0
-        },
-        {
-          "word": "消",
-          "start": 60.5,
-          "end": 60.68,
-          "probability": 1.0
-        },
-        {
-          "word": "费",
-          "start": 60.68,
-          "end": 60.86,
-          "probability": 1.0
-        },
-        {
-          "word": "都",
-          "start": 60.86,
-          "end": 61.0,
-          "probability": 1.0
-        },
-        {
-          "word": "在",
-          "start": 61.0,
-          "end": 61.14,
-          "probability": 1.0
-        },
-        {
-          "word": "增",
-          "start": 61.14,
-          "end": 61.38,
-          "probability": 1.0
-        },
-        {
-          "word": "长,",
-          "start": 61.38,
-          "end": 61.54,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 61.6,
-          "end": 61.96,
-          "probability": 0.95
-        },
-        {
-          "word": "从",
-          "start": 61.96,
-          "end": 62.18,
-          "probability": 1.0
-        },
-        {
-          "word": "储",
-          "start": 62.18,
-          "end": 62.4,
-          "probability": 1.0
-        },
-        {
-          "word": "蓄",
-          "start": 62.4,
-          "end": 62.56,
-          "probability": 1.0
-        },
-        {
-          "word": "账",
-          "start": 62.56,
-          "end": 62.74,
-          "probability": 0.999
-        },
-        {
-          "word": "户",
-          "start": 62.74,
-          "end": 62.9,
-          "probability": 1.0
-        },
-        {
-          "word": "流",
-          "start": 62.9,
-          "end": 63.16,
-          "probability": 0.996
-        },
-        {
-          "word": "进",
-          "start": 63.16,
-          "end": 63.3,
-          "probability": 0.999
-        },
-        {
-          "word": "了",
-          "start": 63.3,
-          "end": 63.46,
-          "probability": 0.997
-        },
-        {
-          "word": "消",
-          "start": 63.46,
-          "end": 63.58,
-          "probability": 1.0
-        },
-        {
-          "word": "费",
-          "start": 63.58,
-          "end": 63.78,
-          "probability": 1.0
-        },
-        {
-          "word": "市",
-          "start": 63.78,
-          "end": 63.9,
-          "probability": 1.0
-        },
-        {
-          "word": "场,",
-          "start": 63.9,
-          "end": 64.08,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 64.2,
-      "end": 68.18,
-      "text": "这其实是个好信号,说明大家对未来的预期在好转。",
-      "words": [
-        {
-          "word": "这",
-          "start": 64.2,
-          "end": 64.52,
-          "probability": 0.999
-        },
-        {
-          "word": "其实",
-          "start": 64.52,
-          "end": 64.78,
-          "probability": 1.0
-        },
-        {
-          "word": "是",
-          "start": 64.78,
-          "end": 64.98,
-          "probability": 1.0
-        },
-        {
-          "word": "个",
-          "start": 64.98,
-          "end": 65.1,
-          "probability": 0.999
-        },
-        {
-          "word": "好",
-          "start": 65.1,
-          "end": 65.26,
-          "probability": 1.0
-        },
-        {
-          "word": "信",
-          "start": 65.26,
-          "end": 65.42,
-          "probability": 0.999
-        },
-        {
-          "word": "号,",
-          "start": 65.42,
-          "end": 65.6,
-          "probability": 0.999
-        },
-        {
-          "word": "说",
-          "start": 65.68,
-          "end": 66.02,
-          "probability": 1.0
-        },
-        {
-          "word": "明",
-          "start": 66.02,
-          "end": 66.2,
-          "probability": 1.0
-        },
-        {
-          "word": "大家",
-          "start": 66.2,
-          "end": 66.4,
-          "probability": 1.0
-        },
-        {
-          "word": "对",
-          "start": 66.4,
-          "end": 66.64,
-          "probability": 1.0
-        },
-        {
-          "word": "未",
-          "start": 66.64,
-          "end": 66.82,
-          "probability": 1.0
-        },
-        {
-          "word": "来",
-          "start": 66.82,
-          "end": 67.04,
-          "probability": 1.0
-        },
-        {
-          "word": "的",
-          "start": 67.04,
-          "end": 67.16,
-          "probability": 0.999
-        },
-        {
-          "word": "预",
-          "start": 67.16,
-          "end": 67.28,
-          "probability": 1.0
-        },
-        {
-          "word": "期",
-          "start": 67.28,
-          "end": 67.52,
-          "probability": 1.0
-        },
-        {
-          "word": "在",
-          "start": 67.52,
-          "end": 67.72,
-          "probability": 0.999
-        },
-        {
-          "word": "好",
-          "start": 67.72,
-          "end": 67.94,
-          "probability": 1.0
-        },
-        {
-          "word": "转。",
-          "start": 67.94,
-          "end": 68.18,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 68.24,
-      "end": 70.68,
-      "text": "那这背后到底啥原因,关键就两点,",
-      "words": [
-        {
-          "word": "那",
-          "start": 68.24,
-          "end": 68.4,
-          "probability": 0.999
-        },
-        {
-          "word": "这",
-          "start": 68.4,
-          "end": 68.52,
-          "probability": 0.999
-        },
-        {
-          "word": "背",
-          "start": 68.52,
-          "end": 68.68,
-          "probability": 1.0
-        },
-        {
-          "word": "后",
-          "start": 68.68,
-          "end": 68.9,
-          "probability": 0.998
-        },
-        {
-          "word": "到底",
-          "start": 68.9,
-          "end": 69.1,
-          "probability": 1.0
-        },
-        {
-          "word": "啥",
-          "start": 69.1,
-          "end": 69.36,
-          "probability": 1.0
-        },
-        {
-          "word": "原因,",
-          "start": 69.36,
-          "end": 69.56,
-          "probability": 1.0
-        },
-        {
-          "word": "关",
-          "start": 69.84,
-          "end": 70.08,
-          "probability": 0.998
-        },
-        {
-          "word": "键",
-          "start": 70.08,
-          "end": 70.22,
-          "probability": 1.0
-        },
-        {
-          "word": "就",
-          "start": 70.22,
-          "end": 70.34,
-          "probability": 1.0
-        },
-        {
-          "word": "两",
-          "start": 70.34,
-          "end": 70.5,
-          "probability": 0.997
-        },
-        {
-          "word": "点,",
-          "start": 70.5,
-          "end": 70.68,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 70.82,
-      "end": 73.54,
-      "text": "一个是利率下行,存款吸引力暴跌,",
-      "words": [
-        {
-          "word": "一个",
-          "start": 70.82,
-          "end": 71.2,
-          "probability": 1.0
-        },
-        {
-          "word": "是",
-          "start": 71.2,
-          "end": 71.4,
-          "probability": 1.0
-        },
-        {
-          "word": "利",
-          "start": 71.4,
-          "end": 71.54,
-          "probability": 1.0
-        },
-        {
-          "word": "率",
-          "start": 71.54,
-          "end": 71.72,
-          "probability": 1.0
-        },
-        {
-          "word": "下",
-          "start": 71.72,
-          "end": 71.86,
-          "probability": 1.0
-        },
-        {
-          "word": "行,",
-          "start": 71.86,
-          "end": 72.1,
-          "probability": 0.997
-        },
-        {
-          "word": "存",
-          "start": 72.28,
-          "end": 72.5,
-          "probability": 1.0
-        },
-        {
-          "word": "款",
-          "start": 72.5,
-          "end": 72.7,
-          "probability": 1.0
-        },
-        {
-          "word": "吸",
-          "start": 72.7,
-          "end": 72.86,
-          "probability": 1.0
-        },
-        {
-          "word": "引",
-          "start": 72.86,
-          "end": 73.02,
+          "word": "能",
+          "start": 3.26,
+          "end": 3.5,
           "probability": 1.0
         },
         {
           "word": "力",
-          "start": 73.02,
-          "end": 73.14,
+          "start": 3.5,
+          "end": 3.72,
           "probability": 1.0
         },
         {
-          "word": "暴",
-          "start": 73.14,
-          "end": 73.32,
-          "probability": 0.999
+          "word": "再",
+          "start": 3.72,
+          "end": 3.96,
+          "probability": 1.0
         },
         {
-          "word": "跌,",
-          "start": 73.32,
-          "end": 73.54,
+          "word": "次",
+          "start": 3.96,
+          "end": 4.2,
           "probability": 1.0
+        },
+        {
+          "word": "飞",
+          "start": 4.2,
+          "end": 4.42,
+          "probability": 1.0
+        },
+        {
+          "word": "跃",
+          "start": 4.42,
+          "end": 4.58,
+          "probability": 0.993
         }
       ]
     },
     {
-      "start": 73.64,
-      "end": 77.0,
-      "text": "另一个是资产慌,好的投资渠道太少了,",
+      "start": 4.58,
+      "end": 9.64,
+      "text": "说白了,这次GPT-5的发布,直接把AI的天花板又捅了个窟窿",
       "words": [
         {
-          "word": "另",
-          "start": 73.64,
-          "end": 74.02,
-          "probability": 0.996
+          "word": "说",
+          "start": 4.58,
+          "end": 5.14,
+          "probability": 0.535
         },
         {
-          "word": "一个",
-          "start": 74.02,
-          "end": 74.2,
-          "probability": 1.0
-        },
-        {
-          "word": "是",
-          "start": 74.2,
-          "end": 74.42,
-          "probability": 1.0
-        },
-        {
-          "word": "资",
-          "start": 74.42,
-          "end": 74.7,
-          "probability": 1.0
-        },
-        {
-          "word": "产",
-          "start": 74.7,
-          "end": 74.84,
-          "probability": 1.0
-        },
-        {
-          "word": "慌,",
-          "start": 74.84,
-          "end": 75.04,
-          "probability": 0.727
-        },
-        {
-          "word": "好的",
-          "start": 75.16,
-          "end": 75.7,
-          "probability": 0.998
-        },
-        {
-          "word": "投",
-          "start": 75.7,
-          "end": 75.92,
-          "probability": 1.0
-        },
-        {
-          "word": "资",
-          "start": 75.92,
-          "end": 76.12,
-          "probability": 1.0
-        },
-        {
-          "word": "渠",
-          "start": 76.12,
-          "end": 76.3,
-          "probability": 1.0
-        },
-        {
-          "word": "道",
-          "start": 76.3,
-          "end": 76.42,
-          "probability": 1.0
-        },
-        {
-          "word": "太",
-          "start": 76.42,
-          "end": 76.58,
-          "probability": 1.0
-        },
-        {
-          "word": "少",
-          "start": 76.58,
-          "end": 76.84,
+          "word": "白",
+          "start": 5.14,
+          "end": 5.34,
           "probability": 1.0
         },
         {
           "word": "了,",
-          "start": 76.84,
-          "end": 77.0,
+          "start": 5.34,
+          "end": 5.5,
+          "probability": 1.0
+        },
+        {
+          "word": "这",
+          "start": 5.58,
+          "end": 5.9,
+          "probability": 1.0
+        },
+        {
+          "word": "次",
+          "start": 5.9,
+          "end": 6.1,
+          "probability": 1.0
+        },
+        {
+          "word": "G",
+          "start": 6.1,
+          "end": 6.22,
+          "probability": 1.0
+        },
+        {
+          "word": "P",
+          "start": 6.22,
+          "end": 6.36,
+          "probability": 1.0
+        },
+        {
+          "word": "T",
+          "start": 6.36,
+          "end": 6.56,
+          "probability": 1.0
+        },
+        {
+          "word": "-",
+          "start": 6.56,
+          "end": 6.56,
+          "probability": 1.0
+        },
+        {
+          "word": "5",
+          "start": 6.56,
+          "end": 6.68,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 6.68,
+          "end": 6.86,
           "probability": 0.999
+        },
+        {
+          "word": "发",
+          "start": 6.86,
+          "end": 6.98,
+          "probability": 1.0
+        },
+        {
+          "word": "布,",
+          "start": 6.98,
+          "end": 7.14,
+          "probability": 1.0
+        },
+        {
+          "word": "直接",
+          "start": 7.24,
+          "end": 7.62,
+          "probability": 1.0
+        },
+        {
+          "word": "把",
+          "start": 7.62,
+          "end": 7.82,
+          "probability": 1.0
+        },
+        {
+          "word": "AI",
+          "start": 7.82,
+          "end": 8.06,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 8.06,
+          "end": 8.24,
+          "probability": 1.0
+        },
+        {
+          "word": "天",
+          "start": 8.24,
+          "end": 8.38,
+          "probability": 1.0
+        },
+        {
+          "word": "花",
+          "start": 8.38,
+          "end": 8.48,
+          "probability": 0.998
+        },
+        {
+          "word": "板",
+          "start": 8.48,
+          "end": 8.68,
+          "probability": 1.0
+        },
+        {
+          "word": "又",
+          "start": 8.68,
+          "end": 8.84,
+          "probability": 1.0
+        },
+        {
+          "word": "捅",
+          "start": 8.84,
+          "end": 9.06,
+          "probability": 1.0
+        },
+        {
+          "word": "了",
+          "start": 9.06,
+          "end": 9.18,
+          "probability": 1.0
+        },
+        {
+          "word": "个",
+          "start": 9.18,
+          "end": 9.26,
+          "probability": 1.0
+        },
+        {
+          "word": "窟",
+          "start": 9.26,
+          "end": 9.48,
+          "probability": 0.996
+        },
+        {
+          "word": "窿",
+          "start": 9.48,
+          "end": 9.64,
+          "probability": 0.998
         }
       ]
     },
     {
-      "start": 77.3,
-      "end": 79.64,
-      "text": "股票基金波动大,房产不敢碰,",
+      "start": 9.64,
+      "end": 13.9,
+      "text": "OpenAI这次玩,真的不搞虚的,整个科技圈都炸了锅",
       "words": [
         {
-          "word": "股",
-          "start": 77.3,
-          "end": 77.48,
-          "probability": 0.999
+          "word": "Open",
+          "start": 9.64,
+          "end": 10.12,
+          "probability": 0.997
         },
         {
-          "word": "票",
-          "start": 77.48,
-          "end": 77.64,
+          "word": "AI",
+          "start": 10.12,
+          "end": 10.44,
           "probability": 1.0
         },
         {
-          "word": "基",
-          "start": 77.64,
-          "end": 77.76,
+          "word": "这",
+          "start": 10.44,
+          "end": 10.7,
           "probability": 1.0
         },
         {
-          "word": "金",
-          "start": 77.76,
-          "end": 77.98,
+          "word": "次",
+          "start": 10.7,
+          "end": 10.86,
           "probability": 1.0
         },
         {
-          "word": "波",
-          "start": 77.98,
-          "end": 78.1,
-          "probability": 0.994
+          "word": "玩,",
+          "start": 10.86,
+          "end": 11.02,
+          "probability": 0.836
         },
         {
-          "word": "动",
-          "start": 78.1,
-          "end": 78.26,
-          "probability": 1.0
-        },
-        {
-          "word": "大,",
-          "start": 78.26,
-          "end": 78.46,
-          "probability": 1.0
-        },
-        {
-          "word": "房",
-          "start": 78.7,
-          "end": 78.96,
-          "probability": 0.999
-        },
-        {
-          "word": "产",
-          "start": 78.96,
-          "end": 79.12,
+          "word": "真的",
+          "start": 11.12,
+          "end": 11.38,
           "probability": 1.0
         },
         {
           "word": "不",
-          "start": 79.12,
-          "end": 79.28,
+          "start": 11.38,
+          "end": 11.6,
           "probability": 1.0
         },
         {
-          "word": "敢",
-          "start": 79.28,
-          "end": 79.38,
-          "probability": 1.0
-        },
-        {
-          "word": "碰,",
-          "start": 79.38,
-          "end": 79.64,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 79.74,
-      "end": 82.96,
-      "text": "逼得大家要么还贷,要么买点低风险理财,",
-      "words": [
-        {
-          "word": "逼",
-          "start": 79.74,
-          "end": 80.12,
-          "probability": 0.997
-        },
-        {
-          "word": "得",
-          "start": 80.12,
-          "end": 80.24,
-          "probability": 0.826
-        },
-        {
-          "word": "大家",
-          "start": 80.24,
-          "end": 80.48,
-          "probability": 0.997
-        },
-        {
-          "word": "要",
-          "start": 80.48,
-          "end": 80.74,
-          "probability": 1.0
-        },
-        {
-          "word": "么",
-          "start": 80.74,
-          "end": 80.86,
-          "probability": 0.999
-        },
-        {
-          "word": "还",
-          "start": 80.86,
-          "end": 81.04,
-          "probability": 0.999
-        },
-        {
-          "word": "贷,",
-          "start": 81.04,
-          "end": 81.28,
+          "word": "搞",
+          "start": 11.6,
+          "end": 11.76,
           "probability": 0.996
         },
         {
-          "word": "要",
-          "start": 81.36,
-          "end": 81.56,
+          "word": "虚",
+          "start": 11.76,
+          "end": 12.0,
+          "probability": 0.998
+        },
+        {
+          "word": "的,",
+          "start": 12.0,
+          "end": 12.1,
           "probability": 1.0
         },
         {
-          "word": "么",
-          "start": 81.56,
-          "end": 81.68,
+          "word": "整",
+          "start": 12.22,
+          "end": 12.52,
           "probability": 1.0
         },
         {
-          "word": "买",
-          "start": 81.68,
-          "end": 81.94,
+          "word": "个",
+          "start": 12.52,
+          "end": 12.68,
           "probability": 1.0
         },
         {
-          "word": "点",
-          "start": 81.94,
-          "end": 82.08,
+          "word": "科",
+          "start": 12.68,
+          "end": 12.82,
           "probability": 1.0
         },
         {
-          "word": "低",
-          "start": 82.08,
-          "end": 82.26,
-          "probability": 1.0
-        },
-        {
-          "word": "风",
-          "start": 82.26,
-          "end": 82.42,
+          "word": "技",
+          "start": 12.82,
+          "end": 12.98,
           "probability": 0.999
         },
         {
-          "word": "险",
-          "start": 82.42,
-          "end": 82.58,
+          "word": "圈",
+          "start": 12.98,
+          "end": 13.2,
           "probability": 1.0
         },
         {
-          "word": "理",
-          "start": 82.58,
-          "end": 82.74,
-          "probability": 0.997
+          "word": "都",
+          "start": 13.2,
+          "end": 13.38,
+          "probability": 1.0
         },
         {
-          "word": "财,",
-          "start": 82.74,
-          "end": 82.96,
+          "word": "炸",
+          "start": 13.38,
+          "end": 13.6,
           "probability": 1.0
+        },
+        {
+          "word": "了",
+          "start": 13.6,
+          "end": 13.72,
+          "probability": 1.0
+        },
+        {
+          "word": "锅",
+          "start": 13.72,
+          "end": 13.9,
+          "probability": 0.999
         }
       ]
     },
     {
-      "start": 83.02,
-      "end": 84.36,
-      "text": "都是防御性操作。",
+      "start": 13.9,
+      "end": 18.94,
+      "text": "我翻遍全网,扒了三天资料,发现GPT-5在语言理解、推理和生成上",
       "words": [
         {
-          "word": "都是",
-          "start": 83.02,
-          "end": 83.34,
+          "word": "我",
+          "start": 13.9,
+          "end": 14.32,
           "probability": 0.999
         },
         {
-          "word": "防",
-          "start": 83.34,
-          "end": 83.62,
+          "word": "翻",
+          "start": 14.32,
+          "end": 14.46,
           "probability": 0.999
         },
         {
-          "word": "御",
-          "start": 83.62,
-          "end": 83.78,
-          "probability": 0.985
-        },
-        {
-          "word": "性",
-          "start": 83.78,
-          "end": 83.96,
-          "probability": 1.0
-        },
-        {
-          "word": "操",
-          "start": 83.96,
-          "end": 84.16,
-          "probability": 1.0
-        },
-        {
-          "word": "作。",
-          "start": 84.16,
-          "end": 84.36,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 84.6,
-      "end": 87.0,
-      "text": "对咱们普通人来说,啥启示?",
-      "words": [
-        {
-          "word": "对",
-          "start": 84.6,
-          "end": 84.96,
+          "word": "遍",
+          "start": 14.46,
+          "end": 14.62,
           "probability": 0.996
         },
         {
-          "word": "咱",
-          "start": 84.96,
-          "end": 85.22,
-          "probability": 0.974
+          "word": "全",
+          "start": 14.62,
+          "end": 14.76,
+          "probability": 0.999
         },
         {
-          "word": "们",
-          "start": 85.22,
-          "end": 85.34,
+          "word": "网,",
+          "start": 14.76,
+          "end": 14.98,
           "probability": 1.0
         },
         {
-          "word": "普",
-          "start": 85.34,
-          "end": 85.46,
+          "word": "扒",
+          "start": 15.02,
+          "end": 15.2,
+          "probability": 0.979
+        },
+        {
+          "word": "了",
+          "start": 15.2,
+          "end": 15.32,
           "probability": 1.0
         },
         {
-          "word": "通",
-          "start": 85.46,
-          "end": 85.66,
+          "word": "三",
+          "start": 15.32,
+          "end": 15.44,
+          "probability": 0.999
+        },
+        {
+          "word": "天",
+          "start": 15.44,
+          "end": 15.56,
+          "probability": 0.999
+        },
+        {
+          "word": "资",
+          "start": 15.56,
+          "end": 15.76,
           "probability": 1.0
         },
         {
-          "word": "人",
-          "start": 85.66,
-          "end": 85.8,
+          "word": "料,",
+          "start": 15.76,
+          "end": 15.9,
           "probability": 1.0
         },
         {
-          "word": "来",
-          "start": 85.8,
-          "end": 85.9,
+          "word": "发",
+          "start": 15.92,
+          "end": 16.02,
           "probability": 1.0
-        },
-        {
-          "word": "说,",
-          "start": 85.9,
-          "end": 86.12,
-          "probability": 1.0
-        },
-        {
-          "word": "啥",
-          "start": 86.32,
-          "end": 86.7,
-          "probability": 0.981
-        },
-        {
-          "word": "启",
-          "start": 86.7,
-          "end": 86.86,
-          "probability": 0.755
-        },
-        {
-          "word": "示?",
-          "start": 86.86,
-          "end": 87.0,
-          "probability": 0.806
-        }
-      ]
-    },
-    {
-      "start": 87.3,
-      "end": 89.26,
-      "text": "第一,现今为王的时代,",
-      "words": [
-        {
-          "word": "第一,",
-          "start": 87.3,
-          "end": 87.66,
-          "probability": 0.984
         },
         {
           "word": "现",
-          "start": 88.04,
-          "end": 88.22,
-          "probability": 0.997
-        },
-        {
-          "word": "今",
-          "start": 88.22,
-          "end": 88.44,
-          "probability": 0.868
-        },
-        {
-          "word": "为",
-          "start": 88.44,
-          "end": 88.62,
-          "probability": 0.832
-        },
-        {
-          "word": "王",
-          "start": 88.62,
-          "end": 88.82,
-          "probability": 0.986
-        },
-        {
-          "word": "的",
-          "start": 88.82,
-          "end": 88.94,
+          "start": 16.02,
+          "end": 16.24,
           "probability": 1.0
         },
         {
-          "word": "时",
-          "start": 88.94,
-          "end": 89.02,
-          "probability": 0.999
-        },
-        {
-          "word": "代,",
-          "start": 89.02,
-          "end": 89.26,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 90.0,
-      "end": 91.78,
-      "text": "过去得学会管理你的活钱。",
-      "words": [
-        {
-          "word": "过",
-          "start": 90.0,
-          "end": 90.08,
-          "probability": 0.127
-        },
-        {
-          "word": "去",
-          "start": 90.08,
-          "end": 90.24,
-          "probability": 0.997
-        },
-        {
-          "word": "得",
-          "start": 90.24,
-          "end": 90.44,
-          "probability": 0.994
-        },
-        {
-          "word": "学",
-          "start": 90.44,
-          "end": 90.66,
-          "probability": 0.999
-        },
-        {
-          "word": "会",
-          "start": 90.66,
-          "end": 90.86,
+          "word": "G",
+          "start": 16.24,
+          "end": 16.34,
           "probability": 1.0
         },
         {
-          "word": "管",
-          "start": 90.86,
-          "end": 91.02,
+          "word": "P",
+          "start": 16.34,
+          "end": 16.48,
           "probability": 1.0
         },
         {
-          "word": "理",
-          "start": 91.02,
-          "end": 91.18,
+          "word": "T",
+          "start": 16.48,
+          "end": 16.62,
           "probability": 1.0
         },
         {
-          "word": "你的",
-          "start": 91.18,
-          "end": 91.34,
+          "word": "-",
+          "start": 16.62,
+          "end": 16.62,
           "probability": 1.0
         },
         {
-          "word": "活",
-          "start": 91.34,
-          "end": 91.56,
-          "probability": 0.991
-        },
-        {
-          "word": "钱。",
-          "start": 91.56,
-          "end": 91.78,
-          "probability": 0.963
-        }
-      ]
-    },
-    {
-      "start": 92.06,
-      "end": 95.6,
-      "text": "第二,提前还贷要算清细账,别盲目跟风。",
-      "words": [
-        {
-          "word": "第二,",
-          "start": 92.06,
-          "end": 92.46,
-          "probability": 0.952
-        },
-        {
-          "word": "提",
-          "start": 92.76,
-          "end": 92.98,
-          "probability": 1.0
-        },
-        {
-          "word": "前",
-          "start": 92.98,
-          "end": 93.22,
-          "probability": 0.833
-        },
-        {
-          "word": "还",
-          "start": 93.22,
-          "end": 93.4,
-          "probability": 0.999
-        },
-        {
-          "word": "贷",
-          "start": 93.4,
-          "end": 93.64,
-          "probability": 0.998
-        },
-        {
-          "word": "要",
-          "start": 93.64,
-          "end": 93.82,
-          "probability": 0.863
-        },
-        {
-          "word": "算",
-          "start": 93.82,
-          "end": 94.02,
-          "probability": 1.0
-        },
-        {
-          "word": "清",
-          "start": 94.02,
-          "end": 94.22,
-          "probability": 0.999
-        },
-        {
-          "word": "细",
-          "start": 94.22,
-          "end": 94.46,
-          "probability": 0.895
-        },
-        {
-          "word": "账,",
-          "start": 94.46,
-          "end": 94.64,
-          "probability": 0.951
-        },
-        {
-          "word": "别",
-          "start": 94.66,
-          "end": 94.9,
-          "probability": 0.999
-        },
-        {
-          "word": "盲",
-          "start": 94.9,
-          "end": 95.14,
-          "probability": 0.999
-        },
-        {
-          "word": "目",
-          "start": 95.14,
-          "end": 95.26,
-          "probability": 1.0
-        },
-        {
-          "word": "跟",
-          "start": 95.26,
-          "end": 95.38,
-          "probability": 0.998
-        },
-        {
-          "word": "风。",
-          "start": 95.38,
-          "end": 95.6,
-          "probability": 0.999
-        }
-      ]
-    },
-    {
-      "start": 95.82,
-      "end": 98.06,
-      "text": "第三,与其焦虑钱去哪了,",
-      "words": [
-        {
-          "word": "第三,",
-          "start": 95.82,
-          "end": 96.22,
-          "probability": 0.999
-        },
-        {
-          "word": "与",
-          "start": 96.7,
-          "end": 96.84,
-          "probability": 0.999
-        },
-        {
-          "word": "其",
-          "start": 96.84,
-          "end": 96.98,
-          "probability": 1.0
-        },
-        {
-          "word": "焦",
-          "start": 96.98,
-          "end": 97.2,
-          "probability": 0.986
-        },
-        {
-          "word": "虑",
-          "start": 97.2,
-          "end": 97.32,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 97.32,
-          "end": 97.5,
-          "probability": 1.0
-        },
-        {
-          "word": "去",
-          "start": 97.5,
-          "end": 97.7,
-          "probability": 1.0
-        },
-        {
-          "word": "哪",
-          "start": 97.7,
-          "end": 97.9,
-          "probability": 0.997
-        },
-        {
-          "word": "了,",
-          "start": 97.9,
-          "end": 98.06,
-          "probability": 0.948
-        }
-      ]
-    },
-    {
-      "start": 98.16,
-      "end": 100.96,
-      "text": "不如想想怎么让自己手里的钱更聪明,",
-      "words": [
-        {
-          "word": "不",
-          "start": 98.16,
-          "end": 98.46,
-          "probability": 1.0
-        },
-        {
-          "word": "如",
-          "start": 98.46,
-          "end": 98.62,
-          "probability": 1.0
-        },
-        {
-          "word": "想",
-          "start": 98.62,
-          "end": 98.8,
-          "probability": 1.0
-        },
-        {
-          "word": "想",
-          "start": 98.8,
-          "end": 98.98,
-          "probability": 1.0
-        },
-        {
-          "word": "怎么",
-          "start": 98.98,
-          "end": 99.22,
-          "probability": 0.999
-        },
-        {
-          "word": "让",
-          "start": 99.22,
-          "end": 99.42,
-          "probability": 1.0
-        },
-        {
-          "word": "自己",
-          "start": 99.42,
-          "end": 99.66,
-          "probability": 1.0
-        },
-        {
-          "word": "手",
-          "start": 99.66,
-          "end": 99.86,
-          "probability": 1.0
-        },
-        {
-          "word": "里",
-          "start": 99.86,
-          "end": 100.04,
-          "probability": 1.0
-        },
-        {
-          "word": "的",
-          "start": 100.04,
-          "end": 100.12,
-          "probability": 1.0
-        },
-        {
-          "word": "钱",
-          "start": 100.12,
-          "end": 100.32,
-          "probability": 1.0
-        },
-        {
-          "word": "更",
-          "start": 100.32,
-          "end": 100.5,
-          "probability": 1.0
-        },
-        {
-          "word": "聪",
-          "start": 100.5,
-          "end": 100.78,
-          "probability": 1.0
-        },
-        {
-          "word": "明,",
-          "start": 100.78,
-          "end": 100.96,
-          "probability": 1.0
-        }
-      ]
-    },
-    {
-      "start": 101.04,
-      "end": 103.32,
-      "text": "别让储蓄在沉默中贬值。",
-      "words": [
-        {
-          "word": "别",
-          "start": 101.04,
-          "end": 101.42,
-          "probability": 1.0
-        },
-        {
-          "word": "让",
-          "start": 101.42,
-          "end": 101.6,
-          "probability": 1.0
-        },
-        {
-          "word": "储",
-          "start": 101.6,
-          "end": 101.84,
-          "probability": 1.0
-        },
-        {
-          "word": "蓄",
-          "start": 101.84,
-          "end": 102.08,
+          "word": "5",
+          "start": 16.62,
+          "end": 16.84,
           "probability": 1.0
         },
         {
           "word": "在",
-          "start": 102.08,
-          "end": 102.28,
+          "start": 16.84,
+          "end": 17.1,
           "probability": 1.0
         },
         {
-          "word": "沉",
-          "start": 102.28,
-          "end": 102.58,
+          "word": "语",
+          "start": 17.1,
+          "end": 17.3,
           "probability": 1.0
         },
         {
-          "word": "默",
-          "start": 102.58,
-          "end": 102.72,
-          "probability": 0.855
-        },
-        {
-          "word": "中",
-          "start": 102.72,
-          "end": 102.84,
+          "word": "言",
+          "start": 17.3,
+          "end": 17.5,
           "probability": 1.0
         },
         {
-          "word": "贬",
-          "start": 102.84,
-          "end": 103.1,
+          "word": "理",
+          "start": 17.5,
+          "end": 17.62,
+          "probability": 1.0
+        },
+        {
+          "word": "解、",
+          "start": 17.62,
+          "end": 17.86,
+          "probability": 1.0
+        },
+        {
+          "word": "推",
+          "start": 17.96,
+          "end": 18.12,
+          "probability": 1.0
+        },
+        {
+          "word": "理",
+          "start": 18.12,
+          "end": 18.28,
+          "probability": 0.989
+        },
+        {
+          "word": "和",
+          "start": 18.28,
+          "end": 18.46,
+          "probability": 1.0
+        },
+        {
+          "word": "生",
+          "start": 18.46,
+          "end": 18.64,
+          "probability": 0.985
+        },
+        {
+          "word": "成",
+          "start": 18.64,
+          "end": 18.76,
+          "probability": 0.998
+        },
+        {
+          "word": "上",
+          "start": 18.76,
+          "end": 18.94,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 18.94,
+      "end": 23.72,
+      "text": "准确率飙升30%,处理速度翻倍,这数据太硬核了",
+      "words": [
+        {
+          "word": "准",
+          "start": 18.94,
+          "end": 19.54,
+          "probability": 0.998
+        },
+        {
+          "word": "确",
+          "start": 19.54,
+          "end": 19.72,
+          "probability": 1.0
+        },
+        {
+          "word": "率",
+          "start": 19.72,
+          "end": 19.86,
+          "probability": 1.0
+        },
+        {
+          "word": "飙",
+          "start": 19.86,
+          "end": 20.08,
+          "probability": 0.994
+        },
+        {
+          "word": "升",
+          "start": 20.08,
+          "end": 20.26,
+          "probability": 1.0
+        },
+        {
+          "word": "30",
+          "start": 20.26,
+          "end": 20.46,
+          "probability": 0.987
+        },
+        {
+          "word": "%,",
+          "start": 20.46,
+          "end": 21.04,
+          "probability": 0.991
+        },
+        {
+          "word": "处",
+          "start": 21.04,
+          "end": 21.48,
           "probability": 0.999
         },
         {
-          "word": "值。",
-          "start": 103.1,
-          "end": 103.32,
+          "word": "理",
+          "start": 21.48,
+          "end": 21.62,
           "probability": 1.0
+        },
+        {
+          "word": "速",
+          "start": 21.62,
+          "end": 21.74,
+          "probability": 1.0
+        },
+        {
+          "word": "度",
+          "start": 21.74,
+          "end": 21.94,
+          "probability": 1.0
+        },
+        {
+          "word": "翻",
+          "start": 21.94,
+          "end": 22.06,
+          "probability": 1.0
+        },
+        {
+          "word": "倍,",
+          "start": 22.06,
+          "end": 22.22,
+          "probability": 1.0
+        },
+        {
+          "word": "这",
+          "start": 22.36,
+          "end": 22.68,
+          "probability": 1.0
+        },
+        {
+          "word": "数",
+          "start": 22.68,
+          "end": 22.82,
+          "probability": 1.0
+        },
+        {
+          "word": "据",
+          "start": 22.82,
+          "end": 22.96,
+          "probability": 1.0
+        },
+        {
+          "word": "太",
+          "start": 22.96,
+          "end": 23.14,
+          "probability": 1.0
+        },
+        {
+          "word": "硬",
+          "start": 23.14,
+          "end": 23.36,
+          "probability": 0.996
+        },
+        {
+          "word": "核",
+          "start": 23.36,
+          "end": 23.58,
+          "probability": 0.999
+        },
+        {
+          "word": "了",
+          "start": 23.58,
+          "end": 23.72,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 23.72,
+      "end": 29.84,
+      "text": "拟品它现在能像真人一样写小说、编代码,甚至帮你做复杂的科研分析",
+      "words": [
+        {
+          "word": "拟",
+          "start": 23.72,
+          "end": 24.46,
+          "probability": 0.612
+        },
+        {
+          "word": "品",
+          "start": 24.46,
+          "end": 24.68,
+          "probability": 0.998
+        },
+        {
+          "word": "它",
+          "start": 24.68,
+          "end": 24.82,
+          "probability": 0.81
+        },
+        {
+          "word": "现在",
+          "start": 24.82,
+          "end": 25.08,
+          "probability": 1.0
+        },
+        {
+          "word": "能",
+          "start": 25.08,
+          "end": 25.32,
+          "probability": 1.0
+        },
+        {
+          "word": "像",
+          "start": 25.32,
+          "end": 25.52,
+          "probability": 0.999
+        },
+        {
+          "word": "真",
+          "start": 25.52,
+          "end": 25.82,
+          "probability": 0.999
+        },
+        {
+          "word": "人",
+          "start": 25.82,
+          "end": 26.02,
+          "probability": 1.0
+        },
+        {
+          "word": "一",
+          "start": 26.02,
+          "end": 26.14,
+          "probability": 1.0
+        },
+        {
+          "word": "样",
+          "start": 26.14,
+          "end": 26.34,
+          "probability": 1.0
+        },
+        {
+          "word": "写",
+          "start": 26.34,
+          "end": 26.54,
+          "probability": 0.997
+        },
+        {
+          "word": "小",
+          "start": 26.54,
+          "end": 26.7,
+          "probability": 1.0
+        },
+        {
+          "word": "说、",
+          "start": 26.7,
+          "end": 26.96,
+          "probability": 1.0
+        },
+        {
+          "word": "编",
+          "start": 27.0,
+          "end": 27.22,
+          "probability": 1.0
+        },
+        {
+          "word": "代",
+          "start": 27.22,
+          "end": 27.38,
+          "probability": 0.998
+        },
+        {
+          "word": "码,",
+          "start": 27.38,
+          "end": 27.56,
+          "probability": 1.0
+        },
+        {
+          "word": "甚",
+          "start": 27.62,
+          "end": 27.9,
+          "probability": 0.999
+        },
+        {
+          "word": "至",
+          "start": 27.9,
+          "end": 28.08,
+          "probability": 1.0
+        },
+        {
+          "word": "帮",
+          "start": 28.08,
+          "end": 28.28,
+          "probability": 1.0
+        },
+        {
+          "word": "你",
+          "start": 28.28,
+          "end": 28.44,
+          "probability": 1.0
+        },
+        {
+          "word": "做",
+          "start": 28.44,
+          "end": 28.58,
+          "probability": 1.0
+        },
+        {
+          "word": "复",
+          "start": 28.58,
+          "end": 28.78,
+          "probability": 0.999
+        },
+        {
+          "word": "杂",
+          "start": 28.78,
+          "end": 29.02,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 29.02,
+          "end": 29.14,
+          "probability": 1.0
+        },
+        {
+          "word": "科",
+          "start": 29.14,
+          "end": 29.3,
+          "probability": 0.999
+        },
+        {
+          "word": "研",
+          "start": 29.3,
+          "end": 29.42,
+          "probability": 1.0
+        },
+        {
+          "word": "分",
+          "start": 29.42,
+          "end": 29.58,
+          "probability": 1.0
+        },
+        {
+          "word": "析",
+          "start": 29.58,
+          "end": 29.84,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 29.84,
+      "end": 33.44,
+      "text": "多模态能力,直接封神,案例多到数不过来",
+      "words": [
+        {
+          "word": "多",
+          "start": 29.84,
+          "end": 30.26,
+          "probability": 0.148
+        },
+        {
+          "word": "模",
+          "start": 30.26,
+          "end": 30.44,
+          "probability": 0.939
+        },
+        {
+          "word": "态",
+          "start": 30.44,
+          "end": 30.62,
+          "probability": 0.993
+        },
+        {
+          "word": "能",
+          "start": 30.62,
+          "end": 30.8,
+          "probability": 0.999
+        },
+        {
+          "word": "力,",
+          "start": 30.8,
+          "end": 31.02,
+          "probability": 1.0
+        },
+        {
+          "word": "直接",
+          "start": 31.06,
+          "end": 31.3,
+          "probability": 0.999
+        },
+        {
+          "word": "封",
+          "start": 31.3,
+          "end": 31.6,
+          "probability": 0.784
+        },
+        {
+          "word": "神,",
+          "start": 31.6,
+          "end": 31.8,
+          "probability": 0.987
+        },
+        {
+          "word": "案",
+          "start": 32.0,
+          "end": 32.28,
+          "probability": 0.927
+        },
+        {
+          "word": "例",
+          "start": 32.28,
+          "end": 32.44,
+          "probability": 1.0
+        },
+        {
+          "word": "多",
+          "start": 32.44,
+          "end": 32.64,
+          "probability": 1.0
+        },
+        {
+          "word": "到",
+          "start": 32.64,
+          "end": 32.8,
+          "probability": 0.995
+        },
+        {
+          "word": "数",
+          "start": 32.8,
+          "end": 32.98,
+          "probability": 1.0
+        },
+        {
+          "word": "不",
+          "start": 32.98,
+          "end": 33.1,
+          "probability": 0.999
+        },
+        {
+          "word": "过",
+          "start": 33.1,
+          "end": 33.22,
+          "probability": 1.0
+        },
+        {
+          "word": "来",
+          "start": 33.22,
+          "end": 33.44,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 33.44,
+      "end": 39.2,
+      "text": "细品背后的技术,OpenAI用了全新的混合专家架构和强化学习",
+      "words": [
+        {
+          "word": "细",
+          "start": 33.44,
+          "end": 34.1,
+          "probability": 0.895
+        },
+        {
+          "word": "品",
+          "start": 34.1,
+          "end": 34.3,
+          "probability": 0.999
+        },
+        {
+          "word": "背",
+          "start": 34.3,
+          "end": 34.48,
+          "probability": 0.999
+        },
+        {
+          "word": "后",
+          "start": 34.48,
+          "end": 34.7,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 34.7,
+          "end": 34.84,
+          "probability": 1.0
+        },
+        {
+          "word": "技",
+          "start": 34.84,
+          "end": 34.98,
+          "probability": 1.0
+        },
+        {
+          "word": "术,",
+          "start": 34.98,
+          "end": 35.18,
+          "probability": 1.0
+        },
+        {
+          "word": "Open",
+          "start": 35.32,
+          "end": 35.76,
+          "probability": 0.955
+        },
+        {
+          "word": "AI",
+          "start": 35.76,
+          "end": 36.02,
+          "probability": 0.991
+        },
+        {
+          "word": "用",
+          "start": 36.02,
+          "end": 36.42,
+          "probability": 0.999
+        },
+        {
+          "word": "了",
+          "start": 36.42,
+          "end": 36.58,
+          "probability": 1.0
+        },
+        {
+          "word": "全",
+          "start": 36.58,
+          "end": 36.76,
+          "probability": 1.0
+        },
+        {
+          "word": "新",
+          "start": 36.76,
+          "end": 37.0,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 37.0,
+          "end": 37.18,
+          "probability": 1.0
+        },
+        {
+          "word": "混",
+          "start": 37.18,
+          "end": 37.34,
+          "probability": 0.942
+        },
+        {
+          "word": "合",
+          "start": 37.34,
+          "end": 37.48,
+          "probability": 0.999
+        },
+        {
+          "word": "专",
+          "start": 37.48,
+          "end": 37.66,
+          "probability": 1.0
+        },
+        {
+          "word": "家",
+          "start": 37.66,
+          "end": 37.78,
+          "probability": 1.0
+        },
+        {
+          "word": "架",
+          "start": 37.78,
+          "end": 37.94,
+          "probability": 1.0
+        },
+        {
+          "word": "构",
+          "start": 37.94,
+          "end": 38.14,
+          "probability": 1.0
+        },
+        {
+          "word": "和",
+          "start": 38.14,
+          "end": 38.38,
+          "probability": 1.0
+        },
+        {
+          "word": "强",
+          "start": 38.38,
+          "end": 38.66,
+          "probability": 1.0
+        },
+        {
+          "word": "化",
+          "start": 38.66,
+          "end": 38.78,
+          "probability": 1.0
+        },
+        {
+          "word": "学",
+          "start": 38.78,
+          "end": 38.94,
+          "probability": 1.0
+        },
+        {
+          "word": "习",
+          "start": 38.94,
+          "end": 39.2,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 39.2,
+      "end": 44.22,
+      "text": "让模型更聪明,学习效率指数级提升,这是真正的技术革命",
+      "words": [
+        {
+          "word": "让",
+          "start": 39.2,
+          "end": 39.62,
+          "probability": 0.941
+        },
+        {
+          "word": "模",
+          "start": 39.62,
+          "end": 39.82,
+          "probability": 0.999
+        },
+        {
+          "word": "型",
+          "start": 39.82,
+          "end": 40.06,
+          "probability": 1.0
+        },
+        {
+          "word": "更",
+          "start": 40.06,
+          "end": 40.24,
+          "probability": 1.0
+        },
+        {
+          "word": "聪",
+          "start": 40.24,
+          "end": 40.5,
+          "probability": 1.0
+        },
+        {
+          "word": "明,",
+          "start": 40.5,
+          "end": 40.7,
+          "probability": 1.0
+        },
+        {
+          "word": "学",
+          "start": 40.76,
+          "end": 40.96,
+          "probability": 1.0
+        },
+        {
+          "word": "习",
+          "start": 40.96,
+          "end": 41.2,
+          "probability": 1.0
+        },
+        {
+          "word": "效",
+          "start": 41.2,
+          "end": 41.36,
+          "probability": 1.0
+        },
+        {
+          "word": "率",
+          "start": 41.36,
+          "end": 41.5,
+          "probability": 1.0
+        },
+        {
+          "word": "指",
+          "start": 41.5,
+          "end": 41.62,
+          "probability": 1.0
+        },
+        {
+          "word": "数",
+          "start": 41.62,
+          "end": 41.84,
+          "probability": 1.0
+        },
+        {
+          "word": "级",
+          "start": 41.84,
+          "end": 42.0,
+          "probability": 0.756
+        },
+        {
+          "word": "提",
+          "start": 42.0,
+          "end": 42.14,
+          "probability": 1.0
+        },
+        {
+          "word": "升,",
+          "start": 42.14,
+          "end": 42.32,
+          "probability": 1.0
+        },
+        {
+          "word": "这是",
+          "start": 42.44,
+          "end": 42.86,
+          "probability": 1.0
+        },
+        {
+          "word": "真",
+          "start": 42.86,
+          "end": 43.14,
+          "probability": 1.0
+        },
+        {
+          "word": "正",
+          "start": 43.14,
+          "end": 43.36,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 43.36,
+          "end": 43.54,
+          "probability": 1.0
+        },
+        {
+          "word": "技",
+          "start": 43.54,
+          "end": 43.68,
+          "probability": 1.0
+        },
+        {
+          "word": "术",
+          "start": 43.68,
+          "end": 43.84,
+          "probability": 1.0
+        },
+        {
+          "word": "革",
+          "start": 43.84,
+          "end": 44.06,
+          "probability": 1.0
+        },
+        {
+          "word": "命",
+          "start": 44.06,
+          "end": 44.22,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 45.04,
+      "end": 49.38,
+      "text": "别被忽悠了,这玩意儿会颠覆内容创作、教育、医疗",
+      "words": [
+        {
+          "word": "别",
+          "start": 45.04,
+          "end": 45.44,
+          "probability": 0.328
+        },
+        {
+          "word": "被",
+          "start": 45.44,
+          "end": 45.64,
+          "probability": 0.999
+        },
+        {
+          "word": "忽",
+          "start": 45.64,
+          "end": 45.88,
+          "probability": 1.0
+        },
+        {
+          "word": "悠",
+          "start": 45.88,
+          "end": 45.98,
+          "probability": 0.998
+        },
+        {
+          "word": "了,",
+          "start": 45.98,
+          "end": 46.14,
+          "probability": 1.0
+        },
+        {
+          "word": "这",
+          "start": 46.24,
+          "end": 46.58,
+          "probability": 1.0
+        },
+        {
+          "word": "玩",
+          "start": 46.58,
+          "end": 46.72,
+          "probability": 1.0
+        },
+        {
+          "word": "意",
+          "start": 46.72,
+          "end": 46.86,
+          "probability": 1.0
+        },
+        {
+          "word": "儿",
+          "start": 46.86,
+          "end": 46.9,
+          "probability": 0.81
+        },
+        {
+          "word": "会",
+          "start": 46.9,
+          "end": 47.06,
+          "probability": 1.0
+        },
+        {
+          "word": "颠",
+          "start": 47.06,
+          "end": 47.34,
+          "probability": 0.997
+        },
+        {
+          "word": "覆",
+          "start": 47.34,
+          "end": 47.56,
+          "probability": 1.0
+        },
+        {
+          "word": "内",
+          "start": 47.56,
+          "end": 47.8,
+          "probability": 1.0
+        },
+        {
+          "word": "容",
+          "start": 47.8,
+          "end": 48.0,
+          "probability": 1.0
+        },
+        {
+          "word": "创",
+          "start": 48.0,
+          "end": 48.22,
+          "probability": 1.0
+        },
+        {
+          "word": "作、",
+          "start": 48.22,
+          "end": 48.44,
+          "probability": 0.999
+        },
+        {
+          "word": "教",
+          "start": 48.5,
+          "end": 48.72,
+          "probability": 1.0
+        },
+        {
+          "word": "育、",
+          "start": 48.72,
+          "end": 48.9,
+          "probability": 1.0
+        },
+        {
+          "word": "医",
+          "start": 49.0,
+          "end": 49.24,
+          "probability": 1.0
+        },
+        {
+          "word": "疗",
+          "start": 49.24,
+          "end": 49.38,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 49.38,
+      "end": 52.56,
+      "text": "甚至改变你的工作方式,影响深不见底",
+      "words": [
+        {
+          "word": "甚",
+          "start": 49.38,
+          "end": 49.82,
+          "probability": 0.804
+        },
+        {
+          "word": "至",
+          "start": 49.82,
+          "end": 49.96,
+          "probability": 1.0
+        },
+        {
+          "word": "改",
+          "start": 49.96,
+          "end": 50.12,
+          "probability": 1.0
+        },
+        {
+          "word": "变",
+          "start": 50.12,
+          "end": 50.34,
+          "probability": 1.0
+        },
+        {
+          "word": "你的",
+          "start": 50.34,
+          "end": 50.48,
+          "probability": 1.0
+        },
+        {
+          "word": "工作",
+          "start": 50.48,
+          "end": 50.76,
+          "probability": 1.0
+        },
+        {
+          "word": "方",
+          "start": 50.76,
+          "end": 50.96,
+          "probability": 1.0
+        },
+        {
+          "word": "式,",
+          "start": 50.96,
+          "end": 51.2,
+          "probability": 1.0
+        },
+        {
+          "word": "影",
+          "start": 51.32,
+          "end": 51.56,
+          "probability": 0.999
+        },
+        {
+          "word": "响",
+          "start": 51.56,
+          "end": 51.8,
+          "probability": 1.0
+        },
+        {
+          "word": "深",
+          "start": 51.8,
+          "end": 52.06,
+          "probability": 0.865
+        },
+        {
+          "word": "不",
+          "start": 52.06,
+          "end": 52.24,
+          "probability": 0.997
+        },
+        {
+          "word": "见",
+          "start": 52.24,
+          "end": 52.38,
+          "probability": 0.998
+        },
+        {
+          "word": "底",
+          "start": 52.38,
+          "end": 52.56,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 52.56,
+      "end": 54.24,
+      "text": "机会和风险并存",
+      "words": [
+        {
+          "word": "机",
+          "start": 52.56,
+          "end": 53.02,
+          "probability": 0.61
+        },
+        {
+          "word": "会",
+          "start": 53.02,
+          "end": 53.2,
+          "probability": 0.998
+        },
+        {
+          "word": "和",
+          "start": 53.2,
+          "end": 53.42,
+          "probability": 0.999
+        },
+        {
+          "word": "风",
+          "start": 53.42,
+          "end": 53.62,
+          "probability": 0.999
+        },
+        {
+          "word": "险",
+          "start": 53.62,
+          "end": 53.82,
+          "probability": 1.0
+        },
+        {
+          "word": "并",
+          "start": 53.82,
+          "end": 54.04,
+          "probability": 1.0
+        },
+        {
+          "word": "存",
+          "start": 54.04,
+          "end": 54.24,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 54.24,
+      "end": 57.68,
+      "text": "但真相是,AI能力飞跃也带来挑战",
+      "words": [
+        {
+          "word": "但",
+          "start": 54.24,
+          "end": 54.92,
+          "probability": 0.932
+        },
+        {
+          "word": "真",
+          "start": 54.92,
+          "end": 55.16,
+          "probability": 1.0
+        },
+        {
+          "word": "相",
+          "start": 55.16,
+          "end": 55.32,
+          "probability": 0.997
+        },
+        {
+          "word": "是,",
+          "start": 55.32,
+          "end": 55.56,
+          "probability": 1.0
+        },
+        {
+          "word": "AI",
+          "start": 55.62,
+          "end": 55.9,
+          "probability": 0.995
+        },
+        {
+          "word": "能",
+          "start": 55.9,
+          "end": 56.12,
+          "probability": 0.998
+        },
+        {
+          "word": "力",
+          "start": 56.12,
+          "end": 56.32,
+          "probability": 1.0
+        },
+        {
+          "word": "飞",
+          "start": 56.32,
+          "end": 56.5,
+          "probability": 1.0
+        },
+        {
+          "word": "跃",
+          "start": 56.5,
+          "end": 56.64,
+          "probability": 0.97
+        },
+        {
+          "word": "也",
+          "start": 56.64,
+          "end": 56.98,
+          "probability": 0.989
+        },
+        {
+          "word": "带",
+          "start": 56.98,
+          "end": 57.18,
+          "probability": 1.0
+        },
+        {
+          "word": "来",
+          "start": 57.18,
+          "end": 57.28,
+          "probability": 0.998
+        },
+        {
+          "word": "挑",
+          "start": 57.28,
+          "end": 57.42,
+          "probability": 1.0
+        },
+        {
+          "word": "战",
+          "start": 57.42,
+          "end": 57.68,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 57.68,
+      "end": 60.68,
+      "text": "比如数据隐私泄露、算法偏见加剧",
+      "words": [
+        {
+          "word": "比如",
+          "start": 57.68,
+          "end": 58.2,
+          "probability": 0.982
+        },
+        {
+          "word": "数",
+          "start": 58.2,
+          "end": 58.48,
+          "probability": 0.999
+        },
+        {
+          "word": "据",
+          "start": 58.48,
+          "end": 58.66,
+          "probability": 1.0
+        },
+        {
+          "word": "隐",
+          "start": 58.66,
+          "end": 58.82,
+          "probability": 1.0
+        },
+        {
+          "word": "私",
+          "start": 58.82,
+          "end": 58.94,
+          "probability": 0.999
+        },
+        {
+          "word": "泄",
+          "start": 58.94,
+          "end": 59.22,
+          "probability": 0.999
+        },
+        {
+          "word": "露、",
+          "start": 59.22,
+          "end": 59.36,
+          "probability": 0.97
+        },
+        {
+          "word": "算",
+          "start": 59.44,
+          "end": 59.74,
+          "probability": 1.0
+        },
+        {
+          "word": "法",
+          "start": 59.74,
+          "end": 59.96,
+          "probability": 1.0
+        },
+        {
+          "word": "偏",
+          "start": 59.96,
+          "end": 60.18,
+          "probability": 1.0
+        },
+        {
+          "word": "见",
+          "start": 60.18,
+          "end": 60.3,
+          "probability": 0.996
+        },
+        {
+          "word": "加",
+          "start": 60.3,
+          "end": 60.44,
+          "probability": 0.99
+        },
+        {
+          "word": "剧",
+          "start": 60.44,
+          "end": 60.68,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "start": 60.68,
+      "end": 64.38,
+      "text": "还有对就业市场的巨大冲击,咱们得冷静看待",
+      "words": [
+        {
+          "word": "还有",
+          "start": 60.68,
+          "end": 61.12,
+          "probability": 0.977
+        },
+        {
+          "word": "对",
+          "start": 61.12,
+          "end": 61.34,
+          "probability": 1.0
+        },
+        {
+          "word": "就",
+          "start": 61.34,
+          "end": 61.56,
+          "probability": 0.978
+        },
+        {
+          "word": "业",
+          "start": 61.56,
+          "end": 61.72,
+          "probability": 1.0
+        },
+        {
+          "word": "市",
+          "start": 61.72,
+          "end": 61.86,
+          "probability": 0.999
+        },
+        {
+          "word": "场",
+          "start": 61.86,
+          "end": 62.08,
+          "probability": 1.0
+        },
+        {
+          "word": "的",
+          "start": 62.08,
+          "end": 62.16,
+          "probability": 1.0
+        },
+        {
+          "word": "巨",
+          "start": 62.16,
+          "end": 62.36,
+          "probability": 1.0
+        },
+        {
+          "word": "大",
+          "start": 62.36,
+          "end": 62.46,
+          "probability": 0.999
+        },
+        {
+          "word": "冲",
+          "start": 62.46,
+          "end": 62.64,
+          "probability": 1.0
+        },
+        {
+          "word": "击,",
+          "start": 62.64,
+          "end": 62.86,
+          "probability": 1.0
+        },
+        {
+          "word": "咱",
+          "start": 62.96,
+          "end": 63.36,
+          "probability": 1.0
+        },
+        {
+          "word": "们",
+          "start": 63.36,
+          "end": 63.48,
+          "probability": 1.0
+        },
+        {
+          "word": "得",
+          "start": 63.48,
+          "end": 63.56,
+          "probability": 1.0
+        },
+        {
+          "word": "冷",
+          "start": 63.56,
+          "end": 63.8,
+          "probability": 0.998
+        },
+        {
+          "word": "静",
+          "start": 63.8,
+          "end": 64.04,
+          "probability": 1.0
+        },
+        {
+          "word": "看",
+          "start": 64.04,
+          "end": 64.18,
+          "probability": 1.0
+        },
+        {
+          "word": "待",
+          "start": 64.18,
+          "end": 64.38,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 64.38,
+      "end": 66.82,
+      "text": "未来AI会像电力一样普及",
+      "words": [
+        {
+          "word": "未",
+          "start": 64.38,
+          "end": 64.82,
+          "probability": 0.998
+        },
+        {
+          "word": "来",
+          "start": 64.82,
+          "end": 65.1,
+          "probability": 1.0
+        },
+        {
+          "word": "AI",
+          "start": 65.1,
+          "end": 65.36,
+          "probability": 0.93
+        },
+        {
+          "word": "会",
+          "start": 65.36,
+          "end": 65.6,
+          "probability": 1.0
+        },
+        {
+          "word": "像",
+          "start": 65.6,
+          "end": 65.78,
+          "probability": 0.998
+        },
+        {
+          "word": "电",
+          "start": 65.78,
+          "end": 66.04,
+          "probability": 0.999
+        },
+        {
+          "word": "力",
+          "start": 66.04,
+          "end": 66.2,
+          "probability": 0.999
+        },
+        {
+          "word": "一",
+          "start": 66.2,
+          "end": 66.32,
+          "probability": 1.0
+        },
+        {
+          "word": "样",
+          "start": 66.32,
+          "end": 66.44,
+          "probability": 1.0
+        },
+        {
+          "word": "普",
+          "start": 66.44,
+          "end": 66.58,
+          "probability": 1.0
+        },
+        {
+          "word": "及",
+          "start": 66.58,
+          "end": 66.82,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 66.82,
+      "end": 70.28,
+      "text": "关键是咱们怎么用好它,让它增强人类能力",
+      "words": [
+        {
+          "word": "关",
+          "start": 66.82,
+          "end": 67.3,
+          "probability": 0.918
+        },
+        {
+          "word": "键",
+          "start": 67.3,
+          "end": 67.5,
+          "probability": 1.0
+        },
+        {
+          "word": "是",
+          "start": 67.5,
+          "end": 67.68,
+          "probability": 1.0
+        },
+        {
+          "word": "咱",
+          "start": 67.68,
+          "end": 67.84,
+          "probability": 0.999
+        },
+        {
+          "word": "们",
+          "start": 67.84,
+          "end": 67.98,
+          "probability": 1.0
+        },
+        {
+          "word": "怎么",
+          "start": 67.98,
+          "end": 68.14,
+          "probability": 1.0
+        },
+        {
+          "word": "用",
+          "start": 68.14,
+          "end": 68.42,
+          "probability": 1.0
+        },
+        {
+          "word": "好",
+          "start": 68.42,
+          "end": 68.58,
+          "probability": 1.0
+        },
+        {
+          "word": "它,",
+          "start": 68.58,
+          "end": 68.76,
+          "probability": 1.0
+        },
+        {
+          "word": "让",
+          "start": 68.88,
+          "end": 69.04,
+          "probability": 1.0
+        },
+        {
+          "word": "它",
+          "start": 69.04,
+          "end": 69.18,
+          "probability": 1.0
+        },
+        {
+          "word": "增",
+          "start": 69.18,
+          "end": 69.42,
+          "probability": 1.0
+        },
+        {
+          "word": "强",
+          "start": 69.42,
+          "end": 69.6,
+          "probability": 1.0
+        },
+        {
+          "word": "人",
+          "start": 69.6,
+          "end": 69.74,
+          "probability": 1.0
+        },
+        {
+          "word": "类",
+          "start": 69.74,
+          "end": 69.94,
+          "probability": 1.0
+        },
+        {
+          "word": "能",
+          "start": 69.94,
+          "end": 70.06,
+          "probability": 1.0
+        },
+        {
+          "word": "力",
+          "start": 70.06,
+          "end": 70.28,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 70.28,
+      "end": 73.24,
+      "text": "而不是替代,用对了就是黄金时代",
+      "words": [
+        {
+          "word": "而",
+          "start": 70.28,
+          "end": 70.62,
+          "probability": 0.956
+        },
+        {
+          "word": "不是",
+          "start": 70.62,
+          "end": 70.88,
+          "probability": 1.0
+        },
+        {
+          "word": "替",
+          "start": 70.88,
+          "end": 71.22,
+          "probability": 1.0
+        },
+        {
+          "word": "代,",
+          "start": 71.22,
+          "end": 71.4,
+          "probability": 1.0
+        },
+        {
+          "word": "用",
+          "start": 71.48,
+          "end": 71.84,
+          "probability": 1.0
+        },
+        {
+          "word": "对",
+          "start": 71.84,
+          "end": 72.02,
+          "probability": 0.999
+        },
+        {
+          "word": "了",
+          "start": 72.02,
+          "end": 72.18,
+          "probability": 1.0
+        },
+        {
+          "word": "就是",
+          "start": 72.18,
+          "end": 72.44,
+          "probability": 1.0
+        },
+        {
+          "word": "黄",
+          "start": 72.44,
+          "end": 72.74,
+          "probability": 1.0
+        },
+        {
+          "word": "金",
+          "start": 72.74,
+          "end": 72.92,
+          "probability": 1.0
+        },
+        {
+          "word": "时",
+          "start": 72.92,
+          "end": 73.06,
+          "probability": 1.0
+        },
+        {
+          "word": "代",
+          "start": 73.06,
+          "end": 73.24,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 73.24,
+      "end": 76.24,
+      "text": "记住,技术无罪,人心决定方向",
+      "words": [
+        {
+          "word": "记",
+          "start": 73.24,
+          "end": 73.48,
+          "probability": 0.996
+        },
+        {
+          "word": "住,",
+          "start": 73.48,
+          "end": 73.76,
+          "probability": 1.0
+        },
+        {
+          "word": "技",
+          "start": 73.86,
+          "end": 74.12,
+          "probability": 1.0
+        },
+        {
+          "word": "术",
+          "start": 74.12,
+          "end": 74.36,
+          "probability": 1.0
+        },
+        {
+          "word": "无",
+          "start": 74.36,
+          "end": 74.52,
+          "probability": 1.0
+        },
+        {
+          "word": "罪,",
+          "start": 74.52,
+          "end": 74.74,
+          "probability": 1.0
+        },
+        {
+          "word": "人",
+          "start": 74.88,
+          "end": 75.22,
+          "probability": 1.0
+        },
+        {
+          "word": "心",
+          "start": 75.22,
+          "end": 75.44,
+          "probability": 1.0
+        },
+        {
+          "word": "决",
+          "start": 75.44,
+          "end": 75.68,
+          "probability": 1.0
+        },
+        {
+          "word": "定",
+          "start": 75.68,
+          "end": 75.82,
+          "probability": 1.0
+        },
+        {
+          "word": "方",
+          "start": 75.82,
+          "end": 75.98,
+          "probability": 1.0
+        },
+        {
+          "word": "向",
+          "start": 75.98,
+          "end": 76.24,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 76.24,
+      "end": 80.1,
+      "text": "GPT-5是工具,用它创造价值才是王道",
+      "words": [
+        {
+          "word": "G",
+          "start": 76.24,
+          "end": 76.68,
+          "probability": 0.969
+        },
+        {
+          "word": "P",
+          "start": 76.68,
+          "end": 76.86,
+          "probability": 0.997
+        },
+        {
+          "word": "T",
+          "start": 76.86,
+          "end": 77.0,
+          "probability": 1.0
+        },
+        {
+          "word": "-",
+          "start": 77.0,
+          "end": 77.0,
+          "probability": 0.987
+        },
+        {
+          "word": "5",
+          "start": 77.0,
+          "end": 77.1,
+          "probability": 0.999
+        },
+        {
+          "word": "是",
+          "start": 77.1,
+          "end": 77.4,
+          "probability": 1.0
+        },
+        {
+          "word": "工",
+          "start": 77.4,
+          "end": 77.58,
+          "probability": 1.0
+        },
+        {
+          "word": "具,",
+          "start": 77.58,
+          "end": 77.82,
+          "probability": 1.0
+        },
+        {
+          "word": "用",
+          "start": 77.96,
+          "end": 78.28,
+          "probability": 1.0
+        },
+        {
+          "word": "它",
+          "start": 78.28,
+          "end": 78.48,
+          "probability": 1.0
+        },
+        {
+          "word": "创",
+          "start": 78.48,
+          "end": 78.76,
+          "probability": 1.0
+        },
+        {
+          "word": "造",
+          "start": 78.76,
+          "end": 78.9,
+          "probability": 1.0
+        },
+        {
+          "word": "价",
+          "start": 78.9,
+          "end": 79.08,
+          "probability": 1.0
+        },
+        {
+          "word": "值",
+          "start": 79.08,
+          "end": 79.34,
+          "probability": 1.0
+        },
+        {
+          "word": "才",
+          "start": 79.34,
+          "end": 79.54,
+          "probability": 0.997
+        },
+        {
+          "word": "是",
+          "start": 79.54,
+          "end": 79.72,
+          "probability": 1.0
+        },
+        {
+          "word": "王",
+          "start": 79.72,
+          "end": 79.9,
+          "probability": 0.999
+        },
+        {
+          "word": "道",
+          "start": 79.9,
+          "end": 80.1,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "start": 80.1,
+      "end": 82.0,
+      "text": "科技向善,未来可期",
+      "words": [
+        {
+          "word": "科",
+          "start": 80.1,
+          "end": 80.54,
+          "probability": 0.993
+        },
+        {
+          "word": "技",
+          "start": 80.54,
+          "end": 80.72,
+          "probability": 1.0
+        },
+        {
+          "word": "向",
+          "start": 80.72,
+          "end": 80.9,
+          "probability": 0.997
+        },
+        {
+          "word": "善,",
+          "start": 80.9,
+          "end": 81.16,
+          "probability": 0.988
+        },
+        {
+          "word": "未",
+          "start": 81.22,
+          "end": 81.42,
+          "probability": 1.0
+        },
+        {
+          "word": "来",
+          "start": 81.42,
+          "end": 81.62,
+          "probability": 1.0
+        },
+        {
+          "word": "可",
+          "start": 81.62,
+          "end": 81.76,
+          "probability": 1.0
+        },
+        {
+          "word": "期",
+          "start": 81.76,
+          "end": 82.0,
+          "probability": 0.999
         }
       ]
     }
   ],
   "language": "zh",
-  "duration": 103.68
+  "duration": 82.24
 }

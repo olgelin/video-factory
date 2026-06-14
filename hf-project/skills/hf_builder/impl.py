@@ -478,8 +478,53 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
 
     # 15. 最终安全网：合并同一元素上的重复 style 属性
     html = re.sub(
-        r'(style="[^"]*")\s+(style="[^"]*")',
+        r'(style="[^"]*")\\s+(style="[^"]*")',
         lambda m: m.group(1).rstrip('"') + '; ' + m.group(2).lstrip('style="'),
+        html
+    )
+
+    # 16. 修复opacity问题：内容元素必须默认可见
+    # 装饰层关键词（这些可以保持低opacity）
+    decorative_keywords = ['grid', 'glow', 'ghost', 'scan', 'particle', 'corner', 'line', 'bg-', 'background']
+    
+    # 找到所有有opacity:0的元素
+    def fix_opacity(match):
+        full_tag = match.group(0)
+        tag_name = match.group(1)
+        attrs = match.group(2)
+        
+        # 检查是否是装饰层
+        is_decorative = False
+        id_match = re.search(r'id="([^"]*)"', attrs)
+        class_match = re.search(r'class="([^"]*)"', attrs)
+        
+        id_name = id_match.group(1).lower() if id_match else ""
+        class_name = class_match.group(1).lower() if class_match else ""
+        
+        # 检查id和class中是否包含装饰层关键词
+        for keyword in decorative_keywords:
+            if keyword in id_name or keyword in class_name:
+                is_decorative = True
+                break
+        
+        # 额外检查：如果class包含card、title、data、content等，肯定是内容层
+        content_keywords = ['card', 'title', 'data', 'content', 'text', 'number', 'value', 'label', 'tag', 'info', 'quote', 'missile', 'center', 'area']
+        for keyword in content_keywords:
+            if keyword in id_name or keyword in class_name:
+                is_decorative = False
+                break
+        
+        # 如果不是装饰层，将opacity:0改为opacity:1
+        if not is_decorative and 'opacity:0' in attrs:
+            attrs = attrs.replace('opacity:0', 'opacity:1')
+            attrs = attrs.replace('opacity: 0', 'opacity: 1')
+        
+        return f'<{tag_name}{attrs}>'
+    
+    # 匹配所有带有opacity:0的div元素
+    html = re.sub(
+        r'<(div)([^>]*opacity:\s*0[^>]*)>',
+        fix_opacity,
         html
     )
 
@@ -765,6 +810,11 @@ def run(context: dict) -> dict:
     total = len(scenes)
     print(f"[hf_builder] {total} scenes from {sb_path}")
 
+    topic = context.get("topic", "")
+    topic_keywords = set(topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
+    # Common off-topic keywords to detect content pollution
+    off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "高考", "中考", "世界杯", "乌龙球"]
+
     compositions_dir = hf_dir / "compositions"
     compositions_dir.mkdir(parents=True, exist_ok=True)
     for old in compositions_dir.glob("beat-*.html"):
@@ -772,6 +822,8 @@ def run(context: dict) -> dict:
 
     print(f"[hf_builder] LLM 生成中 (max_workers=3)...")
     results = {}
+    # Build a sid→scene map so we can access scene in the as_completed loop
+    scene_map = {i+1: scene for i, scene in enumerate(scenes)}
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = {
             executor.submit(generate_and_build, scene, i+1, total, context): i+1
@@ -785,6 +837,17 @@ def run(context: dict) -> dict:
                     f.write(html)
                 src = "LLM" if len(html) > 3000 else "fallback"
                 print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
+
+                # Content validation: check for off-topic pollution
+                polluted = [kw for kw in off_topic_patterns if kw in html]
+                if polluted:
+                    print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
+                    # Regenerate with fallback
+                    fallback_html = _generate_fallback_html(scene_map[sid], context)
+                    with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
+                        f.write(fallback_html)
+                    print(f"  ✅ [{sid}/{total}] fallback {len(fallback_html)} chars", flush=True)
+
             except Exception as e:
                 sid = futures[future]
                 print(f"  ❌ [{sid}/{total}] {e}", flush=True)
@@ -822,3 +885,10 @@ if __name__ == "__main__":
     }
     result = run(ctx)
     print(f"\nResult: {result.get('rendered_video', 'no output')}")
+
+def _generate_fallback_html(scene: dict, context: dict) -> str:
+    """Wrapper for fallback_scene_html that extracts parameters from context"""
+    scene_id = scene.get("scene_id", 1)
+    design_md = context.get("_design_md", "")
+    composition_id = f"beat-{scene_id}"
+    return fallback_scene_html(scene, scene_id, design_md, composition_id)

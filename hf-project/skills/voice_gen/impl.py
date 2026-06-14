@@ -65,13 +65,26 @@ def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0,
     text = preprocess_text_for_tts(text)
     print(f"    Text: {text[:50]}...")
 
-    # 生成
-    wav = model.generate(
-        text=text,
-        reference_wav_path=ref_wav,
-        cfg_value=cfg,
-        inference_timesteps=steps,
-    )
+    # 生成（带重试+GPU缓存清理）
+    import torch
+    max_retries = 3
+    wav = None
+    for attempt in range(max_retries):
+        try:
+            wav = model.generate(
+                text=text,
+                reference_wav_path=ref_wav,
+                cfg_value=cfg,
+                inference_timesteps=steps,
+            )
+            break
+        except Exception as e:
+            print(f"    ⚠️ 生成失败 (attempt {attempt+1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+                continue
+            raise
 
     # 获取采样率
     orig_sr = model.tts_model.sample_rate
@@ -85,6 +98,10 @@ def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0,
 
     # 保存
     sf.write(output_path, wav, orig_sr)
+
+    # 清理GPU缓存
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
 
     return output_path, duration
 

@@ -1,125 +1,203 @@
 <!DOCTYPE html>
 <html data-composition-id="beat-3" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
-<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;">
-    <!-- Decorative Layers -->
-    <div id="deco-grid" style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(0,212,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.06) 1px,transparent 1px);background-size:100px 100px;opacity:0;"></div>
-    <div id="deco-glow" style="position:absolute;top:250px;left:250px;width:800px;height:800px;background:radial-gradient(circle,rgba(0,212,255,0.12) 0%,transparent 70%);opacity:0;"></div>
-    <div id="ghost-text" style="position:absolute;top:200px;left:300px;font-size:250px;font-weight:bold;color:rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;opacity:0;">2万亿</div>
-    <div id="deco-scanline" style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.2),transparent);opacity:0;"></div>
-    <!-- Main Title -->
-    <div id="main-title" style="position:absolute;top:100px;left:100px;font-size:90px;font-weight:bold;color:#00D4FF;text-shadow:0 0 30px rgba(0,212,255,0.5),0 0 60px rgba(0,212,255,0.2);opacity:0;">储蓄破裂，资金流向提前还贷</div>
-    <!-- Left Core Content (60%) -->
-    <div style="position:absolute;top:200px;left:100px;width:1152px;height:550px;">
-        <!-- Broken Bag Icon -->
-        <div id="broken-bag" style="position:absolute;top:50px;left:50px;width:200px;height:200px;background:linear-gradient(135deg,rgba(0,212,255,0.3),rgba(0,212,255,0.1));border-radius:50%;border:2px dashed rgba(0,212,255,0.5);opacity:0;"></div>
-        <!-- Flow Arrow -->
-        <div id="flow-arrow" style="position:absolute;top:150px;left:280px;width:400px;height:4px;background:linear-gradient(90deg,rgba(0,212,255,0.8),rgba(255,64,129,0.8));box-shadow:0 0 10px rgba(0,212,255,0.5);opacity:0;"></div>
-        <!-- Burning House Model -->
-        <div id="burning-house" style="position:absolute;top:100px;left:700px;width:250px;height:300px;background:linear-gradient(180deg,rgba(255,64,129,0.3),rgba(255,64,129,0.1));border-radius:16px 16px 0 0;border:1px solid rgba(255,64,129,0.4);opacity:0;"></div>
-        <!-- Fire Particles -->
-        <div class="fire-particle" style="position:absolute;top:80px;left:720px;width:8px;height:8px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
-        <div class="fire-particle" style="position:absolute;top:90px;left:750px;width:6px;height:6px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
-        <div class="fire-particle" style="position:absolute;top:70px;left:780px;width:10px;height:10px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
-        <!-- Data Flow Particles (Coins + Code) -->
-        <div class="data-particle" style="position:absolute;top:140px;left:350px;width:12px;height:12px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
-        <div class="data-particle" style="position:absolute;top:160px;left:400px;font-size:16px;color:#00D4FF;font-family:'JetBrains Mono',monospace;opacity:0;">01</div>
-        <div class="data-particle" style="position:absolute;top:130px;left:450px;width:10px;height:10px;background:#1a1a2e;border-radius:50%;opacity:0;"></div>
-        <!-- Rate Difference Formula -->
-        <div id="rate-formula" style="position:absolute;top:350px;left:100px;font-size:36px;color:#FFD700;font-family:'JetBrains Mono',monospace;text-shadow:0 0 10px rgba(255,215,0,0.3);opacity:0;">δ = 5.5% - 4.0% = 1.5%</div>
-        <!-- Math Symbol Particles -->
-        <div class="math-symbol" style="position:absolute;top:400px;left:200px;font-size:40px;color:rgba(255,255,255,0.1);opacity:0;">δ</div>
-        <div class="math-symbol" style="position:absolute;top:420px;left:300px;font-size:30px;color:rgba(255,255,255,0.08);opacity:0;">∫</div>
-        <!-- Process Light Band -->
-        <div id="light-band" style="position:absolute;top:150px;left:280px;width:420px;height:2px;background:linear-gradient(90deg,rgba(0,212,255,0.6),transparent);opacity:0;"></div>
-    </div>
-    <!-- Right Supplementary Content (40%) -->
-    <div style="position:absolute;top:200px;right:100px;width:768px;height:550px;">
-        <!-- Data Card 1 -->
-        <div id="card1" style="position:absolute;top:50px;left:50px;width:300px;height:180px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;">
-            <div style="font-size:16px;color:#999999;">提前还贷规模</div>
-            <div style="font-size:60px;font-weight:bold;color:#FFD700;font-family:'JetBrains Mono',monospace;margin-top:10px;">2.1万亿</div>
-            <div style="width:100%;height:4px;background:rgba(0,212,255,0.2);margin-top:20px;border-radius:2px;">
-                <div id="progress-bar" style="width:0%;height:100%;background:linear-gradient(90deg,#00D4FF,#FF4081);border-radius:2px;"></div>
+<body style="margin: 0; padding: 0; background: #1a1a2e; font-family: 'Inter', 'Noto Sans SC', sans-serif; overflow: hidden; width: 1920px; height: 1080px;">
+    <div class="scene" style="background:#1a1a2e;position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #1a1a2e;">
+        
+        <!-- 装饰层1: Grid网格线 -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.08; background: linear-gradient(0deg, rgba(0,212,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.05) 1px, transparent 1px); background-size: 100px 100px; pointer-events: none; z-index: 1;" id="grid-decoration"></div>
+        
+        <!-- 装饰层2: 径向光晕 -->
+        <div style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, rgba(0,212,255,0) 70%); border-radius: 50%; pointer-events: none; z-index: 2;" id="radial-glow"></div>
+        
+        <!-- 装饰层3: Ghost text水印 -->
+        <div style="position: absolute; top: 10%; left: 5%; font-family: 'JetBrains Mono', monospace; font-size: 280px; font-weight: bold; color: rgba(255,255,255,0.04); letter-spacing: 10px; pointer-events: none; z-index: 3;">GPT-5</div>
+        
+        <!-- 装饰层4: 扫描线 -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent); pointer-events: none; z-index: 4;" id="scan-line"></div>
+        
+        <!-- 装饰层5: 粒子点 -->
+        <div style="position: absolute; width: 4px; height: 4px; background: rgba(0,212,255,0.6); border-radius: 50%; top: 20%; left: 15%; z-index: 5;" id="particle-1"></div>
+        <div style="position: absolute; width: 3px; height: 3px; background: rgba(255,64,129,0.5); border-radius: 50%; top: 45%; left: 80%; z-index: 5;" id="particle-2"></div>
+        <div style="position: absolute; width: 4px; height: 4px; background: rgba(0,212,255,0.4); border-radius: 50%; top: 70%; left: 30%; z-index: 5;" id="particle-3"></div>
+        <div style="position: absolute; width: 2px; height: 2px; background: rgba(255,215,0,0.5); border-radius: 50%; top: 15%; left: 65%; z-index: 5;" id="particle-4"></div>
+        <div style="position: absolute; width: 3px; height: 3px; background: rgba(0,212,255,0.3); border-radius: 50%; top: 55%; left: 90%; z-index: 5;" id="particle-5"></div>
+        <div style="position: absolute; width: 4px; height: 4px; background: rgba(255,64,129,0.4); border-radius: 50%; top: 80%; left: 50%; z-index: 5;" id="particle-6"></div>
+        
+        <!-- 装饰层6: 边角装饰 -->
+        <div style="position: absolute; top: 100px; left: 100px; width: 60px; height: 60px; border-left: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
+        <div style="position: absolute; top: 100px; right: 100px; width: 60px; height: 60px; border-right: 2px solid rgba(0,212,255,0.3); border-top: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
+        <div style="position: absolute; bottom: 100px; left: 100px; width: 60px; height: 60px; border-left: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
+        <div style="position: absolute; bottom: 100px; right: 100px; width: 60px; height: 60px; border-right: 2px solid rgba(0,212,255,0.3); border-bottom: 2px solid rgba(0,212,255,0.3); pointer-events: none; z-index: 6;"></div>
+        
+        <!-- 主标题区 -->
+        <div style="position: absolute; top: 80px; left: 0; width: 100%; text-align: center; z-index: 10;" id="main-title">
+            <div style="font-size: 96px; font-weight: bold; color: #00D4FF; text-shadow: 0 0 30px rgba(0,212,255,0.8), 0 0 60px rgba(0,212,255,0.4); letter-spacing: 4px; line-height: 1.2;">硬核数据</div>
+        </div>
+        
+        <!-- 核心内容区 - 三个核心数据卡片 -->
+        <div style="position: absolute; top: 200px; left: 100px; width: 1720px; height: 550px; display: flex; justify-content: space-around; align-items: center; z-index: 10;">
+            
+            <!-- 卡片1: 准确率 - 环形进度图 -->
+            <div style="width: 500px; height: 450px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" id="accuracy-card">
+                <!-- 顶部高光 -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #00D4FF, transparent); border-radius: 24px 24px 0 0;"></div>
+                <!-- 内部光晕 -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(0,212,255,0.08), transparent 70%); border-radius: 24px; pointer-events: none;"></div>
+                <!-- 卡片内容 -->
+                <div style="text-align: center; position: relative; z-index: 2;">
+                    <div style="font-size: 28px; color: #999999; margin-bottom: 20px;">准确率</div>
+                    <!-- 环形进度图 -->
+                    <div style="width: 200px; height: 200px; margin: 0 auto 30px; position: relative;">
+                        <svg width="200" height="200" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(0,212,255,0.2)" stroke-width="20"/>
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="#FFD700" stroke-width="20" stroke-dasharray="502.4" stroke-dashoffset="125.6" transform="rotate(-90 100 100)" id="accuracy-progress"/>
+                        </svg>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                            <div style="font-size: 100px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; line-height: 1;">+30</div>
+                            <div style="font-size: 48px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace;">%</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 24px; color: rgba(0,212,255,0.5);">语言理解能力提升</div>
+                </div>
+            </div>
+            
+            <!-- 卡片2: 处理速度 - 动态进度条 -->
+            <div style="width: 500px; height: 450px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" id="speed-card">
+                <!-- 顶部高光 -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FF4081, transparent); border-radius: 24px 24px 0 0;"></div>
+                <!-- 内部光晕 -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(255,64,129,0.08), transparent 70%); border-radius: 24px; pointer-events: none;"></div>
+                <!-- 卡片内容 -->
+                <div style="text-align: center; position: relative; z-index: 2;">
+                    <div style="font-size: 28px; color: #999999; margin-bottom: 20px;">处理速度</div>
+                    <!-- 大号计数器 -->
+                    <div style="font-size: 140px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 30px; line-height: 1;">x2</div>
+                    <!-- 动态进度条 -->
+                    <div style="width: 100%; height: 12px; background: rgba(255,64,129,0.2); border-radius: 6px; margin-bottom: 20px; overflow: hidden;">
+                        <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #FF4081, #00D4FF); border-radius: 6px; transform-origin: left;" id="speed-progress"></div>
+                    </div>
+                    <div style="font-size: 24px; color: rgba(255,64,129,0.5);">推理效率倍增</div>
+                </div>
+            </div>
+            
+            <!-- 卡片3: 综合提升 - 数字翻牌 -->
+            <div style="width: 500px; height: 450px; background: rgba(26,26,46,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.3); border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" id="improvement-card">
+                <!-- 顶部高光 -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FFD700, transparent); border-radius: 24px 24px 0 0;"></div>
+                <!-- 内部光晕 -->
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(255,215,0,0.08), transparent 70%); border-radius: 24px; pointer-events: none;"></div>
+                <!-- 卡片内容 -->
+                <div style="text-align: center; position: relative; z-index: 2;">
+                    <div style="font-size: 28px; color: #999999; margin-bottom: 20px;">综合提升</div>
+                    <!-- 大号计数器 -->
+                    <div style="font-size: 140px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; line-height: 1;">287</div>
+                    <div style="font-size: 48px; font-weight: bold; color: #FFD700; font-family: 'JetBrains Mono', monospace; margin-bottom: 30px;">%</div>
+                    <div style="font-size: 24px; color: rgba(255,215,0,0.5);">生成质量飙升</div>
+                </div>
             </div>
         </div>
-        <!-- Data Card 2 -->
-        <div id="card2" style="position:absolute;top:260px;left:50px;width:300px;height:180px;background:rgba(26,26,46,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,64,129,0.3);border-radius:16px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;">
-            <div style="font-size:16px;color:#999999;">利差驱动</div>
-            <div style="font-size:60px;font-weight:bold;color:#FF4081;font-family:'JetBrains Mono',monospace;margin-top:10px;">1.5%</div>
-            <div style="font-size:20px;color:#FFFFFF;margin-top:20px;">存量 vs 新贷利率</div>
+        
+        <!-- 底部信息区 - 辅助数据标签与口播 -->
+        <div style="position: absolute; bottom: 80px; left: 100px; width: 1720px; z-index: 10;" id="bottom-info">
+            <!-- 辅助数据标签 -->
+            <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 30px;">
+                <div style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #00D4FF;">语言理解</div>
+                <div style="background: rgba(255,64,129,0.1); border: 1px solid rgba(255,64,129,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #FF4081;">推理能力</div>
+                <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #FFD700;">生成质量</div>
+                <div style="background: rgba(153,153,153,0.1); border: 1px solid rgba(153,153,153,0.3); border-radius: 24px; padding: 8px 20px; font-size: 18px; color: #999999;">多模态</div>
+            </div>
+            <!-- 口播文字 -->
+            <div style="text-align: center; font-size: 28px; color: #FFFFFF; line-height: 1.6; letter-spacing: 1px;">
+                我翻遍全网，扒了三天资料，发现GPT-5在语言理解、推理和生成上，准确率飙升30%，处理速度翻倍，这数据太硬核了。
+            </div>
         </div>
-        <!-- Tag Pills -->
-        <div id="tag1" style="position:absolute;top:480px;left:50px;padding:8px 20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.4);border-radius:20px;font-size:20px;color:#00D4FF;opacity:0;">提前还贷</div>
-        <div id="tag2" style="position:absolute;top:480px;left:180px;padding:8px 20px;background:rgba(255,64,129,0.1);border:1px solid rgba(255,64,129,0.4);border-radius:20px;font-size:20px;color:#FF4081;opacity:0;">资金迁移</div>
-        <!-- Neon Lines Decoration -->
-        <div id="neon-line1" style="position:absolute;top:100px;right:0;width:200px;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.3));opacity:0;"></div>
-        <div id="neon-line2" style="position:absolute;top:300px;right:0;width:150px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,64,129,0.3));opacity:0;"></div>
     </div>
-    <!-- Bottom Info Area -->
-    <div style="position:absolute;bottom:100px;left:100px;width:1720px;height:100px;">
-        <div id="bottom-text" style="font-size:28px;color:#FFFFFF;line-height:1.5;opacity:0;">第一个大头，就是提前还房贷。现在存量房贷利率和新房贷利差太大，很多人算完账发现，拿着钱存银行那点利息，还不如赶紧把贷款还了，省下的利息更多。</div>
-        <div id="bottom-label" style="margin-top:10px;font-size:20px;color:#666666;opacity:0;">口播内容 · 数据来源: 央行报告</div>
-    </div>
-    <!-- Radial Glow Focus -->
-    <div id="radial-glow" style="position:absolute;top:300px;left:500px;width:600px;height:600px;background:radial-gradient(circle,rgba(255,64,129,0.1) 0%,transparent 70%);opacity:0;"></div>
-    <!-- Corner Decorations -->
-    <div id="corner-tl" style="position:absolute;top:80px;left:80px;width:50px;height:50px;border-top:2px solid rgba(0,212,255,0.3);border-left:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
-    <div id="corner-tr" style="position:absolute;top:80px;right:80px;width:50px;height:50px;border-top:2px solid rgba(0,212,255,0.3);border-right:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
-    <div id="corner-bl" style="position:absolute;bottom:80px;left:80px;width:50px;height:50px;border-bottom:2px solid rgba(0,212,255,0.3);border-left:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
-    <div id="corner-br" style="position:absolute;bottom:80px;right:80px;width:50px;height:50px;border-bottom:2px solid rgba(0,212,255,0.3);border-right:2px solid rgba(0,212,255,0.3);opacity:0;"></div>
-</div>
-<script>
-    window.__timelines = window.__timelines || {};
-    const tl = gsap.timeline({paused: true});
-    window.__timelines["beat-3"] = tl;
 
-    // Entry Animations with stagger
-    tl.from("#deco-grid", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0);
-    tl.from("#deco-glow", {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.15);
-    tl.from("#ghost-text", {opacity: 0, duration: 1.5, ease: "power2.inOut"}, 0.3);
-    tl.from("#deco-scanline", {opacity: 0, y: -1080, duration: 4, ease: "none", repeat: 0}, 0.45);
-    tl.from("#main-title", {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.6);
-    tl.from("#broken-bag", {opacity: 0, scale: 0.8, duration: 0.7, ease: "back.out(1.7)"}, 0.75);
-    tl.from("#flow-arrow", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 1, ease: "power2.inOut"}, 0.9);
-    tl.from("#burning-house", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.05);
-    tl.from(".fire-particle", {opacity: 0, scale: 0, duration: 0.5, stagger: 0.1, ease: "power2.out"}, 1.2);
-    tl.from(".data-particle", {opacity: 0, x: -30, duration: 0.5, stagger: 0.1, ease: "power2.out"}, 1.35);
-    tl.from("#rate-formula", {opacity: 0, y: 20, duration: 0.6, ease: "power2.out"}, 1.5);
-    tl.from(".math-symbol", {opacity: 0, duration: 1, stagger: 0.2, ease: "power1.inOut"}, 1.65);
-    tl.from("#light-band", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 1.2, ease: "power2.inOut"}, 1.8);
-    tl.from("#card1", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.95);
-    tl.from("#progress-bar", {scaleX: 0, transformOrigin: "left", duration: 1.5, ease: "power2.inOut"}, 2.1);
-    tl.from("#card2", {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 2.25);
-    tl.from("#tag1", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.4);
-    tl.from("#tag2", {x: -30, opacity: 0, duration: 0.5, ease: "power2.out"}, 2.55);
-    tl.from("#neon-line1", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 0.8, ease: "power2.inOut"}, 2.7);
-    tl.from("#neon-line2", {scaleX: 0, transformOrigin: "left", opacity: 0, duration: 0.8, ease: "power2.inOut"}, 2.85);
-    tl.from("#bottom-text", {opacity: 0, y: 20, duration: 0.8, ease: "power2.out"}, 3.0);
-    tl.from("#bottom-label", {opacity: 0, duration: 0.6, ease: "power2.out"}, 3.15);
-    tl.from("#radial-glow", {opacity: 0, scale: 0.5, duration: 1.5, ease: "power1.inOut"}, 3.3);
-    tl.from(".corner-decoration", {opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out"}, 3.45);
-
-    // Breathing Animations (repeat: 0)
-    gsap.to("#card1", {scale: 1.015, duration: 3, ease: "sine.inOut", repeat: 0, yoyo: true, transformOrigin: "center"});
-    gsap.to("#main-title", {textShadow: "0 0 40px rgba(0,212,255,0.7),0 0 80px rgba(0,212,255,0.3)", duration: 2.5, repeat: 0, yoyo: true, ease: "sine.inOut"});
-    gsap.to("#deco-glow", {x: 50, y: 30, duration: 10, repeat: 0, yoyo: true, ease: "none"});
-    gsap.to("#tag1", {borderColor: "rgba(0,212,255,0.7)", duration: 2, repeat: 0, yoyo: true, ease: "sine.inOut"});
-
-    // Fire Breathing Animation
-    gsap.to(".fire-particle", {y: -20, opacity: 0.8, duration: 1.5, repeat: 0, yoyo: true, ease: "power1.inOut", stagger: 0.3});
-
-    // Data Flow Animation
-    gsap.to(".data-particle", {x: 350, opacity: 0.7, duration: 4, repeat: 0, ease: "none", stagger: 0.5});
-
-    // Scanline Continuous Movement
-    gsap.to("#deco-scanline", {y: 1080, duration: 5, repeat: 0, ease: "none"});
-
-    // Start timeline
-    tl.play();
-</script>
+    <script>
+        // 注册时间线到window对象
+        window.__timelines = window.__timelines || {};
+        const timeline = gsap.timeline({paused: true});
+        window.__timelines["beat-3"] = timeline;
+        
+        // 装饰层入场动画
+        timeline.from('#grid-decoration', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0)
+               .from('#radial-glow', {opacity: 0, scale: 0.8, duration: 1.2, ease: "power1.inOut"}, 0.15)
+               .from('.ghost-text', {opacity: 0, duration: 1.2, ease: "power1.inOut"}, 0.3)
+               .from('#scan-line', {y: -1080, duration: 1.2, ease: "power1.inOut"}, 0.45);
+        
+        // 主标题入场
+        timeline.from('#main-title', {y: -50, opacity: 0, duration: 0.8, ease: "power3.out"}, 0.6);
+        
+        // 数据卡片入场
+        timeline.from('#accuracy-card', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.75)
+               .from('#speed-card', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 0.9)
+               .from('#improvement-card', {y: 60, opacity: 0, scale: 0.9, duration: 0.7, ease: "back.out(1.7)"}, 1.05);
+        
+        // 进度条动画
+        timeline.from('#accuracy-progress', {strokeDashoffset: 502.4, duration: 1.5, ease: "power2.inOut"}, 1.2)
+               .from('#speed-progress', {scaleX: 0, transformOrigin: "left", duration: 1, ease: "power2.inOut"}, 1.35);
+        
+        // 底部信息入场
+        timeline.from('#bottom-info', {y: 30, opacity: 0, duration: 0.8, ease: "power2.out"}, 1.5);
+        
+        // 粒子点入场
+        timeline.from('#particle-1', {opacity: 0, duration: 0.5, ease: "power2.out"}, 1.65)
+               .from('#particle-2', {opacity: 0, duration: 0.5, ease: "power2.out"}, 1.8)
+               .from('#particle-3', {opacity: 0, duration: 0.5, ease: "power2.out"}, 1.95)
+               .from('#particle-4', {opacity: 0, duration: 0.5, ease: "power2.out"}, 2.1)
+               .from('#particle-5', {opacity: 0, duration: 0.5, ease: "power2.out"}, 2.25)
+               .from('#particle-6', {opacity: 0, duration: 0.5, ease: "power2.out"}, 2.4);
+        
+        // 边角装饰入场
+        timeline.from('.corner-decoration', {opacity: 0, duration: 0.8, ease: "power2.out"}, 2.55);
+        
+        // 呼吸动画（核心数据卡片）
+        gsap.to('#accuracy-card', {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut"});
+        gsap.to('#speed-card', {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 1});
+        gsap.to('#improvement-card', {scale: 1.015, duration: 3, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 2});
+        
+        // 主标题文字发光脉动
+        gsap.to('#main-title div', {
+            textShadow: "0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.6)",
+            duration: 2.5,
+            repeat: 0,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+        
+        // 背景光晕缓慢位移
+        gsap.to('#radial-glow', {
+            x: 50,
+            y: 30,
+            duration: 10,
+            repeat: 0,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+        
+        // 扫描线动画
+        gsap.to('#scan-line', {
+            y: 1080,
+            duration: 6,
+            repeat: 0,
+            ease: "none"
+        });
+        
+        // 粒子点漂移动画
+        gsap.to('#particle-1', {x: 100, y: -50, duration: 12, repeat: 0, yoyo: true, ease: "sine.inOut"});
+        gsap.to('#particle-2', {x: -80, y: 30, duration: 10, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 2});
+        gsap.to('#particle-3', {x: 60, y: -40, duration: 14, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 4});
+        gsap.to('#particle-4', {x: -40, y: 50, duration: 8, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 1});
+        gsap.to('#particle-5', {x: 90, y: -60, duration: 16, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 3});
+        gsap.to('#particle-6', {x: -70, y: 40, duration: 11, repeat: 0, yoyo: true, ease: "sine.inOut", delay: 5});
+        
+        // 启动时间线
+        timeline.play();
+    </script>
 </body>
 </html>

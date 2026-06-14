@@ -299,6 +299,22 @@ def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
             pass
         i = start + 1
 
+    # Layer 5: 修复常见JSON问题后重试
+    for attempt_str in [cleaned]:
+        fixed = re.sub(r',\s*}', '}', attempt_str)
+        fixed = re.sub(r',\s*]', ']', fixed)
+        fixed = re.sub(r'//.*$', '', fixed, flags=re.MULTILINE)
+        for m in re.finditer(r'\{[^{}]*"voiceover_sections"[^{}]*\[.*?\]\s*\}', fixed, re.DOTALL):
+            try:
+                candidate = json.loads(m.group())
+                if "voiceover_sections" in candidate:
+                    for section in candidate.get("voiceover_sections", []):
+                        section["content"] = preprocess_text(section.get("content", ""))
+                    print(f"  ✅ [script-writer] Layer5 fallback提取成功")
+                    return candidate
+            except json.JSONDecodeError:
+                pass
+
     print("  ❌ [script-writer] JSON解析失败")
     return None
 

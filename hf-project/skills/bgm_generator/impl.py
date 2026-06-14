@@ -49,6 +49,7 @@ def load_env():
 def generate_bgm(lyrics: str, output_path: str) -> tuple:
     """生成BGM，不锁死时间，根据歌词自动生成"""
     import torch
+    from concurrent.futures import ThreadPoolExecutor, TimeoutError
     
     print(f"  [bgm-gen] 初始化ACE-Step模型...")
     
@@ -77,19 +78,33 @@ def generate_bgm(lyrics: str, output_path: str) -> tuple:
         
         print(f"  [bgm-gen] 模型加载成功")
         
-        # 生成BGM（不锁死时间）
+        # 生成BGM（不锁死时间，带超时）
         print(f"  [bgm-gen] 生成BGM（根据歌词自动生成时长）...")
-        result = handler.generate_music(
-            captions="electronic, tech, cinematic, 100 BPM, suspenseful to inspirational",
-            lyrics=lyrics,
-            vocal_language="zh",
-            audio_duration=-1,  # 不锁死时间，让模型根据歌词自动生成
-            inference_steps=8,
-            guidance_scale=7.0,
-            use_random_seed=True,
-            seed=-1,
-            task_type="text2music",
-        )
+        
+        # 使用线程池实现超时控制（3分钟）
+        def do_generate():
+            return handler.generate_music(
+                captions="electronic, tech, cinematic, 100 BPM, suspenseful to inspirational",
+                lyrics=lyrics,
+                vocal_language="zh",
+                audio_duration=-1,  # 不锁死时间，让模型根据歌词自动生成
+                inference_steps=8,
+                guidance_scale=7.0,
+                use_random_seed=True,
+                seed=-1,
+                task_type="text2music",
+            )
+        
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(do_generate)
+            try:
+                result = future.result(timeout=180)  # 3分钟超时
+            except TimeoutError:
+                print(f"  ⚠️ [bgm-gen] BGM生成超时（3分钟），取消任务")
+                # 清理GPU内存
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+                return None, 0
         
         # 提取音频
         audio_data = None
@@ -158,7 +173,7 @@ def run(context: dict) -> dict:
     
     print(f"  [bgm-gen] 歌词长度: {len(lyrics)} 字符")
     
-    # 生成BGM
+    # 生成BGM（带超时和fallback）
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     
     try:
@@ -169,12 +184,30 @@ def run(context: dict) -> dict:
             context["bgm_duration"] = bgm_duration
             print(f"  [bgm-gen] ✅ BGM生成完成 ({bgm_duration:.1f}s)")
         else:
-            print(f"  ❌ [bgm-gen] BGM生成失败")
-            
+            print(f"  ⚠️ [bgm-gen] BGM生成失败，使用默认BGM")
+            fallback_path = str(Path(__file__).parent.parent.parent.parent / "assets" / "default_bgm.mp3")
+            if os.path.exists(fallback_path):
+                import shutil
+                shutil.copy(fallback_path, str(BGM_PATH))
+                context["bgm_path"] = str(BGM_PATH)
+                context["bgm_duration"] = 120.0
+                print(f"  ✅ [bgm-gen] 使用默认BGM: {fallback_path}")
+            else:
+                print(f"  ❌ [bgm-gen] 默认BGM也不存在: {fallback_path}")
+                
     except Exception as e:
-        print(f"  ❌ [bgm-gen] BGM生成异常: {e}")
+        print(f"  ⚠️ [bgm-gen] BGM生成异常: {e}，使用默认BGM")
         import traceback
         traceback.print_exc()
+        
+        # Fallback
+        fallback_path = str(Path(__file__).parent.parent.parent.parent / "assets" / "default_bgm.mp3")
+        if os.path.exists(fallback_path):
+            import shutil
+            shutil.copy(fallback_path, str(BGM_PATH))
+            context["bgm_path"] = str(BGM_PATH)
+            context["bgm_duration"] = 120.0
+            print(f"  ✅ [bgm-gen] 使用默认BGM: {fallback_path}")
     
     return context
 
