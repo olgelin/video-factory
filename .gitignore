@@ -54,3 +54,6 @@ feedback_system/logs/
 # Render frames (regenerable)
 frames/
 screenshots/
+
+# Project archives (generated per-run)
+projects/

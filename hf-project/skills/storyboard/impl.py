@@ -195,11 +195,10 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
 
 输出JSON数组，每个元素对应一个段落的视觉方案。只输出JSON，不要其他内容。"""
 
-    # 匹配时间戳
+    # 匹配时间戳（仅在没有voice_scene_durations时使用估算）
     matched_timestamps = []
-    if transcript_data:
-        matched_timestamps = match_timestamps(sections, transcript_data.get("segments", []))
-        print(f"  [storyboard] 匹配时间戳: {len(matched_timestamps)} 个段落")
+    # voice_scene_durations由voice_gen提供精确时长，优先使用
+    # 这里的估算只作为fallback
     
     # 构建prompt
     sections_text = ""
