@@ -222,6 +222,13 @@ def run(context: dict) -> dict:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
 
+    # 保存每个场景的配音时长（清理前）
+    scene_durations = []
+    for vf in voice_files:
+        scene_durations.append({"text": vf["text"][:30], "duration": round(vf["duration"], 2)})
+    context["voice_scene_durations"] = scene_durations
+    print(f"  [voice-gen] 各场景时长: {[f'{d["duration"]}s' for d in scene_durations]}")
+
     # 清理临时文件
     for vf in voice_files:
         try:

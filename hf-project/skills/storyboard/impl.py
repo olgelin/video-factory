@@ -408,6 +408,21 @@ def run(context: dict) -> dict:
                 "out": scene.pop("transition_out", "")
             }
     
+    # 用实际配音时长校准场景时长（如果可用）
+    voice_scene_durs = context.get("voice_scene_durations", [])
+    if voice_scene_durs and len(voice_scene_durs) == len(storyboard):
+        print(f"  [storyboard] 用实际配音时长校准 {len(storyboard)} 个场景...")
+        cumulative = 0.0
+        for i, scene in enumerate(storyboard):
+            actual_dur = voice_scene_durs[i]["duration"]
+            scene["duration"] = actual_dur
+            scene["start_time"] = round(cumulative, 2)
+            cumulative += actual_dur
+            scene["end_time"] = round(cumulative, 2)
+        print(f"  [storyboard] 校准完成: 总时长 {cumulative:.1f}s")
+    elif voice_scene_durs:
+        print(f"  ⚠️ [storyboard] 配音场景数({len(voice_scene_durs)}) != 分镜数({len(storyboard)})，跳过校准")
+
     # 保存
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(STORYBOARD_PATH, "w", encoding="utf-8") as f:
