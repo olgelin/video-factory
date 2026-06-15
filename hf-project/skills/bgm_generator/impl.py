@@ -46,7 +46,7 @@ def load_env():
             return
 
 
-def generate_bgm(lyrics: str, output_path: str, voice_duration: float = 90) -> tuple:
+def generate_bgm(lyrics: str, output_path: str, bgm_duration: float = 210) -> tuple:
     """生成BGM，根据配音时长自动匹配"""
     import torch
     from concurrent.futures import ThreadPoolExecutor, TimeoutError
@@ -78,9 +78,9 @@ def generate_bgm(lyrics: str, output_path: str, voice_duration: float = 90) -> t
         
         print(f"  [bgm-gen] 模型加载成功")
         
-        # 配音时长+5秒余量作为BGM时长
-        bgm_duration = voice_duration + 5
-        print(f"  [bgm-gen] 目标BGM时长: {bgm_duration:.1f}s (配音{voice_duration:.1f}s)")
+        # 默认3分30秒，独立于配音时长（16GB GPU上限360s）
+        bgm_duration = min(210, 360)  # 210s = 3:30
+        print(f"  [bgm-gen] 目标BGM时长: {bgm_duration:.1f}s")
         
         # 多次尝试策略
         attempts = [
@@ -194,15 +194,15 @@ def run(context: dict) -> dict:
     
     print(f"  [bgm-gen] 歌词长度: {len(lyrics)} 字符")
     
-    # 获取配音时长（用于匹配BGM时长）
-    voice_duration = context.get("voice_duration", 90)
-    print(f"  [bgm-gen] 配音时长: {voice_duration:.1f}s")
+    # BGM时长（默认3:30，不依赖配音）
+    bgm_target_duration = context.get("bgm_duration", 210)
+    print(f"  [bgm-gen] 目标BGM时长: {bgm_target_duration:.1f}s")
     
     # 生成BGM（无fallback，必须成功）
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     
     try:
-        bgm_path, bgm_duration = generate_bgm(lyrics, str(BGM_PATH), voice_duration)
+        bgm_path, bgm_duration = generate_bgm(lyrics, str(BGM_PATH), bgm_target_duration)
         
         if bgm_path:
             context["bgm_path"] = bgm_path
