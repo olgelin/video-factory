@@ -28,6 +28,9 @@ hf-project/.cache/
 *.png
 *.jpg
 *.jpeg
+*.gif
+*.webp
+*.webm
 
 # Temp
 *.tmp
@@ -47,3 +50,7 @@ versions/
 # Feedback system logs
 feedback_system/logs/
 .cache/
+
+# Render frames (regenerable)
+frames/
+screenshots/
