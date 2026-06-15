@@ -29,6 +29,23 @@ def run_ffmpeg(cmd: str, timeout: int = 120) -> bool:
         return False
 
 
+def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
+    """烧录字幕到视频"""
+    if not os.path.exists(srt_path):
+        print(f"  ⚠️ [audio-mixer] SRT不存在，跳过字幕烧录: {srt_path}")
+        return False
+    
+    # 转义路径中的特殊字符（ffmpeg subtitles滤镜需要）
+    srt_escaped = srt_path.replace("\\", "/").replace(":", "\\:")
+    
+    cmd = f"""ffmpeg -y -i "{video_path}" \
+        -vf "subtitles='{srt_escaped}':force_style='FontSize=22,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=40,Alignment=2'" \
+        -c:a copy "{output_path}" """
+    
+    print(f"  [audio-mixer] 烧录字幕...")
+    return run_ffmpeg(cmd, timeout=180)
+
+
 def run(context: dict) -> dict:
     """主入口：音频混合"""
 
@@ -110,6 +127,18 @@ def run(context: dict) -> dict:
         else:
             print(f"  ❌ [audio-mixer] 混合失败")
 
+    # 烧录字幕（如果SRT存在）
+    srt_path = OUTPUT_DIR / "captions.srt"
+    if srt_path.exists() and context.get("mixed_path"):
+        subtitled_path = OUTPUT_DIR / "step12_subtitled.mp4"
+        if burn_subtitles(str(context["mixed_path"]), str(srt_path), str(subtitled_path)):
+            # 替换最终输出
+            import shutil
+            shutil.move(str(subtitled_path), str(MIXED_PATH))
+            print(f"  [audio-mixer] ✅ 字幕烧录完成")
+        else:
+            print(f"  ⚠️ [audio-mixer] 字幕烧录失败，使用无字幕版本")
+    
     return context
 
 
