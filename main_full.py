@@ -291,6 +291,16 @@ def main():
     with open(context_path, "w", encoding="utf-8") as f:
         json.dump(context, f, ensure_ascii=False, indent=2, default=str)
     
+    
+    # 生成元数据
+    try:
+        from generate_metadata import generate_metadata
+        metadata = generate_metadata(context)
+        print(f"  📋 元数据: {OUTPUT_DIR / "metadata.json"}")
+        print(f"  📝 标题: {metadata["title"]}")
+        print(f"  🏷️ 标签: {" ".join(metadata["hashtags"])}")
+    except Exception as e:
+        print(f"  ⚠️ 元数据生成失败: {e}")
     print(f"\n{'='*60}")
     print(f"✅ Pipeline完成!")
     print(f"{'='*60}")
