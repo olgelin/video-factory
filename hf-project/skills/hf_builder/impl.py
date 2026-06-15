@@ -384,6 +384,14 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     html = re.sub(r'animation-iteration-count:\s*infinite', 'animation-iteration-count: 3', html)
     html = re.sub(r'animation:\s*([^;{}]*?)\s+infinite', r'animation: \1 3', html)
 
+    # 6c. 移除 Subtitle Keywords（避免与SRT字幕重叠）
+    # 移除整个 subtitle-keywords div 及其内容
+    html = re.sub(r'<div[^>]*id=["\']subtitle-keywords["\'][^>]*>.*?</div>\s*', '', html, flags=re.DOTALL)
+    # 移除 Subtitle Keywords 注释
+    html = re.sub(r'<!--\s*Subtitle\s*Keywords\s*-->\s*', '', html)
+    # 移除相关的 GSAP 动画代码
+    html = re.sub(r'//\s*3\.\s*Subtitle\s*Keywords.*?(?=\n\s*//|\n\s*</script>)', '', html, flags=re.DOTALL)
+
     # 7. 移除 CSS 中的中文注释
     html = re.sub(r'/\*[^*]*[\u4e00-\u9fff][^*]*\*/', '', html)
 
