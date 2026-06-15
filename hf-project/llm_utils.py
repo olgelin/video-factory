@@ -29,9 +29,22 @@ LLM_CONFIGS = [
         "name": "primary",
         "url": VF_BASE_URL + "/chat/completions",
         "model": VF_MODEL,
-        "env_key": "VF_API_KEY",  # 直接读VF_API_KEY，不需要额外env var
+        "env_key": "VF_API_KEY",
     },
 ]
+
+# 备用模型（.env中配置VF_FALLBACK_KEY/VF_FALLBACK_BASE_URL/VF_FALLBACK_MODEL启用）
+VF_FALLBACK_KEY = os.environ.get("VF_FALLBACK_KEY", "")
+VF_FALLBACK_BASE_URL = os.environ.get("VF_FALLBACK_BASE_URL", "")
+VF_FALLBACK_MODEL = os.environ.get("VF_FALLBACK_MODEL", "")
+if VF_FALLBACK_KEY and VF_FALLBACK_BASE_URL and VF_FALLBACK_MODEL:
+    os.environ["VF_FALLBACK_KEY"] = VF_FALLBACK_KEY
+    LLM_CONFIGS.append({
+        "name": "fallback",
+        "url": VF_FALLBACK_BASE_URL.rstrip("/") + "/chat/completions",
+        "model": VF_FALLBACK_MODEL,
+        "env_key": "VF_FALLBACK_KEY",
+    })
 
 # 敏感词替换映射（用于prompt改写）
 SENSITIVE_WORD_MAP = {
