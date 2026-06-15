@@ -195,16 +195,7 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
         composition_id=composition_id,
     )
 
-    # 注入历史优化提示
-    hints = context.get("_optimization_hints", [])
-    hints_text = ""
-    if hints:
-        hints_text = "
-## 历史教训（必须避免）
-" + "
-".join(f"- {h}" for h in hints[:5])
-
-    system = "你是 HyperFrames 视频合成专家。只输出完整 HTML 代码，不输出任何其他文本。" + hints_text
+    system = "你是 HyperFrames 视频合成专家。只输出完整 HTML 代码，不输出任何其他文本。"
 
     # 第一次尝试
     response = call_llm(prompt, system, max_tokens=12000)
