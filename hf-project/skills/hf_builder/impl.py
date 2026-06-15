@@ -449,19 +449,19 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     if 'overflow:hidden' not in html and 'overflow: hidden' not in html:
         html = re.sub(r'<body([^>]*)>', r'<body\1 style="margin:0;padding:0;overflow:hidden;">', html, count=1)
 
-    # 11. 确保 .scene div 有内联 background（HF 沙箱可能不应用 CSS class 的 background）
-    if '<div class="scene"' in html and 'background:#1a1a2e' not in html:
-        # 检查 scene div 是否已有 style 属性
+    # 11. 确保 .scene div 有内联 background（HF 沙箱独立渲染scene，不继承body背景）
+    if '<div class="scene"' in html:
         scene_match = re.search(r'<div class="scene"([^>]*)>', html)
         if scene_match:
             attrs = scene_match.group(1)
             if 'style="' in attrs:
-                # 已有 style → 在现有 style 中注入 background
-                html = re.sub(
-                    r'(<div class="scene"[^>]*style=")',
-                    r'\1background:#1a1a2e;',
-                    html, count=1
-                )
+                if 'background' not in attrs:
+                    # 有style但没有background → 注入
+                    html = re.sub(
+                        r'(<div class="scene"[^>]*style=")',
+                        r'\1background:#1a1a2e;',
+                        html, count=1
+                    )
             else:
                 # 没有 style → 添加新的
                 html = html.replace('<div class="scene"', '<div class="scene" style="background:#1a1a2e;"', 1)

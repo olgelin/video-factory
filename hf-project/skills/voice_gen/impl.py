@@ -159,7 +159,7 @@ def run(context: dict) -> dict:
     # 参数
     cfg = context.get("voice_cfg", 2.0)
     steps = context.get("voice_steps", 15)
-    speed = context.get("voice_speed", 1.2)
+    speed = context.get("voice_speed", 1.0)
 
     print(f"  [voice-gen] 参考音频: {ref_wav}")
     print(f"  [voice-gen] 参数: cfg={cfg}, steps={steps}, speed={speed}x")
@@ -228,7 +228,8 @@ def run(context: dict) -> dict:
         adjusted_dur = round(vf["duration"] / speed, 2) if speed > 0 else round(vf["duration"], 2)
         scene_durations.append({"text": vf["text"][:30], "duration": adjusted_dur})
     context["voice_scene_durations"] = scene_durations
-    print(f"  [voice-gen] 各场景时长(加速{speed}x): {[f"{d['duration']}s" for d in scene_durations]}")
+    dur_strs = [f"{d['duration']}s" for d in scene_durations]
+    print(f"  [voice-gen] 各场景时长: {dur_strs}")
 
     # 清理临时文件
     for vf in voice_files:
