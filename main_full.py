@@ -63,6 +63,14 @@ def load_skill(skill_name: str):
     spec.loader.exec_module(module)
     return module
 
+# 关键步骤：失败时必须产出文件，否则终止pipeline
+CRITICAL_CHECKS = {
+    "script_writer": lambda ctx: (OUTPUT_DIR / "step03_script.json").exists(),
+    "voice_gen": lambda ctx: (OUTPUT_DIR / "step05_voice.wav").exists(),
+    "hf_builder": lambda ctx: (HF_PROJECT / "hf_render_project" / "compositions").exists() and any((HF_PROJECT / "hf_render_project" / "compositions").glob("beat-*.html")),
+    "video_renderer": lambda ctx: (OUTPUT_DIR / "step10_video.mp4").exists(),
+}
+
 def run_step(skill_name: str, context: dict, step_num: int) -> dict:
     """执行单个skill步骤"""
     print(f"\n{'='*60}")
@@ -82,6 +90,14 @@ def run_step(skill_name: str, context: dict, step_num: int) -> dict:
         import traceback
         traceback.print_exc()
     
+
+    # 关键步骤产出检查
+    if skill_name in CRITICAL_CHECKS:
+        if not CRITICAL_CHECKS[skill_name](context):
+            print("  🛑 关键步骤 " + skill_name + " 未产出预期文件，Pipeline终止")
+            print("  回滚: git checkout v3.1-stable")
+            sys.exit(1)
+
     return context
 
 def check_skill_quality_after_step(skill_name: str, context: dict):
