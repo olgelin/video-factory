@@ -384,13 +384,26 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     html = re.sub(r'animation-iteration-count:\s*infinite', 'animation-iteration-count: 3', html)
     html = re.sub(r'animation:\s*([^;{}]*?)\s+infinite', r'animation: \1 3', html)
 
-    # 6c. 移除 Subtitle Keywords（避免与SRT字幕重叠）
-    # 移除整个 subtitle-keywords div 及其内容
-    html = re.sub(r'<div[^>]*id=["\']subtitle-keywords["\'][^>]*>.*?</div>\s*', '', html, flags=re.DOTALL)
-    # 移除 Subtitle Keywords 注释
+    # 1. 移除 subtitle-keywords div（用sed逐行处理，更可靠）
+    lines = html.split('\n')
+    new_lines = []
+    skip_until_close = False
+    for line in lines:
+        if 'subtitle-keywords' in line.lower() or 'subtitle keywords' in line.lower():
+            skip_until_close = True
+            continue
+        if skip_until_close:
+            if '</div>' in line:
+                skip_until_close = False
+            continue
+        new_lines.append(line)
+    html = '\n'.join(new_lines)
+    
+    # 2. 移除 Subtitle Keywords 注释
     html = re.sub(r'<!--\s*Subtitle\s*Keywords\s*-->\s*', '', html)
-    # 移除相关的 GSAP 动画代码
-    html = re.sub(r'//\s*3\.\s*Subtitle\s*Keywords.*?(?=\n\s*//|\n\s*</script>)', '', html, flags=re.DOTALL)
+    
+    # 3. 移除相关的 GSAP 动画代码（// 3. Subtitle Keywords...）
+    html = re.sub(r'//\s*3\.\s*Subtitle\s*Keywords[^\n]*\n[^\n]*(?:\n(?!\s*//)[^\n]*)*', '', html)
 
     # 7. 移除 CSS 中的中文注释
     html = re.sub(r'/\*[^*]*[\u4e00-\u9fff][^*]*\*/', '', html)

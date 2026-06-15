@@ -39,7 +39,7 @@ def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
     srt_escaped = srt_path.replace("\\", "/").replace(":", "\\:")
     
     cmd = f"""ffmpeg -y -i "{video_path}" \
-        -vf "subtitles='{srt_escaped}':force_style='FontSize=22,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=10,Alignment=2'" \
+        -vf "subtitles='{srt_escaped}':force_style='FontSize=22,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,BackColour=&H80000000,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=10,Alignment=2,BorderStyle=3'" \
         -c:a copy "{output_path}" """
     
     print(f"  [audio-mixer] 烧录字幕...")
