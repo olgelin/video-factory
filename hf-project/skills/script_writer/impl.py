@@ -398,6 +398,10 @@ def run(context: dict) -> dict:
 
     if not script:
         print("  ❌ [script-writer] 脚本生成失败")
+        # 删除旧脚本，防止CRITICAL_CHECKS误通过
+        if SCRIPT_PATH.exists():
+            SCRIPT_PATH.unlink()
+            print(f"  🗑️ [script-writer] 已删除旧脚本: {SCRIPT_PATH}")
         return context
 
     # 统计
