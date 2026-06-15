@@ -258,13 +258,17 @@ def main():
             print(f"\n[Step {step_num}] {skill_name}: 跳过 (--skip-bgm)")
             continue
         
-        # 获取优化提示（如果有）
+        # 获取优化提示并注入context（如果有）
         if FEEDBACK_ENABLED:
             hints = get_optimization_hints(skill_name)
             if hints:
                 print(f"  💡 历史优化提示: {hints}")
+                context["_optimization_hints"] = hints
         
         context = run_step(skill_name, context, step_num)
+        
+        # 清理hints（避免传递给下一步）
+        context.pop("_optimization_hints", None)
         
         # 质量检查（如果启用反馈系统）
         if FEEDBACK_ENABLED and skill_name in ["script_writer", "voice_gen", "bgm_generator", "storyboard", "hf_builder"]:
