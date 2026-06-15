@@ -17,7 +17,7 @@ from typing import Optional
 # LLM配置（支持任意OpenAI兼容provider）
 # 优先级：环境变量 > 默认值
 # 设置 VF_API_KEY, VF_BASE_URL, VF_MODEL 可覆盖默认provider
-VF_API_KEY=os.environ.get("VF_API_KEY", os.environ.get("XIAOMI_API_KEY", ""))
+VF_API_KEY=os.environ.get("VF_API_KEY") or os.environ.get("XIAOMI_API_KEY") or ""
 # 同步到环境变量，让call_single_llm能读到
 if VF_API_KEY:
     os.environ["VF_API_KEY"] = VF_API_KEY
