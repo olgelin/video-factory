@@ -57,6 +57,31 @@ VISUAL_TYPES = {
         "use_when": "场景是情感升华、金句、总结、CTA",
         "elements": ["hero_text", "atmosphere_glow", "accent_line", "ghost_text"],
     },
+    "code_terminal": {
+        "description": "终端/代码——深色终端+代码雨+命令行风格",
+        "use_when": "场景涉及技术、开源项目、代码、GitHub",
+        "elements": ["terminal_window", "code_block", "cursor_blink", "file_tree", "commit_log"],
+    },
+    "ranking_board": {
+        "description": "排行榜——排名列表+动态高亮",
+        "use_when": "场景涉及排名、Top N、对比多个项目",
+        "elements": ["rank_number", "project_card", "score_bar", "crown_icon", "trend_arrow"],
+    },
+    "product_showcase": {
+        "description": "产品展示——模拟产品页面/应用界面",
+        "use_when": "场景介绍具体产品、工具、应用（如enableMacosAI风格）",
+        "elements": ["app_mockup", "feature_grid", "screenshot_frame", "download_cta", "rating_stars"],
+    },
+    "timeline_event": {
+        "description": "时间轴——事件节点+因果连线",
+        "use_when": "场景描述事件发展、历史进程、阶段变化",
+        "elements": ["timeline_line", "event_node", "date_label", "connector_arrow", "milestone_marker"],
+    },
+    "market_ticker": {
+        "description": "行情播报——K线+涨跌幅+滚动数据",
+        "use_when": "场景涉及股票、投资、市场数据、涨跌",
+        "elements": ["price_display", "change_percent", "mini_chart", "volume_bar", "market_index"],
+    },
 }
 
 # 动画动词库
@@ -104,6 +129,22 @@ def detect_visual_type(text: str, has_data: bool = False) -> str:
     # 金句场景
     if any(kw in text for kw in ["说白了", "归根结底", "本质上", "你品", "细品", "真相"]):
         return "quote_hero"
+
+    # 技术/开源场景
+    if any(kw in text for kw in ["GitHub", "开源", "代码", "Star", "项目", "仓库", "终端", "CLI"]):
+        if any(kw in text for kw in ["排名", "Top", "第一", "最火", "热门"]):
+            return "ranking_board"
+        if any(kw in text for kw in ["工具", "应用", "软件", "平台", "产品"]):
+            return "product_showcase"
+        return "code_terminal"
+
+    # 投资/市场场景
+    if any(kw in text for kw in ["股", "涨", "跌", "市场", "投资", "基金", "IPO", "估值", "市值"]):
+        return "market_ticker"
+
+    # 时间线场景
+    if any(kw in text for kw in ["时间", "发展", "历程", "阶段", "从...到", "演变"]):
+        return "timeline_event"
 
     # 默认：quote_hero（最通用）
     return "quote_hero"
@@ -182,6 +223,11 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
    - list_alert: 清单警告（条目+强调）
    - hud: HUD信息（科技感数据叠加）
    - quote_hero: 金句主角（大字+背景氛围）
+   - code_terminal: 终端/代码风（深色终端+代码雨）
+   - ranking_board: 排行榜（排名列表+动态高亮）
+   - product_showcase: 产品展示（模拟应用界面）
+   - timeline_event: 时间轴（事件节点+因果连线）
+   - market_ticker: 行情播报（K线+涨跌幅+滚动数据）
 4. **choreography** (object): 每个元素的动画动词
    - 标题用high_impact动词（SLAMS/CRASHES/PUNCHES）
    - 副标题用medium_energy动词（CASCADE/SLIDES/DROPS）
