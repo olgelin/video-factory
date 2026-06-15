@@ -105,7 +105,7 @@ def preprocess_text(text: str) -> str:
 
 
 
-def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
+def generate_script(topic_selected: dict, style_profile: dict = None, research_data: str = "") -> dict:
     """根据选题结果生成口播脚本（纯文案，不含视觉设计）"""
     
     selected_topic = topic_selected.get("selected_topic", "")
@@ -208,20 +208,23 @@ def generate_script(topic_selected: dict, style_profile: dict = None) -> dict:
 
 只输出JSON，不要其他内容。不要输出visual_hint或scene相关的内容。"""
 
+    research_section = ""
+    if research_data:
+        research_section = "\n\n## 真实数据（必须在脚本中引用）:\n" + research_data + "\n"
     prompt = f"""选题：{selected_topic}
 
 切入角度：{angle}
 
 开头hook：{hook}
 
-目标受众：{target_audience}
+目标受众：{target_audience}{research_section}
 
 关键点（必须覆盖）：
 {key_points_text}
 
 请根据以上选题信息，生成口播脚本。要求：
 1. 第一个段落必须用hook开头
-2. 覆盖所有关键点
+2. 覆盖所有关键点，必须使用提供的真实数据（数字、名称、日期）
 3. 口语化，去AI化
 4. 有节奏感：开场冲击→数据支撑→情感升华→金句收尾
 5. 每个段落有talking_point（给storyboard参考）
