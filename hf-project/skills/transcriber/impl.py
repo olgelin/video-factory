@@ -29,7 +29,7 @@ def run_faster_whisper(audio_path: str) -> dict:
         language="zh",
         beam_size=5,
         word_timestamps=True,
-        vad_filter=True,
+        vad_filter=False,
     )
 
     segments = []
