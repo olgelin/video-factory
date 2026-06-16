@@ -557,7 +557,8 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     def fix_style_block(match):
         style_content = match.group(1)
         # 只替换 opacity:0（精确零），保留 opacity:0.05 等半透明值
-        style_content = re.sub(r'opacity:\s*0(?:\.0+)?\s*;?', 'opacity:1;', style_content)
+        # lookahead确保不匹配 opacity:0.8（0后面跟非零小数）
+        style_content = re.sub(r'opacity:\s*0(?=[;\s"])', 'opacity:1', style_content)
         return f'<style>{style_content}</style>'
 
     html = re.sub(r'<style>(.*?)</style>', fix_style_block, html, flags=re.DOTALL)
@@ -569,7 +570,8 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
         return f'__GSAP_BLOCK_{len(gsap_blocks)-1}__'
     html = re.sub(r'<script[^>]*>.*?</script>', save_gsap, html, flags=re.DOTALL)
     # 只替换 opacity:0（精确零），保留装饰层半透明值如 opacity:0.05
-    html = re.sub(r'(style="[^"]*?)opacity:\s*0(?:\.0+)?((?:;[^"]*?|[^"]*?)")', r'\1opacity:1\2', html)
+    # lookahead: opacity:0 后面必须是 " 或 ; 或空白，不能是 .8 等小数
+    html = re.sub(r'(style="[^"]*?)opacity:\s*0(?=[";\s])', r'\1opacity:1', html)
     for i, block in enumerate(gsap_blocks):
         html = html.replace(f'__GSAP_BLOCK_{i}__', block)
 
