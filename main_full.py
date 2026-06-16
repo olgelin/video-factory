@@ -161,7 +161,14 @@ def main():
     parser.add_argument("--check-deps", action="store_true", help="检查依赖更新")
     parser.add_argument("--update-deps", action="store_true", help="更新所有依赖")
     parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
+    parser.add_argument("--vertical", action="store_true", help="竖屏模式 (1080x1920)")
     args = parser.parse_args()
+    
+    # 视频分辨率
+    if args.vertical:
+        video_width, video_height = 1080, 1920
+    else:
+        video_width, video_height = 1920, 1080
     
     # 依赖检查
     if args.check_deps:
@@ -215,6 +222,8 @@ def main():
         "voice_path": str(OUTPUT_DIR / "step05_voice.wav"),
         "bgm_path": str(OUTPUT_DIR / "bgm.wav"),
         "video_path": str(OUTPUT_DIR / "step10_video.mp4"),
+        "video_width": video_width,
+        "video_height": video_height,
     }
     
     # 加载已保存的context（保留前序步骤的数据，如voice_scene_durations）

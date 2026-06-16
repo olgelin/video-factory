@@ -198,7 +198,7 @@ def match_timestamps(sections: list, transcript_segments: list) -> list:
     
     return timestamps
 
-def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict = None) -> list:
+def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict = None, total_duration: float = 0) -> list:
     """生成storyboard（根据口播内容决定视觉设计）"""
 
     # 读取口播段落（兼容新旧格式）
@@ -208,6 +208,21 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
         sections = script_data.get("scenes", [])
     
     topic = script_data.get("topic", "")
+
+    # 动态场景数：根据配音总时长计算目标场景数
+    num_sections = len(sections)
+    if total_duration > 0:
+        target_scenes = max(5, min(15, round(total_duration / 12)))  # 每场景约12秒
+    else:
+        target_scenes = num_sections
+    
+    scene_guidance = ""
+    if target_scenes > num_sections:
+        scene_guidance = f"\n\n⚠️ 重要：配音总时长{total_duration:.0f}秒，需要{target_scenes}个场景，但只有{num_sections}个段落。请将较长的段落拆分为2个子场景，每个子场景有独立的视觉概念。输出{target_scenes}个场景。"
+    elif target_scenes < num_sections:
+        scene_guidance = f"\n\n⚠️ 重要：配音总时长{total_duration:.0f}秒，目标{target_scenes}个场景。请合并相邻的短段落。输出{target_scenes}个场景。"
+    else:
+        scene_guidance = f"\n\n配音总时长{total_duration:.0f}秒，共{num_sections}个段落，每段一个场景。"
 
     # 构建system prompt
     system_prompt = """你是一个专业的视频导演兼视觉设计师。你的任务是根据口播内容，为每个段落设计视觉方案。
@@ -237,7 +252,12 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
 6. **transition_out** (string): 出场转场类型
 7. **depth_layers** (object): 前景/中景/背景层次
 8. **density_target** (number): 目标元素数量（8-10）
-9. **key_elements** (array): 这个场景的关键视觉元素列表
+9. **key_elements** (array): 这个场景的关键视觉元素列表，每个元素用结构化格式：
+   - 数据型: {"type": "data", "label": "指标名", "value": "数值", "unit": "单位", "trend": "up/down/flat"}
+   - 标签型: {"type": "tag", "text": "标签文字"}
+   - 标题型: {"type": "title", "text": "标题文字"}
+   - 列表型: {"type": "list", "items": ["条目1", "条目2", ...]}
+   - 对比型: {"type": "compare", "left": {"label":"A","value":"x"}, "right": {"label":"B","value":"y"}}
 
 输出JSON数组，每个元素对应一个段落的视觉方案。只输出JSON，不要其他内容。"""
 
@@ -282,7 +302,7 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
         for i, ts in enumerate(matched_timestamps):
             timing_summary += "\n  段落" + str(i+1) + ": " + str(round(ts.get("start", 0), 1)) + "s - " + str(round(ts.get("end", 0), 1)) + "s"
 
-    prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落:\n" + sections_summary + timing_summary + "\n\n请为每个段落设计视觉方案。输出JSON数组，每个元素包含：scene_id, visual_type, concept, key_elements。"
+    prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落:\n" + sections_summary + timing_summary + scene_guidance + "\n\n请为每个段落设计视觉方案。输出JSON数组，每个元素包含：scene_id, visual_type, concept, key_elements。"
 
     # 调用LLM
     llm_response = call_llm(prompt, system_prompt, max_tokens=8000)
@@ -427,8 +447,14 @@ def run(context: dict) -> dict:
     else:
         print(f"  ⚠️ [storyboard] 找不到transcript.json，使用估算时间戳")
 
+    # 读取配音时长（用于动态场景数计算）
+    voice_durations = context.get("voice_scene_durations", [])
+    total_duration = sum(d.get("duration", 0) for d in voice_durations) if voice_durations else 0
+    if total_duration > 0:
+        print(f"  [storyboard] 配音总时长: {total_duration:.1f}s")
+
     # 生成storyboard
-    storyboard = generate_storyboard(script_data, design_md, transcript_data)
+    storyboard = generate_storyboard(script_data, design_md, transcript_data, total_duration)
     
     # 转换字段名，匹配hf-builder期望的格式
     for scene in storyboard:
