@@ -194,8 +194,8 @@ class QualityTracker:
             score -= 0.3
             issues.append(f"HTML过短: {len(html_content)} < 3000")
         
-        # 检查CSS opacity:0
-        css_opacity_count = len(re.findall(r'style="[^"]*opacity:\s*0', html_content))
+        # 检查CSS opacity:0（只检查精确零，不检查opacity:0.2等半透明值）
+        css_opacity_count = len(re.findall(r'style="[^"]*opacity:\s*0(?=[";\s])', html_content))
         if css_opacity_count > 0:
             score -= 0.5
             issues.append(f"CSS opacity:0存在: {css_opacity_count}个")
