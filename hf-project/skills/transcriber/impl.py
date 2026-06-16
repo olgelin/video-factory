@@ -60,32 +60,102 @@ def run_faster_whisper(audio_path: str) -> dict:
     return transcript
 
 
-def generate_srt(transcript: dict, output_path: str):
-    """生成SRT字幕文件"""
-    segments = transcript.get("segments", [])
+def _format_srt_time(seconds: float) -> str:
+    """格式化SRT时间戳"""
+    h, r = divmod(seconds, 3600)
+    m, s = divmod(r, 60)
+    return f"{int(h):02d}:{int(m):02d}:{s:06.3f}"
 
-    srt_content = ""
-    for i, seg in enumerate(segments):
+
+def generate_srt(transcript: dict, output_path: str, max_chars: int = 18, max_duration: float = 4.0):
+    """生成SRT字幕文件
+    
+    关键改进：
+    1. 长文本拆分为每行最多max_chars字
+    2. 每条字幕最多max_duration秒
+    3. 确保时间线连续无缺口
+    """
+    segments = transcript.get("segments", [])
+    
+    # 第一步：拆分长segment为短条目
+    entries = []
+    for seg in segments:
         start = seg.get("start", 0)
         end = seg.get("end", 0)
         text = seg.get("text", "").strip()
-
         if not text:
             continue
-
-        start_h, start_r = divmod(start, 3600)
-        start_m, start_s = divmod(start_r, 60)
-        end_h, end_r = divmod(end, 3600)
-        end_m, end_s = divmod(end_r, 60)
-
+        
+        dur = end - start
+        if dur <= 0:
+            continue
+        
+        # 如果文本短且时长合理，直接使用
+        if len(text) <= max_chars and dur <= max_duration:
+            entries.append({"start": start, "end": end, "text": text})
+            continue
+        
+        # 拆分长文本：按max_chars分段
+        chunks = []
+        while text:
+            if len(text) <= max_chars:
+                chunks.append(text)
+                break
+            # 找最近的标点或空格断行
+            cut = max_chars
+            for punct in "，。、；！？,.;!? ":
+                idx = text[:max_chars].rfind(punct)
+                if idx > max_chars // 2:
+                    cut = idx + 1
+                    break
+            chunks.append(text[:cut].strip())
+            text = text[cut:].strip()
+        
+        if not chunks:
+            continue
+        
+        # 按字数比例分配时间
+        total_chars = sum(len(c) for c in chunks)
+        current_start = start
+        for chunk in chunks:
+            chunk_dur = dur * len(chunk) / total_chars if total_chars > 0 else dur / len(chunks)
+            chunk_dur = max(chunk_dur, 0.5)  # 最少0.5秒
+            current_end = min(current_start + chunk_dur, end)
+            entries.append({"start": current_start, "end": current_end, "text": chunk})
+            current_start = current_end
+    
+    if not entries:
+        print(f"  ⚠️ [transcriber] 无有效字幕条目")
+        return
+    
+    # 第二步：修复时间线（填补缺口，消除重叠）
+    entries.sort(key=lambda e: e["start"])
+    for i in range(len(entries)):
+        # 与前一条对齐（填补缺口）
+        if i > 0:
+            gap = entries[i]["start"] - entries[i-1]["end"]
+            if 0 < gap < 2.0:
+                # 小缺口：延伸前一条的结束时间
+                entries[i-1]["end"] = entries[i]["start"]
+            elif gap < 0:
+                # 重叠：截断前一条
+                entries[i-1]["end"] = entries[i]["start"]
+        
+        # 限制单条时长
+        if entries[i]["end"] - entries[i]["start"] > max_duration:
+            entries[i]["end"] = entries[i]["start"] + max_duration
+    
+    # 第三步：生成SRT
+    srt_content = ""
+    for i, entry in enumerate(entries):
         srt_content += f"{i+1}\n"
-        srt_content += f"{int(start_h):02d}:{int(start_m):02d}:{start_s:06.3f} --> {int(end_h):02d}:{int(end_m):02d}:{end_s:06.3f}\n"
-        srt_content += f"{text}\n\n"
-
+        srt_content += f"{_format_srt_time(entry['start'])} --> {_format_srt_time(entry['end'])}\n"
+        srt_content += f"{entry['text']}\n\n"
+    
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(srt_content)
-
-    print(f"  [transcriber] SRT已保存: {output_path}")
+    
+    print(f"  [transcriber] SRT已保存: {output_path} ({len(entries)} 条)")
 
 
 def run(context: dict) -> dict:
