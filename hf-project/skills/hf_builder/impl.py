@@ -376,7 +376,7 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
 
     # 6. 移除禁止项
     html = re.sub(r'gsap\.utils\.random\([^)]*\)', '50', html)
-    html = re.sub(r'repeat:\s*-1', 'repeat: 0', html)
+    # repeat:-1 保留！呼吸动画需要无限重复（SCENE_PROMPT明确要求）
     html = re.sub(r'Math\.random\(\)', '0.5', html)
     html = re.sub(r'Math\.random\(\)\s*\*\s*(\d+)', r'Math.floor(\1/2)', html)
 
@@ -510,7 +510,7 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
 
     # 15. 最终安全网：合并同一元素上的重复 style 属性
     html = re.sub(
-        r'(style="[^"]*")\\s+(style="[^"]*")',
+        r'(style="[^"]*")\s+(style="[^"]*")',
         lambda m: m.group(1).rstrip('"') + '; ' + m.group(2).lstrip('style="'),
         html
     )
@@ -1042,23 +1042,9 @@ def run(context: dict) -> dict:
         f.write(index_html)
     print(f"[hf_builder] index.html: {len(index_html)} chars")
 
-    # Render
-    import shutil
-    hf_cmd = shutil.which("hyperframes")
-    output_path = hf_dir / "rendered.mp4"
-    try:
-        result = subprocess.run(
-            [hf_cmd, "render", str(hf_dir), "--output", str(output_path)],
-            cwd=str(hf_dir), capture_output=True, text=True, timeout=600
-        )
-        if result.returncode == 0:
-            context["rendered_video"] = str(output_path)
-            print(f"[hf_builder] ✅ {output_path}")
-        else:
-            print(f"[hf_builder] ❌ {result.stderr[:500]}")
-    except Exception as e:
-        print(f"[hf_builder] Exception: {e}")
-
+    # 渲染由video_renderer统一负责，hf_builder只生成HTML
+    context["hf_project_dir"] = str(hf_dir)
+    context["compositions_dir"] = str(compositions_dir)
     return context
 
 

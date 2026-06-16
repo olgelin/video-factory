@@ -69,6 +69,7 @@ CRITICAL_CHECKS = {
     "voice_gen": lambda ctx: (OUTPUT_DIR / "step05_voice.wav").exists(),
     "hf_builder": lambda ctx: (HF_PROJECT / "hf_render_project" / "compositions").exists() and any((HF_PROJECT / "hf_render_project" / "compositions").glob("beat-*.html")),
     "video_renderer": lambda ctx: (OUTPUT_DIR / "step10_video.mp4").exists(),
+    "audio_mixer": lambda ctx: (OUTPUT_DIR / "step11_final.mp4").exists(),
 }
 
 def run_step(skill_name: str, context: dict, step_num: int) -> dict:
@@ -262,8 +263,8 @@ def main():
         (5, "voice_gen", "配音生成"),
         (6, "transcriber", "语音识别"),
         (7, "bgm_generator", "BGM生成"),
-        (8, "storyboard", "分镜设计"),
-        (9, "design_system", "设计系统"),
+        (8, "design_system", "设计系统"),
+        (9, "storyboard", "分镜设计"),
         (10, "hf_builder", "HTML构建"),
         (11, "video_renderer", "视频渲染"),
         (12, "audio_mixer", "音频混合"),

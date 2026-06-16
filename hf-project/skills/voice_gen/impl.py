@@ -106,10 +106,11 @@ def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0,
     return output_path, duration
 
 
-def apply_speed(input_path: str, output_path: str, speed: float = 1.15) -> float:
-    """使用FFmpeg atempo调整速度"""
+def apply_speed(input_path: str, output_path: str, speed: float = 1.15) -> tuple:
+    """使用FFmpeg atempo调整速度，统一返回 (path, duration)"""
     if speed == 1.0:
-        return input_path
+        data, sr = sf.read(input_path)
+        return input_path, len(data) / sr
 
     result = subprocess.run([
         'ffmpeg', '-y', '-i', input_path,
@@ -119,7 +120,8 @@ def apply_speed(input_path: str, output_path: str, speed: float = 1.15) -> float
 
     if result.returncode != 0:
         print(f"  [voice-gen] FFmpeg atempo failed: {result.stderr[-200:]}")
-        return input_path
+        data, sr = sf.read(input_path)
+        return input_path, len(data) / sr
 
     # 获取新时长
     data, sr = sf.read(output_path)
@@ -208,24 +210,7 @@ def run(context: dict) -> dict:
     else:
         shutil.copy(voice_files[0]["file"], str(VOICE_PATH))
 
-    # 音量均衡（loudnorm）— 合并后、加速前
-    print(f"  [voice-gen] 音量均衡 (loudnorm)...")
-    tmp_norm = str(VOICE_PATH) + ".norm.wav"
-    norm_cmd = (
-        f'ffmpeg -y -i "{str(VOICE_PATH)}" '
-        f'-af "loudnorm=I=-16:TP=-1.5:LRA=11" '
-        f'"{tmp_norm}"'
-    )
-    import subprocess
-    try:
-        subprocess.run(norm_cmd, shell=True, capture_output=True, text=True, timeout=120, check=True)
-        os.unlink(str(VOICE_PATH))
-        os.rename(tmp_norm, str(VOICE_PATH))
-        print(f"  [voice-gen] ✅ 音量均衡完成")
-    except Exception as e:
-        print(f"  ⚠️ [voice-gen] loudnorm失败: {e}，继续")
-        if os.path.exists(tmp_norm):
-            os.unlink(tmp_norm)
+    # loudnorm由audio_mixer统一处理，避免双重均衡导致音质劣化
 
     # 应用速度调整
     if speed != 1.0:
