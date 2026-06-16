@@ -231,6 +231,12 @@ def run(context: dict) -> dict:
     dur_strs = [f"{d['duration']}s" for d in scene_durations]
     print(f"  [voice-gen] 各场景时长: {dur_strs}")
 
+    # 持久化到文件（供后续partial run使用）
+    vsd_path = OUTPUT_DIR / "voice_scene_durations.json"
+    with open(vsd_path, "w", encoding="utf-8") as f:
+        json.dump(scene_durations, f, ensure_ascii=False, indent=2)
+    print(f"  [voice-gen] 场景时长已保存: {vsd_path}")
+
     # 清理临时文件
     for vf in voice_files:
         try:

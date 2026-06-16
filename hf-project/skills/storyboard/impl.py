@@ -455,6 +455,13 @@ def run(context: dict) -> dict:
     
     # 用实际配音时长校准场景时长（如果可用）
     voice_scene_durs = context.get("voice_scene_durations", [])
+    # 如果context中没有，尝试从文件加载
+    if not voice_scene_durs:
+        vsd_path = OUTPUT_DIR / "voice_scene_durations.json"
+        if vsd_path.exists():
+            with open(vsd_path, "r", encoding="utf-8") as f:
+                voice_scene_durs = json.load(f)
+            print(f"  [storyboard] 从文件加载配音时长: {vsd_path}")
     if voice_scene_durs and len(voice_scene_durs) == len(storyboard):
         print(f"  [storyboard] 用实际配音时长校准 {len(storyboard)} 个场景...")
         cumulative = 0.0
