@@ -206,7 +206,7 @@ def main():
     print(f"输出: {OUTPUT_DIR}")
     print(f"{'='*60}")
     
-    # 初始化context
+    # 初始化context（如果有已保存的context，先加载以保留前序步骤的数据）
     context = {
         "topic": args.topic,
         "output_dir": str(OUTPUT_DIR),
@@ -215,6 +215,20 @@ def main():
         "bgm_path": str(OUTPUT_DIR / "bgm.wav"),
         "video_path": str(OUTPUT_DIR / "step10_video.mp4"),
     }
+    
+    # 加载已保存的context（保留前序步骤的数据，如voice_scene_durations）
+    saved_context_path = OUTPUT_DIR / "pipeline_context.json"
+    if saved_context_path.exists():
+        try:
+            with open(saved_context_path, "r", encoding="utf-8") as f:
+                saved_ctx = json.load(f)
+            # 合并：已保存的数据不覆盖显式设置的值
+            for k, v in saved_ctx.items():
+                if k not in context:
+                    context[k] = v
+            print(f"  [context] 已加载保存的context ({len(saved_ctx)} keys)")
+        except Exception as e:
+            print(f"  ⚠️ [context] 加载失败: {e}")
     
     # 确保输出目录存在
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -312,9 +326,12 @@ def main():
     try:
         from generate_metadata import generate_metadata
         metadata = generate_metadata(context)
-        print(f"  📋 元数据: {OUTPUT_DIR / "metadata.json"}")
-        print(f"  📝 标题: {metadata["title"]}")
-        print(f"  🏷️ 标签: {" ".join(metadata["hashtags"])}")
+        meta_path = OUTPUT_DIR / "metadata.json"
+        print(f"  📋 元数据: {meta_path}")
+        title = metadata["title"]
+        tags = " ".join(metadata["hashtags"])
+        print(f"  📝 标题: {title}")
+        print(f"  🏷️ 标签: {tags}")
     except Exception as e:
         print(f"  ⚠️ 元数据生成失败: {e}")
     print(f"\n{'='*60}")
