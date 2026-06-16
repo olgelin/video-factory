@@ -66,12 +66,12 @@ class QualityTracker:
             score -= 0.2
             issues.append(f"段落不足: {len(sections)} < 6")
         
-        # 检查风格符合
+        # 检查风格符合（深度学者风：隐喻/反差/独立思考）
         full_text = " ".join([s.get("content", "") for s in sections])
-        style_markers = ["你品", "说白了", "真相是", "细品", "别被忽悠了"]
-        if not any(marker in full_text for marker in style_markers):
-            score -= 0.3
-            issues.append("风格不符合：缺少标志性表达")
+        depth_markers = ["不是", "意味着", "本质", "底层", "真正", "反而", "恰恰", "其实", "背后", "表面上"]
+        if not any(marker in full_text for marker in depth_markers):
+            score -= 0.2
+            issues.append("深度不足：缺少分析性表达")
         
         # 检查字数
         total_chars = len(full_text)
