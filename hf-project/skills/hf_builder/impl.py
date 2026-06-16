@@ -541,7 +541,8 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
                 break
 
         if not is_decorative:
-            attrs = re.sub(r'opacity:\s*0\.?\d*', 'opacity:1', attrs)
+            # 只替换 opacity:0（精确零），保留 opacity:0.5 等有意义的半透明
+            attrs = re.sub(r'opacity:\s*0(?:\.0+)?(?=[;\s"])', 'opacity:1', attrs)
 
         return f'<{tag_name}{attrs}>'
 
@@ -555,7 +556,8 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     # 移除<style>块中的opacity:0规则
     def fix_style_block(match):
         style_content = match.group(1)
-        style_content = re.sub(r'opacity:\s*0\.?\d*\s*;?', 'opacity:1;', style_content)
+        # 只替换 opacity:0（精确零），保留 opacity:0.05 等半透明值
+        style_content = re.sub(r'opacity:\s*0(?:\.0+)?\s*;?', 'opacity:1;', style_content)
         return f'<style>{style_content}</style>'
 
     html = re.sub(r'<style>(.*?)</style>', fix_style_block, html, flags=re.DOTALL)
@@ -566,7 +568,8 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
         gsap_blocks.append(m.group(0))
         return f'__GSAP_BLOCK_{len(gsap_blocks)-1}__'
     html = re.sub(r'<script[^>]*>.*?</script>', save_gsap, html, flags=re.DOTALL)
-    html = re.sub(r'(style="[^"]*?)opacity:\s*0\.?\d*([^"]*?")', r'opacity:1', html)
+    # 只替换 opacity:0（精确零），保留装饰层半透明值如 opacity:0.05
+    html = re.sub(r'(style="[^"]*?)opacity:\s*0(?:\.0+)?((?:;[^"]*?|[^"]*?)")', r'\1opacity:1\2', html)
     for i, block in enumerate(gsap_blocks):
         html = html.replace(f'__GSAP_BLOCK_{i}__', block)
 

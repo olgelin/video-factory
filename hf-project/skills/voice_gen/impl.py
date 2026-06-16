@@ -208,6 +208,25 @@ def run(context: dict) -> dict:
     else:
         shutil.copy(voice_files[0]["file"], str(VOICE_PATH))
 
+    # 音量均衡（loudnorm）— 合并后、加速前
+    print(f"  [voice-gen] 音量均衡 (loudnorm)...")
+    tmp_norm = str(VOICE_PATH) + ".norm.wav"
+    norm_cmd = (
+        f'ffmpeg -y -i "{str(VOICE_PATH)}" '
+        f'-af "loudnorm=I=-16:TP=-1.5:LRA=11" '
+        f'"{tmp_norm}"'
+    )
+    import subprocess
+    try:
+        subprocess.run(norm_cmd, shell=True, capture_output=True, text=True, timeout=120, check=True)
+        os.unlink(str(VOICE_PATH))
+        os.rename(tmp_norm, str(VOICE_PATH))
+        print(f"  [voice-gen] ✅ 音量均衡完成")
+    except Exception as e:
+        print(f"  ⚠️ [voice-gen] loudnorm失败: {e}，继续")
+        if os.path.exists(tmp_norm):
+            os.unlink(tmp_norm)
+
     # 应用速度调整
     if speed != 1.0:
         print(f"  [voice-gen] 应用速度调整: {speed}x")
