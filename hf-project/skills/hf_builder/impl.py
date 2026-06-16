@@ -390,6 +390,11 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     html = re.sub(r'Math\.random\(\)', '0.5', html)
     html = re.sub(r'Math\.random\(\)\s*\*\s*(\d+)', r'Math.floor(\1/2)', html)
 
+    # 6c. 修复 LLM 把 repeat:-1 "纠正"为 repeat:0 的问题
+    # 有 yoyo:true 的动画应该是无限循环的呼吸动画
+    html = re.sub(r'repeat:\s*0\s*,\s*yoyo:\s*true', 'repeat: -1, yoyo: true', html)
+    html = re.sub(r'repeat:\s*0\s*,\s*yoyo:\s*True', 'repeat: -1, yoyo: true', html)
+
     # 6b. CSS animation infinite → finite（避免 HF 渲染卡住）
     html = re.sub(r'animation-iteration-count:\s*infinite', 'animation-iteration-count: 3', html)
     html = re.sub(r'animation:\s*([^;{}]*?)\s+infinite', r'animation: \1 3', html)
