@@ -126,7 +126,7 @@ def call_single_llm(
     system_prompt: str = "",
     config: dict = None,
     max_tokens: int = 4000,
-    timeout: int = 120,
+    timeout: int = 300,
 ) -> Optional[str]:
     """调用单个LLM"""
     if config is None:
@@ -198,7 +198,7 @@ def call_llm(
     prompt: str,
     system_prompt: str = "",
     max_tokens: int = 4000,
-    timeout: int = 120,
+    timeout: int = 300,
 ) -> str:
     """
     通用LLM调用，带内容过滤处理

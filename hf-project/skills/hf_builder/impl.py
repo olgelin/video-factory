@@ -854,7 +854,7 @@ def validate_scene_html(html: str, scene: dict) -> bool:
     # 提取关键信息
     narration = scene.get("narration", "")[:100]
     key_elements = scene.get("key_elements", [])
-    key_text = ", ".join(key_elements[:3]) if key_elements else ""
+    key_text = ", ".join(str(e) for e in key_elements[:3]) if key_elements else ""
     
     prompt = f"""检查这个HTML场景是否有实质内容。
 
