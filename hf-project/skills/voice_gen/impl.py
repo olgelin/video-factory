@@ -159,7 +159,7 @@ def run(context: dict) -> dict:
     # 参数
     cfg = context.get("voice_cfg", 2.0)
     steps = context.get("voice_steps", 15)
-    speed = context.get("voice_speed", 1.0)
+    speed = context.get("voice_speed", 1.2)
 
     print(f"  [voice-gen] 参考音频: {ref_wav}")
     print(f"  [voice-gen] 参数: cfg={cfg}, steps={steps}, speed={speed}x")
