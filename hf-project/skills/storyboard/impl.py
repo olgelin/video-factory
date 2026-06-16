@@ -302,7 +302,7 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
         for i, ts in enumerate(matched_timestamps):
             timing_summary += "\n  段落" + str(i+1) + ": " + str(round(ts.get("start", 0), 1)) + "s - " + str(round(ts.get("end", 0), 1)) + "s"
 
-    prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落:\n" + sections_summary + timing_summary + scene_guidance + "\n\n请为每个段落设计视觉方案。输出JSON数组，每个元素包含：scene_id, visual_type, concept, key_elements。"
+    prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落:\n" + sections_summary + timing_summary + scene_guidance + "\n\n请为每个段落设计视觉方案。输出JSON数组，每个元素必须包含以下全部9个字段：scene_id, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组)。**不要省略任何字段**。"
 
     # 调用LLM
     llm_response = call_llm(prompt, system_prompt, max_tokens=8000)

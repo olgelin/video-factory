@@ -46,6 +46,12 @@ def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
     return run_ffmpeg(cmd, timeout=180)
 
 
+CRITICAL_CHECKS = {
+    "voice_path": "step05_voice.wav",
+    "video_path": "step10_video.mp4",
+}
+
+
 def run(context: dict) -> dict:
     """主入口：音频混合"""
 
@@ -63,12 +69,10 @@ def run(context: dict) -> dict:
 
     # 检查文件
     if not os.path.exists(video_path):
-        print(f"  ❌ [audio-mixer] 视频不存在: {video_path}")
-        return context
+        raise FileNotFoundError(f"[audio-mixer] CRITICAL: 视频不存在: {video_path}")
 
     if not os.path.exists(voice_path):
-        print(f"  ❌ [audio-mixer] 配音不存在: {voice_path}")
-        return context
+        raise FileNotFoundError(f"[audio-mixer] CRITICAL: 配音不存在: {voice_path}")
 
     # 创建输出目录
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

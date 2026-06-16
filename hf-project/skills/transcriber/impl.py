@@ -64,7 +64,7 @@ def _format_srt_time(seconds: float) -> str:
     """格式化SRT时间戳"""
     h, r = divmod(seconds, 3600)
     m, s = divmod(r, 60)
-    return f"{int(h):02d}:{int(m):02d}:{s:06.3f}"
+    return f"{int(h):02d}:{int(m):02d}:{s:06.3f}".replace(".", ",")
 
 
 def generate_srt(transcript: dict, output_path: str, max_chars: int = 18, max_duration: float = 4.0):

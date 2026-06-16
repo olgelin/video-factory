@@ -21,8 +21,8 @@ VF_API_KEY=os.environ.get("VF_API_KEY") or os.environ.get("XIAOMI_API_KEY") or "
 # 同步到环境变量，让call_single_llm能读到
 if VF_API_KEY:
     os.environ["VF_API_KEY"] = VF_API_KEY
-VF_BASE_URL = os.environ.get("VF_BASE_URL", "https://token-plan-cn.xiaomimimo.com/v1")
-VF_MODEL = os.environ.get("VF_MODEL", "mimo-v2.5-pro")
+VF_BASE_URL = os.environ.get("VF_BASE_URL") or "https://token-plan-cn.xiaomimimo.com/v1"
+VF_MODEL = os.environ.get("VF_MODEL") or "mimo-v2.5-pro"
 
 LLM_CONFIGS = [
     {

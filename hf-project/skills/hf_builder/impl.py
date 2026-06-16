@@ -206,7 +206,12 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
     anim_text = ", ".join(f"{k}={v}" for k, v in animations.items()) if animations else ""
 
     key_elements = scene.get("key_elements", [])
-    elems_text = ", ".join(str(e) for e in key_elements[:8])
+    if isinstance(key_elements, dict):
+        elems_text = ", ".join(f"{k}={v}" for k, v in list(key_elements.items())[:8])
+    elif isinstance(key_elements, list):
+        elems_text = ", ".join(str(e) for e in key_elements[:8])
+    else:
+        elems_text = str(key_elements)
 
     prompt = SCENE_PROMPT.format(
         design_md=design_md[:1000],
@@ -554,7 +559,7 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     # 15. 最终安全网：合并同一元素上的重复 style 属性
     html = re.sub(
         r'(style="[^"]*")\s+(style="[^"]*")',
-        lambda m: m.group(1).rstrip('"') + '; ' + m.group(2).lstrip('style="'),
+        lambda m: m.group(1).rstrip('"') + '; ' + m.group(2)[7:-1] if m.group(2).startswith('style="') and m.group(2).endswith('"') else m.group(1) + ' ' + m.group(2),
         html
     )
 
