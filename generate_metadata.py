@@ -6,7 +6,6 @@ import json
 import re
 from pathlib import Path
 from datetime import datetime
-from collections import Counter
 
 OUTPUT_DIR = Path(__file__).parent / "hf-project" / "output"
 
@@ -29,54 +28,54 @@ def generate_metadata(context: dict) -> dict:
     # 生成标题 — 不截断，保留完整主题
     title = topic if topic else "AI热点速递"
 
-    # 从内容提取关键词作为标签
-    all_text = " ".join(
-        s.get("content", "") or s.get("voiceover", "") for s in sections
-    )
-    keywords = []
-    # 提取英文关键词（项目名、公司名）
-    eng_words = re.findall(r"[A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*", all_text)
-    keywords.extend(eng_words[:5])
-    # 提取中文高频词 — 扩充停用词表，排除口播词
-    cn_words = re.findall(r"[\u4e00-\u9fff]{2,4}", all_text)
-    stop_words = {
-        "这个", "那个", "就是", "可以", "已经", "不是", "什么", "一个",
-        "我们", "他们", "你们", "这些", "那些", "但是", "而且", "因为",
-        "所以", "如果", "现在", "其实", "非常", "真的", "一下", "一下",
-        "说白了", "来看", "来看", "告诉", "知道", "觉得", "还是", "就是",
-        "怎么", "为什么", "多少", "几个", "然后", "接着", "首先", "其次",
-        "最后", "总之", "简单", "直接", "开始", "结束", "时候", "之间",
-        "上面", "下面", "前面", "后面", "左边", "右边", "里面", "外面",
-        "今天", "昨天", "明天", "今年", "去年", "明年", "最近", "目前",
-        "以前", "以后", "刚才", "刚刚", "马上", "立刻", "突然", "忽然",
-        "可能", "也许", "大概", "或许", "肯定", "一定", "必须", "需要",
-        "应该", "能够", "可以", "愿意", "想要", "打算", "准备", "计划",
-        "开始", "继续", "停止", "结束", "完成", "成功", "失败", "错误",
-        "问题", "答案", "方法", "方式", "情况", "状态", "结果", "效果",
-        "原因", "理由", "目的", "目标", "计划", "方案", "策略", "措施",
-    }
-    common = [
-        w for w, c in Counter(cn_words).most_common(30)
-        if len(w) >= 2 and w not in stop_words
-    ]
-    keywords.extend(common[:5])
-    # 去重
-    seen = set()
-    unique_keywords = []
-    for k in keywords:
-        if k.lower() not in seen:
-            seen.add(k.lower())
-            unique_keywords.append(k)
-    hashtags = [f"#{k}" for k in unique_keywords[:6]]
+    # 从topic提取关键词作为标签（用LLM生成，精准高效）
+    hashtags = []
+    if topic:
+        try:
+            import sys
+            sys.path.insert(0, str(Path(__file__).parent / "hf-project"))
+            from llm_utils import call_llm
+            tag_prompt = f"""为以下短视频话题生成6个精准的中文标签（带#号），要求：
+- 每个标签2-4个字
+- 包含核心实体（人名/公司名/产品名/行业术语）
+- 不要废话，直接输出JSON数组
 
-    # 生成描述
+话题：{topic}
+
+输出格式：["#标签1","#标签2",...]"""
+            tag_response = call_llm(tag_prompt, max_tokens=200)
+            if tag_response:
+                # 清理并解析JSON
+                cleaned = tag_response.strip()
+                if cleaned.startswith('['):
+                    tags = __import__('json').loads(cleaned)
+                    hashtags = [t if t.startswith('#') else f'#{t}' for t in tags[:6]]
+        except Exception:
+            pass
+    # fallback: 如果LLM失败，用简单正则
+    if not hashtags and topic:
+        # 提取英文
+        eng = re.findall(r'[A-Za-z][\w.-]+', topic)[:2]
+        # 提取中文：用标点拆分后每段取前2-3字
+        cn_only = re.sub(r'[A-Za-z0-9]+', '', topic)
+        parts = re.split(r'[：:、，,；!！?？\-—\d年月日\s]+', cn_only)
+        cn = []
+        for p in parts:
+            p = p.strip()
+            if len(p) >= 2 and not re.match(r'^[与的和在为及或从把被让将已还没也不就才刚只每]', p):
+                cn.append(p[:3] if len(p) > 3 else p)
+        keywords = eng + cn[:4]
+        hashtags = [f"#{k}" for k in dict.fromkeys(keywords)][:6]
+
+    # 生成描述 — hook风格，前3句口播精华
     date_str = datetime.now().strftime("%Y年%m月%d日")
-    desc_lines = [
-        s.get("content", "") or s.get("voiceover", "") for s in sections[:3]
-    ]
-    description = (
-        f"{date_str}热点速递 | " + " ".join(desc_lines)[:200] + "..."
-    )
+    desc_lines = []
+    for s in sections[:3]:
+        text = s.get("content", "") or s.get("voiceover", "")
+        if text:
+            desc_lines.append(text[:80])
+    hook = " | ".join(desc_lines) if desc_lines else topic
+    description = f"{date_str}热点速递 | {hook}..."
 
     metadata = {
         "title": title,
