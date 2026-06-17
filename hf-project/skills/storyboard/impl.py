@@ -278,12 +278,17 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
   核心主题: {talking_point}
 """
 
-    # 添加时间戳信息
+    # 添加时间戳信息（汇总为段落级时间范围，而非逐segment列出）
     timing_text = ""
     if transcript_data:
-        timing_text = "\n\n时间戳信息（从WhisperX转录）:\n"
-        for i, seg in enumerate(transcript_data.get("segments", [])):
-            timing_text += f"  段落{i+1}: {seg.get('start', 0):.1f}s - {seg.get('end', 0):.1f}s\n"
+        segs = transcript_data.get("segments", [])
+        if segs:
+            timing_text = f"\n\n配音总时长: {segs[-1].get('end', 0):.1f}s，共{len(segs)}个语音片段"
+            # 只列出前3个和最后1个segment的时间范围作为参考
+            timing_text += f"\n  起始: {segs[0].get('start', 0):.1f}s - {segs[0].get('end', 0):.1f}s"
+            if len(segs) > 3:
+                timing_text += f"\n  ... (省略{len(segs)-3}个片段)"
+            timing_text += f"\n  结束: {segs[-1].get('start', 0):.1f}s - {segs[-1].get('end', 0):.1f}s"
 
     # 限制prompt长度，避免超时
     design_summary = design_md[:1500] if len(design_md) > 1500 else design_md
@@ -502,7 +507,18 @@ def run(context: dict) -> dict:
             scene["end_time"] = round(cumulative, 2)
         print(f"  [storyboard] 校准完成: 总时长 {cumulative:.1f}s")
     elif voice_scene_durs:
-        print(f"  ⚠️ [storyboard] 配音场景数({len(voice_scene_durs)}) != 分镜数({len(storyboard)})，跳过校准")
+        # 场景数不匹配时按比例分配总时长
+        total_voice_dur = sum(d["duration"] for d in voice_scene_durs)
+        n_scenes = len(storyboard)
+        if total_voice_dur > 0 and n_scenes > 0:
+            avg_dur = total_voice_dur / n_scenes
+            cumulative = 0.0
+            for i, scene in enumerate(storyboard):
+                scene["duration"] = round(avg_dur, 2)
+                scene["start_time"] = round(cumulative, 2)
+                cumulative += avg_dur
+                scene["end_time"] = round(cumulative, 2)
+            print(f"  ⚠️ [storyboard] 配音场景数({len(voice_scene_durs)}) != 分镜数({n_scenes})，按比例分配: 每场景{avg_dur:.1f}s")
 
     # 保存
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

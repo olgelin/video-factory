@@ -39,6 +39,7 @@ SKILLS_DIR = HF_PROJECT / "skills"
 OUTPUT_DIR = HF_PROJECT / "output"
 FEEDBACK_DIR = WORKSPACE / "feedback_system"
 
+sys.path.insert(0, str(WORKSPACE))
 sys.path.insert(0, str(WORKSPACE / "src"))
 sys.path.insert(0, str(FEEDBACK_DIR))
 
@@ -197,7 +198,20 @@ def main():
         return
     
     # 解析步骤范围
-    start_step, end_step = map(int, args.steps.split("-"))
+    try:
+        parts = args.steps.split("-")
+        if len(parts) == 1:
+            start_step = end_step = int(parts[0])
+        elif len(parts) == 2:
+            start_step, end_step = int(parts[0]), int(parts[1])
+        else:
+            raise ValueError
+        if not (1 <= start_step <= end_step <= 12):
+            print(f"  ❌ 步骤范围必须在1-12之间: {args.steps}")
+            sys.exit(1)
+    except (ValueError, IndexError):
+        print(f"  ❌ --steps格式错误: {args.steps}，应为 N 或 N-M (如 1-12)")
+        sys.exit(1)
     
     # 反馈系统开关
     global FEEDBACK_ENABLED

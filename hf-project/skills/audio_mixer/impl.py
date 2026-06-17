@@ -82,10 +82,10 @@ def run(context: dict) -> dict:
         print(f"  ⚠️ [audio-mixer] BGM不存在，只用配音")
 
         # 合并视频+配音
-        cmd = f"""ffmpeg -y -i {video_path} -i {voice_path} \
+        cmd = f"""ffmpeg -y -i "{video_path}" -i "{voice_path}" \
             -c:v copy -c:a aac -b:a 128k \
             -map 0:v:0 -map 1:a:0 \
-            {MIXED_PATH}"""
+            "{MIXED_PATH}" """
 
         if run_ffmpeg(cmd):
             context["mixed_path"] = str(MIXED_PATH)
@@ -98,9 +98,9 @@ def run(context: dict) -> dict:
 
         # 先对配音做音量均衡（loudnorm）
         normalized_voice = OUTPUT_DIR / "normalized_voice.wav"
-        cmd = f"""ffmpeg -y -i {voice_path} \
+        cmd = f"""ffmpeg -y -i "{voice_path}" \
             -af "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=summary" \
-            -ar 48000 {normalized_voice}"""
+            -ar 48000 "{normalized_voice}" """
         
         if run_ffmpeg(cmd):
             print(f"  [audio-mixer] ✅ 配音音量均衡完成")
@@ -111,19 +111,19 @@ def run(context: dict) -> dict:
 
         # 混合音频：配音1.5倍，BGM 0.2倍
         mixed_audio = OUTPUT_DIR / "mixed_audio.wav"
-        cmd = f"""ffmpeg -y -i {voice_for_mix} -i {bgm_path} \
+        cmd = f"""ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" \
             -filter_complex "[0:a]volume=1.5[voice];[1:a]volume=0.2[bgm];[voice][bgm]amix=inputs=2:duration=first[out]" \
-            -map "[out]" {mixed_audio}"""
+            -map "[out]" "{mixed_audio}" """
 
         if not run_ffmpeg(cmd):
             print(f"  ❌ [audio-mixer] 音频混合失败")
             return context
 
         # 再合并视频+混合音频
-        cmd = f"""ffmpeg -y -i {video_path} -i {mixed_audio} \
+        cmd = f"""ffmpeg -y -i "{video_path}" -i "{mixed_audio}" \
             -c:v copy -c:a aac -b:a 128k \
             -map 0:v:0 -map 1:a:0 \
-            {MIXED_PATH}"""
+            "{MIXED_PATH}" """
 
         if run_ffmpeg(cmd):
             context["mixed_path"] = str(MIXED_PATH)

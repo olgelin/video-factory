@@ -63,8 +63,7 @@ _NUMBER_WORDS_RAW = {
     '100000': '十万', '50000': '五万', '20000': '两万',
     '10000': '一万',
     '8000': '八千', '5000': '五千', '3000': '三千', '2000': '两千',
-    '1000': '一千',
-    '100': '一百',
+    '1000': '一千', '100': '一百',
 }
 NUMBER_WORDS = dict(sorted(_NUMBER_WORDS_RAW.items(), key=lambda x: -len(x[0])))
 
@@ -97,9 +96,11 @@ def preprocess_numbers(text: str) -> str:
 def preprocess_text(text: str) -> str:
     """预处理配音文本"""
     text = preprocess_numbers(text)
-    text = text.replace('，', '，').replace('。', '。')
-    text = text.replace('！', '！').replace('？', '？')
-    text = text.replace('：', '：').replace('；', '；')
+    # 半角标点转全角（中文TTS标准）
+    punct_map = {',': '，', '.': '。', '!': '！', '?': '？',
+                 ':': '：', ';': '；', '(': '（', ')': '）'}
+    for half, full in punct_map.items():
+        text = text.replace(half, full)
     text = re.sub(r'\s+', ' ', text).strip()
 
     return text
