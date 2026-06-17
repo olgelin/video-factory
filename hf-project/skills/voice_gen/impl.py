@@ -197,7 +197,18 @@ def run(context: dict) -> dict:
         print(f"  ❌ [voice-gen] 所有段落生成失败")
         return context
 
-    # 合并所有段落
+    # 逐段加速 + 实测时长（避免合并后数学近似导致音画不同步）
+    if speed != 1.0:
+        print(f"  [voice-gen] 逐段加速: {speed}x")
+        for vf in voice_files:
+            speed_path = vf["file"].replace(".wav", "_speed.wav")
+            result, actual_dur = apply_speed(vf["file"], speed_path, speed)
+            if result != vf["file"]:
+                os.unlink(vf["file"])
+                os.rename(speed_path, vf["file"])
+                vf["duration"] = actual_dur  # 实测时长
+
+    # 合并所有段落（已经是加速后的音频）
     if len(voice_files) > 1:
         print(f"  [voice-gen] 合并 {len(voice_files)} 个段落...")
         parts = []
@@ -206,31 +217,18 @@ def run(context: dict) -> dict:
             parts.append(data)
         combined = np.concatenate(parts)
         sf.write(str(VOICE_PATH), combined, sr)
+        total_duration = sum(vf["duration"] for vf in voice_files)
         print(f"  [voice-gen] 合并完成: {total_duration:.1f}s")
     else:
         shutil.copy(voice_files[0]["file"], str(VOICE_PATH))
+        total_duration = voice_files[0]["duration"]
 
     # loudnorm由audio_mixer统一处理，避免双重均衡导致音质劣化
 
-    # 应用速度调整
-    if speed != 1.0:
-        print(f"  [voice-gen] 应用速度调整: {speed}x")
-        tmp_path = str(VOICE_PATH) + ".tmp.wav"
-        result, new_dur = apply_speed(str(VOICE_PATH), tmp_path, speed)
-        if result != str(VOICE_PATH):
-            os.unlink(str(VOICE_PATH))
-            os.rename(tmp_path, str(VOICE_PATH))
-            total_duration = new_dur
-            print(f"  [voice-gen] 速度调整后: {new_dur:.1f}s")
-        else:
-            if os.path.exists(tmp_path):
-                os.unlink(tmp_path)
-
-    # 保存每个场景的配音时长（加速后）
+    # 保存每个场景的配音时长（加速后实测值）
     scene_durations = []
     for vf in voice_files:
-        adjusted_dur = round(vf["duration"] / speed, 2) if speed > 0 else round(vf["duration"], 2)
-        scene_durations.append({"text": vf["text"][:30], "duration": adjusted_dur})
+        scene_durations.append({"text": vf["text"][:30], "duration": round(vf["duration"], 2)})
     context["voice_scene_durations"] = scene_durations
     dur_strs = [f"{d['duration']}s" for d in scene_durations]
     print(f"  [voice-gen] 各场景时长: {dur_strs}")

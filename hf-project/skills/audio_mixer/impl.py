@@ -96,11 +96,26 @@ def run(context: dict) -> dict:
         # 有BGM：混合配音+BGM
         print(f"  [audio-mixer] 混合配音+BGM...")
 
-        # 先对配音做音量均衡（loudnorm）
+        # 先对配音做音量均衡（两遍loudnorm: 第一遍measure，第二遍normalize）
         normalized_voice = OUTPUT_DIR / "normalized_voice.wav"
-        cmd = f"""ffmpeg -y -i "{voice_path}" \
-            -af "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=summary" \
-            -ar 48000 "{normalized_voice}" """
+        # 第一遍：测量实际响度
+        measure_cmd = f'ffmpeg -y -i "{voice_path}" -af "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=json" -f null -'
+        measure_result = subprocess.run(measure_cmd, shell=True, capture_output=True, text=True)
+        # 从stderr中提取测量JSON
+        import re as _re, json as _json
+        json_match = _re.search(r'\{[^}]+\}', measure_result.stderr)
+        if json_match:
+            measured = _json.loads(json_match.group())
+            mi = measured.get("input_i", "-24")
+            mtp = measured.get("input_tp", "-2")
+            mlra = measured.get("input_lra", "7")
+            mt = measured.get("input_thresh", "-34")
+            mo = measured.get("target_offset", "0")
+            cmd = f'ffmpeg -y -i "{voice_path}" -af "loudnorm=I=-16:TP=-1.5:LRA=11:measured_I={mi}:measured_TP={mtp}:measured_LRA={mlra}:measured_thresh={mt}:offset={mo}:linear=true" -ar 48000 "{normalized_voice}"'
+            print(f"  [audio-mixer] 两遍loudnorm: measured I={mi} LUFS")
+        else:
+            cmd = f'ffmpeg -y -i "{voice_path}" -af "loudnorm=I=-16:TP=-1.5:LRA=11" -ar 48000 "{normalized_voice}"'
+            print(f"  [audio-mixer] loudnorm测量失败，使用单pass")
         
         if run_ffmpeg(cmd):
             print(f"  [audio-mixer] ✅ 配音音量均衡完成")
