@@ -139,12 +139,17 @@ def preprocess_text_for_tts(text: str) -> str:
     
     text = re.sub(r'(\d+(?:\.\d+)?)(亿|万千|百|[kKmMbB])', replace_number_with_unit, text)
     
-    # 3. 纯数字
+    # 3. 年份：逐位读法（2026→二零二六）
+    def replace_year(match):
+        digits = match.group(1)
+        digit_map = {"0": "零", "1": "一", "2": "二", "3": "三", "4": "四",
+                     "5": "五", "6": "六", "7": "七", "8": "八", "9": "九"}
+        return "".join(digit_map.get(d, d) for d in digits) + "年"
+    text = re.sub(r'(\d{4})年', replace_year, text)
+
+    # 4. 纯数字
     def replace_number(match):
         num = match.group(0)
-        # 避免替换年份（2024年）或电话号码
-        if len(num) == 4 and text[match.end():match.end()+1] == "年":
-            return num
         return number_to_chinese(num)
     
     text = re.sub(r'\d+(?:\.\d+)?', replace_number, text)

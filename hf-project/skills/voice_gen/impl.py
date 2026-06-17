@@ -57,7 +57,7 @@ def load_model():
     return MODEL
 
 
-def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0, steps: int = 15) -> tuple:
+def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0, steps: int = 12) -> tuple:
     """生成单个段落的配音"""
     model = load_model()
 
@@ -160,7 +160,7 @@ def run(context: dict) -> dict:
 
     # 参数
     cfg = context.get("voice_cfg", 2.0)
-    steps = context.get("voice_steps", 15)
+    steps = context.get("voice_steps", 12)
     speed = context.get("voice_speed", 1.2)
 
     print(f"  [voice-gen] 参考音频: {ref_wav}")
