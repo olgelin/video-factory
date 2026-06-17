@@ -57,13 +57,16 @@ def load_model():
     return MODEL
 
 
-def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0, steps: int = 12) -> tuple:
-    """生成单个段落的配音"""
+def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0, steps: int = 10) -> tuple:
+    """生成单个段落的配音（Hi-Fi克隆模式）"""
     model = load_model()
 
     # 预处理文本（数字→中文）
     text = preprocess_text_for_tts(text)
     print(f"    Text: {text[:50]}...")
+
+    # 参考音频的文字稿（Hi-Fi克隆需要）
+    prompt_text = "大家好 今天给大家拆解一套AI视频生成方案核心逻辑就是用双AZ的架构实现从文本到成片权"
 
     # 生成（带重试+GPU缓存清理）
     import torch
@@ -74,6 +77,8 @@ def generate_single(text: str, output_path: str, ref_wav: str, cfg: float = 2.0,
             wav = model.generate(
                 text=text,
                 reference_wav_path=ref_wav,
+                prompt_wav_path=ref_wav,
+                prompt_text=prompt_text,
                 cfg_value=cfg,
                 inference_timesteps=steps,
             )
@@ -160,7 +165,7 @@ def run(context: dict) -> dict:
 
     # 参数
     cfg = context.get("voice_cfg", 2.0)
-    steps = context.get("voice_steps", 12)
+    steps = context.get("voice_steps", 10)
     speed = context.get("voice_speed", 1.2)
 
     print(f"  [voice-gen] 参考音频: {ref_wav}")
