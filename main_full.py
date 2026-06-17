@@ -214,6 +214,38 @@ def main():
     print(f"输出: {OUTPUT_DIR}")
     print(f"{'='*60}")
     
+    # 完整运行(从step1开始)时清理旧输出，防止stale file被下游读取
+    if start_step == 1:
+        import shutil
+        stale_files = [
+            OUTPUT_DIR / "step03_script.json",
+            OUTPUT_DIR / "step05_voice.wav",
+            OUTPUT_DIR / "step10_video.mp4",
+            OUTPUT_DIR / "step11_final.mp4",
+            OUTPUT_DIR / "bgm.wav",
+            OUTPUT_DIR / "mixed_audio.wav",
+            OUTPUT_DIR / "normalized_voice.wav",
+            OUTPUT_DIR / "captions.srt",
+            OUTPUT_DIR / "whisperx_transcript.json",
+            OUTPUT_DIR / "storyboard.json",
+            OUTPUT_DIR / "design.md",
+            OUTPUT_DIR / "lyrics.txt",
+            OUTPUT_DIR / "metadata.json",
+            OUTPUT_DIR / "pipeline_context.json",
+            OUTPUT_DIR / "voice_scene_durations.json",
+        ]
+        for f in stale_files:
+            if f.exists():
+                f.unlink()
+        # 清理渲染场景目录
+        scenes_dir = HF_PROJECT / "hf_render_project" / "scenes"
+        if scenes_dir.exists():
+            shutil.rmtree(scenes_dir)
+        compositions_dir = HF_PROJECT / "hf_render_project" / "compositions"
+        if compositions_dir.exists():
+            shutil.rmtree(compositions_dir)
+        print(f"  🧹 已清理旧输出文件（完整运行模式）")
+    
     # 初始化context（如果有已保存的context，先加载以保留前序步骤的数据）
     context = {
         "topic": args.topic,
