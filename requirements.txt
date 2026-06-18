@@ -1,0 +1,25 @@
+# Video Factory Dependencies
+# Python >= 3.11 required
+
+# Core
+numpy>=1.24.0
+soundfile>=0.12.0
+python-dotenv>=1.0.0
+
+# Voice Generation (VoxCPM2)
+torch>=2.0.0
+# voxcpm: install from source
+# git clone https://github.com/ModelTC/VoxCPM.git
+# cd VoxCPM && pip install -e .
+
+# Background Music (ACE-Step)
+# acestep-package: install from source
+# git clone https://github.com/ace-step/ACE-Step.git
+# cd ACE-Step && pip install -e .
+
+# Transcription (WhisperX)
+faster-whisper>=1.0.0
+
+# Video Rendering
+# HyperFrames: already included in hf-project/
+# FFmpeg: system dependency, must be installed separately
