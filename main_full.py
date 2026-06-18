@@ -156,6 +156,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="短视频工厂 — 完整Pipeline")
     parser.add_argument("--topic", type=str, help="视频话题")
+    parser.add_argument("--script", type=str, help="直接提供文案（文件路径或内联文本），跳过选题+剧本生成")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音生成")
     parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM生成")
     parser.add_argument("--steps", type=str, default="1-12", help="执行步骤范围 (如 1-12)")
@@ -309,6 +310,61 @@ def main():
         topic_file.write_text(json.dumps(topic_data, ensure_ascii=False, indent=2))
         print(f"  [topic] 已指定话题，跳过选题: {args.topic}")
     
+    # 如果指定了 --script，直接写入 step03_script.json，跳过选题+剧本生成
+    script_file = OUTPUT_DIR / "step03_script.json"
+    if args.script:
+        # 读取文案（支持文件路径或内联文本）
+        script_path = Path(args.script)
+        if script_path.exists():
+            script_text = script_path.read_text(encoding="utf-8").strip()
+            print(f"  [script] 从文件读取文案: {args.script}")
+        else:
+            script_text = args.script.strip()
+            print(f"  [script] 使用内联文案 ({len(script_text)}字)")
+        
+        # 按空行分段
+        paragraphs = [p.strip() for p in script_text.split("\n\n") if p.strip()]
+        # 如果没有空行分段，按换行分段
+        if len(paragraphs) <= 1:
+            paragraphs = [p.strip() for p in script_text.split("\n") if p.strip()]
+        
+        # 构建script_data（与script_writer输出格式一致）
+        sections = []
+        for i, para in enumerate(paragraphs, 1):
+            sections.append({
+                "section_id": i,
+                "content": para,
+                "talking_point": f"段落{i}"
+            })
+        
+        # 自动推断topic（取第一段前20字）
+        if not args.topic:
+            auto_topic = paragraphs[0][:20] if paragraphs else "用户自定义文案"
+            args.topic = auto_topic
+            # 也写入topic_selected.json
+            topic_file = OUTPUT_DIR / "topic_selected.json"
+            topic_data = {
+                "selected_topic": auto_topic,
+                "topic": auto_topic,
+                "angle": "用户自定义文案",
+                "hook": paragraphs[0][:30] if paragraphs else "",
+                "key_points": [],
+                "target_audience": "",
+                "sources": [],
+                "score": {"total": 0, "max": 60}
+            }
+            topic_file.write_text(json.dumps(topic_data, ensure_ascii=False, indent=2))
+        
+        script_data = {
+            "topic": args.topic,
+            "mood": "自然",
+            "voiceover_sections": sections,
+            "total_chars": sum(len(s["content"]) for s in sections)
+        }
+        script_file.write_text(json.dumps(script_data, ensure_ascii=False, indent=2))
+        print(f"  [script] 已写入 {len(sections)} 段文案 ({script_data['total_chars']}字)")
+        print(f"  [script] 跳过步骤1-3 (topic_scout/topic_selector/script_writer)")
+    
     # 定义pipeline步骤
     steps = [
         (1, "topic_scout", "热点采集"),
@@ -334,6 +390,11 @@ def main():
         # 如果已指定 --topic，跳过选题步骤
         if args.topic and skill_name in ("topic_scout", "topic_selector"):
             print(f"\n[Step {step_num}] {skill_name}: 跳过 (--topic 指定)")
+            continue
+        
+        # 如果已指定 --script，跳过选题+剧本生成步骤
+        if args.script and skill_name in ("topic_scout", "topic_selector", "script_writer"):
+            print(f"\n[Step {step_num}] {skill_name}: 跳过 (--script 指定)")
             continue
         
         # 跳过选项
