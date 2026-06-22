@@ -1068,7 +1068,7 @@ def run(context: dict) -> dict:
     total = len(scenes)
     print(f"[hf_builder] {total} scenes from {sb_path}")
 
-    topic = context.get("topic", "")
+    topic = context.get("topic") or context.get("topic_data", {}).get("selected_topic") or ""
     topic_keywords = set(topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
     # Common off-topic keywords to detect content pollution
     off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "高考", "中考", "世界杯", "乌龙球"]
