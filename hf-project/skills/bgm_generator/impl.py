@@ -16,11 +16,8 @@ bgm_generator/impl.py — BGM生成器
 """
 
 import os
-import json
-import re
 import sys
 from pathlib import Path
-from datetime import datetime
 
 # 输出路径
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"

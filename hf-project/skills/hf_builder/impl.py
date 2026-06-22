@@ -887,8 +887,8 @@ HTML长度：{len(html)}字符
         result = call_llm(prompt, max_tokens=50)
         if result and "合格" in result and "不合格" not in result:
             return True
-    except:
-        pass
+    except Exception as e:
+        print(f"  ⚠️ LLM质量检查失败: {e}")
     
     # 降级检查：检查HTML是否有足够多的元素
     # 统计包含文字内容的div数量

@@ -36,8 +36,6 @@ import os
 import json
 import re
 import warnings
-import time
-import random
 from pathlib import Path
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -248,7 +246,8 @@ def deduplicate_topics(topics: list) -> list:
         if isinstance(hv, str):
             try:
                 t["hot_value"] = int(hv)
-            except:
+            except Exception as e:
+                print(f"  ⚠️ hot_value转换失败: {e}")
                 t["hot_value"] = 0
     
     # 按热度排序（高的在前）

@@ -91,13 +91,15 @@ def run_step(skill_name: str, context: dict, step_num: int) -> dict:
         print(f"  ❌ {skill_name} 失败: {e}")
         import traceback
         traceback.print_exc()
+        print(f"  🛑 步骤 {skill_name} 异常终止，Pipeline停止（避免将不完整context传递给后续步骤）")
+        sys.exit(1)
     
 
     # 关键步骤产出检查
     if skill_name in CRITICAL_CHECKS:
         if not CRITICAL_CHECKS[skill_name](context):
             print("  🛑 关键步骤 " + skill_name + " 未产出预期文件，Pipeline终止")
-            print("  回滚: git checkout v3.1-stable")
+            print("  回滚: git checkout v3.8-stable")
             sys.exit(1)
 
     return context
@@ -153,6 +155,7 @@ def check_skill_quality_after_step(skill_name: str, context: dict):
         print(f"  ⚠️ 质量检查失败: {e}")
 
 def main():
+    global FEEDBACK_ENABLED
     import argparse
     parser = argparse.ArgumentParser(description="短视频工厂 — 完整Pipeline")
     parser.add_argument("--topic", type=str, help="视频话题")
@@ -174,6 +177,9 @@ def main():
     
     # 依赖检查
     if args.check_deps:
+        if not FEEDBACK_ENABLED:
+            print("  ⚠️ 反馈系统未启用，无法检查依赖更新")
+            return
         print("\n" + "="*60)
         print("📦 检查依赖更新")
         print("="*60)
@@ -188,6 +194,9 @@ def main():
     
     # 依赖更新
     if args.update_deps:
+        if not FEEDBACK_ENABLED:
+            print("  ⚠️ 反馈系统未启用，无法更新依赖")
+            return
         print("\n" + "="*60)
         print("🔄 更新所有依赖")
         print("="*60)
@@ -215,7 +224,6 @@ def main():
         sys.exit(1)
     
     # 反馈系统开关
-    global FEEDBACK_ENABLED
     if args.no_feedback:
         FEEDBACK_ENABLED = False
         print(f"  ⚠️ 反馈系统已禁用")

@@ -248,8 +248,8 @@ def run(context: dict) -> dict:
     for vf in voice_files:
         try:
             os.unlink(vf["file"])
-        except:
-            pass
+        except Exception as e:
+            print(f"  ⚠️ 临时文件清理失败: {e}")
 
     print(f"  [voice-gen] ✅ 配音生成完成: {total_duration:.1f}s -> {VOICE_PATH}")
 
