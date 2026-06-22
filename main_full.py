@@ -18,7 +18,8 @@ from datetime import datetime
 # 2. 从sys.path移除已注入的hermes-agent路径（当前进程已生效）
 if 'PYTHONPATH' in os.environ:
     del os.environ['PYTHONPATH']
-sys.path[:] = [p for p in sys.path if 'hermes-agent' not in p.lower() or 'core' in p.lower()]
+# 过滤所有hermes-agent/hermes_agent相关路径（连字符和下划线两种形式）
+sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
 
 import platform
 if platform.system() == 'Windows':

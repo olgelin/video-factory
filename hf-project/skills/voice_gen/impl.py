@@ -21,6 +21,13 @@ import shutil
 import subprocess
 from pathlib import Path
 
+# === 环境隔离：防止hermes-agent/venv的numpy污染 ===
+if 'PYTHONPATH' in os.environ:
+    del os.environ['PYTHONPATH']
+sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
+# 移除 __editable__ finder
+sys.meta_path = [f for f in sys.meta_path if 'hermes' not in type(f).__module__.lower() and 'hermes' not in type(f).__name__.lower()]
+
 import numpy as np
 import soundfile as sf
 
