@@ -55,12 +55,15 @@ def generate_metadata(context: dict) -> dict:
         except Exception:
             # fallback: 按标点拆分
             words = re.split(r'[：:、，,；!！?？\-—\s\d]+', topic)
-        # 过滤：去掉单字、纯数字、虚词
-        stop_chars = set('的了在是和与为及或从把被让将就才刚只每也还都没不过对')
+        # 过滤：去掉单字、纯数字、虚词、jieba误切的2字组合
+        stop_chars = set('的了在是和与为及或从把被让将就才刚只每也还都没不过对什么')
         meaningful = []
         for w in words:
             w = w.strip()
             if len(w) < 2 or re.match(r'^\d+$', w) or w in stop_chars:
+                continue
+            # 2字词只保留已知实体词（jieba常把新词切成2字乱码）
+            if len(w) == 2 and not re.match(r'^(?:美国|中国|日本|韩国|欧盟|采购|辟谣|谣言|真相|资质|行业|企业|产品|技术|市场|经济|政策|改革|制裁|关税|芯片|汽车|车企|补贴|破产|退市|召回|造假)$', w):
                 continue
             meaningful.append(w)
         # 组合：国家+实体（如"美国"+"企业"→"美国企业"）
