@@ -196,7 +196,8 @@ def run(context: dict) -> dict:
 
 
 if __name__ == "__main__":
+    _output = str(OUTPUT_DIR)
     test_context = {
-        "voice_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step05_voice.wav",
+        "voice_path": os.path.join(_output, "step05_voice.wav"),
     }
     result = run(test_context)

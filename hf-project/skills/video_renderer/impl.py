@@ -130,7 +130,7 @@ if __name__ == "__main__":
     # 测试
     test_context = {
         "topic": "2026高考第一批显眼包出现了",
-        "hf_project_dir": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/hf_render_project",
+        "hf_project_dir": str(HF_PROJECT_DIR),
     }
     result = run(test_context)
     print(f"\n✅ 测试完成")

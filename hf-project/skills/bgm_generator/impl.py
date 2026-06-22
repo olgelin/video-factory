@@ -29,20 +29,6 @@ ACESTEP_ROOT = os.environ.get("ACESTEP_ROOT", "E:/Hermes-Agent/workspace/xiaosha
 ACESTEP_CHECKPOINT = os.environ.get("ACESTEP_CHECKPOINT", "acestep-v15-turbo")
 
 
-def load_env():
-    """加载环境变量"""
-    from dotenv import load_dotenv
-    possible_envs = [
-        os.path.join(os.environ.get("HERMES_HOME", ""), ".env"),
-        "E:/Hermes-Agent/.env",
-        os.path.expanduser("~/.env"),
-    ]
-    for env_path in possible_envs:
-        if os.path.exists(env_path):
-            load_dotenv(env_path)
-            return
-
-
 def generate_bgm(lyrics: str, output_path: str, bgm_duration: float = 210) -> tuple:
     """生成BGM，根据配音时长自动匹配"""
     import torch
@@ -51,7 +37,7 @@ def generate_bgm(lyrics: str, output_path: str, bgm_duration: float = 210) -> tu
     print(f"  [bgm-gen] 初始化ACE-Step模型...")
     
     # 添加models目录到sys.path
-    models_dir = "E:/Hermes-Agent/workspace/xiaoshan/models"
+    models_dir = os.environ.get("MODELS_DIR", os.path.join(os.path.dirname(ACESTEP_ROOT)))
     if models_dir not in sys.path:
         sys.path.insert(0, models_dir)
     
@@ -177,8 +163,6 @@ def run(context: dict) -> dict:
     """主入口：生成BGM"""
     
     print(f"  [bgm-gen] 开始生成BGM...")
-    
-    load_env()
     
     # 读取歌词
     lyrics_path = context.get("lyrics_path") or str(LYRICS_PATH)

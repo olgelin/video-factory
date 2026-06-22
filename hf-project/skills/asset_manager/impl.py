@@ -31,20 +31,6 @@ SCRIPT_PATH = OUTPUT_DIR / "step03_script.json"
 MANIFEST_PATH = OUTPUT_DIR / "asset_manifest.json"
 
 
-def load_env():
-    """加载环境变量"""
-    from dotenv import load_dotenv
-    possible_envs = [
-        os.path.join(os.environ.get("HERMES_HOME", ""), ".env"),
-        "E:/Hermes-Agent/.env",
-        os.path.expanduser("~/.env"),
-    ]
-    for env_path in possible_envs:
-        if os.path.exists(env_path):
-            load_dotenv(env_path)
-            return
-
-
 def screenshot_url(url: str, output_path: str, description: str = "") -> bool:
     """截图URL（使用curl_cffi获取页面，然后用其他工具截图）"""
     try:
@@ -206,8 +192,6 @@ def run(context: dict) -> dict:
     """主入口：准备素材"""
     
     print(f"  [asset-manager] 开始准备素材...")
-    
-    load_env()
     
     # 读取选题信息
     topic_selected_path = context.get("topic_selected_path") or str(TOPIC_SELECTED_PATH)

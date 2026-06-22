@@ -29,22 +29,6 @@ SELECTED_PATH = OUTPUT_DIR / "topic_selected.json"
 # LLM配置已移至llm_utils.py
 
 
-def load_env():
-    """加载环境变量"""
-    from dotenv import load_dotenv
-    possible_envs = [
-        os.path.join(os.environ.get("HERMES_HOME", ""), ".env"),
-        "E:/Hermes-Agent/.env",
-        os.path.expanduser("~/.env"),
-    ]
-    for env_path in possible_envs:
-        if os.path.exists(env_path):
-            load_dotenv(env_path)
-            return
-
-
-
-
 def select_topic(research_data: dict) -> dict:
     """从热点列表中多维度筛选最佳选题"""
     

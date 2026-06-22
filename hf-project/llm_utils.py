@@ -172,7 +172,7 @@ def call_single_llm(
                 if think_content and len(think_content) > 10:
                     return think_content
             # MIMO 把答案放在 reasoning_content 里的情况
-            if reasoning and len(reasoning) > 10:
+            if reasoning:
                 # 尝试从 reasoning 中提取完整 JSON
                 json_patterns = [
                     re.search(r'```(?:json)?\s*(\{.*?\})\s*```', reasoning, re.DOTALL),
@@ -255,7 +255,7 @@ def load_env():
     from dotenv import load_dotenv
     possible_envs = [
         os.path.join(os.environ.get("HERMES_HOME", ""), ".env"),
-        "E:/Hermes-Agent/.env",
+        os.path.join(os.path.expanduser("~"), ".hermes", ".env"),
         os.path.expanduser("~/.env"),
     ]
     for env_path in possible_envs:

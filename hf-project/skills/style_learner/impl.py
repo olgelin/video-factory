@@ -37,20 +37,6 @@ LLM_CONFIGS = [
 ]
 
 
-def load_env():
-    """加载环境变量"""
-    from dotenv import load_dotenv
-    possible_envs = [
-        os.path.join(os.environ.get("HERMES_HOME", ""), ".env"),
-        "E:/Hermes-Agent/.env",
-        os.path.expanduser("~/.env"),
-    ]
-    for env_path in possible_envs:
-        if os.path.exists(env_path):
-            load_dotenv(env_path)
-            return
-
-
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from llm_utils import call_llm as _shared_call_llm
@@ -251,8 +237,6 @@ def run(context: dict) -> dict:
     """主入口：学习风格"""
     
     print(f"  [style-learner] 开始学习风格...")
-    
-    load_env()
     
     # 获取样本
     samples = context.get("samples", [])

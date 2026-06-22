@@ -261,8 +261,9 @@ def run(context: dict) -> dict:
 
 
 if __name__ == "__main__":
+    _output = str(OUTPUT_DIR)
     test_context = {
-        "script_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step03_script.json",
+        "script_path": os.path.join(_output, "step03_script.json"),
     }
     result = run(test_context)
     print(f"\n✅ 测试完成")

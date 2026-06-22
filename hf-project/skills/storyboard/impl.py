@@ -536,10 +536,11 @@ def run(context: dict) -> dict:
 
 if __name__ == "__main__":
     # 测试
+    _output = str(OUTPUT_DIR)
     test_context = {
         "topic": "2026高考第一批显眼包出现了",
-        "script_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step03_script.json",
-        "design_md_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/design.md",
+        "script_path": os.path.join(_output, "step03_script.json"),
+        "design_md_path": os.path.join(_output, "design.md"),
     }
     result = run(test_context)
     print(f"\n✅ 测试完成")

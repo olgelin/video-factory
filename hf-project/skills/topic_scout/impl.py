@@ -51,20 +51,6 @@ RESEARCH_PATH = OUTPUT_DIR / "topic_research.json"
 CURRENT_YEAR = datetime.now().year
 
 
-def load_env():
-    """加载环境变量"""
-    from dotenv import load_dotenv
-    possible_envs = [
-        os.path.join(os.environ.get("HERMES_HOME", ""), ".env"),
-        "E:/Hermes-Agent/.env",
-        os.path.expanduser("~/.env"),
-    ]
-    for env_path in possible_envs:
-        if os.path.exists(env_path):
-            load_dotenv(env_path)
-            return
-
-
 def get_session():
     """获取curl_cffi会话（绕过TLS指纹检测）"""
     try:
@@ -318,8 +304,6 @@ def run(context: dict) -> dict:
     
     print(f"  [topic-scout] 开始采集热点...")
     print(f"  [topic-scout] 当前年份: {CURRENT_YEAR}")
-    
-    load_env()
     
     # 步骤1：并行采集
     print(f"  [topic-scout] 步骤1: 多平台并行采集...")

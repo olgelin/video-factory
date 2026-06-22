@@ -163,10 +163,11 @@ def run(context: dict) -> dict:
 
 if __name__ == "__main__":
     # 测试
+    _output = str(OUTPUT_DIR)
     test_context = {
         "topic": "2026高考第一批显眼包出现了",
-        "video_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step10_video.mp4",
-        "voice_path": "E:/Hermes-Agent/workspace/xiaoshan/video-factory/hf-project/output/step05_voice.wav",
+        "video_path": os.path.join(_output, "step10_video.mp4"),
+        "voice_path": os.path.join(_output, "step05_voice.wav"),
     }
     result = run(test_context)
     print(f"\n✅ 测试完成")
