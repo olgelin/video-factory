@@ -393,60 +393,119 @@ def main():
         print(f"  [script] 跳过步骤1-3 (topic_scout/topic_selector/script_writer)")
     
     # 定义pipeline步骤
-    steps = [
-        (1, "topic_scout", "热点采集"),
-        (2, "topic_selector", "选题"),
-        (3, "script_writer", "剧本生成"),
-        (4, "lyrics_writer", "歌词生成"),
-        (5, "voice_gen", "配音生成"),
-        (6, "transcriber", "语音识别"),
-        (7, "bgm_generator", "BGM生成"),
-        (8, "design_system", "设计系统"),
-        (9, "storyboard", "分镜设计"),
-        (10, "hf_builder", "HTML构建"),
-        (11, "video_renderer", "视频渲染"),
-        (12, "audio_mixer", "音频混合"),
-    ]
+    # 执行顺序：串行(1-3) → 并行(4+5+8) → 并行(6+7+9) → 串行(10-12)
+    # 依赖关系：
+    #   4(lyrics)依赖3(script)
+    #   5(voice)依赖3(script)
+    #   8(design)依赖3(script) ← 原来在步骤8，提前到这里
+    #   6(transcriber)依赖5(voice)
+    #   7(bgm)依赖4(lyrics)
+    #   9(storyboard)依赖8(design)
+    #   10(hf_builder)依赖6+7+9
+    #   11(renderer)依赖10
+    #   12(mixer)依赖5+7+11
     
-    # 执行pipeline
-    for step_num, skill_name, description in steps:
+    import threading
+    
+    def should_run(skill_name):
+        """检查skill是否应该运行（考虑skip flags和step range）"""
+        step_map = {
+            "topic_scout": 1, "topic_selector": 2, "script_writer": 3,
+            "lyrics_writer": 4, "voice_gen": 5, "transcriber": 6,
+            "bgm_generator": 7, "design_system": 8, "storyboard": 9,
+            "hf_builder": 10, "video_renderer": 11, "audio_mixer": 12,
+        }
+        step_num = step_map.get(skill_name, 0)
         if step_num < start_step or step_num > end_step:
-            print(f"\n[Step {step_num}] {skill_name}: 跳过 (不在范围)")
-            continue
-        
-        # 如果已指定 --topic，跳过选题步骤
+            return False
         if args.topic and skill_name in ("topic_scout", "topic_selector"):
-            print(f"\n[Step {step_num}] {skill_name}: 跳过 (--topic 指定)")
-            continue
-        
-        # 如果已指定 --script，跳过选题+剧本生成步骤
+            return False
         if args.script and skill_name in ("topic_scout", "topic_selector", "script_writer"):
-            print(f"\n[Step {step_num}] {skill_name}: 跳过 (--script 指定)")
-            continue
-        
-        # 跳过选项
+            return False
         if args.skip_voice and skill_name == "voice_gen":
-            print(f"\n[Step {step_num}] {skill_name}: 跳过 (--skip-voice)")
-            continue
+            return False
         if args.skip_bgm and skill_name in ("lyrics_writer", "bgm_generator"):
-            print(f"\n[Step {step_num}] {skill_name}: 跳过 (--skip-bgm)")
-            continue
-        
-        # 获取优化提示并注入context（如果有）
+            return False
+        return True
+    
+    def run_skill(skill_name, step_num):
+        """运行单个skill（线程安全）"""
+        if not should_run(skill_name):
+            print(f"\n[Step {step_num}] {skill_name}: 跳过")
+            return None
+        # 获取优化提示
         if FEEDBACK_ENABLED:
             hints = get_optimization_hints(skill_name)
             if hints:
                 print(f"  💡 历史优化提示: {hints}")
                 context["_optimization_hints"] = hints
-        
-        context = run_step(skill_name, context, step_num)
-        
-        # 清理hints（避免传递给下一步）
+        result = run_step(skill_name, context, step_num)
         context.pop("_optimization_hints", None)
-        
-        # 质量检查（如果启用反馈系统）
         if FEEDBACK_ENABLED and skill_name in ["script_writer", "voice_gen", "bgm_generator", "storyboard", "hf_builder"]:
-            check_skill_quality_after_step(skill_name, context)
+            check_skill_quality_after_step(skill_name, result)
+        return result
+    
+    def run_parallel(skills):
+        """并行运行多个skill，返回所有结果
+        skills: list of (skill_name, step_num)
+        """
+        results = {}
+        threads = []
+        errors = []
+        
+        def worker(name, num):
+            try:
+                ctx = run_skill(name, num)
+                if ctx is not None:
+                    results[name] = ctx
+            except Exception as e:
+                errors.append((name, e))
+        
+        for name, num in skills:
+            t = threading.Thread(target=worker, args=(name, num), daemon=True)
+            threads.append(t)
+            t.start()
+        
+        for t in threads:
+            t.join()
+        
+        if errors:
+            for name, e in errors:
+                print(f"  ❌ {name} 并行执行失败: {e}")
+            sys.exit(1)
+        
+        return results
+    
+    # === Phase 1: 串行 1-3 ===
+    for skill in ["topic_scout", "topic_selector", "script_writer"]:
+        step_num = {"topic_scout": 1, "topic_selector": 2, "script_writer": 3}[skill]
+        run_skill(skill, step_num)
+    
+    # === Phase 2: 并行 4(lyrics) + 5(voice) + 8(design) ===
+    print(f"\n{'='*60}")
+    print(f"⚡ Phase 2: 并行执行 lyrics_writer + voice_gen + design_system")
+    print(f"{'='*60}")
+    run_parallel([
+        ("lyrics_writer", 4),
+        ("voice_gen", 5),
+        ("design_system", 8),
+    ])
+    
+    # === Phase 3: 并行 6(transcriber) + 7(bgm) + 9(storyboard) ===
+    # 6依赖5(voice), 7依赖4(lyrics), 9依赖8(design)
+    print(f"\n{'='*60}")
+    print(f"⚡ Phase 3: 并行执行 transcriber + bgm_generator + storyboard")
+    print(f"{'='*60}")
+    run_parallel([
+        ("transcriber", 6),
+        ("bgm_generator", 7),
+        ("storyboard", 9),
+    ])
+    
+    # === Phase 4: 串行 10-12 ===
+    for skill in ["hf_builder", "video_renderer", "audio_mixer"]:
+        step_num = {"hf_builder": 10, "video_renderer": 11, "audio_mixer": 12}[skill]
+        run_skill(skill, step_num)
     
     # 最终质量追溯
     if FEEDBACK_ENABLED:

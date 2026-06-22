@@ -853,7 +853,7 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 # ============================================================
 
 def validate_scene_html(html: str, scene: dict) -> bool:
-    """用LLM验证场景HTML是否有实质内容"""
+    """验证场景HTML质量（纯regex，不调LLM）"""
     if not html or len(html) < 3000:
         return False
     
@@ -864,39 +864,24 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         print(f"      ⚠️ CSS opacity:0过多: {css_opacity_count}个", flush=True)
         return False
     
-    # 提取关键信息
-    narration = scene.get("narration", "")[:100]
-    key_elements = scene.get("key_elements", [])
-    key_text = ", ".join(str(e) for e in key_elements[:3]) if key_elements else ""
+    # 检查1：必须有GSAP动画
+    gsap_count = len(re.findall(r'gsap\.(to|from|fromTo|timeline)', html))
+    if gsap_count < 3:
+        print(f"      ⚠️ GSAP动画不足: {gsap_count}个 (需要≥3)", flush=True)
+        return False
     
-    prompt = f"""检查这个HTML场景是否有实质内容。
-
-场景口播：{narration}
-关键元素：{key_text}
-
-HTML长度：{len(html)}字符
-
-判断标准：
-1. 是否有可见的文字内容（不是只有背景）
-2. 是否有数据卡片或标题
-3. 是否有实质性的视觉元素
-
-只回答"合格"或"不合格"，不要解释。"""
-    
-    try:
-        result = call_llm(prompt, max_tokens=50)
-        if result and "合格" in result and "不合格" not in result:
-            return True
-    except Exception as e:
-        print(f"  ⚠️ LLM质量检查失败: {e}")
-    
-    # 降级检查：检查HTML是否有足够多的元素
-    # 统计包含文字内容的div数量
+    # 检查2：必须有可见文字内容（font-size + 实际文本）
     text_elements = re.findall(r'font-size:\s*\d+px[^"]*"[^>]*>[^<]{3,}', html)
-    if len(text_elements) >= 3:
-        return True
+    if len(text_elements) < 2:
+        print(f"      ⚠️ 文字元素不足: {len(text_elements)}个 (需要≥2)", flush=True)
+        return False
     
-    return False
+    # 检查3：必须有CSS变量（设计系统一致性）
+    if '--color-primary' not in html and '--accent' not in html:
+        print(f"      ⚠️ 缺少CSS变量（设计系统不一致）", flush=True)
+        return False
+    
+    return True
 
 
 def generate_and_build(scene, sid, total, ctx=None):
@@ -1075,11 +1060,11 @@ def run(context: dict) -> dict:
     for old in compositions_dir.glob("beat-*.html"):
         old.unlink()
 
-    print(f"[hf_builder] LLM 生成中 (max_workers=3)...")
+    print(f"[hf_builder] LLM 生成中 (max_workers=6)...")
     results = {}
     # Build a sid→scene map so we can access scene in the as_completed loop
     scene_map = {i+1: scene for i, scene in enumerate(scenes)}
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=6) as executor:
         futures = {
             executor.submit(generate_and_build, scene, i+1, total, context): i+1
             for i, scene in enumerate(scenes)
