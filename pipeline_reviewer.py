@@ -24,7 +24,7 @@ BEST_PRACTICES = {
     "gsap_animation_count": {
         "name": "GSAP动画数量",
         "threshold": 5,
-        "check": lambda html: len(re.findall(r'gsap\.(to|from|fromTo|timeline)', html)),
+        "check": lambda html: len(re.findall(r'(?:gsap|tl)\.(to|from|fromTo|timeline)', html)),
         "severity": "critical",
         "fix_hint": "增加更多gsap.from()入场动画，每个元素都要有入场效果",
     },
@@ -93,7 +93,7 @@ BEST_PRACTICES = {
     "number_impact": {
         "name": "数字冲击效果",
         "threshold": 1,
-        "check": lambda html: 1 if (re.search(r'scale:\s*2', html) or re.search(r'scale:\s*1\.[5-9]', html)) else 0,
+        "check": lambda html: 1 if any(float(m) >= 1.5 for m in re.findall(r'scale:\s*([\d.]+)', html)) else 0,
         "severity": "warning",
         "fix_hint": "核心数字必须有scale放大→缩小的冲击效果",
     },
