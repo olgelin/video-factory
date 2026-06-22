@@ -894,9 +894,9 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         print(f"      ⚠️ 文字元素不足: {len(text_elements)}个 (需要≥2)", flush=True)
         return False
     
-    # 检查3：必须有CSS变量（设计系统一致性）
-    if '--color-primary' not in html and '--accent' not in html:
-        print(f"      ⚠️ 缺少CSS变量（设计系统不一致）", flush=True)
+    # 检查3：必须有背景色（深色背景）
+    if '#1a1a2e' not in html and '#0a0a1a' not in html and '#16213e' not in html:
+        print(f"      ⚠️ 缺少深色背景", flush=True)
         return False
     
     return True
