@@ -1185,46 +1185,42 @@ def run(context: dict) -> dict:
         if html_path.exists():
             html_path.unlink()
 
-    print(f"[hf_builder] LLM 生成中 (max_workers=2, 需生成{len(scenes_to_build)}个场景)...")
+    print(f"[hf_builder] LLM 生成中 (串行模式, 需生成{len(scenes_to_build)}个场景)...")
     results = dict(existing_scenes)
     # Build a sid→scene map so we can access scene in the as_completed loop
     scene_map = {i+1: scene for i, scene in enumerate(scenes)}
     if scenes_to_build:
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            futures = {
-                executor.submit(generate_and_build, scene, i+1, total, context): i+1
-                for i, scene in scenes_to_build
-            }
-            for future in as_completed(futures):
-                try:
-                    sid, html = future.result()
-                    results[sid] = html
+        # 串行执行避免内存溢出（BGM生成已占大量VRAM）
+        for i, scene in scenes_to_build:
+            sid = i + 1
+            try:
+                sid, html = generate_and_build(scene, sid, total, context)
+                results[sid] = html
+                with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
+                    f.write(html)
+                src = "LLM" if len(html) > 3000 else "fallback"
+                print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
+
+                # Content validation: check for off-topic pollution
+                polluted = [kw for kw in off_topic_patterns if kw in html]
+                if polluted:
+                    print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
+                    fallback_html = _generate_fallback_html(scene_map[sid], context)
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
-                        f.write(html)
-                    src = "LLM" if len(html) > 3000 else "fallback"
-                    print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
-
-                    # Content validation: check for off-topic pollution
-                    polluted = [kw for kw in off_topic_patterns if kw in html]
-                    if polluted:
-                        print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
-                        # Regenerate with fallback
-                        fallback_html = _generate_fallback_html(scene_map[sid], context)
-                        with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
-                            f.write(fallback_html)
-                        print(f"  ✅ [{sid}/{total}] fallback {len(fallback_html)} chars", flush=True)
-
-                except Exception as e:
-                    sid = futures[future]
-                    print(f"  ❌ [{sid}/{total}] {e}", flush=True)
+                        f.write(fallback_html)
+                    print(f"  ✅ [{sid}/{total}] fallback {len(fallback_html)} chars", flush=True)
+            except Exception as e:
+                print(f"  ❌ [{sid}/{total}] {e}", flush=True)
 
     # 生成片尾HTML（没有片头）
+    compositions_dir.mkdir(parents=True, exist_ok=True)  # 确保目录存在
     outro_html = build_outro_html()
     with open(compositions_dir / "beat-outro.html", "w", encoding="utf-8") as f:
         f.write(outro_html)
     print(f"[hf_builder] 片尾已生成")
     
     # index.html
+    hf_dir.mkdir(parents=True, exist_ok=True)  # 确保目录存在
     index_html = build_index_html(scenes, topic)
     with open(hf_dir / "index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
