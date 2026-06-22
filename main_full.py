@@ -290,7 +290,7 @@ def main():
     
     # 初始化context（如果有已保存的context，先加载以保留前序步骤的数据）
     context = {
-        "topic": args.topic,
+        "topic": args.topic,  # 可能为None，后续从保存的context或topic_selected.json补全
         "output_dir": str(OUTPUT_DIR),
         "project_root": str(HF_PROJECT),
         "voice_path": str(OUTPUT_DIR / "step05_voice.wav"),
@@ -306,13 +306,25 @@ def main():
         try:
             with open(saved_context_path, "r", encoding="utf-8") as f:
                 saved_ctx = json.load(f)
-            # 合并：已保存的数据不覆盖显式设置的值
+            # 合并：已保存的数据覆盖None值，但不覆盖显式设置的值
             for k, v in saved_ctx.items():
-                if k not in context:
+                if k not in context or context[k] is None:
                     context[k] = v
             print(f"  [context] 已加载保存的context ({len(saved_ctx)} keys)")
         except Exception as e:
             print(f"  ⚠️ [context] 加载失败: {e}")
+    
+    # 如果topic仍为空，尝试从topic_selected.json补全
+    if not context.get("topic"):
+        topic_file = OUTPUT_DIR / "topic_selected.json"
+        if topic_file.exists():
+            try:
+                with open(topic_file, "r", encoding="utf-8") as f:
+                    topic_data = json.load(f)
+                context["topic"] = topic_data.get("selected_topic") or topic_data.get("topic", "")
+                print(f"  [context] 从topic_selected.json补全topic: {context['topic'][:50]}")
+            except Exception as e:
+                print(f"  ⚠️ [context] 读取topic_selected.json失败: {e}")
     
     # 确保输出目录存在
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -481,15 +493,29 @@ def main():
         step_num = {"topic_scout": 1, "topic_selector": 2, "script_writer": 3}[skill]
         run_skill(skill, step_num)
     
-    # 验证选题质量（topic_selector完成后）
-    topic = context.get("selected_topic") or context.get("topic") or ""
-    if not topic or topic in ("无可用信息", "None", ""):
-        print(f"\n🛑 选题失败: topic='{topic}'，Pipeline终止")
-        print(f"  提示: topic_selector JSON解析失败，请检查LLM返回格式")
-        sys.exit(1)
-    # 确保context中有topic字段
-    context["topic"] = topic
-    print(f"  ✅ 选题验证通过: {topic[:50]}")
+    # 验证选题质量（仅在从头运行时检查，步骤10+时topic已在之前验证过）
+    if start_step <= 3:
+        topic = context.get("selected_topic") or context.get("topic") or ""
+        if not topic or topic in ("无可用信息", "None", ""):
+            print(f"\n🛑 选题失败: topic='{topic}'，Pipeline终止")
+            print(f"  提示: topic_selector JSON解析失败，请检查LLM返回格式")
+            sys.exit(1)
+        # 确保context中有topic字段
+        context["topic"] = topic
+        print(f"  ✅ 选题验证通过: {topic[:50]}")
+    else:
+        # 补全selected_topic到context（如果topic_selector已运行过）
+        if not context.get("topic"):
+            topic_file = OUTPUT_DIR / "topic_selected.json"
+            if topic_file.exists():
+                try:
+                    with open(topic_file, "r", encoding="utf-8") as f:
+                        td = json.load(f)
+                    context["topic"] = td.get("selected_topic") or td.get("topic", "")
+                except Exception:
+                    pass
+        if context.get("topic"):
+            print(f"  ✅ 使用已有选题: {context['topic'][:50]}")
     
     # === Phase 2: 并行 4(lyrics) + 5(voice) + 8(design) ===
     print(f"\n{'='*60}")

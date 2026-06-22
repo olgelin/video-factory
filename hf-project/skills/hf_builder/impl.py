@@ -958,10 +958,13 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         print(f"      ⚠️ 缺少深色背景", flush=True)
         return False
     
-    # 检查4：必须有数字冲击效果（scale动画）
-    # 更严格的检查：必须有scale:2.x或scale:3.x的动画（数字冲击效果）
-    if 'scale:2' not in html and 'scale:3' not in html:
-        print(f"      ⚠️ 缺少数字冲击效果（需要scale:2.x或scale:3.x动画）", flush=True)
+    # 检查4：数字冲击效果（scale动画）——仅对有数字的场景强制
+    # 检查场景是否包含数字元素（.stat类、数字内容、data_impact类型等）
+    has_numeric = bool(re.search(r'class="[^"]*stat[^"]*"', html)) or \
+                  bool(re.search(r'font-size:\s*[5-9]\d+px[^"]*">\s*\d', html)) or \
+                  'data_impact' in html or 'big_number' in html
+    if has_numeric and 'scale:2' not in html and 'scale:3' not in html:
+        print(f"      ⚠️ 有数字元素但缺少数字冲击效果（需要scale:2.x或scale:3.x动画）", flush=True)
         return False
     
     # 检查5：必须有三层视觉结构（z-index分层）
@@ -1182,12 +1185,12 @@ def run(context: dict) -> dict:
         if html_path.exists():
             html_path.unlink()
 
-    print(f"[hf_builder] LLM 生成中 (max_workers=4, 需生成{len(scenes_to_build)}个场景)...")
+    print(f"[hf_builder] LLM 生成中 (max_workers=2, 需生成{len(scenes_to_build)}个场景)...")
     results = dict(existing_scenes)
     # Build a sid→scene map so we can access scene in the as_completed loop
     scene_map = {i+1: scene for i, scene in enumerate(scenes)}
     if scenes_to_build:
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        with ThreadPoolExecutor(max_workers=2) as executor:
             futures = {
                 executor.submit(generate_and_build, scene, i+1, total, context): i+1
                 for i, scene in scenes_to_build
