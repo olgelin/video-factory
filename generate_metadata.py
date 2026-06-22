@@ -63,7 +63,7 @@ def generate_metadata(context: dict) -> dict:
         for p in parts:
             p = p.strip()
             if len(p) >= 2 and not re.match(r'^[与的和在为及或从把被让将已还没也不就才刚只每]', p):
-                cn.append(p[:3] if len(p) > 3 else p)
+                cn.append(p[:5] if len(p) > 5 else p)
         keywords = eng + cn[:4]
         hashtags = [f"#{k}" for k in dict.fromkeys(keywords)][:6]
 

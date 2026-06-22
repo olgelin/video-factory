@@ -79,8 +79,12 @@ class QualityTracker:
             score -= 0.2
             issues.append(f"字数不足: {total_chars} < 400")
         
-        # 检查禁止词汇
-        forbidden = ["值得注意的是", "需要指出的是", "首先", "其次", "最后", "宝子们"]
+        # 检查禁止词汇 (不包含"最后"——常用于自然表达如"最后一步"，仅在"首先…其次…最后"连用时才是AI腔)
+        forbidden = ["值得注意的是", "需要指出的是", "宝子们"]
+        # 特殊检查：连续使用"首先…其次…最后"模式才是AI腔
+        if "首先" in full_text and "其次" in full_text and "最后" in full_text:
+            score -= 0.1
+            issues.append("包含禁止词汇: 首先…其次…最后 (AI腔连用模式)")
         for word in forbidden:
             if word in full_text:
                 score -= 0.1

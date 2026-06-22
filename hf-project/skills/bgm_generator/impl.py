@@ -164,6 +164,25 @@ def run(context: dict) -> dict:
     
     print(f"  [bgm-gen] 开始生成BGM...")
     
+    # Pre-check: verify ACE-Step model directory exists
+    model_dir = Path(ACESTEP_ROOT) / "checkpoints" / ACESTEP_CHECKPOINT
+    if not model_dir.exists():
+        # Also check if safetensors exists at checkpoint root
+        safetensors_path = Path(ACESTEP_ROOT) / "checkpoints" / "model.safetensors"
+        if not safetensors_path.exists():
+            print(f"  ❌ [bgm-gen] ACE-Step模型未找到！")
+            print(f"     期望路径: {model_dir}")
+            print(f"     备选路径: {safetensors_path}")
+            print(f"     ACESTEP_ROOT={ACESTEP_ROOT}")
+            print(f"     请下载模型或设置 ACESTEP_ROOT 环境变量")
+            context["bgm_path"] = None
+            context["bgm_duration"] = 0
+            return context
+        else:
+            print(f"  [bgm-gen] 模型文件: {safetensors_path}")
+    else:
+        print(f"  [bgm-gen] 模型目录: {model_dir}")
+    
     # 读取歌词
     lyrics_path = context.get("lyrics_path") or str(LYRICS_PATH)
     if not os.path.exists(lyrics_path):

@@ -464,7 +464,11 @@ def main():
     print(f"{'='*60}")
     print(f"最终视频: {context.get('mixed_path', 'N/A')}")
     print(f"配音: {context.get('voice_path', 'N/A')}")
-    print(f"BGM: {context.get('bgm_path', 'N/A')}")
+    bgm = context.get('bgm_path')
+    if not bgm:
+        print(f"⚠️ BGM: 未生成（无背景音乐）")
+    else:
+        print(f"BGM: {bgm}")
     print(f"Context: {context_path}")
     print(f"{'='*60}")
 
