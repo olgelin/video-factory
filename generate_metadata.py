@@ -52,18 +52,18 @@ def generate_metadata(context: dict) -> dict:
                     hashtags = [t if t.startswith('#') else f'#{t}' for t in tags[:6]]
         except Exception:
             pass
-    # fallback: 如果LLM失败，用简单正则
+    # fallback: 如果LLM失败，用标点拆分取完整短语
     if not hashtags and topic:
         # 提取英文
         eng = re.findall(r'[A-Za-z][\w.-]+', topic)[:2]
-        # 提取中文：用标点拆分后每段取前2-3字
+        # 提取中文：用标点拆分后取完整短语（不再截断）
         cn_only = re.sub(r'[A-Za-z0-9]+', '', topic)
-        parts = re.split(r'[：:、，,；!！?？\-—\d年月日\s]+', cn_only)
+        parts = re.split(r'[：:、，,；!！?？\-—\s]+', cn_only)
         cn = []
         for p in parts:
             p = p.strip()
-            if len(p) >= 2 and not re.match(r'^[与的和在为及或从把被让将已还没也不就才刚只每]', p):
-                cn.append(p[:5] if len(p) > 5 else p)
+            if len(p) >= 2 and len(p) <= 8 and not re.match(r'^[与的和在为及或从把被让将已还没也不就才刚只每]', p):
+                cn.append(p)  # 不截断，保持完整语义
         keywords = eng + cn[:4]
         hashtags = [f"#{k}" for k in dict.fromkeys(keywords)][:6]
 
