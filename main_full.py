@@ -547,7 +547,8 @@ def main():
                 try:
                     with open(feedback_path, "r", encoding="utf-8") as f:
                         history = json.load(f)
-                except:
+                except (json.JSONDecodeError, IOError) as e:
+                    print(f"  ⚠️ 读取反馈历史失败: {e}")
                     history = []
             history.append(feedback_entry)
             # 只保留最近10次

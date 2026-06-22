@@ -282,8 +282,8 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
                 feedback_lessons = "\n## 历史质量问题（必须避免）\n"
                 for check, count in sorted(issue_counts.items(), key=lambda x: -x[1]):
                     feedback_lessons += f"- {check}: 出现{count}次，请确保本场景不出现此问题\n"
-        except:
-            pass
+        except Exception as e:
+            print(f"  ⚠️ [hf-builder] 加载反馈历史失败: {e}")
 
     prompt = SCENE_PROMPT.format(
         design_md=design_md[:1000],

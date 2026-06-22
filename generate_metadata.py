@@ -12,7 +12,8 @@ from datetime import datetime
 # 清除PYTHONPATH防止hermes-agent/venv干扰
 if 'PYTHONPATH' in os.environ:
     del os.environ['PYTHONPATH']
-sys.path[:] = [p for p in sys.path if 'hermes-agent' not in p.lower() or 'core' in p.lower()]
+sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
+sys.meta_path = [f for f in sys.meta_path if 'hermes' not in type(f).__module__.lower() and 'hermes' not in type(f).__name__.lower()]
 
 # 预加载.env，确保llm_utils模块级代码能读到API key
 try:
