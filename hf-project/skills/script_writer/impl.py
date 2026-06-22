@@ -414,8 +414,18 @@ def run(context: dict) -> dict:
             print(f"  🗑️ [script-writer] 已删除旧脚本: {SCRIPT_PATH}")
         return context
 
-    # 统计
+    # 验证脚本质量（防止LLM输出被错误解析）
     sections = script.get("voiceover_sections", [])
+    if len(sections) < 3 or len(sections) > 20:
+        print(f"  ❌ [script-writer] 段落数异常: {len(sections)}（期望5-15）")
+        return context
+    # 检查每个段落是否有足够内容
+    short_sections = [s for s in sections if len(s.get("content", "")) < 10]
+    if len(short_sections) > len(sections) * 0.3:
+        print(f"  ❌ [script-writer] 过多短段落: {len(short_sections)}/{len(sections)}")
+        return context
+
+    # 统计
     total_chars = sum(len(s.get("content", "")) for s in sections)
     print(f"  [script-writer] 生成 {len(sections)} 个段落，{total_chars} 字")
 

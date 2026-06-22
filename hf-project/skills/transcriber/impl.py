@@ -17,47 +17,125 @@ CAPTIONS_PATH = OUTPUT_DIR / "captions.srt"
 
 
 def run_faster_whisper(audio_path: str) -> dict:
-    """用faster-whisper转录音频"""
-    from faster_whisper import WhisperModel
+    """用FunASR转录音频（替代faster_whisper，解决numpy兼容问题）"""
+    try:
+        from funasr import AutoModel
+    except ImportError:
+        print(f"  ❌ [transcriber] FunASR不可用，尝试fallback方案")
+        return None
 
-    print(f"  [transcriber] Loading faster-whisper (large-v3, CPU)...")
-    model = WhisperModel("large-v3", device="cpu", compute_type="int8")
+    print(f"  [transcriber] Loading FunASR (paraformer-zh)...")
+    try:
+        model = AutoModel(model='paraformer-zh', model_revision='v2.0.4', disable_update=True)
+    except Exception as e:
+        print(f"  ❌ [transcriber] FunASR模型加载失败: {e}")
+        return None
 
     print(f"  [transcriber] Transcribing: {audio_path}")
-    segments_gen, info = model.transcribe(
-        audio_path,
-        language="zh",
-        beam_size=5,
-        word_timestamps=True,
-        vad_filter=False,
-    )
+    try:
+        result = model.generate(input=audio_path, batch_size_s=300)
+    except Exception as e:
+        print(f"  ❌ [transcriber] FunASR转录失败: {e}")
+        return None
 
+    if not result:
+        print(f"  ❌ [transcriber] FunASR返回空结果")
+        return None
+
+    # 转换FunASR输出为标准格式
     segments = []
-    for seg in segments_gen:
-        words = []
-        if seg.words:
-            for w in seg.words:
-                words.append({
-                    "word": w.word,
-                    "start": round(w.start, 3),
-                    "end": round(w.end, 3),
-                    "probability": round(w.probability, 3),
-                })
+    for item in result:
+        text = item.get('text', '')
+        # FunASR返回的timestamp是字符级时间戳
+        timestamp = item.get('timestamp', [])
+        
+        if timestamp and len(timestamp) >= 2:
+            # 有时间戳：用第一个和最后一个
+            start = timestamp[0][0] / 1000.0  # 毫秒转秒
+            end = timestamp[-1][1] / 1000.0
+        else:
+            # 无时间戳：估算
+            start = 0
+            end = len(text) * 0.15  # 粗略估算：每字0.15秒
+        
         segments.append({
-            "start": round(seg.start, 3),
-            "end": round(seg.end, 3),
-            "text": seg.text.strip(),
-            "words": words,
+            "start": round(start, 3),
+            "end": round(end, 3),
+            "text": text.strip(),
+            "words": [],
         })
+
+    # 计算总时长
+    total_duration = segments[-1]["end"] if segments else 0
 
     transcript = {
         "segments": segments,
-        "language": info.language,
-        "duration": info.duration,
+        "language": "zh",
+        "duration": total_duration,
     }
 
-    print(f"  [transcriber] ✅ 转录完成: {len(segments)} segments, {info.duration:.1f}s")
+    print(f"  [transcriber] ✅ 转录完成: {len(segments)} segments, {total_duration:.1f}s")
     return transcript
+
+
+def generate_srt_from_voice_durations(voice_scene_durs: list, output_path: str, max_chars: int = 18):
+    """用voice_scene_durations生成近似SRT（当ASR不可用时的fallback）"""
+    if not voice_scene_durs:
+        print(f"  ⚠️ [transcriber] 无配音时长数据，无法生成SRT")
+        return
+
+    entries = []
+    cumulative = 0.0
+
+    for i, vsd in enumerate(voice_scene_durs):
+        text = vsd.get("text", "")
+        duration = vsd.get("duration", 5.0)
+        start = cumulative
+        end = cumulative + duration
+        cumulative = end
+
+        # 将长文本拆分为多行字幕
+        if len(text) <= max_chars:
+            entries.append({"start": start, "end": end, "text": text})
+        else:
+            # 按标点拆分
+            chunks = []
+            remaining = text
+            while remaining:
+                if len(remaining) <= max_chars:
+                    chunks.append(remaining)
+                    break
+                # 找最近的标点断行
+                cut = max_chars
+                for punct in "，。、；！？,.;!? ":
+                    idx = remaining[:max_chars].rfind(punct)
+                    if idx > max_chars // 2:
+                        cut = idx + 1
+                        break
+                chunks.append(remaining[:cut].strip())
+                remaining = remaining[cut:].strip()
+            
+            # 按字数比例分配时间
+            total_chars = sum(len(c) for c in chunks)
+            current_start = start
+            for chunk in chunks:
+                chunk_dur = duration * len(chunk) / total_chars if total_chars > 0 else duration / len(chunks)
+                current_end = min(current_start + chunk_dur, end)
+                if current_end > current_start:  # 确保时间戳有效
+                    entries.append({"start": current_start, "end": current_end, "text": chunk})
+                current_start = current_end
+
+    # 生成SRT
+    srt_content = ""
+    for i, entry in enumerate(entries):
+        srt_content += f"{i+1}\n"
+        srt_content += f"{_format_srt_time(entry['start'])} --> {_format_srt_time(entry['end'])}\n"
+        srt_content += f"{entry['text']}\n\n"
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(srt_content)
+
+    print(f"  [transcriber] 近似SRT已保存: {output_path} ({len(entries)} 条)")
 
 
 def _format_srt_time(seconds: float) -> str:
@@ -173,7 +251,17 @@ def run(context: dict) -> dict:
     transcript = run_faster_whisper(voice_path)
 
     if not transcript or not transcript.get("segments"):
-        print(f"  ❌ [transcriber] 转录失败")
+        # FunASR失败，用voice_scene_durations生成近似SRT
+        print(f"  ⚠️ [transcriber] ASR转录失败，使用voice_scene_durations生成近似SRT")
+        vsd_path = OUTPUT_DIR / "voice_scene_durations.json"
+        if vsd_path.exists():
+            with open(vsd_path, "r", encoding="utf-8") as f:
+                voice_scene_durs = json.load(f)
+            generate_srt_from_voice_durations(voice_scene_durs, str(CAPTIONS_PATH))
+            context["captions_path"] = str(CAPTIONS_PATH)
+            print(f"  [transcriber] ✅ 近似SRT生成完成")
+        else:
+            print(f"  ❌ [transcriber] voice_scene_durations.json也不存在，无法生成SRT")
         return context
 
     with open(TRANSCRIPT_PATH, "w", encoding="utf-8") as f:

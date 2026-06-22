@@ -673,6 +673,16 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
     for i, block in enumerate(gsap_blocks):
         html = html.replace(f'__GSAP_BLOCK_{i}__', block)
 
+    # 9. 强制给高z-index装饰元素加pointer-events:none（防止遮挡内容）
+    # 匹配 z-index:5+ 的div，如果没有pointer-events:none就加上
+    def add_pointer_events(match):
+        tag = match.group(0)
+        if 'pointer-events' not in tag:
+            # 在style属性末尾加pointer-events:none
+            tag = tag.replace('"', ';pointer-events:none"', 1)
+        return tag
+    html = re.sub(r'<div[^>]*z-index:\s*(?:[5-9]|[1-9]\d+)[^>]*>', add_pointer_events, html)
+
     return html
 
 
@@ -940,6 +950,12 @@ def validate_scene_html(html: str, scene: dict) -> bool:
     # 检查6：必须有玻璃态效果（backdrop-filter）
     if 'backdrop-filter' not in html:
         print(f"      ⚠️ 缺少玻璃态效果（backdrop-filter）", flush=True)
+        return False
+    
+    # 检查7：元素不能溢出屏幕（检查是否有overflow:hidden在scene div上）
+    # scene div应该有overflow:hidden防止内容溢出
+    if 'overflow:hidden' not in html[:1000] and 'overflow: hidden' not in html[:1000]:
+        print(f"      ⚠️ scene div缺少overflow:hidden", flush=True)
         return False
     
     return True

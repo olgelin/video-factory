@@ -508,18 +508,43 @@ def run(context: dict) -> dict:
             scene["end_time"] = round(cumulative, 2)
         print(f"  [storyboard] 校准完成: 总时长 {cumulative:.1f}s")
     elif voice_scene_durs:
-        # 场景数不匹配时按比例分配总时长
-        total_voice_dur = sum(d["duration"] for d in voice_scene_durs)
-        n_scenes = len(storyboard)
-        if total_voice_dur > 0 and n_scenes > 0:
-            avg_dur = total_voice_dur / n_scenes
-            cumulative = 0.0
-            for i, scene in enumerate(storyboard):
-                scene["duration"] = round(avg_dur, 2)
-                scene["start_time"] = round(cumulative, 2)
-                cumulative += avg_dur
-                scene["end_time"] = round(cumulative, 2)
-            print(f"  ⚠️ [storyboard] 配音场景数({len(voice_scene_durs)}) != 分镜数({n_scenes})，按比例分配: 每场景{avg_dur:.1f}s")
+        # 场景数不匹配：用voice的段落数重建storyboard
+        # 这是正确做法——voice是真实数据，storyboard是估算
+        n_voice = len(voice_scene_durs)
+        n_sb = len(storyboard)
+        print(f"  ⚠️ [storyboard] 配音段数({n_voice}) != 分镜数({n_sb})")
+        
+        if n_voice < n_sb:
+            # voice比storyboard少：合并最后几个场景
+            print(f"  [storyboard] 合并最后 {n_sb - n_voice + 1} 个场景为1个")
+            # 保留前n_voice-1个场景，合并剩余到最后一个
+            merged_content = []
+            for i in range(n_voice - 1, n_sb):
+                merged_content.append(storyboard[i].get("narration", ""))
+            storyboard = storyboard[:n_voice - 1]
+            # 创建合并后的场景
+            last_scene = {
+                "scene_id": n_voice,
+                "visual_type": "data_impact",
+                "concept": "总结升华",
+                "narration": " ".join(merged_content),
+                "key_elements": [],
+            }
+            storyboard.append(last_scene)
+        else:
+            # voice比storyboard多：截断voice
+            print(f"  [storyboard] 截断配音到 {n_sb} 段")
+            voice_scene_durs = voice_scene_durs[:n_sb]
+        
+        # 用实际配音时长校准
+        cumulative = 0.0
+        for i, scene in enumerate(storyboard):
+            actual_dur = voice_scene_durs[i]["duration"]
+            scene["duration"] = actual_dur
+            scene["start_time"] = round(cumulative, 2)
+            cumulative += actual_dur
+            scene["end_time"] = round(cumulative, 2)
+        print(f"  [storyboard] 校准完成: {len(storyboard)} 个场景, 总时长 {cumulative:.1f}s")
 
     # 保存
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
