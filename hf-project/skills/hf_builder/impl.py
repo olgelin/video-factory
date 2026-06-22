@@ -1078,11 +1078,11 @@ def run(context: dict) -> dict:
     for old in compositions_dir.glob("beat-*.html"):
         old.unlink()
 
-    print(f"[hf_builder] LLM 生成中 (max_workers=6)...")
+    print(f"[hf_builder] LLM 生成中 (max_workers=4)...")
     results = {}
     # Build a sid→scene map so we can access scene in the as_completed loop
     scene_map = {i+1: scene for i, scene in enumerate(scenes)}
-    with ThreadPoolExecutor(max_workers=6) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
         futures = {
             executor.submit(generate_and_build, scene, i+1, total, context): i+1
             for i, scene in enumerate(scenes)

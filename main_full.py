@@ -458,6 +458,8 @@ def main():
                 ctx = run_skill(name, num)
                 if ctx is not None:
                     results[name] = ctx
+            except SystemExit as e:
+                errors.append((name, RuntimeError(f"步骤{name}失败(exit code {e.code})")))
             except Exception as e:
                 errors.append((name, e))
         
