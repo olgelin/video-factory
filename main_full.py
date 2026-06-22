@@ -481,6 +481,16 @@ def main():
         step_num = {"topic_scout": 1, "topic_selector": 2, "script_writer": 3}[skill]
         run_skill(skill, step_num)
     
+    # 验证选题质量（topic_selector完成后）
+    topic = context.get("selected_topic") or context.get("topic") or ""
+    if not topic or topic in ("无可用信息", "None", ""):
+        print(f"\n🛑 选题失败: topic='{topic}'，Pipeline终止")
+        print(f"  提示: topic_selector JSON解析失败，请检查LLM返回格式")
+        sys.exit(1)
+    # 确保context中有topic字段
+    context["topic"] = topic
+    print(f"  ✅ 选题验证通过: {topic[:50]}")
+    
     # === Phase 2: 并行 4(lyrics) + 5(voice) + 8(design) ===
     print(f"\n{'='*60}")
     print(f"⚡ Phase 2: 并行执行 lyrics_writer + voice_gen + design_system")

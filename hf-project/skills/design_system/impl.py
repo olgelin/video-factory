@@ -87,7 +87,7 @@ PRESET_STYLES = {
 
 
 def select_style_for_topic(topic):
-    t = topic.lower()
+    t = (topic or "").lower()
     if any(k in t for k in ["ai","人工智能","agent","科技","技术","互联网","数码"]):
         return "cyber_tech"
     elif any(k in t for k in ["发布","新品","苹果","产品","品牌"]):

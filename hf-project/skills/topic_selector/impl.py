@@ -163,14 +163,21 @@ def _select_from_topics_list(verified_topics: list) -> dict:
             "error": "LLM返回为空"
         }
     
-    # 解析JSON
+    # 解析JSON（多层fallback）
     try:
         cleaned = re.sub(r'```json\s*', '', response)
         cleaned = re.sub(r'```\s*$', '', cleaned).strip()
         
+        # Layer 1: 直接匹配最外层JSON
         json_match = re.search(r'\{.*\}', cleaned, re.DOTALL)
         if json_match:
-            result = json.loads(json_match.group())
+            try:
+                result = json.loads(json_match.group())
+            except json.JSONDecodeError:
+                # Layer 2: 修复常见JSON问题
+                fixed = re.sub(r',\s*}', '}', json_match.group())
+                fixed = re.sub(r',\s*]', ']', fixed)
+                result = json.loads(fixed)
             
             # 确保必要字段
             result.setdefault("selected_topic", "")
@@ -190,9 +197,19 @@ def _select_from_topics_list(verified_topics: list) -> dict:
                 scores["total"] = sum(v for k, v in scores.items() if k != "total" and isinstance(v, (int, float)))
                 result["scores"] = scores
             
+            # 验证selected_topic不为空
+            if not result.get("selected_topic"):
+                print(f"  ⚠️ [topic-selector] LLM返回了空selected_topic，尝试从reason提取")
+                # 尝试从reason字段提取话题
+                reason = result.get("reason", "")
+                if reason and len(reason) > 10:
+                    result["selected_topic"] = reason[:100]
+            
             return result
     except json.JSONDecodeError:
         print(f"  ⚠️ [topic-selector] JSON解析失败")
+    except Exception as e:
+        print(f"  ⚠️ [topic-selector] 解析异常: {e}")
     
     return {
         "selected_topic": "无可用信息",
@@ -273,14 +290,19 @@ def _select_from_report(research_data: dict) -> dict:
             "error": "LLM返回为空"
         }
     
-    # 解析JSON
+    # 解析JSON（多层fallback）
     try:
         cleaned = re.sub(r'```json\s*', '', response)
         cleaned = re.sub(r'```\s*$', '', cleaned).strip()
         
         json_match = re.search(r'\{.*\}', cleaned, re.DOTALL)
         if json_match:
-            result = json.loads(json_match.group())
+            try:
+                result = json.loads(json_match.group())
+            except json.JSONDecodeError:
+                fixed = re.sub(r',\s*}', '}', json_match.group())
+                fixed = re.sub(r',\s*]', ']', fixed)
+                result = json.loads(fixed)
             
             result.setdefault("selected_topic", topic)
             result.setdefault("angle", "")
