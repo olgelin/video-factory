@@ -173,9 +173,11 @@ def call_single_llm(
                     return think_content
             # MIMO 把答案放在 reasoning_content 里的情况
             if reasoning:
-                # 尝试从 reasoning 中提取完整 JSON
+                # 尝试从 reasoning 中提取完整 JSON（对象或数组）
                 json_patterns = [
+                    re.search(r'```(?:json)?\s*(\[.*?\])\s*```', reasoning, re.DOTALL),
                     re.search(r'```(?:json)?\s*(\{.*?\})\s*```', reasoning, re.DOTALL),
+                    re.search(r'(\[[\s\S]*?\])', reasoning),
                     re.search(r'(\{[^{}]*"template"[^{}]*\})', reasoning, re.DOTALL),
                     re.search(r'(\{.*?\})', reasoning, re.DOTALL),
                 ]

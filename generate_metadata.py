@@ -1,11 +1,29 @@
 """
-generate_metadata.py — 视频元数据生成器
+generate_metadata.py - 视频元数据生成器
 输出: metadata.json (标题+标签+描述)
 """
 import json
+import os
 import re
+import sys
 from pathlib import Path
 from datetime import datetime
+
+# 清除PYTHONPATH防止hermes-agent/venv干扰
+if 'PYTHONPATH' in os.environ:
+    del os.environ['PYTHONPATH']
+sys.path[:] = [p for p in sys.path if 'hermes-agent' not in p.lower() or 'core' in p.lower()]
+
+# 预加载.env，确保llm_utils模块级代码能读到API key
+try:
+    from dotenv import load_dotenv
+    for env_path in [os.path.join(os.environ.get('HERMES_HOME', ''), '.env'),
+                     os.path.join(os.path.expanduser('~'), '.hermes', '.env')]:
+        if os.path.exists(env_path):
+            load_dotenv(env_path, override=False)
+            break
+except Exception:
+    pass
 
 OUTPUT_DIR = Path(__file__).parent / "hf-project" / "output"
 
@@ -28,44 +46,42 @@ def generate_metadata(context: dict) -> dict:
     # 生成标题 — 不截断，保留完整主题
     title = topic if topic else "AI热点速递"
 
-    # 从topic提取关键词作为标签（用LLM生成，精准高效）
+    # 从topic提取关键词作为标签（jieba分词，确定性输出）
     hashtags = []
     if topic:
         try:
-            import sys
-            sys.path.insert(0, str(Path(__file__).parent / "hf-project"))
-            from llm_utils import call_llm
-            tag_prompt = f"""为以下短视频话题生成6个精准的中文标签（带#号），要求：
-- 每个标签2-4个字
-- 包含核心实体（人名/公司名/产品名/行业术语）
-- 不要废话，直接输出JSON数组
-
-话题：{topic}
-
-输出格式：["#标签1","#标签2",...]"""
-            tag_response = call_llm(tag_prompt, max_tokens=200)
-            if tag_response:
-                # 清理并解析JSON
-                cleaned = tag_response.strip()
-                if cleaned.startswith('['):
-                    tags = __import__('json').loads(cleaned)
-                    hashtags = [t if t.startswith('#') else f'#{t}' for t in tags[:6]]
+            import jieba
+            words = list(jieba.cut(topic))
         except Exception:
-            pass
-    # fallback: 如果LLM失败，用标点拆分取完整短语
-    if not hashtags and topic:
-        # 提取英文
-        eng = re.findall(r'[A-Za-z][\w.-]+', topic)[:2]
-        # 提取中文：用标点拆分后取完整短语（不再截断）
-        cn_only = re.sub(r'[A-Za-z0-9]+', '', topic)
-        parts = re.split(r'[：:、，,；!！?？\-—\s]+', cn_only)
-        cn = []
-        for p in parts:
-            p = p.strip()
-            if len(p) >= 2 and len(p) <= 8 and not re.match(r'^[与的和在为及或从把被让将已还没也不就才刚只每]', p):
-                cn.append(p)  # 不截断，保持完整语义
-        keywords = eng + cn[:4]
-        hashtags = [f"#{k}" for k in dict.fromkeys(keywords)][:6]
+            # fallback: 按标点拆分
+            words = re.split(r'[：:、，,；!！?？\-—\s\d]+', topic)
+        # 过滤：去掉单字、纯数字、虚词
+        stop_chars = set('的了在是和与为及或从把被让将就才刚只每也还都没不过对')
+        meaningful = []
+        for w in words:
+            w = w.strip()
+            if len(w) < 2 or re.match(r'^\d+$', w) or w in stop_chars:
+                continue
+            meaningful.append(w)
+        # 组合：国家+实体（如"美国"+"企业"→"美国企业"）
+        combined = []
+        i = 0
+        while i < len(meaningful):
+            # 如果当前词是国家/地区名，尝试与下一个词组合
+            if i + 1 < len(meaningful) and re.match(r'^(?:中国|美国|日本|韩国|欧盟|俄罗斯|印度|英国|法国|德国)$', meaningful[i]):
+                combined.append(meaningful[i] + meaningful[i+1])
+                i += 2
+            else:
+                combined.append(meaningful[i])
+                i += 1
+        # 去重保序
+        seen = set()
+        unique = []
+        for k in combined:
+            if k not in seen:
+                seen.add(k)
+                unique.append(k)
+        hashtags = [f"#{k}" for k in unique[:6]]
 
     # 生成描述 — hook风格，前3句口播精华
     date_str = datetime.now().strftime("%Y年%m月%d日")
