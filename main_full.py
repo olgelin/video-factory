@@ -11,6 +11,19 @@ import importlib.util
 from pathlib import Path
 from datetime import datetime
 
+# === 根本修复：让core/venv的包优先于hermes-agent/venv ===
+# hermes-agent/venv有大量cp311编译的包，与Python 3.12不兼容
+# 将core/venv的site-packages插入sys.path最前面
+import platform
+if platform.system() == 'Windows':
+    _hermes_home = Path(os.environ.get('HERMES_HOME', os.path.expanduser('~/.hermes')))
+    # Hermes安装目录 = HERMES_HOME的父目录（E:\Hermes-Agent）
+    _core_site = _hermes_home / 'core' / 'venv' / 'Lib' / 'site-packages'
+else:
+    _core_site = Path('/e/Hermes-Agent/core/venv/lib') / f'python{sys.version_info.major}.{sys.version_info.minor}' / 'site-packages'
+if _core_site.exists() and str(_core_site) not in sys.path:
+    sys.path.insert(0, str(_core_site))
+
 # 加载.env文件
 def load_env():
     """从.env文件加载环境变量"""
