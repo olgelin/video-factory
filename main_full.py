@@ -11,9 +11,15 @@ import importlib.util
 from pathlib import Path
 from datetime import datetime
 
-# === 根本修复：让core/venv的包优先于hermes-agent/venv ===
-# hermes-agent/venv有大量cp311编译的包，与Python 3.12不兼容
-# 将core/venv的site-packages插入sys.path最前面
+# === 根本修复：清除PYTHONPATH防止hermes-agent/venv覆盖core/venv ===
+# Hermes Agent运行时会设置PYTHONPATH指向hermes-agent/venv（cp311包）
+# 这导致transformers/tokenizers等从错误的venv加载，引发版本冲突
+# 1. 删除环境变量（防止子进程继承）
+# 2. 从sys.path移除已注入的hermes-agent路径（当前进程已生效）
+if 'PYTHONPATH' in os.environ:
+    del os.environ['PYTHONPATH']
+sys.path[:] = [p for p in sys.path if 'hermes-agent' not in p.lower() or 'core' in p.lower()]
+
 import platform
 if platform.system() == 'Windows':
     _hermes_home = Path(os.environ.get('HERMES_HOME', os.path.expanduser('~/.hermes')))
