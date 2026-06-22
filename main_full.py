@@ -591,16 +591,28 @@ def main():
         json.dump(context, f, ensure_ascii=False, indent=2, default=str)
     
     
-    # 生成元数据
+    # 生成元数据（subprocess避免import时的sys.path冲突）
     try:
-        from generate_metadata import generate_metadata
-        metadata = generate_metadata(context)
         meta_path = OUTPUT_DIR / "metadata.json"
-        print(f"  📋 元数据: {meta_path}")
-        title = metadata["title"]
-        tags = " ".join(metadata["hashtags"])
-        print(f"  📝 标题: {title}")
-        print(f"  🏷️ 标签: {tags}")
+        import subprocess
+        script_dir = Path(__file__).parent
+        gen_script = script_dir / "generate_metadata.py"
+        result = subprocess.run(
+            [sys.executable, str(gen_script)],
+            capture_output=True, text=True, timeout=120,
+            cwd=str(script_dir),
+            env={**os.environ, 'PYTHONPATH': str(script_dir)}
+        )
+        if result.returncode == 0 and meta_path.exists():
+            with open(meta_path, 'r', encoding='utf-8') as f:
+                metadata = json.load(f)
+            title = metadata.get("title", "N/A")
+            tags = " ".join(metadata.get("hashtags", []))
+            print(f"  📋 元数据: {meta_path}")
+            print(f"  📝 标题: {title}")
+            print(f"  🏷️ 标签: {tags}")
+        else:
+            print(f"  ⚠️ 元数据生成失败: {result.stderr[-200:] if result.stderr else 'unknown'}")
     except Exception as e:
         print(f"  ⚠️ 元数据生成失败: {e}")
     print(f"\n{'='*60}")
