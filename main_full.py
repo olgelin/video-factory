@@ -503,8 +503,31 @@ def main():
     ])
     
     # === Phase 4: 串行 10-12 ===
-    for skill in ["hf_builder", "video_renderer", "audio_mixer"]:
-        step_num = {"hf_builder": 10, "video_renderer": 11, "audio_mixer": 12}[skill]
+    run_skill("hf_builder", 10)
+    
+    # 反哺：hf_builder完成后自动诊断场景质量
+    try:
+        from pipeline_reviewer import analyze_all_scenes, print_report, generate_fix_instructions
+        compositions_dir = str(HF_PROJECT / "hf_render_project" / "compositions")
+        report = analyze_all_scenes(compositions_dir)
+        if "error" not in report:
+            print_report(report)
+            fixes = generate_fix_instructions(report)
+            critical_fixes = [f for f in fixes if f["severity"] == "critical"]
+            if critical_fixes:
+                print(f"\n  ⚠️ 发现{len(critical_fixes)}个严重质量问题，但不阻断pipeline")
+                # 保存诊断报告到output目录
+                report_path = OUTPUT_DIR / "quality_diagnosis.json"
+                with open(report_path, "w", encoding="utf-8") as f:
+                    json.dump(report, f, ensure_ascii=False, indent=2)
+                print(f"  📋 诊断报告: {report_path}")
+            else:
+                print(f"\n  ✅ 所有场景质量达标")
+    except Exception as e:
+        print(f"  ⚠️ 质量诊断跳过: {e}")
+    
+    for skill in ["video_renderer", "audio_mixer"]:
+        step_num = {"video_renderer": 11, "audio_mixer": 12}[skill]
         run_skill(skill, step_num)
     
     # 最终质量追溯
