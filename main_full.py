@@ -523,6 +523,38 @@ def main():
                 print(f"  📋 诊断报告: {report_path}")
             else:
                 print(f"\n  ✅ 所有场景质量达标")
+            
+            # === 反哺闭环：写入feedback_history.json ===
+            feedback_path = OUTPUT_DIR / "feedback_history.json"
+            feedback_entry = {
+                "timestamp": datetime.now().isoformat(),
+                "topic": context.get("topic", ""),
+                "total_scenes": report.get("total_scenes", 0),
+                "passed_scenes": report.get("passed_scenes", 0),
+                "issues": [],
+            }
+            for scene in report.get("scenes", []):
+                for issue in scene.get("issues", []):
+                    feedback_entry["issues"].append({
+                        "scene": scene.get("scene_name", ""),
+                        "check": issue.get("check_name", ""),
+                        "severity": issue.get("severity", ""),
+                        "message": issue.get("message", ""),
+                    })
+            # 追加到历史文件
+            history = []
+            if feedback_path.exists():
+                try:
+                    with open(feedback_path, "r", encoding="utf-8") as f:
+                        history = json.load(f)
+                except:
+                    history = []
+            history.append(feedback_entry)
+            # 只保留最近10次
+            history = history[-10:]
+            with open(feedback_path, "w", encoding="utf-8") as f:
+                json.dump(history, f, ensure_ascii=False, indent=2)
+            print(f"  📝 反哺历史已更新: {feedback_path}")
     except Exception as e:
         print(f"  ⚠️ 质量诊断跳过: {e}")
     

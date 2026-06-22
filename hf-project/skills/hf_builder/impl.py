@@ -263,6 +263,28 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
     else:
         elems_text = str(key_elements)
 
+    # === 反哺：读取历史质量问题，注入prompt ===
+    feedback_lessons = ""
+    feedback_path = Path(__file__).parent.parent.parent / "output" / "feedback_history.json"
+    if feedback_path.exists():
+        try:
+            with open(feedback_path, "r", encoding="utf-8") as f:
+                history = json.load(f)
+            # 提取最近3次的高频问题
+            recent = history[-3:]
+            issue_counts = {}
+            for entry in recent:
+                for issue in entry.get("issues", []):
+                    check = issue.get("check", "")
+                    if check:
+                        issue_counts[check] = issue_counts.get(check, 0) + 1
+            if issue_counts:
+                feedback_lessons = "\n## 历史质量问题（必须避免）\n"
+                for check, count in sorted(issue_counts.items(), key=lambda x: -x[1]):
+                    feedback_lessons += f"- {check}: 出现{count}次，请确保本场景不出现此问题\n"
+        except:
+            pass
+
     prompt = SCENE_PROMPT.format(
         design_md=design_md[:1000],
         scene_id=scene_id,
@@ -277,7 +299,7 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
         composition_id=composition_id,
         W=W,
         H=H,
-    )
+    ) + feedback_lessons
 
     system = "你是 HyperFrames 视频合成专家。只输出完整 HTML 代码，不输出任何其他文本。"
 
@@ -937,8 +959,9 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         return False
     
     # 检查4：必须有数字冲击效果（scale动画）
-    if 'scale' not in html or 'opacity' not in html:
-        print(f"      ⚠️ 缺少数字冲击效果（scale+opacity动画）", flush=True)
+    # 更严格的检查：必须有scale:2.x或scale:3.x的动画（数字冲击效果）
+    if 'scale:2' not in html and 'scale:3' not in html:
+        print(f"      ⚠️ 缺少数字冲击效果（需要scale:2.x或scale:3.x动画）", flush=True)
         return False
     
     # 检查5：必须有三层视觉结构（z-index分层）

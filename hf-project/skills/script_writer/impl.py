@@ -75,9 +75,16 @@ def preprocess_numbers(text: str) -> str:
 
     def replace_percent(m):
         num = m.group(1)
+        # 处理小数：4.5 → 四点五
+        if '.' in num:
+            parts = num.split('.')
+            integer_part = ''.join(DIGIT_MAP.get(d, d) for d in parts[0])
+            decimal_part = ''.join(DIGIT_MAP.get(d, d) for d in parts[1])
+            return f"百分之{integer_part}点{decimal_part}"
         return f"百分之{num}"
 
-    text = re.sub(r'(\d+)%', replace_percent, text)
+    # 匹配带小数的百分比：4.5% 或 45%
+    text = re.sub(r'(\d+\.?\d*)%', replace_percent, text)
 
     def replace_number(m):
         num = m.group(0)

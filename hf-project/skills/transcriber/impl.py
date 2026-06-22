@@ -7,13 +7,49 @@ v30: 从WhisperX改为faster-whisper（纯CPU，无torchcodec依赖）
 """
 
 import os
+import sys
 import json
+import re
 from pathlib import Path
+
+# === 环境隔离：防止hermes-agent/venv的numpy污染 ===
+if 'PYTHONPATH' in os.environ:
+    del os.environ['PYTHONPATH']
+sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
+sys.meta_path = [f for f in sys.meta_path if 'hermes' not in type(f).__module__.lower() and 'hermes' not in type(f).__name__.lower()]
 
 # 输出路径
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 TRANSCRIPT_PATH = OUTPUT_DIR / "whisperx_transcript.json"
 CAPTIONS_PATH = OUTPUT_DIR / "captions.srt"
+
+
+def _fix_chinese_spacing(text: str) -> str:
+    """移除汉字间的空格（FunASR字符级时间戳产生的）"""
+    # 匹配：汉字 + 空格 + 汉字
+    return re.sub(r'([\u4e00-\u9fff])\s+([\u4e00-\u9fff])', r'\1\2', text)
+
+
+# 常见转录错误修正字典
+_TRANSCRIPTION_CORRECTIONS = {
+    "加血": "加息",
+    "靠稳健": "稳健",
+    "四百分之五": "百分之四点五",
+    "这帧涡轮": "这针涡轮",
+    "金岸": "近岸",
+    "排显": "排险",
+    "竞济体育": "竞技体育",
+    "太源": "太远",
+    "停油": "省油",
+    "日可可能": "日元可能",
+}
+
+
+def _fix_transcription_errors(text: str) -> str:
+    """修正常见的ASR转录错误"""
+    for wrong, correct in _TRANSCRIPTION_CORRECTIONS.items():
+        text = text.replace(wrong, correct)
+    return text
 
 
 def run_faster_whisper(audio_path: str) -> dict:
@@ -61,7 +97,7 @@ def run_faster_whisper(audio_path: str) -> dict:
         segments.append({
             "start": round(start, 3),
             "end": round(end, 3),
-            "text": text.strip(),
+            "text": _fix_transcription_errors(_fix_chinese_spacing(text.strip())),
             "words": [],
         })
 
@@ -130,7 +166,7 @@ def generate_srt_from_voice_durations(voice_scene_durs: list, output_path: str, 
     for i, entry in enumerate(entries):
         srt_content += f"{i+1}\n"
         srt_content += f"{_format_srt_time(entry['start'])} --> {_format_srt_time(entry['end'])}\n"
-        srt_content += f"{entry['text']}\n\n"
+        srt_content += f"{_fix_chinese_spacing(entry['text'])}\n\n"
 
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(srt_content)
@@ -228,11 +264,11 @@ def generate_srt(transcript: dict, output_path: str, max_chars: int = 18, max_du
     for i, entry in enumerate(entries):
         srt_content += f"{i+1}\n"
         srt_content += f"{_format_srt_time(entry['start'])} --> {_format_srt_time(entry['end'])}\n"
-        srt_content += f"{entry['text']}\n\n"
-    
+        srt_content += f"{_fix_chinese_spacing(entry['text'])}\n\n"
+
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(srt_content)
-    
+
     print(f"  [transcriber] SRT已保存: {output_path} ({len(entries)} 条)")
 
 

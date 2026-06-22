@@ -19,6 +19,12 @@ import os
 import sys
 from pathlib import Path
 
+# === 环境隔离：防止hermes-agent/venv的torch/numpy污染 ===
+if 'PYTHONPATH' in os.environ:
+    del os.environ['PYTHONPATH']
+sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
+sys.meta_path = [f for f in sys.meta_path if 'hermes' not in type(f).__module__.lower() and 'hermes' not in type(f).__name__.lower()]
+
 # 输出路径
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 LYRICS_PATH = OUTPUT_DIR / "lyrics.txt"
