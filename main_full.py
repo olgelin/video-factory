@@ -110,16 +110,15 @@ def run_step(skill_name: str, context: dict, step_num: int) -> dict:
         print(f"  ❌ {skill_name} 失败: {e}")
         import traceback
         traceback.print_exc()
-        print(f"  🛑 步骤 {skill_name} 异常终止，Pipeline停止（避免将不完整context传递给后续步骤）")
-        sys.exit(1)
+        print(f"  🛑 步骤 {skill_name} 异常终止")
+        raise RuntimeError(f"步骤 {skill_name} 失败: {e}") from e
     
 
     # 关键步骤产出检查
     if skill_name in CRITICAL_CHECKS:
         if not CRITICAL_CHECKS[skill_name](context):
-            print("  🛑 关键步骤 " + skill_name + " 未产出预期文件，Pipeline终止")
-            print("  回滚: git checkout v3.8-stable")
-            sys.exit(1)
+            print("  🛑 关键步骤 " + skill_name + " 未产出预期文件")
+            raise RuntimeError(f"关键步骤 {skill_name} 未产出预期文件")
 
     return context
 
@@ -458,8 +457,6 @@ def main():
                 ctx = run_skill(name, num)
                 if ctx is not None:
                     results[name] = ctx
-            except SystemExit as e:
-                errors.append((name, RuntimeError(f"步骤{name}失败(exit code {e.code})")))
             except Exception as e:
                 errors.append((name, e))
         
