@@ -515,7 +515,7 @@ def main():
     print(f"\n{'='*60}")
     print(f"🔍 资源预检")
     print(f"{'='*60}")
-    preflight = ResourceChecker.preflight(gpu_gb=6.0, disk_gb=10.0, ram_gb=8.0)
+    preflight = ResourceChecker.preflight(gpu_gb=4.0, disk_gb=10.0, ram_gb=8.0)
     if not preflight["passed"]:
         failed = [k for k, v in preflight["checks"].items() if not v["passed"]]
         print(f"  ❌ 资源不足: {failed}")

@@ -62,7 +62,7 @@ def run_faster_whisper(audio_path: str) -> dict:
 
     print(f"  [transcriber] Loading FunASR (paraformer-zh)...")
     try:
-        model = AutoModel(model='paraformer-zh', model_revision='v2.0.4', disable_update=True)
+        model = AutoModel(model='iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch', model_revision='v2.0.4', disable_update=True)
     except Exception as e:
         print(f"  ❌ [transcriber] FunASR模型加载失败: {e}")
         return None

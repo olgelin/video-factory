@@ -101,8 +101,7 @@ def preprocess_numbers(text: str) -> str:
 
 
 def preprocess_text(text: str) -> str:
-    """预处理配音文本"""
-    text = preprocess_numbers(text)
+    """预处理配音文本（只处理标点，数字由voice_gen的text_preprocessor处理）"""
     # 半角标点转全角（中文TTS标准）
     punct_map = {',': '，', '.': '。', '!': '！', '?': '？',
                  ':': '：', ';': '；', '(': '（', ')': '）'}
