@@ -1156,7 +1156,9 @@ def run(context: dict) -> dict:
     topic = context.get("topic") or context.get("topic_data", {}).get("selected_topic") or ""
     topic_keywords = set(topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
     # Common off-topic keywords to detect content pollution
-    off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "高考", "中考", "世界杯", "乌龙球"]
+    # 排除当前话题的关键词（避免误判）
+    off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "世界杯", "乌龙球"]
+    off_topic_patterns = [kw for kw in off_topic_patterns if kw not in topic_keywords]
 
     compositions_dir = hf_dir / "compositions"
     compositions_dir.mkdir(parents=True, exist_ok=True)

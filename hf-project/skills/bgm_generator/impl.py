@@ -116,17 +116,13 @@ def generate_bgm(lyrics: str, output_path: str, bgm_duration: float = 210) -> tu
         
         print(f"  [bgm-gen] 模型加载成功")
         
-        # 默认3分30秒，独立于配音时长（16GB GPU上限360s）
-        bgm_duration = min(210, 360)  # 210s = 3:30
+        # 使用传入的时长参数（不覆盖）
         print(f"  [bgm-gen] 目标BGM时长: {bgm_duration:.1f}s")
         
-        # 多次尝试策略
+        # 多次尝试策略（120s适配16GB GPU）
         attempts = [
-            # 尝试1: 关闭tiled_decode，指定时长
             {"use_tiled_decode": False, "audio_duration": bgm_duration},
-            # 尝试2: 开启tiled_decode，指定时长
             {"use_tiled_decode": True, "audio_duration": bgm_duration},
-            # 尝试3: 关闭tiled_decode，不锁时长
             {"use_tiled_decode": False, "audio_duration": -1},
         ]
         
@@ -257,12 +253,22 @@ def run(context: dict) -> dict:
     
     print(f"  [bgm-gen] 歌词长度: {len(lyrics)} 字符")
     
-    # BGM时长（默认3:30，不依赖配音）
-    bgm_target_duration = context.get("bgm_duration", 210)
+    # BGM时长（默认120s，16GB GPU上限；210s需要>20GB VRAM）
+    bgm_target_duration = min(context.get("bgm_duration", 120), 120)
     print(f"  [bgm-gen] 目标BGM时长: {bgm_target_duration:.1f}s")
     
     # 生成BGM（带重试，最多3次）
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # 清理GPU缓存，释放VoxCPM2占用的VRAM
+    try:
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            free_gb = torch.cuda.mem_get_info()[0] / 1024**3
+            print(f"  [bgm-gen] GPU空闲: {free_gb:.1f}GB")
+    except Exception:
+        pass
     
     max_retries = 3
     for attempt in range(max_retries):
