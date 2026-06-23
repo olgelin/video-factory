@@ -36,15 +36,16 @@ def check_video2x():
     """检查Video2X"""
     v2x = Path(__file__).parent.parent / "tools" / "video2x" / "video2x.exe"
     if v2x.exists():
-        return True, str(v2x)
-    # 也检查PATH
-    try:
-        r = subprocess.run(["video2x", "--version"],
-                           capture_output=True, text=True, timeout=10)
-        if r.returncode == 0:
-            return True, "PATH"
-    except FileNotFoundError:
-        pass
+        try:
+            r = subprocess.run([str(v2x.resolve()), "--version"],
+                               capture_output=True, text=True, timeout=10,
+                               cwd=str(v2x.parent))
+            ver = r.stdout.strip()
+            if REQUIRED["video2x"] in ver:
+                return True, ver
+            return True, f"{ver} (期望{REQUIRED['video2x']})"
+        except Exception:
+            return True, "存在但无法获取版本"
     return False, f"未安装，下载 https://github.com/k4yt3x/video2x/releases/tag/{REQUIRED['video2x']} 放到 tools/video2x/"
 
 
