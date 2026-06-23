@@ -1015,8 +1015,8 @@ def generate_and_build(scene, sid, total, ctx=None):
         
         html = generate_scene_from_template(scene, sid, design_dict)
         if html and len(html) > 100:
-            # 包裹完整HTML结构
-            full_html = _wrap_html(html, composition_id, W, H)
+            # 包裹完整HTML结构（传入scene用于scene-specific GSAP）
+            full_html = _wrap_html(html, composition_id, W, H, scene=scene)
             if validate_scene_html(full_html, scene):
                 print(f"    ✅ [Scene {sid}] 模板生成成功")
                 return sid, full_html
@@ -1040,8 +1040,20 @@ def generate_and_build(scene, sid, total, ctx=None):
     return sid, html
 
 
-def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080) -> str:
-    """将模板生成的body内容包裹成完整HTML文档"""
+def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080, scene: dict = None) -> str:
+    """将模板生成的body内容包裹成完整HTML文档
+    
+    如果body_html已包含GSAP脚本（模板生成的），不再注入generic GSAP。
+    如果没有GSAP，根据scene的animation verbs生成scene-specific GSAP。
+    """
+    # 检查body_html是否已包含GSAP脚本
+    has_gsap = 'gsap.timeline' in body_html or 'tl.from' in body_html or 'tl.to' in body_html
+    
+    gsap_section = ""
+    if not has_gsap:
+        # 根据storyboard的animation verbs生成scene-specific GSAP
+        gsap_section = _generate_scene_gsap(composition_id, scene)
+    
     return f'''<!DOCTYPE html>
 <html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" style="background:#1a1a2e;">
 <head>
@@ -1052,18 +1064,76 @@ def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080
 <div style="position:relative;width:{W}px;height:{H}px;background:#1a1a2e;overflow:hidden;">
 {body_html}
 </div>
-<script>
-(function() {{
-    var tl = gsap.timeline({{paused:true}});
-    tl.from(".scene-content > *", {{opacity:0, y:30, duration:0.6, ease:"power3.out", stagger:0.1}}, 0);
-    tl.from(".stat", {{scale:0.8, opacity:0, duration:0.5, ease:"back.out(1.7)", stagger:0.08}}, 0.2);
-    tl.from(".badge", {{scale:0, opacity:0, duration:0.3, ease:"back.out(2)", stagger:0.05}}, 0.4);
-    tl.from(".item", {{x:-50, opacity:0, duration:0.4, ease:"power2.out", stagger:0.08}}, 0.3);
-    tl.play();
-}})();
-</script>
+{gsap_section}
 </body>
 </html>'''
+
+
+def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
+    """根据storyboard的animation verbs生成scene-specific GSAP动画"""
+    animations = {}
+    if scene:
+        animations = scene.get("animations", {})
+    
+    # 默认animation verbs（如果没有storyboard数据）
+    title_verb = animations.get("title", "SLAMS")
+    data_verb = animations.get("data", "FLOATS")
+    deco_verb = animations.get("decoration", "PULSES")
+    
+    # 从verb映射到GSAP参数
+    verb_params = {
+        "SLAMS": {"from": "{y:60, opacity:0, duration:0.5, ease:'back.out(2)'}", "stagger": 0},
+        "CRASHES": {"from": "{scale:1.5, opacity:0, duration:0.4, ease:'power4.out'}", "stagger": 0},
+        "PUNCHES": {"from": "{scale:0, opacity:0, duration:0.3, ease:'back.out(3)'}", "stagger": 0},
+        "CASCADES": {"from": "{y:-40, opacity:0, duration:0.6, ease:'power2.out'}", "stagger": 0.1},
+        "DROPS": {"from": "{y:-80, opacity:0, duration:0.5, ease:'bounce.out'}", "stagger": 0.08},
+        "SLIDES": {"from": "{x:-60, opacity:0, duration:0.5, ease:'power3.out'}", "stagger": 0.1},
+        "FLOATS": {"from": "{y:30, opacity:0, duration:0.8, ease:'sine.out'}", "stagger": 0.15},
+        "MORPHS": {"from": "{scale:0.8, opacity:0, borderRadius:'50%', duration:0.6, ease:'power2.out'}", "stagger": 0.1},
+        "COUNTS UP": {"from": "{textContent:0, duration:1, ease:'power1.out', snap:{textContent:1}}", "stagger": 0},
+        "GLOWS": {"from": "{opacity:0, textShadow:'0 0 0px transparent', duration:0.8, ease:'power2.out'}", "stagger": 0.1},
+        "BREATHES": {"from": "{scale:0.95, opacity:0, duration:1, ease:'sine.inOut'}", "stagger": 0.2},
+        "PULSES": {"from": "{scale:0.9, opacity:0, duration:0.6, ease:'sine.inOut'}", "stagger": 0.1},
+        "EXPOSES": {"from": "{x:40, opacity:0, duration:0.6, ease:'power3.out'}", "stagger": 0},
+        "MATERIALIZES": {"from": "{opacity:0, scale:0.95, duration:0.8, ease:'power2.out'}", "stagger": 0.1},
+        "HIGHLIGHTS": {"from": "{opacity:0, backgroundColor:'rgba(255,215,0,0.3)', duration:0.6, ease:'power2.out'}", "stagger": 0},
+        "SYSTEMATIZES": {"from": "{x:-40, opacity:0, duration:0.5, ease:'power3.out'}", "stagger": 0.15},
+        "INSPIRES": {"from": "{y:20, opacity:0, scale:0.98, duration:1, ease:'sine.out'}", "stagger": 0.2},
+        "STRUCTURES": {"from": "{scaleX:0, opacity:0, transformOrigin:'left', duration:0.8, ease:'power2.inOut'}", "stagger": 0},
+    }
+    
+    # 获取参数，未知verb用默认FLOATS
+    t_params = verb_params.get(title_verb, verb_params["FLOATS"])
+    d_params = verb_params.get(data_verb, verb_params["FLOATS"])
+    
+    return f'''<script>
+(function() {{
+    var tl = gsap.timeline({{paused:true}});
+    var root = document.querySelector('[data-composition-id={composition_id}]') || document;
+    // Title entrance (verb: {title_verb})
+    var titles = root.querySelectorAll('h1, h2');
+    titles.forEach(function(el, i) {{
+        tl.from(el, {t_params["from"]}, 0.1 + i * 0.15);
+    }});
+    // Data elements (verb: {data_verb})
+    var stats = root.querySelectorAll('.stat, .card, .metric');
+    stats.forEach(function(el, i) {{
+        tl.from(el, {d_params["from"]}, 0.3 + i * {(d_params["stagger"] or 0.1)});
+    }});
+    // Items and badges
+    var items = root.querySelectorAll('.item, .badge, .tag');
+    items.forEach(function(el, i) {{
+        tl.from(el, {{x:-30, opacity:0, duration:0.4, ease:'power2.out'}}, 0.4 + i * 0.08);
+    }});
+    // Progress bars
+    var bars = root.querySelectorAll('[style*="scaleX"]');
+    bars.forEach(function(el, i) {{
+        tl.from(el, {{scaleX:0, transformOrigin:'left', duration:1, ease:'power2.inOut'}}, 0.5 + i * 0.1);
+    }});
+    window.__timelines = window.__timelines || {{}};
+    window.__timelines["{composition_id}"] = tl;
+}})();
+</script>'''
 
 
 def build_intro_html(topic: str) -> str:

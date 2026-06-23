@@ -171,6 +171,121 @@ def _corner_brackets(accent: str = None) -> str:
 
 
 # ============================================================
+# V4.2 新增视觉组件 — 粒子/3D/SVG
+# ============================================================
+
+def _canvas_particles(scene_id: int = 1, count: int = 60, accent: str = None) -> str:
+    """Canvas 2D 粒子场背景 — 确定性（hash-based），无Math.random()"""
+    if accent is None: accent = _c("primary")
+    rgb = _hex_rgb(accent)
+    return f'''<canvas id="particles-{scene_id}" width="1920" height="1080"
+      style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <script>
+    (function() {{
+      var c = document.getElementById("particles-{scene_id}");
+      if (!c) return;
+      var ctx = c.getContext("2d");
+      var N = {count};
+      function hash(i, s) {{
+        var n = (i * 374761393 + s * 668265263) | 0;
+        n = ((n ^ (n >> 13)) * 1274126177) | 0;
+        return (((n ^ (n >> 16)) & 0x7fffffff) / 0x7fffffff);
+      }}
+      var px = [], py = [], ps = [], pd = [];
+      for (var i = 0; i < N; i++) {{
+        px.push(hash(i, 0) * 1920);
+        py.push(hash(i, 1) * 1080);
+        ps.push(0.5 + hash(i, 2) * 2.5);
+        pd.push(hash(i, 3) * Math.PI * 2);
+      }}
+      function draw(t) {{
+        ctx.clearRect(0, 0, 1920, 1080);
+        for (var i = 0; i < N; i++) {{
+          var x = (px[i] + Math.cos(pd[i]) * t * 12 * ps[i]) % 1960;
+          var y = (py[i] + Math.sin(pd[i]) * t * 8 * ps[i]) % 1120;
+          if (x < 0) x += 1960;
+          if (y < 0) y += 1120;
+          var a = 0.15 + hash(i, 4) * 0.35;
+          ctx.fillStyle = "rgba({rgb}," + a + ")";
+          ctx.beginPath();
+          ctx.arc(x, y, ps[i], 0, 6.283);
+          ctx.fill();
+        }}
+        // connecting lines
+        for (var i = 0; i < N; i++) {{
+          for (var j = i + 1; j < Math.min(i + 8, N); j++) {{
+            var dx = ((px[i] + Math.cos(pd[i]) * t * 12 * ps[i]) % 1960) - ((px[j] + Math.cos(pd[j]) * t * 12 * ps[j]) % 1960);
+            var dy = ((py[i] + Math.sin(pd[i]) * t * 8 * ps[i]) % 1120) - ((py[j] + Math.sin(pd[j]) * t * 8 * ps[j]) % 1120);
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {{
+              ctx.strokeStyle = "rgba({rgb}," + (0.08 * (1 - dist / 150)) + ")";
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo((px[i] + Math.cos(pd[i]) * t * 12 * ps[i]) % 1960, (py[i] + Math.sin(pd[i]) * t * 8 * ps[i]) % 1120);
+              ctx.lineTo((px[j] + Math.cos(pd[j]) * t * 12 * ps[j]) % 1960, (py[j] + Math.sin(pd[j]) * t * 8 * ps[j]) % 1120);
+              ctx.stroke();
+            }}
+          }}
+        }}
+      }}
+      var proxy = {{t: 0}};
+      if (typeof tl !== "undefined") {{
+        tl.to(proxy, {{t: 10, duration: 10, ease: "none", onUpdate: function() {{ draw(proxy.t); }} }}, 0);
+      }}
+    }})();
+    </script>'''
+
+
+def _perspective_card(content: str, accent: str = None, tilt_x: int = -8, tilt_y: int = 5) -> str:
+    """3D透视卡片 — perspective tilt + 深度阴影"""
+    if accent is None: accent = _c("primary")
+    return f'''<div style="perspective:1200px;position:relative;z-index:2;">
+      <div class="card" style="transform:rotateY({tilt_x}deg) rotateX({tilt_y}deg);
+        background:{accent}08;backdrop-filter:blur(12px);
+        border:1px solid {accent}25;border-radius:16px;padding:28px;
+        box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 30px {_glow(accent, 0.15)},
+        inset 0 1px 0 {accent}15;
+        transition:transform 0.3s ease;">{content}</div>
+    </div>'''
+
+
+def _svg_data_flow(width: int = 800, height: int = 200, accent: str = None, scene_id: int = 1) -> str:
+    """SVG路径绘制 — 动态数据流箭头/电路线"""
+    if accent is None: accent = _c("primary")
+    return f'''<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}"
+      style="position:absolute;z-index:1;pointer-events:none;opacity:0.6;">
+      <path class="flow-path-{scene_id}" d="M 20 {height//2} C 120 40, 250 {height-40}, 400 {height//2} S 680 40, {width-20} {height//2}"
+        stroke="{accent}" stroke-width="2" fill="none" stroke-linecap="round"
+        stroke-dasharray="8 4" opacity="0.5"/>
+      <path class="flow-path-{scene_id}" d="M {width-20} {height//2+30} C 650 {height-20}, 400 60, 200 {height//2+30} S 80 {height-20}, 20 {height//2+30}"
+        stroke="{accent}" stroke-width="1.5" fill="none" stroke-linecap="round"
+        stroke-dasharray="6 6" opacity="0.3"/>
+      <circle class="flow-dot-{scene_id}" cx="0" cy="0" r="4" fill="{accent}" opacity="0.8">
+        <animateMotion dur="4s" repeatCount="3" path="M 20 {height//2} C 120 40, 250 {height-40}, 400 {height//2} S 680 40, {width-20} {height//2}"/>
+      </circle>
+    </svg>'''
+
+
+def _radial_glow(accent: str = None, x: str = "50%", y: str = "40%", size: str = "600px") -> str:
+    """径向光晕 — 场景氛围层"""
+    if accent is None: accent = _c("primary")
+    rgb = _hex_rgb(accent)
+    return f'''<div style="position:absolute;top:{y};left:{x};transform:translate(-50%,-50%);
+      width:{size};height:{size};border-radius:50%;
+      background:radial-gradient(circle,rgba({rgb},0.15) 0%,rgba({rgb},0.05) 40%,transparent 70%);
+      pointer-events:none;z-index:0;"></div>'''
+
+
+def _depth_layer_bar(accent: str = None, position: str = "top") -> str:
+    """深度层分隔条 — 带发光的水平线"""
+    if accent is None: accent = _c("primary")
+    pos = "top:180px;" if position == "top" else "bottom:180px;"
+    return f'''<div style="position:absolute;{pos}left:80px;right:80px;height:1px;
+      background:linear-gradient(90deg,transparent,{accent}50,transparent);
+      box-shadow:0 0 12px {_glow(accent, 0.3)};pointer-events:none;z-index:1;"></div>'''
+
+
+# ============================================================
 # 7种场景模板 — 接受 design_specs 参数
 # ============================================================
 
@@ -192,10 +307,15 @@ def template_data_impact(title: str, subtitle: str, stats: list, tags: list = No
     return f'''<div class="scene-content" style="display:flex;flex-direction:column;width:100%;height:100%;
       padding:80px 100px;box-sizing:border-box;gap:28px;justify-content:center;
       font-family:'Inter','Noto Sans SC',sans-serif;">
+      {_canvas_particles(scene_id, 50, p)}
+      {_radial_glow(p, "30%", "60%")}
+      {_radial_glow(s, "70%", "30%", "400px")}
       {_grid_overlay(p)}
       {_scanlines()}
       {_ghost_text("DATA", p)}
       {_corner_brackets(p)}
+      {_depth_layer_bar(p, "top")}
+      {_svg_data_flow(600, 120, p, scene_id)}
       <div style="text-align:center;position:relative;z-index:2;">
         <h1 style="font-size:{title_size}px;font-weight:900;color:{_c('text')};
           text-shadow:0 0 30px {_glow(p)},0 0 60px {_glow(p, 0.3)};
@@ -220,9 +340,12 @@ def template_dashboard(title: str, subtitle: str, metrics: list, tags: list = No
 
     return f'''<div class="scene-content" style="display:flex;flex-direction:column;width:100%;height:100%;
       padding:60px 80px;box-sizing:border-box;gap:20px;font-family:'Inter','Noto Sans SC',sans-serif;">
+      {_canvas_particles(scene_id, 40, p)}
+      {_radial_glow(p, "50%", "50%", "700px")}
       {_grid_overlay(p)}
       {_scanlines()}
       {_ghost_text("METRICS", p)}
+      {_depth_layer_bar(p, "top")}
       <div style="text-align:center;position:relative;z-index:2;">
         <h2 style="font-size:{title_size}px;font-weight:900;color:{_c('text')};
           text-shadow:0 0 20px {_glow(p)};margin:0;">{title}</h2>
@@ -469,77 +592,110 @@ def select_template(scene: dict, scene_id: int) -> tuple:
     title = re.sub(r'[，。！？、；：""''（）\s]', '', narration)[:15] or "场景"
     subtitle = concept[:60] if concept else ""
     
-    # 提取数据点
+    # 从key_elements提取数据点（storyboard提供的真实数据）
     data_points = []
-    if narration:
-        for m in re.finditer(r'([\d,.]+)\s*(万|亿|%|倍|秒|分钟|小时|个|人|次|元|块|分)', narration):
-            data_points.append({"num": m.group(0), "label": m.group(2)})
+    list_items = []
+    timeline_items = []
+    quote_text = ""
+    for el in key_elements:
+        etype = el.get("type", "")
+        if etype == "data" and el.get("value"):
+            data_points.append({"num": str(el["value"]), "label": el.get("label", ""), "unit": el.get("unit", "")})
+        elif etype == "list" and el.get("items"):
+            for item in el["items"][:4]:
+                list_items.append({"heading": item[:20], "desc": "", "icon": "•", "bar_pct": 60 + len(list_items) * 8})
+        elif etype == "timeline_event" and el.get("items"):
+            timeline_items = el["items"][:4]
+        elif etype == "quote_hero" and el.get("text"):
+            quote_text = el["text"]
+        elif etype == "compare" and el.get("left") and el.get("right"):
+            data_points.append({"num": el["left"].get("value", ""), "label": el["left"].get("label", "")})
+            data_points.append({"num": el["right"].get("value", ""), "label": el["right"].get("label", "")})
+        elif etype == "title" and el.get("text"):
+            if not subtitle:
+                subtitle = el["text"][:60]
+        elif etype == "tag" and el.get("text"):
+            pass  # handled by tags list below
     
-    # 提取短句作为列表项
-    items = []
-    if narration:
-        for sep in ['。', '！', '？', '，', '；']:
-            parts = narration.split(sep)
-            for p in parts:
-                clean = p.strip()
-                if 4 <= len(clean) <= 20 and clean not in [i.get("heading", "") for i in items]:
-                    items.append({"heading": clean, "desc": "", "icon": "•", "bar_pct": 60 + len(items) * 8})
-                if len(items) >= 4:
+    # 从key_elements提取tags
+    tags = [el.get("text", "") for el in key_elements if el.get("type") == "tag" and el.get("text")]
+    
+    # 如果key_elements没有数据点，从narration中提取（原有逻辑）
+    if not data_points:
+        if narration:
+            for m in re.finditer(r'([\d,.]+)\s*(万|亿|%|倍|秒|分钟|小时|个|人|次|元|块|分)', narration):
+                data_points.append({"num": m.group(0), "label": m.group(2)})
+    
+    # 如果key_elements没有list_items，从narration中提取
+    if not list_items:
+        if narration:
+            for sep in ['。', '！', '？', '，', '；']:
+                parts = narration.split(sep)
+                for p in parts:
+                    clean = p.strip()
+                    if 4 <= len(clean) <= 20 and clean not in [i.get("heading", "") for i in list_items]:
+                        list_items.append({"heading": clean, "desc": "", "icon": "•", "bar_pct": 60 + len(list_items) * 8})
+                    if len(list_items) >= 4:
+                        break
+                if len(list_items) >= 4:
                     break
-            if len(items) >= 4:
-                break
     
-    # 选择模板
-    # 1. 有明确scene_type
+    # 选择模板（优先用scene_type，其次按内容特征）
     if scene_type in TEMPLATES:
         func = TEMPLATES[scene_type]
-        return func, scene_type, _build_kwargs(func, title, subtitle, data_points, items, key_elements, scene_id)
+        return func, scene_type, _build_kwargs(func, title, subtitle, data_points, list_items, key_elements, scene_id, tags=tags, quote=quote_text)
     
-    # 2. 有多个数据点 → data_impact
+    # 有timeline → flow
+    if timeline_items:
+        return template_flow, "flow", {
+            "title": title, "steps": [{"label": t[:12], "desc": ""} for t in timeline_items],
+            "subtitle": subtitle, "scene_id": scene_id, "tags": tags
+        }
+    
+    # 有quote → quote_hero
+    if quote_text:
+        return template_quote_hero, "quote_hero", {
+            "quote": quote_text[:60], "subtitle": subtitle, "scene_id": scene_id, "tags": tags
+        }
+    
+    # 有多个数据点 → data_impact
     if len(data_points) >= 2:
         stats = data_points[:4]
         while len(stats) < 3:
             stats.append({"num": "—", "label": ""})
         return template_data_impact, "data_impact", {
-            "title": title, "subtitle": subtitle, "stats": stats, "scene_id": scene_id
+            "title": title, "subtitle": subtitle, "stats": stats, "scene_id": scene_id, "tags": tags
         }
     
-    # 3. 有对比关键词 → compare
+    # 有对比关键词 → compare
     compare_words = ["vs", "对比", "比较", " versus ", "但是", "然而", "不同于", "完全不同", "截然不同", "相反", "而"]
     if any(w in narration.lower() for w in compare_words):
-        mid = len(items) // 2 if items else 2
+        mid = len(list_items) // 2 if list_items else 2
         return template_compare, "compare", {
             "title": title,
-            "left_items": [i["heading"] for i in items[:mid]] or ["A"],
-            "right_items": [i["heading"] for i in items[mid:]] or ["B"],
+            "left_items": [i["heading"] for i in list_items[:mid]] or ["A"],
+            "right_items": [i["heading"] for i in list_items[mid:]] or ["B"],
             "scene_id": scene_id
         }
     
-    # 4. 有引用/金句关键词 → quote_hero
-    quote_words = ["说", "认为", "表示", "说过", "名言", "经典"]
-    if any(w in narration for w in quote_words):
-        return template_quote_hero, "quote_hero", {
-            "quote": narration[:60], "subtitle": subtitle, "scene_id": scene_id
-        }
-    
-    # 5. 有步骤/流程关键词 → flow
+    # 有步骤/流程关键词 → flow
     flow_words = ["第一", "第二", "首先", "然后", "最后", "步骤", "阶段", "流程"]
-    if any(w in narration for w in flow_words) or len(items) >= 3:
-        steps = [{"label": i["heading"][:8], "desc": i.get("desc", "")} for i in items[:4]]
+    if any(w in narration for w in flow_words) or len(list_items) >= 3:
+        steps = [{"label": i["heading"][:8], "desc": i.get("desc", "")} for i in list_items[:4]]
         return template_flow, "flow", {
-            "title": title, "steps": steps, "subtitle": subtitle, "scene_id": scene_id
+            "title": title, "steps": steps, "subtitle": subtitle, "scene_id": scene_id, "tags": tags
         }
     
-    # 6. 默认 → dashboard（最通用）
+    # 默认 → dashboard
     metrics = data_points[:3] if data_points else [
         {"num": title[:6], "label": subtitle[:12]}
     ]
     return template_dashboard, "dashboard", {
-        "title": title, "subtitle": subtitle, "metrics": metrics, "scene_id": scene_id
+        "title": title, "subtitle": subtitle, "metrics": metrics, "scene_id": scene_id, "tags": tags
     }
 
 
-def _build_kwargs(func, title, subtitle, data_points, items, key_elements, scene_id):
+def _build_kwargs(func, title, subtitle, data_points, items, key_elements, scene_id, tags=None, quote=""):
     """根据模板函数签名构建参数"""
     import inspect
     sig = inspect.signature(func)
@@ -550,12 +706,13 @@ def _build_kwargs(func, title, subtitle, data_points, items, key_elements, scene
     if "stats" in params: kw["stats"] = data_points[:4] or [{"num": "—", "label": ""}]
     if "metrics" in params: kw["metrics"] = data_points[:3] or [{"num": "—", "label": ""}]
     if "items" in params: kw["items"] = items[:4] or [{"heading": "内容", "desc": "", "icon": "•"}]
-    if "quote" in params: kw["quote"] = subtitle or title
+    if "quote" in params: kw["quote"] = quote or subtitle or title
     if "steps" in params: kw["steps"] = [{"label": i["heading"][:8], "desc": ""} for i in items[:4]] or [{"label": "步骤1", "desc": ""}]
     if "left_items" in params:
         mid = max(1, len(items) // 2)
         kw["left_items"] = [i["heading"] for i in items[:mid]] or ["A"]
         kw["right_items"] = [i["heading"] for i in items[mid:]] or ["B"]
+    if "tags" in params and tags: kw["tags"] = tags
     return kw
 
 
