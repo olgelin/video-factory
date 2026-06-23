@@ -22,13 +22,6 @@ if 'PYTHONPATH' in os.environ:
 sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
 
 import platform
-
-# 导入核心组件
-sys.path.insert(0, str(WORKSPACE / "core"))
-from resource_checker import ResourceChecker
-from checkpoint import CheckpointManager
-from metrics import MetricsCollector
-from topic_validator import validate_topic
 if platform.system() == 'Windows':
     _hermes_home = Path(os.environ.get('HERMES_HOME', os.path.expanduser('~/.hermes')))
     # Hermes安装目录 = HERMES_HOME的父目录（E:\Hermes-Agent）
@@ -69,6 +62,13 @@ FEEDBACK_DIR = WORKSPACE / "feedback_system"
 sys.path.insert(0, str(WORKSPACE))
 sys.path.insert(0, str(WORKSPACE / "src"))
 sys.path.insert(0, str(FEEDBACK_DIR))
+sys.path.insert(0, str(WORKSPACE / "core"))
+
+# 导入核心组件
+from resource_checker import ResourceChecker
+from checkpoint import CheckpointManager
+from metrics import MetricsCollector
+from topic_validator import validate_topic
 
 # 导入反馈系统
 try:
