@@ -1,0 +1,10 @@
+# ACE-Step BGM 工具 - 独立环境依赖
+# transformers必须<4.58.0（ace-step硬性要求）
+torch>=2.5.0
+torchaudio>=2.5.0
+numpy>=1.26.0
+soundfile>=0.13.0
+transformers>=4.51.0,<4.58.0
+accelerate>=1.0.0
+safetensors>=0.4.0
+diffusers>=0.30.0

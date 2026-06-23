@@ -1,0 +1,10 @@
+# VoxCPM2 TTS 工具 - 独立环境依赖
+# 与video-factory主环境完全隔离
+torch>=2.5.0
+torchaudio>=2.5.0
+numpy>=1.26.0
+soundfile>=0.13.0
+librosa>=0.11.0
+transformers>=4.45.0
+safetensors>=0.4.0
+huggingface-hub>=0.20.0

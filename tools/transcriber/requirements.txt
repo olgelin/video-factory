@@ -1,0 +1,8 @@
+# Transcriber 工具 - 独立环境依赖
+# 使用FunASR进行语音转录
+torch>=2.5.0
+torchaudio>=2.5.0
+numpy>=1.26.0
+soundfile>=0.13.0
+funasr>=1.3.0
+onnxruntime>=1.20.0
