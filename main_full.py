@@ -22,6 +22,13 @@ if 'PYTHONPATH' in os.environ:
 sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
 
 import platform
+
+# 导入核心组件
+sys.path.insert(0, str(WORKSPACE / "core"))
+from resource_checker import ResourceChecker
+from checkpoint import CheckpointManager
+from metrics import MetricsCollector
+from topic_validator import validate_topic
 if platform.system() == 'Windows':
     _hermes_home = Path(os.environ.get('HERMES_HOME', os.path.expanduser('~/.hermes')))
     # Hermes安装目录 = HERMES_HOME的父目录（E:\Hermes-Agent）
@@ -488,10 +495,31 @@ def main():
         
         return results
     
+
+    # === 资源预检 ===
+    print(f"\n{'='*60}")
+    print(f"🔍 资源预检")
+    print(f"{'='*60}")
+    preflight = ResourceChecker.preflight(gpu_gb=6.0, disk_gb=10.0, ram_gb=8.0)
+    if not preflight["passed"]:
+        failed = [k for k, v in preflight["checks"].items() if not v["passed"]]
+        print(f"  ❌ 资源不足: {failed}")
+        for k, v in preflight["checks"].items():
+            print(f"    {k}: {v['message']}")
+        sys.exit(1)
+    print(f"  ✅ 资源充足")
+
+    # === 初始化监控组件 ===
+    checkpoint_mgr = CheckpointManager(str(OUTPUT_DIR))
+    metrics = MetricsCollector(str(OUTPUT_DIR))
+
     # === Phase 1: 串行 1-3 ===
     for skill in ["topic_scout", "topic_selector", "script_writer"]:
         step_num = {"topic_scout": 1, "topic_selector": 2, "script_writer": 3}[skill]
+        metrics.start(skill)
         run_skill(skill, step_num)
+        metrics.stop()
+        checkpoint_mgr.save(step_num, context, skill)
     
     # 验证选题质量（仅在从头运行时检查，步骤10+时topic已在之前验证过）
     if start_step <= 3:
