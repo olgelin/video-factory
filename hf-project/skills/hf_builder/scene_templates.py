@@ -472,7 +472,7 @@ def select_template(scene: dict, scene_id: int) -> tuple:
     # 提取数据点
     data_points = []
     if narration:
-        for m in re.finditer(r'([\d,.]+)\s*(万|亿|%|倍|秒|分钟|小时|个|人|次|元|块)', narration):
+        for m in re.finditer(r'([\d,.]+)\s*(万|亿|%|倍|秒|分钟|小时|个|人|次|元|块|分)', narration):
             data_points.append({"num": m.group(0), "label": m.group(2)})
     
     # 提取短句作为列表项
@@ -505,7 +505,7 @@ def select_template(scene: dict, scene_id: int) -> tuple:
         }
     
     # 3. 有对比关键词 → compare
-    compare_words = ["vs", "对比", "比较", " versus ", "但是", "然而", "不同于"]
+    compare_words = ["vs", "对比", "比较", " versus ", "但是", "然而", "不同于", "完全不同", "截然不同", "相反", "而"]
     if any(w in narration.lower() for w in compare_words):
         mid = len(items) // 2 if items else 2
         return template_compare, "compare", {
@@ -515,19 +515,19 @@ def select_template(scene: dict, scene_id: int) -> tuple:
             "scene_id": scene_id
         }
     
-    # 4. 有步骤/流程关键词 → flow
+    # 4. 有引用/金句关键词 → quote_hero
+    quote_words = ["说", "认为", "表示", "说过", "名言", "经典"]
+    if any(w in narration for w in quote_words):
+        return template_quote_hero, "quote_hero", {
+            "quote": narration[:60], "subtitle": subtitle, "scene_id": scene_id
+        }
+    
+    # 5. 有步骤/流程关键词 → flow
     flow_words = ["第一", "第二", "首先", "然后", "最后", "步骤", "阶段", "流程"]
     if any(w in narration for w in flow_words) or len(items) >= 3:
         steps = [{"label": i["heading"][:8], "desc": i.get("desc", "")} for i in items[:4]]
         return template_flow, "flow", {
             "title": title, "steps": steps, "subtitle": subtitle, "scene_id": scene_id
-        }
-    
-    # 5. 有引用/金句关键词 → quote_hero
-    quote_words = ["说", "认为", "表示", "说过", "名言", "经典"]
-    if any(w in narration for w in quote_words):
-        return template_quote_hero, "quote_hero", {
-            "quote": narration[:60], "subtitle": subtitle, "scene_id": scene_id
         }
     
     # 6. 默认 → dashboard（最通用）
