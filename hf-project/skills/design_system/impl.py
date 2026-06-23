@@ -282,7 +282,27 @@ def run(context):
     with open(DESIGN_PATH, "w", encoding="utf-8") as f:
         f.write(dm)
     print(f"  [design-system] 已保存到: {DESIGN_PATH}")
+
+    # === V4新增：生成design_specs.json（hf_builder需要）===
+    c = style["colors"]; t = style["typography"]; m = style["motion"]
+    specs = []
+    scene_types = ["opening", "data", "comparison", "quote", "closing"]
+    for i, st in enumerate(scene_types):
+        specs.append({
+            "scene_id": i + 1,
+            "scene_type": st,
+            "colors": c,
+            "typography": t,
+            "motion": m,
+            "energy": m["energy"],
+        })
+    specs_path = OUTPUT_DIR / "design_specs.json"
+    with open(specs_path, "w", encoding="utf-8") as f:
+        json.dump(specs, f, ensure_ascii=False, indent=2)
+    print(f"  [design-system] 已保存specs: {specs_path} ({len(specs)}个场景)")
+
     context["design_md_path"] = str(DESIGN_PATH)
+    context["design_specs_path"] = str(specs_path)
     context["design_style"] = style["name"]
     context["design_style_key"] = used
     return context
