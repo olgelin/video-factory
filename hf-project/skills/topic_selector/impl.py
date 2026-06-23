@@ -79,6 +79,7 @@ def _select_from_topics_list(verified_topics: list) -> dict:
 4. **内容可行性** (content_feasibility): 是否有足够素材做60-90秒视频，是否能讲清楚
 5. **差异化** (uniqueness): 是否能做出独特角度，而不是千篇一律的报道
 6. **情绪价值** (emotional_value): 是否能引发共鸣/争议/好奇/惊讶
+7. **视频化潜力** (video_potential): 是否有天然子话题、具体数据、视觉元素。有数字/对比/流程的选题→高分；开放式问题→低分
 
 【选题方向】
 - 不要选太宏大的话题（如"国际局势"），要选具体的切入点
@@ -103,7 +104,8 @@ def _select_from_topics_list(verified_topics: list) -> dict:
     "content_feasibility": 0-10,
     "uniqueness": 0-10,
     "emotional_value": 0-10,
-    "total": 0-60
+    "video_potential": 0-10,
+    "total": 0-70
   },
   "reason": "选择这个话题的理由（2-3句话）",
   "target_audience": "目标观众画像（年龄、兴趣、痛点）",
@@ -251,13 +253,14 @@ def _select_from_report(research_data: dict) -> dict:
 4. **内容可行性** (content_feasibility): 是否有足够素材做60-90秒视频，是否能讲清楚
 5. **差异化** (uniqueness): 是否能做出独特角度，而不是千篇一律的报道
 6. **情绪价值** (emotional_value): 是否能引发共鸣/争议/好奇/惊讶
+7. **视频化潜力** (video_potential): 是否有天然子话题、具体数据、视觉元素。有数字/对比/流程的选题→高分；开放式问题→低分
 
 【输出格式】
 {
   "selected_topic": "选定的话题（一句话）",
   "angle": "切入角度",
   "hook": "开头hook",
-  "scores": {"total": 0-60},
+  "scores": {"total": 0-70},
   "reason": "选择理由",
   "target_audience": "目标受众",
   "key_points": [...],

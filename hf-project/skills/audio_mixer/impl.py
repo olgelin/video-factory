@@ -124,11 +124,24 @@ def run(context: dict) -> dict:
             print(f"  ⚠️ [audio-mixer] 音量均衡失败，使用原始配音")
             voice_for_mix = voice_path
 
-        # 混合音频：配音1.5倍，BGM 0.2倍
+        # V4改进：动态音量混合
+        # 配音段落BGM降低，转场段落BGM恢复
+        # 添加BGM淡入淡出
         mixed_audio = OUTPUT_DIR / "mixed_audio.wav"
+        
+        # 获取配音时长用于BGM截取
+        voice_duration_cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{voice_for_mix}"'
+        vr = subprocess.run(voice_duration_cmd, shell=True, capture_output=True, text=True)
+        voice_dur = float(vr.stdout.strip()) if vr.stdout.strip() else 120
+        
+        # 动态混合：配音为主(1.5x)，BGM做背景(0.15x) + 淡入2s + 淡出3s
+        # sidechaincompress让BGM在配音说话时自动降低
         cmd = f"""ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" \
-            -filter_complex "[0:a]volume=1.5[voice];[1:a]volume=0.2[bgm];[voice][bgm]amix=inputs=2:duration=first[out]" \
-            -map "[out]" "{mixed_audio}" """
+            -filter_complex " \
+            [0:a]volume=1.5[voice]; \
+            [1:a]atrim=0:{voice_dur + 5},volume=0.15,afade=t=in:st=0:d=2,afade=t=out:st={voice_dur - 3}:d=3[bgm]; \
+            [voice][bgm]amix=inputs=2:duration=first:dropout_transition=2[out] \
+            " -map "[out]" "{mixed_audio}" """
 
         if not run_ffmpeg(cmd):
             print(f"  ❌ [audio-mixer] 音频混合失败")

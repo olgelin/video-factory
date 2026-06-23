@@ -988,7 +988,7 @@ def validate_scene_html(html: str, scene: dict) -> bool:
 
 
 def generate_and_build(scene, sid, total, ctx=None):
-    """单个场景：LLM 生成 HTML + 验证 + 重试"""
+    """单个场景：模板优先 → LLM兜底 → fallback"""
     ctx = ctx or {}
     design_md = ctx.get("_design_md", "")
     design_specs = ctx.get("_design_specs", {})
@@ -997,25 +997,73 @@ def generate_and_build(scene, sid, total, ctx=None):
     W = ctx.get("video_width", 1920)
     H = ctx.get("video_height", 1080)
     
-    max_retries = 3
+    # === V4: 模板优先（比LLM更稳定、更快速）===
+    try:
+        from scene_templates import generate_scene_from_template, set_design_colors
+        design_dict = {}
+        if spec:
+            design_dict = spec
+        elif design_md:
+            # 从design.md提取颜色
+            for line in design_md.split("\n"):
+                for key in ["background", "primary", "accent", "data"]:
+                    if f"{key}:" in line.lower():
+                        import re as _re
+                        m = _re.search(r'#[0-9a-fA-F]{6}', line)
+                        if m:
+                            design_dict.setdefault("colors", {})[key] = m.group(0)
+        
+        html = generate_scene_from_template(scene, sid, design_dict)
+        if html and len(html) > 100:
+            # 包裹完整HTML结构
+            full_html = _wrap_html(html, composition_id, W, H)
+            if validate_scene_html(full_html, scene):
+                print(f"    ✅ [Scene {sid}] 模板生成成功")
+                return sid, full_html
+            else:
+                print(f"    ⚠️ [Scene {sid}] 模板验证失败，降级到LLM")
+    except Exception as e:
+        print(f"    ⚠️ [Scene {sid}] 模板异常: {e}，降级到LLM")
     
+    # === LLM兜底 ===
+    max_retries = 2
     for attempt in range(max_retries):
         html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id, W, H)
-        
         if not html:
-            print(f"    ⚠️ [Scene {sid}] LLM 生成失败，尝试 {attempt+1}/{max_retries}", flush=True)
             continue
-        
-        # 验证HTML质量
         if validate_scene_html(html, scene):
             return sid, html
-        else:
-            print(f"    ⚠️ [Scene {sid}] HTML质量不合格，重试 {attempt+1}/{max_retries}", flush=True)
     
-    # 所有重试都失败，使用fallback
-    print(f"    ⚠️ [Scene {sid}] 所有尝试失败，使用 fallback", flush=True)
+    # === 最终fallback ===
+    print(f"    ⚠️ [Scene {sid}] 使用硬编码fallback")
     html = fallback_scene_html(scene, sid, design_md, composition_id)
     return sid, html
+
+
+def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080) -> str:
+    """将模板生成的body内容包裹成完整HTML文档"""
+    return f'''<!DOCTYPE html>
+<html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" style="background:#1a1a2e;">
+<head>
+<meta charset="UTF-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
+<div style="position:relative;width:{W}px;height:{H}px;background:#1a1a2e;overflow:hidden;">
+{body_html}
+</div>
+<script>
+(function() {{
+    var tl = gsap.timeline({{paused:true}});
+    tl.from(".scene-content > *", {{opacity:0, y:30, duration:0.6, ease:"power3.out", stagger:0.1}}, 0);
+    tl.from(".stat", {{scale:0.8, opacity:0, duration:0.5, ease:"back.out(1.7)", stagger:0.08}}, 0.2);
+    tl.from(".badge", {{scale:0, opacity:0, duration:0.3, ease:"back.out(2)", stagger:0.05}}, 0.4);
+    tl.from(".item", {{x:-50, opacity:0, duration:0.4, ease:"power2.out", stagger:0.08}}, 0.3);
+    tl.play();
+}})();
+</script>
+</body>
+</html>'''
 
 
 def build_intro_html(topic: str) -> str:

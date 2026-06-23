@@ -454,3 +454,128 @@ TEMPLATES = {
     "list_alert": template_list_alert,
     "flow": template_flow,
 }
+
+
+def select_template(scene: dict, scene_id: int) -> tuple:
+    """根据场景内容自动选择最佳模板
+    
+    Returns: (template_func, template_name, kwargs)
+    """
+    narration = scene.get("narration", "") or scene.get("voiceover", "")
+    concept = scene.get("concept", "") or scene.get("visual_concept", "")
+    key_elements = scene.get("key_elements", [])
+    scene_type = scene.get("scene_type", "")
+    
+    title = re.sub(r'[，。！？、；：""''（）\s]', '', narration)[:15] or "场景"
+    subtitle = concept[:60] if concept else ""
+    
+    # 提取数据点
+    data_points = []
+    if narration:
+        for m in re.finditer(r'([\d,.]+)\s*(万|亿|%|倍|秒|分钟|小时|个|人|次|元|块)', narration):
+            data_points.append({"num": m.group(0), "label": m.group(2)})
+    
+    # 提取短句作为列表项
+    items = []
+    if narration:
+        for sep in ['。', '！', '？', '，', '；']:
+            parts = narration.split(sep)
+            for p in parts:
+                clean = p.strip()
+                if 4 <= len(clean) <= 20 and clean not in [i.get("heading", "") for i in items]:
+                    items.append({"heading": clean, "desc": "", "icon": "•", "bar_pct": 60 + len(items) * 8})
+                if len(items) >= 4:
+                    break
+            if len(items) >= 4:
+                break
+    
+    # 选择模板
+    # 1. 有明确scene_type
+    if scene_type in TEMPLATES:
+        func = TEMPLATES[scene_type]
+        return func, scene_type, _build_kwargs(func, title, subtitle, data_points, items, key_elements, scene_id)
+    
+    # 2. 有多个数据点 → data_impact
+    if len(data_points) >= 2:
+        stats = data_points[:4]
+        while len(stats) < 3:
+            stats.append({"num": "—", "label": ""})
+        return template_data_impact, "data_impact", {
+            "title": title, "subtitle": subtitle, "stats": stats, "scene_id": scene_id
+        }
+    
+    # 3. 有对比关键词 → compare
+    compare_words = ["vs", "对比", "比较", " versus ", "但是", "然而", "不同于"]
+    if any(w in narration.lower() for w in compare_words):
+        mid = len(items) // 2 if items else 2
+        return template_compare, "compare", {
+            "title": title,
+            "left_items": [i["heading"] for i in items[:mid]] or ["A"],
+            "right_items": [i["heading"] for i in items[mid:]] or ["B"],
+            "scene_id": scene_id
+        }
+    
+    # 4. 有步骤/流程关键词 → flow
+    flow_words = ["第一", "第二", "首先", "然后", "最后", "步骤", "阶段", "流程"]
+    if any(w in narration for w in flow_words) or len(items) >= 3:
+        steps = [{"label": i["heading"][:8], "desc": i.get("desc", "")} for i in items[:4]]
+        return template_flow, "flow", {
+            "title": title, "steps": steps, "subtitle": subtitle, "scene_id": scene_id
+        }
+    
+    # 5. 有引用/金句关键词 → quote_hero
+    quote_words = ["说", "认为", "表示", "说过", "名言", "经典"]
+    if any(w in narration for w in quote_words):
+        return template_quote_hero, "quote_hero", {
+            "quote": narration[:60], "subtitle": subtitle, "scene_id": scene_id
+        }
+    
+    # 6. 默认 → dashboard（最通用）
+    metrics = data_points[:3] if data_points else [
+        {"num": title[:6], "label": subtitle[:12]}
+    ]
+    return template_dashboard, "dashboard", {
+        "title": title, "subtitle": subtitle, "metrics": metrics, "scene_id": scene_id
+    }
+
+
+def _build_kwargs(func, title, subtitle, data_points, items, key_elements, scene_id):
+    """根据模板函数签名构建参数"""
+    import inspect
+    sig = inspect.signature(func)
+    params = set(sig.parameters.keys())
+    kw = {"scene_id": scene_id}
+    if "title" in params: kw["title"] = title
+    if "subtitle" in params: kw["subtitle"] = subtitle
+    if "stats" in params: kw["stats"] = data_points[:4] or [{"num": "—", "label": ""}]
+    if "metrics" in params: kw["metrics"] = data_points[:3] or [{"num": "—", "label": ""}]
+    if "items" in params: kw["items"] = items[:4] or [{"heading": "内容", "desc": "", "icon": "•"}]
+    if "quote" in params: kw["quote"] = subtitle or title
+    if "steps" in params: kw["steps"] = [{"label": i["heading"][:8], "desc": ""} for i in items[:4]] or [{"label": "步骤1", "desc": ""}]
+    if "left_items" in params:
+        mid = max(1, len(items) // 2)
+        kw["left_items"] = [i["heading"] for i in items[:mid]] or ["A"]
+        kw["right_items"] = [i["heading"] for i in items[mid:]] or ["B"]
+    return kw
+
+
+def generate_scene_from_template(scene: dict, scene_id: int, design: dict = None) -> str:
+    """用模板生成场景HTML（首选方案，比LLM更稳定）"""
+    if design:
+        set_design_colors(design)
+    
+    func, name, kw = select_template(scene, scene_id)
+    print(f"    [template] 选择: {name}", end="")
+    try:
+        html = func(**kw)
+        print(f" ✅")
+        return html
+    except Exception as e:
+        print(f" ❌ {e}")
+        # 降级到dashboard
+        return template_dashboard(
+            title=kw.get("title", "场景"),
+            subtitle=kw.get("subtitle", ""),
+            metrics=[{"num": "—", "label": ""}],
+            scene_id=scene_id
+        )
