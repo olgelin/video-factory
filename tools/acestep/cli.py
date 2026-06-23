@@ -26,8 +26,8 @@ sys.path[:] = [p for p in sys.path if not any(
 ACESTEP_ROOT = os.environ.get("ACESTEP_ROOT", "E:/Hermes-Agent/workspace/xiaoshan/models/acestep_package")
 ACESTEP_CHECKPOINT = os.environ.get("ACESTEP_CHECKPOINT", "acestep-v15-turbo")
 
-# acestep_package是本地包，需要添加到sys.path
-sys.path.insert(0, ACESTEP_ROOT)
+# acestep_package是本地包，需要添加父目录到sys.path
+sys.path.insert(0, str(Path(ACESTEP_ROOT).parent))
 
 
 def init_handler():
