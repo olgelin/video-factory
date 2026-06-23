@@ -203,7 +203,7 @@ def main():
     parser.add_argument("--script", type=str, help="直接提供文案（文件路径或内联文本），跳过选题+剧本生成")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音生成")
     parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM生成")
-    parser.add_argument("--steps", type=str, default="1-12", help="执行步骤范围 (如 1-12)")
+    parser.add_argument("--steps", type=str, default="1-13", help="执行步骤范围 (如 1-13)")
     parser.add_argument("--check-deps", action="store_true", help="检查依赖更新")
     parser.add_argument("--update-deps", action="store_true", help="更新所有依赖")
     parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
@@ -257,8 +257,8 @@ def main():
             start_step, end_step = int(parts[0]), int(parts[1])
         else:
             raise ValueError
-        if not (1 <= start_step <= end_step <= 12):
-            print(f"  ❌ 步骤范围必须在1-12之间: {args.steps}")
+        if not (1 <= start_step <= end_step <= 13):
+            print(f"  ❌ 步骤范围必须在1-13之间: {args.steps}")
             sys.exit(1)
     except (ValueError, IndexError):
         print(f"  ❌ --steps格式错误: {args.steps}，应为 N 或 N-M (如 1-12)")
@@ -448,6 +448,7 @@ def main():
             "lyrics_writer": 4, "voice_gen": 5, "transcriber": 6,
             "bgm_generator": 7, "design_system": 8, "storyboard": 9,
             "hf_builder": 10, "video_renderer": 11, "audio_mixer": 12,
+            "video_upscaler": 13,
         }
         step_num = step_map.get(skill_name, 0)
         if step_num < start_step or step_num > end_step:
@@ -640,8 +641,8 @@ def main():
     except Exception as e:
         print(f"  ⚠️ 质量诊断跳过: {e}")
     
-    for skill in ["video_renderer", "audio_mixer"]:
-        step_num = {"video_renderer": 11, "audio_mixer": 12}[skill]
+    for skill in ["video_renderer", "video_upscaler", "audio_mixer"]:
+        step_num = {"video_renderer": 11, "video_upscaler": 13, "audio_mixer": 12}[skill]
         run_skill(skill, step_num)
     
     # 最终质量追溯
