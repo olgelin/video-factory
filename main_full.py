@@ -62,13 +62,28 @@ FEEDBACK_DIR = WORKSPACE / "feedback_system"
 sys.path.insert(0, str(WORKSPACE))
 sys.path.insert(0, str(WORKSPACE / "src"))
 sys.path.insert(0, str(FEEDBACK_DIR))
-sys.path.insert(0, str(WORKSPACE / "core"))
 
 # 导入核心组件
+import importlib.util
+_core_dir = WORKSPACE / "core"
+for _mod_name in ["resource_checker", "checkpoint", "metrics", "topic_validator"]:
+    _mod_path = _core_dir / f"{_mod_name}.py"
+    if _mod_path.exists():
+        _spec = importlib.util.spec_from_file_location(_mod_name, _mod_path)
+        _mod = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        sys.modules[_mod_name] = _mod
+
 from resource_checker import ResourceChecker
 from checkpoint import CheckpointManager
 from metrics import MetricsCollector
 from topic_validator import validate_topic
+
+# 预导入acestep_package，避免Windows WinError 6714
+try:
+    from acestep_package.handler import AceStepHandler as _AceStepHandler
+except (ImportError, OSError):
+    pass
 
 # 导入反馈系统
 try:
@@ -555,16 +570,18 @@ def main():
         ("design_system", 8),
     ])
     
-    # === Phase 3: 并行 6(transcriber) + 7(bgm) + 9(storyboard) ===
-    # 6依赖5(voice), 7依赖4(lyrics), 9依赖8(design)
+    # === Phase 3: 并行 6(transcriber) + 7(bgm) ===
+    # 6依赖5(voice), 7依赖4(lyrics)
     print(f"\n{'='*60}")
-    print(f"⚡ Phase 3: 并行执行 transcriber + bgm_generator + storyboard")
+    print(f"⚡ Phase 3: 并行执行 transcriber + bgm_generator")
     print(f"{'='*60}")
     run_parallel([
         ("transcriber", 6),
         ("bgm_generator", 7),
-        ("storyboard", 9),
     ])
+    
+    # === Phase 3.5: 串行 storyboard（依赖transcriber的transcript + design_system） ===
+    run_skill("storyboard", 9)
     
     # === Phase 4: 串行 10-12 ===
     run_skill("hf_builder", 10)
@@ -643,6 +660,13 @@ def main():
     context_path = OUTPUT_DIR / "pipeline_context.json"
     with open(context_path, "w", encoding="utf-8") as f:
         json.dump(context, f, ensure_ascii=False, indent=2, default=str)
+    
+    # 保存性能指标
+    try:
+        metrics.save()
+        print(f"  📊 性能指标已保存: {OUTPUT_DIR / 'metrics.json'}")
+    except Exception as e:
+        print(f"  ⚠️ 性能指标保存失败: {e}")
     
     
     # 生成元数据（subprocess避免import时的sys.path冲突）

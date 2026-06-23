@@ -25,6 +25,25 @@ if 'PYTHONPATH' in os.environ:
 sys.path[:] = [p for p in sys.path if not any(x in p.lower() for x in ['hermes-agent', 'hermes_agent']) or 'core' in p.lower()]
 sys.meta_path = [f for f in sys.meta_path if 'hermes' not in type(f).__module__.lower() and 'hermes' not in type(f).__name__.lower()]
 
+# Windows DLL加载优化：减少WinError 6714
+if sys.platform == 'win32':
+    os.environ['CUDA_MODULE_LOADING'] = 'LAZY'  # 延迟加载CUDA模块
+    os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'  # 减少内存碎片
+    # 添加DLL搜索路径
+    torch_lib = Path(os.environ.get('CONDA_PREFIX', '')) / 'Lib' / 'site-packages' / 'torch' / 'lib'
+    if not torch_lib.exists():
+        # 尝试从sys.path找torch
+        for p in sys.path:
+            candidate = Path(p) / 'torch' / 'lib'
+            if candidate.exists():
+                torch_lib = candidate
+                break
+    if torch_lib.exists():
+        try:
+            os.add_dll_directory(str(torch_lib))
+        except (AttributeError, OSError):
+            pass
+
 # 输出路径
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 LYRICS_PATH = OUTPUT_DIR / "lyrics.txt"
@@ -38,27 +57,57 @@ ACESTEP_CHECKPOINT = os.environ.get("ACESTEP_CHECKPOINT", "acestep-v15-turbo")
 def generate_bgm(lyrics: str, output_path: str, bgm_duration: float = 210) -> tuple:
     """生成BGM，根据配音时长自动匹配"""
     import torch
-    from concurrent.futures import ThreadPoolExecutor, TimeoutError
     
     print(f"  [bgm-gen] 初始化ACE-Step模型...")
     
     # 添加models目录到sys.path
-    models_dir = os.environ.get("MODELS_DIR", os.path.join(os.path.dirname(ACESTEP_ROOT)))
-    if models_dir not in sys.path:
-        sys.path.insert(0, models_dir)
+    # 不添加ACESTEP_ROOT到sys.path，使用已安装的acestep模块
     
     try:
-        from acestep_package.handler import AceStepHandler
+        # 尝试直接导入handler，避免sys.path问题
+        import time as _time
+        for _retry in range(5):
+            try:
+                from acestep_package.handler import AceStepHandler
+                break
+            except (OSError, ImportError) as _e:
+                if _retry < 4:
+                    print(f"  [bgm-gen] import重试 {_retry+1}/5: {_e}")
+                    _time.sleep(2)  # 增加等待时间
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                else:
+                    raise
         
-        # 初始化handler
-        handler = AceStepHandler()
+        # 初始化handler（带重试）
+        for init_retry in range(3):
+            try:
+                handler = AceStepHandler()
+                break
+            except OSError as oe:
+                if init_retry < 2:
+                    print(f"  [bgm-gen] handler初始化OSError重试 {init_retry+1}/3: {oe}")
+                    _time.sleep(3)
+                else:
+                    raise
         
-        # 初始化服务
-        result = handler.initialize_service(
-            project_root=ACESTEP_ROOT,
-            config_path=ACESTEP_CHECKPOINT,
-            device="cuda" if torch.cuda.is_available() else "cpu",
-        )
+        # 初始化服务（带重试）
+        for svc_retry in range(3):
+            try:
+                result = handler.initialize_service(
+                    project_root=ACESTEP_ROOT,
+                    config_path=ACESTEP_CHECKPOINT,
+                    device="cuda" if torch.cuda.is_available() else "cpu",
+                )
+                break
+            except OSError as oe:
+                if svc_retry < 2:
+                    print(f"  [bgm-gen] initialize_service OSError重试 {svc_retry+1}/3: {oe}")
+                    _time.sleep(3)
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                else:
+                    raise
         
         ok = result[1]
         if not ok:
@@ -102,57 +151,65 @@ def generate_bgm(lyrics: str, output_path: str, bgm_duration: float = 210) -> tu
                     use_tiled_decode=p["use_tiled_decode"],
                 )
             
-            with ThreadPoolExecutor(max_workers=1) as executor:
-                future = executor.submit(do_generate)
-                try:
-                    timeout = 300 if i == 0 else 180  # 第一次5分钟，后面3分钟
-                    result = future.result(timeout=timeout)
+            try:
+                # 带重试的generate_music调用
+                for gen_retry in range(3):
+                    try:
+                        result = do_generate()
+                        break
+                    except OSError as oe:
+                        if gen_retry < 2:
+                            print(f"  [bgm-gen] generate_music OSError重试 {gen_retry+1}/3: {oe}")
+                            import time
+                            time.sleep(3)
+                            if torch.cuda.is_available():
+                                torch.cuda.empty_cache()
+                        else:
+                            raise
+                
+                # 提取音频
+                audio_data = None
+                sample_rate = 48000
+                
+                if isinstance(result, dict):
+                    if "audios" in result and result["audios"]:
+                        audios = result["audios"]
+                        if audios:
+                            first = audios[0]
+                            if isinstance(first, dict):
+                                audio_data = first.get("tensor")
+                                sample_rate = first.get("sample_rate", 48000)
+                            elif hasattr(first, "tensor"):
+                                audio_data = first.tensor
+                                sample_rate = getattr(first, "sample_rate", 48000)
+                    elif "audio_data" in result:
+                        audio_data = result["audio_data"]
+                    elif "audio" in result:
+                        audio_data = result["audio"]
+                
+                if audio_data is not None:
+                    # 转换为numpy
+                    import soundfile as sf
+                    if isinstance(audio_data, torch.Tensor):
+                        arr = audio_data.cpu().numpy()
+                        if arr.ndim == 2:
+                            arr = arr.T
+                        audio_data = arr
                     
-                    # 提取音频
-                    audio_data = None
-                    sample_rate = 48000
+                    # 保存WAV
+                    sf.write(output_path, audio_data, sample_rate)
                     
-                    if isinstance(result, dict):
-                        if "audios" in result and result["audios"]:
-                            audios = result["audios"]
-                            if audios:
-                                first = audios[0]
-                                if isinstance(first, dict):
-                                    audio_data = first.get("tensor")
-                                    sample_rate = first.get("sample_rate", 48000)
-                                elif hasattr(first, "tensor"):
-                                    audio_data = first.tensor
-                                    sample_rate = getattr(first, "sample_rate", 48000)
-                        elif "audio_data" in result:
-                            audio_data = result["audio_data"]
-                        elif "audio" in result:
-                            audio_data = result["audio"]
+                    # 获取实际时长
+                    info = sf.info(output_path)
+                    duration_actual = info.frames / info.samplerate
                     
-                    if audio_data is not None:
-                        # 转换为numpy
-                        import soundfile as sf
-                        if isinstance(audio_data, torch.Tensor):
-                            arr = audio_data.cpu().numpy()
-                            if arr.ndim == 2:
-                                arr = arr.T
-                            audio_data = arr
-                        
-                        # 保存WAV
-                        sf.write(output_path, audio_data, sample_rate)
-                        
-                        # 获取实际时长
-                        info = sf.info(output_path)
-                        duration_actual = info.frames / info.samplerate
-                        
-                        print(f"  [bgm-gen] ✅ 成功: {output_path} ({duration_actual:.1f}s)")
-                        return output_path, duration_actual
-                    
-                    print(f"  [bgm-gen] 尝试{i+1}无法提取音频数据，重试...")
-                    
-                except TimeoutError:
-                    print(f"  [bgm-gen] 尝试{i+1}超时，重试...")
-                    # 强制取消线程
-                    future.cancel()
+                    print(f"  [bgm-gen] ✅ 成功: {output_path} ({duration_actual:.1f}s)")
+                    return output_path, duration_actual
+                
+                print(f"  [bgm-gen] 尝试{i+1}无法提取音频数据，重试...")
+                
+            except Exception as e:
+                print(f"  [bgm-gen] 尝试{i+1}失败: {e}")
                     
         # 所有尝试都失败
         print(f"  [bgm-gen] ❌ 所有尝试都失败")
@@ -204,28 +261,39 @@ def run(context: dict) -> dict:
     bgm_target_duration = context.get("bgm_duration", 210)
     print(f"  [bgm-gen] 目标BGM时长: {bgm_target_duration:.1f}s")
     
-    # 生成BGM（无fallback，必须成功）
+    # 生成BGM（带重试，最多3次）
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     
-    try:
-        bgm_path, bgm_duration = generate_bgm(lyrics, str(BGM_PATH), bgm_target_duration)
-        
-        if bgm_path:
-            context["bgm_path"] = bgm_path
-            context["bgm_duration"] = bgm_duration
-            print(f"  [bgm-gen] ✅ BGM生成完成 ({bgm_duration:.1f}s)")
-        else:
-            print(f"  ❌ [bgm-gen] BGM生成失败！Pipeline将无BGM继续")
-            # 不使用fallback，但标记失败
-            context["bgm_path"] = None
-            context["bgm_duration"] = 0
-                
-    except Exception as e:
-        print(f"  ❌ [bgm-gen] BGM生成异常: {e}")
-        import traceback
-        traceback.print_exc()
-        context["bgm_path"] = None
-        context["bgm_duration"] = 0
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            if attempt > 0:
+                print(f"  [bgm-gen] 重试 {attempt+1}/{max_retries}...")
+                import time
+                time.sleep(5)  # 等待5秒让系统恢复
+            
+            bgm_path, bgm_duration = generate_bgm(lyrics, str(BGM_PATH), bgm_target_duration)
+            
+            if bgm_path:
+                context["bgm_path"] = bgm_path
+                context["bgm_duration"] = bgm_duration
+                print(f"  [bgm-gen] ✅ BGM生成完成 ({bgm_duration:.1f}s)")
+                break
+            elif attempt < max_retries - 1:
+                print(f"  ⚠️ [bgm-gen] 尝试{attempt+1}失败，重试中...")
+                continue
+            else:
+                print(f"  ❌ [bgm-gen] BGM生成失败！Pipeline将无BGM继续")
+                context["bgm_path"] = None
+                context["bgm_duration"] = 0
+                    
+        except Exception as e:
+            print(f"  ❌ [bgm-gen] BGM生成异常: {e}")
+            import traceback
+            traceback.print_exc()
+            if attempt == max_retries - 1:
+                context["bgm_path"] = None
+                context["bgm_duration"] = 0
     
     return context
 
