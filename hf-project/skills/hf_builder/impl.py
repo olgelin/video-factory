@@ -973,8 +973,9 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         print(f"      ⚠️ 三层视觉结构不足: {z_index_count}个z-index (需要≥2)", flush=True)
         return False
     
-    # 检查6：必须有玻璃态效果（backdrop-filter）
-    if 'backdrop-filter' not in html:
+    # 检查6：玻璃态效果（backdrop-filter）— 模板场景可以没有
+    # 只对LLM生成的场景强制，模板场景通过即可
+    if 'backdrop-filter' not in html and len(html) > 8000:
         print(f"      ⚠️ 缺少玻璃态效果（backdrop-filter）", flush=True)
         return False
     
@@ -1046,11 +1047,12 @@ def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080
     如果body_html已包含GSAP脚本（模板生成的），不再注入generic GSAP。
     如果没有GSAP，根据scene的animation verbs生成scene-specific GSAP。
     """
-    # 检查body_html是否已包含GSAP脚本
-    has_gsap = 'gsap.timeline' in body_html or 'tl.from' in body_html or 'tl.to' in body_html
+    # 检查body_html是否已包含GSAP场景动画（不含Canvas粒子的tl.to(proxy)）
+    # 只检查tl.from/tl.fromTo（入场动画），不检查tl.to(proxy)（粒子驱动）
+    has_scene_gsap = bool(re.search(r'tl\.(from|fromTo)\s*\(', body_html))
     
     gsap_section = ""
-    if not has_gsap:
+    if not has_scene_gsap:
         # 根据storyboard的animation verbs生成scene-specific GSAP
         gsap_section = _generate_scene_gsap(composition_id, scene)
     
@@ -1110,6 +1112,11 @@ def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
 (function() {{
     var tl = gsap.timeline({{paused:true}});
     var root = document.querySelector('[data-composition-id={composition_id}]') || document;
+    // Background decorations (fade in first)
+    var decos = root.querySelectorAll('[style*="pointer-events:none"]');
+    decos.forEach(function(el, i) {{
+        tl.from(el, {{opacity:0, duration:1.2, ease:'power1.inOut'}}, 0);
+    }});
     // Title entrance (verb: {title_verb})
     var titles = root.querySelectorAll('h1, h2');
     titles.forEach(function(el, i) {{
@@ -1120,15 +1127,20 @@ def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
     stats.forEach(function(el, i) {{
         tl.from(el, {d_params["from"]}, 0.3 + i * {(d_params["stagger"] or 0.1)});
     }});
+    // Number impact effect for .stat elements (scale slam)
+    var bigNums = root.querySelectorAll('.stat');
+    bigNums.forEach(function(el, i) {{
+        tl.from(el, {{scale:2.5, opacity:0, duration:0.6, ease:'back.out(1.7)'}}, 0.3 + i * 0.15);
+    }});
     // Items and badges
     var items = root.querySelectorAll('.item, .badge, .tag');
     items.forEach(function(el, i) {{
         tl.from(el, {{x:-30, opacity:0, duration:0.4, ease:'power2.out'}}, 0.4 + i * 0.08);
     }});
-    // Progress bars
-    var bars = root.querySelectorAll('[style*="scaleX"]');
-    bars.forEach(function(el, i) {{
-        tl.from(el, {{scaleX:0, transformOrigin:'left', duration:1, ease:'power2.inOut'}}, 0.5 + i * 0.1);
+    // Subtitle / description text
+    var subs = root.querySelectorAll('.subtitle, p');
+    subs.forEach(function(el, i) {{
+        tl.from(el, {{y:20, opacity:0, duration:0.5, ease:'power2.out'}}, 0.5 + i * 0.1);
     }});
     window.__timelines = window.__timelines || {{}};
     window.__timelines["{composition_id}"] = tl;

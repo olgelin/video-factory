@@ -641,9 +641,17 @@ def select_template(scene: dict, scene_id: int) -> tuple:
                     break
     
     # 选择模板（优先用scene_type，其次按内容特征）
-    if scene_type in TEMPLATES:
-        func = TEMPLATES[scene_type]
-        return func, scene_type, _build_kwargs(func, title, subtitle, data_points, list_items, key_elements, scene_id, tags=tags, quote=quote_text)
+    # scene_type到模板名的映射
+    TYPE_MAP = {
+        "opening": "data_impact", "closing": "quote_hero",
+        "data": "data_impact", "comparison": "compare",
+        "quote": "quote_hero", "product_showcase": "data_impact",
+        "timeline_event": "flow", "hud": "hud",
+    }
+    mapped_type = TYPE_MAP.get(scene_type, scene_type)
+    if mapped_type in TEMPLATES:
+        func = TEMPLATES[mapped_type]
+        return func, mapped_type, _build_kwargs(func, title, subtitle, data_points, list_items, key_elements, scene_id, tags=tags, quote=quote_text)
     
     # 有timeline → flow
     if timeline_items:
