@@ -58,45 +58,39 @@ def generate_metadata(context: dict) -> dict:
     # 生成标题 — 不截断，保留完整主题
     title = topic if topic else "AI热点速递"
 
-    # 从topic提取关键词作为标签（jieba分词，确定性输出）
+    # 生成标签 — 从topic提取关键词，生成3-5个hashtag
     hashtags = []
     if topic:
-        try:
-            import jieba
-            words = list(jieba.cut(topic))
-        except Exception:
-            # fallback: 按标点拆分
-            words = re.split(r'[：:、，,；!！?？\-—\s\d]+', topic)
-        # 过滤：去掉单字、纯数字、虚词、jieba误切的2字组合
-        stop_chars = set('的了在是和与为及或从把被让将就才刚只每也还都没不过对什么')
-        meaningful = []
-        for w in words:
-            w = w.strip()
-            if len(w) < 2 or re.match(r'^\d+$', w) or w in stop_chars:
-                continue
-            # 2字词只保留已知实体词（jieba常把新词切成2字乱码）
-            if len(w) == 2 and not re.match(r'^(?:美国|中国|日本|韩国|欧盟|采购|辟谣|谣言|真相|资质|行业|企业|产品|技术|市场|经济|政策|改革|制裁|关税|芯片|汽车|车企|补贴|破产|退市|召回|造假)$', w):
-                continue
-            meaningful.append(w)
-        # 组合：国家+实体（如"美国"+"企业"→"美国企业"）
-        combined = []
-        i = 0
-        while i < len(meaningful):
-            # 如果当前词是国家/地区名，尝试与下一个词组合
-            if i + 1 < len(meaningful) and re.match(r'^(?:中国|美国|日本|韩国|欧盟|俄罗斯|印度|英国|法国|德国)$', meaningful[i]):
-                combined.append(meaningful[i] + meaningful[i+1])
-                i += 2
-            else:
-                combined.append(meaningful[i])
-                i += 1
+        # 策略1: 整个topic作为第一个hashtag（如果长度合适）
+        if len(topic) <= 20:
+            hashtags.append(f"#{topic}")
+        
+        # 策略2: 按标点拆分，取有意义的短语
+        parts = re.split(r'[，,。！？；、：:—\-\s]+', topic)
+        for p in parts:
+            p = p.strip()
+            if len(p) >= 4 and len(p) <= 15 and f"#{p}" not in hashtags:
+                hashtags.append(f"#{p}")
+        
+        # 策略3: 提取关键实体词
+        entity_patterns = [
+            r'([\u4e00-\u9fff]{2,4}(?:高考|分数线|公布|事件|事故|矿难|消防员|议员|总统|公司|企业|品牌|产品|技术))',
+            r'((?:河南|河北|山东|广东|四川|浙江|江苏|北京|上海|韩国|日本|美国|中国)[\u4e00-\u9fff]{2,6})',
+        ]
+        for pattern in entity_patterns:
+            matches = re.findall(pattern, topic)
+            for m in matches:
+                if f"#{m}" not in hashtags and len(m) >= 3:
+                    hashtags.append(f"#{m}")
+        
         # 去重保序
         seen = set()
         unique = []
-        for k in combined:
-            if k not in seen:
-                seen.add(k)
-                unique.append(k)
-        hashtags = [f"#{k}" for k in unique[:6]]
+        for h in hashtags:
+            if h not in seen:
+                seen.add(h)
+                unique.append(h)
+        hashtags = unique[:5]
 
     # 生成描述 — hook风格，前3句口播精华
     date_str = datetime.now().strftime("%Y年%m月%d日")

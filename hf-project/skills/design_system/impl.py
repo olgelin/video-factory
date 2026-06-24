@@ -470,15 +470,35 @@ def run(context):
     # === V4新增：生成design_specs.json（hf_builder需要）===
     c = style["colors"]; t = style["typography"]; m = style["motion"]
     specs = []
-    scene_types = ["opening", "data", "comparison", "quote", "closing"]
-    for i, st in enumerate(scene_types):
+    # 动态场景类型：根据storyboard场景数生成
+    scene_types = ["opening", "data", "comparison", "quote", "flow", "timeline", "hud", "closing"]
+    # 读取storyboard获取实际场景数
+    storyboard_path = OUTPUT_DIR / "storyboard.json"
+    num_scenes = 8  # 默认
+    if storyboard_path.exists():
+        try:
+            with open(storyboard_path, "r", encoding="utf-8") as f:
+                sb = json.load(f)
+            scenes = sb if isinstance(sb, list) else sb.get("scenes", [])
+            num_scenes = len(scenes)
+        except Exception:
+            pass
+    
+    for i in range(num_scenes):
+        st = scene_types[i % len(scene_types)]
+        energy = m["energy"]
+        # 根据场景类型调整energy
+        if st in ["opening", "data", "comparison"]:
+            energy = "high" if st == "data" else m["energy"]
+        elif st in ["quote", "closing"]:
+            energy = "calm"
         specs.append({
             "scene_id": i + 1,
             "scene_type": st,
             "colors": c,
             "typography": t,
             "motion": m,
-            "energy": m["energy"],
+            "energy": energy,
         })
     specs_path = OUTPUT_DIR / "design_specs.json"
     with open(specs_path, "w", encoding="utf-8") as f:

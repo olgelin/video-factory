@@ -40,10 +40,18 @@ def _fix_transcription_errors(text: str) -> str:
 
 
 def transcribe_funasr(audio_path: str) -> dict:
-    """用FunASR转录"""
+    """用FunASR转录（带VAD分段）"""
     from funasr import AutoModel
 
     print("[transcriber] Loading FunASR...", file=sys.stderr)
+    
+    # 使用VAD模型先分段，再逐段转录
+    model_vad = AutoModel(
+        model='iic/speech_fsmn_vad_zh-cn-16k-common-pytorch',
+        model_revision='v2.0.4',
+        disable_update=True
+    )
+    
     model = AutoModel(
         model='iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch',
         model_revision='v2.0.4',
@@ -51,7 +59,24 @@ def transcribe_funasr(audio_path: str) -> dict:
     )
 
     print(f"[transcriber] Transcribing: {audio_path}", file=sys.stderr)
-    result = model.generate(input=audio_path, batch_size_s=300)
+    
+    # 先用VAD检测语音段
+    vad_result = model_vad.generate(input=audio_path)
+    vad_segments = []
+    if vad_result and vad_result[0]:
+        for item in vad_result:
+            if 'value' in item:
+                for seg in item['value']:
+                    vad_segments.append({
+                        'start': seg[0] / 1000.0,
+                        'end': seg[1] / 1000.0,
+                    })
+    
+    if vad_segments:
+        print(f"[transcriber] VAD detected {len(vad_segments)} segments", file=sys.stderr)
+    
+    # 用小batch逐段转录
+    result = model.generate(input=audio_path, batch_size_s=60)
 
     if not result:
         return None
@@ -74,6 +99,33 @@ def transcribe_funasr(audio_path: str) -> dict:
             "text": _fix_transcription_errors(_fix_chinese_spacing(text.strip())),
             "words": [],
         })
+    
+    # 如果ASR只返回1个segment但VAD有多个，用VAD分段
+    if len(segments) == 1 and len(vad_segments) > 1:
+        print(f"[transcriber] ASR returned 1 segment, using {len(vad_segments)} VAD segments", file=sys.stderr)
+        # 将ASR文本按VAD段落分割
+        full_text = segments[0]["text"] if segments else ""
+        # 按标点分割文本
+        import re
+        sentences = re.split(r'[。！？，；]', full_text)
+        sentences = [s.strip() for s in sentences if s.strip()]
+        
+        segments = []
+        text_idx = 0
+        for vad in vad_segments:
+            # 分配文本到VAD段
+            seg_text = ""
+            chars_needed = int((vad['end'] - vad['start']) * 4)  # 约4字/秒
+            while text_idx < len(sentences) and len(seg_text) < chars_needed:
+                seg_text += sentences[text_idx] + "。"
+                text_idx += 1
+            
+            segments.append({
+                "start": round(vad['start'], 3),
+                "end": round(vad['end'], 3),
+                "text": _fix_transcription_errors(_fix_chinese_spacing(seg_text.strip())),
+                "words": [],
+            })
 
     total_duration = segments[-1]["end"] if segments else 0
 

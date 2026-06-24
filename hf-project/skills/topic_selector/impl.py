@@ -402,6 +402,51 @@ def _select_from_report(research_data: dict) -> dict:
     }
 
 
+def _search_real_data(topic: str) -> list:
+    """搜索选题的真实数据（数字、统计、事实）"""
+    try:
+        import requests
+        # 用百度搜索获取摘要
+        session = requests.Session()
+        session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        })
+        resp = session.get(f'https://www.baidu.com/s?wd={topic}&rn=5', timeout=10)
+        text = resp.text
+        
+        # 提取搜索结果摘要中的数字
+        import re
+        results = []
+        
+        # 提取所有包含数字的句子
+        sentences = re.findall(r'[\u4e00-\u9fff][^。！？]*?[\d,]+[^。！？]*[。！？]', text)
+        seen = set()
+        for s in sentences:
+            s = s.strip()
+            if len(s) < 10 or len(s) > 200:
+                continue
+            # 提取数字
+            numbers = re.findall(r'[\d,]+(?:\.\d+)?(?:万|亿|%|元|人|次|年|天|小时|分|秒)?', s)
+            if numbers:
+                key = s[:30]
+                if key not in seen:
+                    seen.add(key)
+                    results.append({
+                        "point": s[:100],
+                        "data": numbers[0],
+                        "url": f"https://www.baidu.com/s?wd={topic}",
+                    })
+                    if len(results) >= 5:
+                        break
+        
+        if results:
+            print(f"    [web-search] 找到 {len(results)} 条真实数据")
+        return results
+    except Exception as e:
+        print(f"    [web-search] 搜索失败: {e}")
+        return []
+
+
 def run(context: dict) -> dict:
     """主入口：选题"""
     
@@ -431,6 +476,26 @@ def run(context: dict) -> dict:
     # 兼容：确保 topic 字段存在（下游 skill 读 topic，不读 selected_topic）
     if selected.get("selected_topic") and not selected.get("topic"):
         selected["topic"] = selected["selected_topic"]
+    
+    # === v4.3新增：选题后搜索真实数据 ===
+    topic_title = selected.get("selected_topic", "")
+    if topic_title:
+        real_data = _search_real_data(topic_title)
+        if real_data:
+            # 将真实数据注入 key_points
+            existing_kp = selected.get("key_points", [])
+            for rd in real_data:
+                # 检查是否已有类似数据点
+                already_exists = any(rd["point"][:20] in kp.get("point", "") for kp in existing_kp)
+                if not already_exists:
+                    existing_kp.append({
+                        "point": rd["point"],
+                        "data": rd.get("data", ""),
+                        "source": "web_search",
+                        "source_url": rd.get("url", ""),
+                    })
+            selected["key_points"] = existing_kp
+            print(f"    真实数据: 注入 {len(real_data)} 条搜索结果")
     
     # 保存
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

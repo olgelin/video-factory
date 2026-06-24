@@ -260,6 +260,7 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 4. 每个段落有talking_point（给storyboard参考）
 5. 每个段落必须选择visual_hint（从上述8种类型中选择，相邻段落不能相同）
 6. 总字数400-600字
+7. ⚠️ 禁止编造具体数字！只使用"关键点"中提供的数据。如果没有具体数字，用定性描述（如"超过百万"、"创下新高"）代替
 
 只输出JSON，不要其他内容。"""
 
@@ -460,8 +461,17 @@ def run(context: dict) -> dict:
     else:
         print(f"  [script-writer] 使用默认风格")
 
-    # 生成脚本
-    script = generate_script(topic_selected, style_profile)
+    # 生成脚本 — 将key_points数据作为research_data传入
+    research_data = ""
+    for kp in topic_selected.get("key_points", []):
+        if isinstance(kp, dict):
+            point = kp.get("point", "")
+            data = kp.get("data", "")
+            source = kp.get("source", "")
+            if point and data:
+                research_data += f"- {point} [数据: {data}] (来源: {source})\n"
+    
+    script = generate_script(topic_selected, style_profile, research_data)
 
     if not script:
         print("  ❌ [script-writer] 脚本生成失败")

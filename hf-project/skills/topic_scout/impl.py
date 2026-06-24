@@ -80,8 +80,9 @@ def fetch_baidu_hot() -> list:
                 results.append({
                     "title": word,
                     "source": "百度热搜",
-                    "source_url": "https://top.baidu.com/board?tab=realtime",
+                    "source_url": f"https://www.baidu.com/s?wd={word}",
                     "hot_value": 0,
+                    "snippet": "",
                 })
         print(f"  [百度热搜] {len(results)} 条")
         return results
@@ -106,6 +107,7 @@ def fetch_toutiao_hot() -> list:
                     "source": "今日头条",
                     "source_url": item.get('Url', ''),
                     "hot_value": item.get('HotValue', 0),
+                    "snippet": item.get('Abstract', '') or item.get('Description', '') or '',
                 })
         print(f"  [今日头条] {len(results)} 条")
         return results
@@ -125,11 +127,13 @@ def fetch_bilibili_hot() -> list:
         for item in items[:20]:
             title = item.get('title', '')
             if title:
+                desc = item.get('desc', '') or item.get('description', '')
                 results.append({
                     "title": title,
                     "source": "B站热搜",
                     "source_url": f"https://www.bilibili.com/video/{item.get('bvid', '')}",
                     "hot_value": item.get('stat', {}).get('view', 0),
+                    "snippet": desc[:200] if desc else "",
                 })
         print(f"  [B站热搜] {len(results)} 条")
         return results
@@ -155,6 +159,7 @@ def fetch_douyin_hot() -> list:
                     "source": "抖音热搜",
                     "source_url": f"https://www.douyin.com/search/{word}",
                     "hot_value": item.get('hot_value', 0),
+                    "snippet": "",
                 })
         print(f"  [抖音热搜] {len(results)} 条")
         return results
@@ -173,11 +178,13 @@ def fetch_v2ex_hot() -> list:
         for item in items[:20]:
             title = item.get('title', '')
             if title:
+                content = item.get('content', '') or item.get('content_rendered', '')
                 results.append({
                     "title": title,
                     "source": "V2EX",
                     "source_url": item.get('url', ''),
                     "hot_value": 0,
+                    "snippet": content[:200] if content else "",
                 })
         print(f"  [V2EX] {len(results)} 条")
         return results

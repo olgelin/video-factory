@@ -1198,7 +1198,7 @@ def build_intro_html(topic: str) -> str:
 
 
 def build_outro_html() -> str:
-    """构建片尾HTML - 正常结尾"""
+    """构建片尾HTML - 增强版"""
     return f'''<!DOCTYPE html>
 <html data-composition-id="beat-outro" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head>
@@ -1207,16 +1207,27 @@ def build_outro_html() -> str:
 </head>
 <body style="margin:0;padding:0;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;background:#1a1a2e;">
 <div style="position:relative;width:1920px;height:1080px;background:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <!-- 网格背景 -->
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:
+        linear-gradient(rgba(0,102,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,102,255,0.06) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(0,102,255,0.1) 0%, transparent 50%);
+        background-size: 80px 80px, 80px 80px, 100% 100%;z-index:0;"></div>
+    <!-- Ghost text -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:200px;font-weight:700;color:rgba(255,255,255,0.02);z-index:0;white-space:nowrap;">END</div>
+    <!-- 径向光晕 -->
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 40%, rgba(0,102,255,0.15) 0%, transparent 60%);z-index:0;"></div>
     <!-- 品牌标语 -->
-    <div style="font-size:100px;font-weight:900;color:#FFFFFF;text-shadow:0 0 50px rgba(255,64,129,0.6);letter-spacing:10px;">癫狂吧世界</div>
+    <div id="brand-title" style="position:relative;z-index:1;font-size:100px;font-weight:900;color:#FFFFFF;text-shadow:0 0 50px rgba(255,64,129,0.6);letter-spacing:10px;">癫狂吧世界</div>
     <!-- 关注提示 -->
-    <div style="font-size:32px;color:rgba(255,255,255,0.6);margin-top:50px;">关注不闻AI · 一起探索未来</div>
+    <div id="follow-hint" style="position:relative;z-index:1;font-size:32px;color:rgba(255,255,255,0.6);margin-top:50px;">关注不闻AI · 一起探索未来</div>
 </div>
 <script>
 (function() {{
     var tl = gsap.timeline({{paused:true}});
-    tl.from("div:first-child", {{opacity:0, scale:0.9, duration:0.6, ease:"power2.out"}}, 0);
-    tl.from("div:nth-child(2)", {{opacity:0, y:20, duration:0.4, ease:"power2.out"}}, 0.4);
+    tl.from("#brand-title", {{opacity:0, scale:0.9, duration:0.6, ease:"power2.out"}}, 0);
+    tl.from("#follow-hint", {{opacity:0, y:20, duration:0.4, ease:"power2.out"}}, 0.4);
+    tl.from("#brand-title", {{scale:1.0, scale:1.02, duration:2.5, repeat:-1, yoyo:true, ease:"sine.inOut"}}, 1);
     window.__timelines = window.__timelines || {{}};
     window.__timelines["beat-outro"] = tl;
 }})();
