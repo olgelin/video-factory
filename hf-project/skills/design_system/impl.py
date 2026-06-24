@@ -81,13 +81,184 @@ PRESET_STYLES = {
         "atmosphere": ["grid-lines","data-charts","progress-bars","metric-cards"],
         "donts": ["过于花哨","无关装饰","复杂动画"],
     },
+    # 官方8种风格（来自HyperFrames visual-styles.md）
+    "swiss_pulse": {
+        "name": "Swiss Pulse",
+        "description": "Grid-locked compositions, clinical precision",
+        "mood": "Clinical, precise",
+        "best_for": "SaaS, data, dev tools, metrics",
+        "colors": {"background":"#1a1a1a","primary":"#ffffff","accent":"#0066FF","data":"#0066FF","text":"#ffffff","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Helvetica Neue","fontSize":"80-120px","fontWeight":"700"},
+            "body": {"fontFamily":"Inter","fontSize":"14px","fontWeight":"400"},
+            "data": {"fontFamily":"Helvetica Neue","fontSize":"112px","fontWeight":"700"},
+        },
+        "spacing": {"scene_padding":"32px","element_gap":"16px","card_radius":"2px"},
+        "motion": {"energy":"high","entry_easing":"expo.out","exit_easing":"power4.in"},
+        "atmosphere": ["grid-lines","registration-marks"],
+        "donts": ["floating elements","decorative transitions","soft shadows"],
+    },
+    "velvet_standard": {
+        "name": "Velvet Standard",
+        "description": "Premium, timeless, generous negative space",
+        "mood": "Premium, timeless",
+        "best_for": "Luxury products, enterprise, keynotes",
+        "colors": {"background":"#0a0a0a","primary":"#ffffff","accent":"#1a237e","data":"#1a237e","text":"#ffffff","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Inter","fontSize":"48px","fontWeight":"300","letterSpacing":"0.15em","textTransform":"uppercase"},
+            "body": {"fontFamily":"Inter","fontSize":"16px","fontWeight":"300","lineHeight":"1.6"},
+            "data": {"fontFamily":"Inter","fontSize":"48px","fontWeight":"300"},
+        },
+        "spacing": {"scene_padding":"64px","element_gap":"32px","card_radius":"2px"},
+        "motion": {"energy":"calm","entry_easing":"sine.inOut","exit_easing":"power1.in"},
+        "atmosphere": ["subtle-grain","hairline-rules"],
+        "donts": ["sharp snaps","fast transitions","heavy shadows"],
+    },
+    "deconstructed": {
+        "name": "Deconstructed",
+        "description": "Industrial, raw, gritty textures",
+        "mood": "Industrial, raw",
+        "best_for": "Tech launches, security, punk",
+        "colors": {"background":"#1a1a1a","primary":"#f0f0f0","accent":"#D4501E","data":"#D4501E","text":"#f0f0f0","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Space Grotesk","fontSize":"64px","fontWeight":"700"},
+            "body": {"fontFamily":"Space Mono","fontSize":"12px","fontWeight":"700","textTransform":"uppercase"},
+            "data": {"fontFamily":"Space Grotesk","fontSize":"64px","fontWeight":"700"},
+        },
+        "spacing": {"scene_padding":"24px","element_gap":"12px","card_radius":"0px"},
+        "motion": {"energy":"high","entry_easing":"back.out(2.5)","exit_easing":"steps(8)"},
+        "atmosphere": ["scan-lines","glitch-artifacts","grain-overlay"],
+        "donts": ["polished surfaces","symmetrical layouts","smooth gradients"],
+    },
+    "maximalist_type": {
+        "name": "Maximalist Type",
+        "description": "Text IS the visual, overlapping type layers",
+        "mood": "Loud, kinetic",
+        "best_for": "Big announcements, launches",
+        "colors": {"background":"#0a0a0a","primary":"#ffffff","accent":"#E63946","data":"#FFD60A","text":"#ffffff","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Anton","fontSize":"128px","fontWeight":"400","textTransform":"uppercase"},
+            "body": {"fontFamily":"Space Grotesk","fontSize":"48px","fontWeight":"700"},
+            "data": {"fontFamily":"Anton","fontSize":"128px","fontWeight":"400"},
+        },
+        "spacing": {"scene_padding":"0px","element_gap":"8px","card_radius":"0px"},
+        "motion": {"energy":"high","entry_easing":"expo.out","exit_easing":"back.out(1.8)"},
+        "atmosphere": ["type-layers","color-blocks"],
+        "donts": ["static moments","negative space","subtle animations"],
+    },
+    "data_drift": {
+        "name": "Data Drift",
+        "description": "Futuristic, immersive, fluid morphing",
+        "mood": "Futuristic, immersive",
+        "best_for": "AI, ML, cutting-edge tech",
+        "colors": {"background":"#0a0a0a","primary":"#e0e0e0","accent":"#7c3aed","data":"#06b6d4","text":"#e0e0e0","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Inter","fontSize":"40px","fontWeight":"200","letterSpacing":"0.05em"},
+            "body": {"fontFamily":"Inter","fontSize":"14px","fontWeight":"300"},
+            "data": {"fontFamily":"Inter","fontSize":"40px","fontWeight":"200"},
+        },
+        "spacing": {"scene_padding":"64px","element_gap":"32px","card_radius":"9999px"},
+        "motion": {"energy":"moderate","entry_easing":"sine.inOut","exit_easing":"power2.out"},
+        "atmosphere": ["particle-field","light-traces","radial-glow"],
+        "donts": ["hard edges","sharp transitions","heavy text"],
+    },
+    "soft_signal": {
+        "name": "Soft Signal",
+        "description": "Intimate, warm, personal",
+        "mood": "Intimate, warm",
+        "best_for": "Wellness, personal stories, brand",
+        "colors": {"background":"#FFF8EC","primary":"#2a2a2a","accent":"#F5A623","data":"#C4A3A3","text":"#2a2a2a","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Playfair Display","fontSize":"48px","fontWeight":"400","fontStyle":"italic"},
+            "body": {"fontFamily":"Inter","fontSize":"16px","fontWeight":"300","lineHeight":"1.7"},
+            "data": {"fontFamily":"Playfair Display","fontSize":"48px","fontWeight":"400"},
+        },
+        "spacing": {"scene_padding":"48px","element_gap":"24px","card_radius":"9999px"},
+        "motion": {"energy":"calm","entry_easing":"sine.inOut","exit_easing":"power1.inOut"},
+        "atmosphere": ["soft-gradient","warm-grain"],
+        "donts": ["hurried motion","polished surfaces","corporate feel"],
+    },
+    "folk_frequency": {
+        "name": "Folk Frequency",
+        "description": "Cultural, vivid, handcrafted",
+        "mood": "Cultural, vivid",
+        "best_for": "Consumer apps, food, communities",
+        "colors": {"background":"#ffffff","primary":"#1a1a1a","accent":"#FF1493","data":"#0047AB","text":"#1a1a1a","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Fredoka One","fontSize":"64px","fontWeight":"400"},
+            "body": {"fontFamily":"Nunito","fontSize":"16px","fontWeight":"600"},
+            "data": {"fontFamily":"Fredoka One","fontSize":"64px","fontWeight":"400"},
+        },
+        "spacing": {"scene_padding":"32px","element_gap":"16px","card_radius":"9999px"},
+        "motion": {"energy":"high","entry_easing":"back.out(1.6)","exit_easing":"elastic.out(1, 0.5)"},
+        "atmosphere": ["pattern-tiles","confetti-burst","color-blocks"],
+        "donts": ["minimalist design","muted colors","subtle motion"],
+    },
+    "shadow_cut": {
+        "name": "Shadow Cut",
+        "description": "Dark, cinematic, dramatic reveals",
+        "mood": "Dark, cinematic",
+        "best_for": "Dramatic reveals, security, exposé",
+        "colors": {"background":"#0a0a0a","primary":"#f0f0f0","accent":"#C1121F","data":"#C1121F","text":"#f0f0f0","text_secondary":"#999999"},
+        "typography": {
+            "headline": {"fontFamily":"Oswald","fontSize":"64px","fontWeight":"700","textTransform":"uppercase"},
+            "body": {"fontFamily":"Inter","fontSize":"14px","fontWeight":"400"},
+            "data": {"fontFamily":"Oswald","fontSize":"64px","fontWeight":"700"},
+        },
+        "spacing": {"scene_padding":"48px","element_gap":"16px","card_radius":"2px"},
+        "motion": {"energy":"moderate","entry_easing":"power3.out","exit_easing":"power4.in"},
+        "atmosphere": ["deep-shadow","vignette","grain-overlay"],
+        "donts": ["bright colors","soft edges","fast cuts"],
+    },
 }
 
 
 
 
-def select_style_for_topic(topic):
+def select_style_for_topic(topic, emotion_arc=""):
+    """根据情绪弧线选择视觉风格（优先），关键词匹配兜底"""
+    # 1. 情绪驱动选择（优先）
+    if emotion_arc:
+        ea = emotion_arc.lower()
+        # 压抑/黑暗/悲剧 → shadow_cut
+        if any(k in ea for k in ["压抑", "黑暗", "悲剧", "沉重", "痛苦", "悲伤"]):
+            return "shadow_cut"
+        # 爆发/愤怒/震撼 → maximalist_type
+        if any(k in ea for k in ["爆发", "愤怒", "震撼", "激烈", "冲突", "对抗"]):
+            return "maximalist_type"
+        # 升华/温暖/希望 → soft_signal
+        if any(k in ea for k in ["升华", "温暖", "希望", "反思", "思考", "感悟"]):
+            return "soft_signal"
+        # 冷静/理性/分析 → swiss_pulse
+        if any(k in ea for k in ["冷静", "理性", "分析", "数据", "逻辑"]):
+            return "swiss_pulse"
+        # 叙事/故事/情感 → velvet_standard
+        if any(k in ea for k in ["叙事", "故事", "情感", "人物"]):
+            return "velvet_standard"
+        # 混合情绪（如"压抑→爆发→升华"）→ shadow_cut（最匹配戏剧性）
+        if "→" in emotion_arc or "—" in emotion_arc:
+            return "shadow_cut"
+    
+    # 2. 关键词匹配兜底
     t = (topic or "").lower()
+    # 官方风格映射（基于Mood → Style Guide）
+    if any(k in t for k in ["数据","分析","统计","报告","指标","dashboard"]):
+        return "swiss_pulse"
+    elif any(k in t for k in ["高端","奢侈","金融","投资","企业","品牌"]):
+        return "velvet_standard"
+    elif any(k in t for k in ["科技","技术","安全","开源","punk","工业"]):
+        return "deconstructed"
+    elif any(k in t for k in ["发布","新品","宣布","launch","hype"]):
+        return "maximalist_type"
+    elif any(k in t for k in ["ai","人工智能","ml","机器学习","未来","futuristic"]):
+        return "data_drift"
+    elif any(k in t for k in ["健康","生活","个人","故事","温暖","wellness"]):
+        return "soft_signal"
+    elif any(k in t for k in ["文化","美食","社区","节日","consumer"]):
+        return "folk_frequency"
+    elif any(k in t for k in ["戏剧","揭秘","安全","黑暗","cinematic"]):
+        return "shadow_cut"
+    # 原有风格映射
     if any(k in t for k in ["ai","人工智能","agent","科技","技术","互联网","数码"]):
         return "cyber_tech"
     elif any(k in t for k in ["发布","新品","苹果","产品","品牌"]):
@@ -96,7 +267,8 @@ def select_style_for_topic(topic):
         return "luxury_dark"
     elif any(k in t for k in ["数据","统计","分析","报告"]):
         return "data_viz"
-    return "cyber_tech"
+    # 默认：根据情绪选择
+    return "swiss_pulse"  # 默认使用Swiss Pulse（最通用）
 
 def generate_scene_variants_fallback(topic, style):
     """Fallback场景变体（当LLM失败时使用）"""
@@ -269,9 +441,21 @@ motion:
 def run(context):
     topic = context.get("topic", "未知话题")
     style_key = context.get("style_key", "auto")
+    
+    # 从 topic_selected.json 读取 emotion_arc
+    emotion_arc = ""
+    topic_selected_path = OUTPUT_DIR / "topic_selected.json"
+    if topic_selected_path.exists():
+        try:
+            with open(topic_selected_path, "r", encoding="utf-8") as f:
+                ts = json.load(f)
+            emotion_arc = ts.get("emotion_arc", "")
+        except Exception:
+            pass
+    
     print(f"  [design-system] 为 '{topic}' 生成视觉系统...")
     if style_key=="auto":
-        style_key = select_style_for_topic(topic)
+        style_key = select_style_for_topic(topic, emotion_arc)
     style = PRESET_STYLES.get(style_key, PRESET_STYLES["cyber_tech"])
     print(f"  [design-system] 风格: {style['name']} ({style_key})")
     sv = generate_scene_variants(topic, style)

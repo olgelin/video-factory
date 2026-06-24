@@ -203,7 +203,17 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 - 不要用固定模板结尾，每期应该完全不同
 
 ## 你的职责
-你只负责写口播文案（观众听到的内容），不负责设计画面。画面设计由后续的storyboard skill完成。
+你负责写口播文案（观众听到的内容），同时为每个段落建议最合适的视觉类型，帮助后续storyboard设计画面。
+
+### visual_hint 选择指南（必须为每个段落选择一个，相邻段落不能相同）
+- **data_impact**: 数据冲击型 — 有具体数字、统计、百分比时使用
+- **timeline_event**: 时间线型 — 有事件发展顺序、历史脉络时使用
+- **compare**: 对比型 — 有两个对立面、前后对比、正反比较时使用
+- **quote_hero**: 金句型 — 核心观点、人物金句、情感高潮时使用
+- **flow**: 流程型 — 有因果关系、逻辑链条、推导过程时使用
+- **hud**: 信息面板型 — 实时数据、监控画面、系统状态时使用
+- **list_alert**: 列表警报型 — 多个要点、注意事项、警示信息时使用
+- **ranking_board**: 排行榜型 — 有排名、先后顺序、竞争关系时使用
 
 ### 结构要求
 - 6-10个段落（每个段落对应一个talking point）
@@ -219,7 +229,11 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
     {{
       "section_id": 1,
       "content": "口播文案段落（观众听到的）",
-      "talking_point": "这个段落的核心主题（一句话，给storyboard参考）"
+      "talking_point": "这个段落的核心主题（一句话，给storyboard参考）",
+      "visual_hint": "建议的视觉类型：data_impact|timeline_event|compare|quote_hero|flow|hud|list_alert|code_terminal|ranking_board|product_showcase",
+      "rhythm_hint": "节奏：slow|medium|fast",
+      "emotion_intensity": "情绪强度1-10（1=平静，10=极度震撼）",
+      "transition_hint": "转场建议：黑屏渐入|硬切|模糊过渡|缩放过渡|无"
     }}
   ],
   "total_chars": 575
@@ -244,8 +258,8 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 2. 用隐喻、反差、类比来呈现独特视角
 3. 覆盖所有关键点，使用提供的真实数据
 4. 每个段落有talking_point（给storyboard参考）
-5. 总字数400-600字
-6. 不要输出visual_hint或scene相关内容
+5. 每个段落必须选择visual_hint（从上述8种类型中选择，相邻段落不能相同）
+6. 总字数400-600字
 
 只输出JSON，不要其他内容。"""
 
@@ -276,6 +290,42 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 
 def _parse_json_response(llm_response: str) -> dict:
     """多层JSON解析"""
+    ALLOWED_VISUAL_HINTS = {"data_impact", "timeline_event", "compare", "quote_hero", "flow", "hud", "list_alert", "code_terminal", "ranking_board", "product_showcase"}
+    
+    def _validate_section(section: dict, idx: int) -> dict:
+        """验证并补全段落字段"""
+        section["content"] = preprocess_text(section.get("content", ""))
+        # visual_hint: 验证 → 内容检测 → 多样化默认
+        vh = section.get("visual_hint", "")
+        if vh not in ALLOWED_VISUAL_HINTS:
+            # 用内容关键词检测
+            text = section.get("content", "") + " " + section.get("talking_point", "")
+            vh = _detect_visual_hint_from_text(text, idx)
+        section["visual_hint"] = vh
+        section.setdefault("rhythm_hint", "medium")
+        section.setdefault("emotion_intensity", 5)
+        section.setdefault("transition_hint", "无")
+        return section
+    
+    def _detect_visual_hint_from_text(text: str, idx: int) -> str:
+        """根据文本内容检测最合适的visual_hint"""
+        t = text.lower()
+        if any(k in t for k in ["%", "数据", "统计", "数字", "万", "亿", "增长", "下降"]):
+            return "data_impact"
+        if any(k in t for k in ["之后", "随后", "最终", "回顾", "历史", "演变", "发展"]):
+            return "timeline_event"
+        if any(k in t for k in ["vs", "对比", "相反", "但是", "然而", "不同于", "一方面"]):
+            return "compare"
+        if any(k in t for k in ["说", "怒斥", "质问", "声明", "金句", "名言", "观点"]):
+            return "quote_hero"
+        if any(k in t for k in ["因为", "所以", "导致", "原因", "结果", "逻辑", "链条"]):
+            return "flow"
+        if any(k in t for k in ["排名", "排行", "第一", "领先", "超越", "竞争"]):
+            return "ranking_board"
+        # 多样化默认：8种类型轮转
+        defaults = ["data_impact", "compare", "flow", "quote_hero", "timeline_event", "hud", "list_alert", "ranking_board"]
+        return defaults[idx % len(defaults)]
+    
     # Layer 1: 去除markdown代码块
     cleaned = re.sub(r'```json\s*', '', llm_response)
     cleaned = re.sub(r'```\s*$', '', cleaned).strip()
@@ -284,8 +334,9 @@ def _parse_json_response(llm_response: str) -> dict:
     try:
         script = json.loads(cleaned)
         if "voiceover_sections" in script:
-            for section in script.get("voiceover_sections", []):
-                section["content"] = preprocess_text(section.get("content", ""))
+            for i, section in enumerate(script.get("voiceover_sections", [])):
+                _validate_section(section, i)
+
             return script
         elif "scenes" in script:
             return _convert_scenes_to_sections(script)
@@ -298,8 +349,8 @@ def _parse_json_response(llm_response: str) -> dict:
         try:
             script = json.loads(json_match.group())
             if "voiceover_sections" in script:
-                for section in script.get("voiceover_sections", []):
-                    section["content"] = preprocess_text(section.get("content", ""))
+                for i, section in enumerate(script.get("voiceover_sections", [])):
+                    _validate_section(section, i)
                 return script
             elif "scenes" in script:
                 return _convert_scenes_to_sections(script)
@@ -325,8 +376,8 @@ def _parse_json_response(llm_response: str) -> dict:
         try:
             candidate = json.loads(cleaned[start:end])
             if "voiceover_sections" in candidate:
-                for section in candidate.get("voiceover_sections", []):
-                    section["content"] = preprocess_text(section.get("content", ""))
+                for i, section in enumerate(candidate.get("voiceover_sections", [])):
+                    _validate_section(section, i)
                 print(f"  ✅ [script-writer] Layer4 fallback提取成功")
                 return candidate
             elif "scenes" in candidate:
@@ -344,8 +395,8 @@ def _parse_json_response(llm_response: str) -> dict:
     try:
         script = json.loads(fixed)
         if "voiceover_sections" in script:
-            for section in script.get("voiceover_sections", []):
-                section["content"] = preprocess_text(section.get("content", ""))
+            for i, section in enumerate(script.get("voiceover_sections", [])):
+                _validate_section(section, i)
             print(f"  ✅ [script-writer] Layer5 修复后解析成功")
             return script
     except json.JSONDecodeError:

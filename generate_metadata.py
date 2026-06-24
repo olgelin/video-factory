@@ -31,7 +31,18 @@ OUTPUT_DIR = Path(__file__).parent / "hf-project" / "output"
 
 def generate_metadata(context: dict) -> dict:
     """生成视频元数据（标题+标签+描述）"""
-    topic = context.get("topic", "")
+    # 优先从 topic_selected.json 读取最新选题（避免pipeline_context.json缓存旧数据）
+    topic = ""
+    topic_selected_path = OUTPUT_DIR / "topic_selected.json"
+    if topic_selected_path.exists():
+        try:
+            with open(topic_selected_path, "r", encoding="utf-8") as f:
+                ts = json.load(f)
+            topic = ts.get("selected_topic") or ts.get("topic", "")
+        except Exception:
+            pass
+    if not topic:
+        topic = context.get("topic", "")
     script_path = OUTPUT_DIR / "step03_script.json"
 
     # 从脚本提取内容摘要

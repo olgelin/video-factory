@@ -134,7 +134,14 @@ def _select_from_topics_list(verified_topics: list) -> dict:
   ],
   "alternative_topics": [
     {"topic": "备选话题1", "angle": "切入角度", "total_score": 0-60}
-  ]
+  ],
+  "video_potential": {
+    "visual_style": "data_visualization|emotional_narrative|comparison_impact|timeline_story|quote_driven",
+    "rhythm": "slow_build→fast_peak→slow_resolve|fast_fast_SLOW|medium_steady|slow_cinematic",
+    "best_visual_types": ["data_impact", "timeline_event", "compare", "quote_hero"]
+  },
+  "visual_metaphor": "用什么视觉隐喻来表达这个话题（如：光与暗的对比、时间线的拉伸、数据的流动）",
+  "emotion_arc": "情绪弧线（如：压抑→爆发→升华、平淡→好奇→惊讶→思考）"
 }
 
 只输出JSON，不要其他内容。"""
@@ -162,7 +169,14 @@ def _select_from_topics_list(verified_topics: list) -> dict:
             "angle": "无法确定",
             "scores": {"total": 0},
             "reason": "LLM返回为空",
-            "error": "LLM返回为空"
+            "error": "LLM返回为空",
+            "video_potential": {
+                "visual_style": "emotional_narrative",
+                "rhythm": "slow_build→fast_peak→slow_resolve",
+                "best_visual_types": ["data_impact", "timeline_event", "quote_hero"]
+            },
+            "visual_metaphor": "",
+            "emotion_arc": ""
         }
     
     # 解析JSON（多层fallback + 重试）
@@ -194,6 +208,15 @@ def _select_from_topics_list(verified_topics: list) -> dict:
                 result.setdefault("screenshot_targets", [])
                 result.setdefault("alternative_topics", [])
                 
+                # 新增字段：视频潜力、视觉隐喻、情绪弧线
+                result.setdefault("video_potential", {
+                    "visual_style": "emotional_narrative",
+                    "rhythm": "slow_build→fast_peak→slow_resolve",
+                    "best_visual_types": ["data_impact", "timeline_event", "quote_hero"]
+                })
+                result.setdefault("visual_metaphor", "")
+                result.setdefault("emotion_arc", "")
+                
                 # 计算总分
                 scores = result.get("scores", {})
                 if "total" not in scores:
@@ -224,7 +247,14 @@ def _select_from_topics_list(verified_topics: list) -> dict:
         "angle": "无法确定",
         "scores": {"total": 0},
         "reason": "JSON解析失败",
-        "error": "JSON解析失败"
+        "error": "JSON解析失败",
+        "video_potential": {
+            "visual_style": "emotional_narrative",
+            "rhythm": "slow_build→fast_peak→slow_resolve",
+            "best_visual_types": ["data_impact", "timeline_event", "quote_hero"]
+        },
+        "visual_metaphor": "",
+        "emotion_arc": ""
     }
 
 
@@ -266,7 +296,14 @@ def _select_from_report(research_data: dict) -> dict:
   "key_points": [...],
   "reference_sources": [...],
   "screenshot_targets": [...],
-  "alternative_topics": [...]
+  "alternative_topics": [...],
+  "video_potential": {
+    "visual_style": "data_visualization|emotional_narrative|comparison_impact|timeline_story|quote_driven",
+    "rhythm": "slow_build→fast_peak→slow_resolve|fast_fast_SLOW|medium_steady|slow_cinematic",
+    "best_visual_types": ["data_impact", "timeline_event", "compare", "quote_hero"]
+  },
+  "visual_metaphor": "用什么视觉隐喻来表达这个话题",
+  "emotion_arc": "情绪弧线"
 }
 
 只输出JSON，不要其他内容。"""
@@ -296,7 +333,14 @@ def _select_from_report(research_data: dict) -> dict:
             "angle": "综合分析",
             "scores": {"total": 0},
             "reason": "LLM返回为空",
-            "error": "LLM返回为空"
+            "error": "LLM返回为空",
+            "video_potential": {
+                "visual_style": "emotional_narrative",
+                "rhythm": "slow_build→fast_peak→slow_resolve",
+                "best_visual_types": ["data_impact", "timeline_event", "quote_hero"]
+            },
+            "visual_metaphor": "",
+            "emotion_arc": ""
         }
     
     # 解析JSON（多层fallback）
@@ -324,6 +368,15 @@ def _select_from_report(research_data: dict) -> dict:
             result.setdefault("screenshot_targets", [])
             result.setdefault("alternative_topics", [])
             
+            # 新增字段：视频潜力、视觉隐喻、情绪弧线
+            result.setdefault("video_potential", {
+                "visual_style": "emotional_narrative",
+                "rhythm": "slow_build→fast_peak→slow_resolve",
+                "best_visual_types": ["data_impact", "timeline_event", "quote_hero"]
+            })
+            result.setdefault("visual_metaphor", "")
+            result.setdefault("emotion_arc", "")
+            
             scores = result.get("scores", {})
             if "total" not in scores:
                 scores["total"] = sum(v for k, v in scores.items() if k != "total" and isinstance(v, (int, float)))
@@ -338,7 +391,14 @@ def _select_from_report(research_data: dict) -> dict:
         "angle": "综合分析",
         "scores": {"total": 0},
         "reason": "JSON解析失败",
-        "error": "JSON解析失败"
+        "error": "JSON解析失败",
+        "video_potential": {
+            "visual_style": "emotional_narrative",
+            "rhythm": "slow_build→fast_peak→slow_resolve",
+            "best_visual_types": ["data_impact", "timeline_event", "quote_hero"]
+        },
+        "visual_metaphor": "",
+        "emotion_arc": ""
     }
 
 
@@ -384,6 +444,9 @@ def run(context: dict) -> dict:
     print(f"    关键点: {len(selected.get('key_points', []))} 个")
     print(f"    来源: {len(selected.get('reference_sources', []))} 个")
     print(f"    截图目标: {len(selected.get('screenshot_targets', []))} 个")
+    print(f"    视觉风格: {selected.get('video_potential', {}).get('visual_style', 'N/A')}")
+    print(f"    视觉隐喻: {selected.get('visual_metaphor', 'N/A')[:50]}")
+    print(f"    情绪弧线: {selected.get('emotion_arc', 'N/A')}")
     print(f"    已保存到: {SELECTED_PATH}")
     
     # 更新context

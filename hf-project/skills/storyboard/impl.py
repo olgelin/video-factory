@@ -198,6 +198,43 @@ def match_timestamps(sections: list, transcript_segments: list) -> list:
     
     return timestamps
 
+def _load_real_data() -> str:
+    """从 topic_selected.json 加载真实数据，供 storyboard 使用"""
+    import json as _json
+    from pathlib import Path as _Path
+    output_dir = _Path(__file__).parent.parent.parent / "output"
+    ts_path = output_dir / "topic_selected.json"
+    if not ts_path.exists():
+        return ""
+    try:
+        with open(ts_path, "r", encoding="utf-8") as f:
+            ts = _json.load(f)
+    except Exception:
+        return ""
+    
+    lines = []
+    # key_points 中的真实数据
+    for kp in ts.get("key_points", []):
+        point = kp.get("point", "")
+        data = kp.get("data", "")
+        source = kp.get("source", "")
+        if point:
+            line = f"- {point}"
+            if data and data != "关键冲突点":
+                line += f" [数据: {data}]"
+            if source:
+                line += f" (来源: {source})"
+            lines.append(line)
+    
+    # video_potential 中的建议视觉类型
+    vp = ts.get("video_potential", {})
+    if isinstance(vp, dict):
+        bvt = vp.get("best_visual_types", [])
+        if bvt:
+            lines.append(f"- 建议视觉类型: {', '.join(bvt)}")
+    
+    return "\n".join(lines) if lines else ""
+
 def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict = None, total_duration: float = 0) -> list:
     """生成storyboard（根据口播内容决定视觉设计）"""
 
@@ -223,6 +260,16 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
         scene_guidance = f"\n\n⚠️ 重要：配音总时长{total_duration:.0f}秒，目标{target_scenes}个场景。请合并相邻的短段落。输出{target_scenes}个场景。"
     else:
         scene_guidance = f"\n\n配音总时长{total_duration:.0f}秒，共{num_sections}个段落，每段一个场景。"
+
+    # 构建visual_hint指导（从script_writer的visual_hint字段）
+    visual_hint_guidance = ""
+    visual_hints = []
+    for i, section in enumerate(sections):
+        hint = section.get("visual_hint", "")
+        if hint:
+            visual_hints.append(f"段落{i+1}: {hint}")
+    if visual_hints:
+        visual_hint_guidance = "\n\n📖 script_writer建议的视觉类型：\n" + "\n".join(visual_hints) + "\n请优先考虑这些建议，但可以根据内容调整。"
 
     # 构建system prompt
     system_prompt = """你是一个专业的视频导演兼视觉设计师。你的任务是根据口播内容，为每个段落设计视觉方案。
@@ -309,6 +356,16 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
 
     num_sections = len(sections)
     prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落（共" + str(num_sections) + "个，你必须输出恰好" + str(num_sections) + "个场景，不多不少）:\n" + sections_summary + timing_summary + scene_guidance + "\n\n请为每个段落设计视觉方案。输出JSON数组，**必须恰好" + str(num_sections) + "个元素**，每个元素包含以下全部9个字段：scene_id, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组)。**不要省略任何字段，不要合并或拆分段落**。"
+    
+    # 添加visual_hint指导
+    if visual_hint_guidance:
+        prompt += visual_hint_guidance
+    
+    # 添加数据真实性约束
+    real_data = _load_real_data()
+    if real_data:
+        prompt += "\n\n## 真实数据（key_elements中的数据型元素必须来自以下数据，禁止编造数字）:\n" + real_data
+        prompt += "\n\n⚠️ 重要：如果没有真实数据支撑某个数字，key_elements中不要用type:'data'，改用type:'tag'（标签）或type:'title'（标题）。禁止编造统计数据。"
 
     # 调用LLM
     llm_response = call_llm(prompt, system_prompt, max_tokens=8000)
