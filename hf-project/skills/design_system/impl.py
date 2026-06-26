@@ -12,10 +12,6 @@ from llm_utils import call_llm
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 DESIGN_PATH = OUTPUT_DIR / "design.md"
 
-LLM_CONFIGS = [
-    {"name":"mimo","url":"https://token-plan-cn.xiaomimimo.com/v1/chat/completions","model":"mimo-v2.5-pro","env_key":"XIAOMI_API_KEY"},
-    {"name":"deepseek","url":"https://api.deepseek.com/v1/chat/completions","model":"deepseek-chat","env_key":"DEEPSEEK_API_KEY"},
-]
 PRESET_STYLES = {
     "cyber_tech": {
         "name": "赛博朋克科技风",

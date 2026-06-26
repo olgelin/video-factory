@@ -235,6 +235,38 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
         return False
 
 
+def _validate_html_structure(project_dir: str) -> bool:
+    """预检：验证所有 HTML 文件结构完整性"""
+    import re
+    comp_dir = Path(project_dir) / "compositions"
+    if not comp_dir.exists():
+        print(f"  ⚠️ [video-renderer] compositions 目录不存在")
+        return False
+
+    issues = 0
+    for html_file in sorted(comp_dir.glob("beat-*.html")):
+        content = html_file.read_text(encoding="utf-8")
+        checks = [
+            ("<!DOCTYPE html>" in content, "缺少 DOCTYPE"),
+            ('data-composition-id=' in content, "缺少 data-composition-id"),
+            ('data-width=' in content, "缺少 data-width"),
+            ('data-height=' in content, "缺少 data-height"),
+            ('window.__timelines' in content, "缺少 window.__timelines 注册"),
+            ('gsap' in content.lower(), "缺少 GSAP 引用"),
+            ('class="scene"' in content or 'class=\"scene\"' in content, "缺少 scene div"),
+        ]
+        for ok, msg in checks:
+            if not ok:
+                print(f"  ⚠️ [video-renderer] {html_file.name}: {msg}")
+                issues += 1
+
+    if issues > 0:
+        print(f"  ⚠️ [video-renderer] 发现 {issues} 个结构问题，继续渲染...")
+    else:
+        print(f"  ✅ [video-renderer] HTML 结构校验通过")
+    return True
+
+
 def run(context: dict) -> dict:
     """主入口：渲染视频"""
 
@@ -258,6 +290,9 @@ def run(context: dict) -> dict:
     
     # 预检：修复HTML中的重复style属性
     _fix_duplicate_styles(project_dir)
+
+    # 预检：HTML 结构校验
+    _validate_html_structure(project_dir)
 
     # 渲染
     success = run_hyperframes_render(project_dir, str(VIDEO_PATH))
