@@ -305,6 +305,16 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
    - 标题型: {"type": "title", "text": "标题文字"}
    - 列表型: {"type": "list", "items": ["条目1", "条目2", ...]}
    - 对比型: {"type": "compare", "left": {"label":"A","value":"x"}, "right": {"label":"B","value":"y"}}
+10. **chart_type** (string|null): 如果场景有3个以上数据点，推荐图表类型：
+   - bar_chart: 柱状图（对比分类数据）
+   - line_chart: 折线图（展示趋势）
+   - pie_chart: 饼图（展示占比，最多6片）
+   - kpi_grid: 指标卡片网格（3-6个KPI）
+   - null: 不需要图表
+11. **camera_motion** (object|null): 镜头运动（可选，提升电影感）：
+   - type: "dolly_in"|"dolly_out"|"pan_left"|"pan_right"|"tilt_up"|"tilt_down"|"zoom_in"|"zoom_out"|null
+   - intensity: "subtle"|"moderate"|"dramatic"
+   注意：镜头运动是可选的，不确定时用null。不要为了填字段而硬编。
 
 输出JSON数组，每个元素对应一个段落的视觉方案。只输出JSON，不要其他内容。"""
 
@@ -448,6 +458,8 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
                 "depth_layers": depth_variants[i % len(depth_variants)],
                 "density_target": 8,
                 "key_elements": key_elems[:6],
+                "chart_type": "bar_chart" if len(data_matches) >= 3 else "kpi_grid" if data_matches else None,
+                "camera_motion": {"type": "dolly_in", "intensity": "subtle"} if i == 0 else None,
                 "narration": content,
             })
 
