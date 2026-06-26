@@ -12,17 +12,37 @@ import os
 import re
 import json
 import requests
+from pathlib import Path
 from typing import Optional
 
-# LLM配置（支持任意OpenAI兼容provider）
-# 优先级：环境变量 > 默认值
-# 设置 VF_API_KEY, VF_BASE_URL, VF_MODEL 可覆盖默认provider
-VF_API_KEY=os.environ.get("VF_API_KEY") or os.environ.get("XIAOMI_API_KEY") or ""
-# 同步到环境变量，让call_single_llm能读到
+# LLM配置（火山引擎Ark — 与Hermes Agent共用）
+# 优先级：环境变量 > Hermes config.yaml > 默认值
+VF_API_KEY = os.environ.get("VF_API_KEY") or os.environ.get("VOLC_API_KEY") or ""
+VF_BASE_URL = os.environ.get("VF_BASE_URL") or ""
+VF_MODEL = os.environ.get("VF_MODEL") or ""
+
+# 如果环境变量没有，从Hermes config.yaml读取
+if not VF_API_KEY or not VF_BASE_URL:
+    try:
+        import yaml
+        _hermes_home = Path(os.environ.get("HERMES_HOME", os.path.expanduser("~/.hermes")))
+        _hermes_config = _hermes_home / "config.yaml"
+        if _hermes_config.exists():
+            with open(_hermes_config) as f:
+                _cfg = yaml.safe_load(f)
+            if not VF_API_KEY:
+                VF_API_KEY = _cfg.get("model", {}).get("api_key", "")
+            if not VF_BASE_URL:
+                VF_BASE_URL = _cfg.get("model", {}).get("base_url", "")
+    except Exception:
+        pass
+
+VF_BASE_URL = VF_BASE_URL or "https://ark.cn-beijing.volces.com/api/plan/v3"
+VF_MODEL = VF_MODEL or "deepseek-v4-pro"
+
+# 同步到环境变量
 if VF_API_KEY:
     os.environ["VF_API_KEY"] = VF_API_KEY
-VF_BASE_URL = os.environ.get("VF_BASE_URL") or "https://token-plan-cn.xiaomimimo.com/v1"
-VF_MODEL = os.environ.get("VF_MODEL") or "mimo-v2.5-pro"
 
 LLM_CONFIGS = [
     {
@@ -31,16 +51,28 @@ LLM_CONFIGS = [
         "model": VF_MODEL,
         "env_key": "VF_API_KEY",
     },
+    {
+        "name": "fallback-flash",
+        "url": VF_BASE_URL + "/chat/completions",
+        "model": "deepseek-v4-flash",
+        "env_key": "VF_API_KEY",
+    },
+    {
+        "name": "fallback-glm",
+        "url": VF_BASE_URL + "/chat/completions",
+        "model": "glm-5.2",
+        "env_key": "VF_API_KEY",
+    },
 ]
 
-# 备用模型（.env中配置VF_FALLBACK_KEY/VF_FALLBACK_BASE_URL/VF_FALLBACK_MODEL启用）
+# 备用DeepSeek（.env中配置VF_FALLBACK_KEY/VF_FALLBACK_BASE_URL/VF_FALLBACK_MODEL启用）
 VF_FALLBACK_KEY = os.environ.get("VF_FALLBACK_KEY", "")
 VF_FALLBACK_BASE_URL = os.environ.get("VF_FALLBACK_BASE_URL", "")
 VF_FALLBACK_MODEL = os.environ.get("VF_FALLBACK_MODEL", "")
 if VF_FALLBACK_KEY and VF_FALLBACK_BASE_URL and VF_FALLBACK_MODEL:
     os.environ["VF_FALLBACK_KEY"] = VF_FALLBACK_KEY
     LLM_CONFIGS.append({
-        "name": "fallback",
+        "name": "fallback-deepseek",
         "url": VF_FALLBACK_BASE_URL.rstrip("/") + "/chat/completions",
         "model": VF_FALLBACK_MODEL,
         "env_key": "VF_FALLBACK_KEY",
@@ -153,9 +185,18 @@ def call_single_llm(
     }
     
     try:
-        resp = requests.post(
-            config["url"], headers=headers, json=payload, timeout=timeout
-        )
+        import time as _time
+        for _retry in range(3):
+            resp = requests.post(
+                config["url"], headers=headers, json=payload, timeout=timeout
+            )
+            if resp.status_code == 429:
+                _wait = (_retry + 1) * 5
+                print(f"  [LLM] {config['name']} 429 rate limited, retrying in {_wait}s...")
+                _time.sleep(_wait)
+                continue
+            break
+        
         if resp.status_code == 200:
             msg = resp.json().get("choices", [{}])[0].get("message", {})
             raw = msg.get("content", "").strip()
