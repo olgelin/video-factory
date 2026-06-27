@@ -223,7 +223,7 @@ gsap.to("#main-number", {{
 
 ## 输出
 只输出完整 HTML 代码，不要解释，不要 markdown 代码块。
-在 HTML 注释中加入版本标记: <!-- vf-v5.2 -->"""
+在 HTML 注释中加入版本标记: <!-- vf-v5.3 -->"""
 
 
 def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
@@ -864,6 +864,7 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
         tags += f'<span class="tag" style="display:inline-block;padding:5px 14px;border-radius:20px;background:{c}12;border:1px solid {c}30;font-size:12px;color:{c};margin:3px;letter-spacing:1px;">{word}</span>'
 
     return f'''<!DOCTYPE html>
+<!-- vf-v5.3 -->
 <html data-composition-id="{composition_id}" data-width="1920" data-height="1080" style="background:#1a1a2e;">
 <head><meta charset="UTF-8">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
@@ -943,8 +944,8 @@ def validate_scene_html(html: str, scene: dict) -> bool:
     import re
     
     # 检查0：版本标记（v5.1+ 新 prompt 生成的才有）
-    if "vf-v5.2" not in html:
-        print(f"      ⚠️ 旧版HTML（缺少 vf-v5.2 标记），需要重新生成", flush=True)
+    if "vf-v5" not in html:
+        print(f"      ⚠️ 旧版HTML（缺少 vf-v5 标记），需要重新生成", flush=True)
         return False
     
     # 检查CSS opacity:0（不允许在CSS中设置，但opacity:0.5等半透明值允许）
@@ -1370,7 +1371,9 @@ def run(context: dict) -> dict:
 
     parallel_mode = len(scenes_to_build) >= 3  # 3+ 场景才启用并行
     if parallel_mode:
-        print(f"[hf_builder] ⚡ 并行模式: {len(scenes_to_build)} 场景, {len(parallel_models)} 模型轮换", flush=True)
+        # V5.3.2: 继续降并发 — 最多 2 个 worker，6s 错峰启动防 429
+        max_workers = min(len(scenes_to_build), 2)  # 从 3 降到 2
+        print(f"[hf_builder] ⚡ 并行模式: {len(scenes_to_build)} 场景, {max_workers} workers", flush=True)
     else:
         print(f"[hf_builder] LLM 生成中 (串行模式, 需生成{len(scenes_to_build)}个场景)...", flush=True)
 
@@ -1384,11 +1387,13 @@ def run(context: dict) -> dict:
             import threading
 
             write_lock = threading.Lock()
-            max_workers = min(len(scenes_to_build), len(parallel_models))
+            # V5.3.1: max_workers 已在上面定义，这里不重复
 
             def _build_scene(i, scene):
                 sid = i + 1
                 model = parallel_models[i % len(parallel_models)]
+                # V5.3.2: 错峰启动 — 每个 worker 启动间隔 6s，防瞬时并发 429
+                time.sleep(i * 6)
                 print(f"  🚀 [Scene {sid}] 启动 ({model})", flush=True)
                 try:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)

@@ -154,8 +154,8 @@ class ProviderRegistry:
 
     def __init__(self, config_path: str = None):
         self._providers: dict[str, dict] = {}  # model_name → config
-        # V5.2 Fix D: 30→100 RPM，VF_MAX_RPM环境变量可覆盖
-        max_rpm = int(os.environ.get("VF_MAX_RPM", "100"))
+        # V5.3.2 Fix: 20 RPM，避免触发火山引擎账号级限流
+        max_rpm = int(os.environ.get("VF_MAX_RPM", "20"))
         self._rate_limiter = AccountRateLimiter(max_rpm=max_rpm)
         self._model_429_count: dict[str, int] = {}  # 每个模型的 429 计数
         self._last_model_used: str = ""  # V5.2 Fix C: 记录最后使用的模型名
