@@ -31,55 +31,18 @@ from pathlib import Path
 from typing import Optional
 
 # ============================================================
-# LLM API — Configurable via environment variables
+# LLM API — 统一走 provider.py
 # ============================================================
-# Required env vars:
-#   VF_API_KEY    — API key (any OpenAI-compatible provider)
-#   VF_BASE_URL   — Base URL (default: xiaomi)
-#   VF_MODEL      — Model name (default: mimo-v2.5-pro)
-API_KEY = os.environ.get("VF_API_KEY", "")
-BASE_URL = os.environ.get("VF_BASE_URL", "https://token-plan-cn.xiaomimimo.com/v1")
-MODEL = os.environ.get("VF_MODEL", "mimo-v2.5-pro")
-
-if not API_KEY:
-    raise RuntimeError("VF_API_KEY environment variable is required. Set it to your API key.")
+import sys
+from pathlib import Path
+_provider_dir = Path(__file__).parent.parent / "hf-project"
+if str(_provider_dir) not in sys.path:
+    sys.path.insert(0, str(_provider_dir))
+from provider import call_llm as _provider_call_llm
 
 def call_llm(prompt: str, system_prompt: str = "", max_tokens: int = 4000, max_retries: int = 3) -> str:
-    """Call Xiaomi MiMo LLM with retry on failure."""
-    import time
-    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
-    messages = []
-    if system_prompt:
-        messages.append({"role": "system", "content": system_prompt})
-    messages.append({"role": "user", "content": prompt})
-
-    for attempt in range(max_retries):
-        try:
-            resp = requests.post(
-                f"{BASE_URL}/chat/completions",
-                headers=headers,
-                json={"model": MODEL, "messages": messages, "temperature": 0.8, "max_tokens": max_tokens},
-                timeout=120
-            )
-            if resp.status_code == 200:
-                data = resp.json()
-                raw = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-                thinking_end = raw.rfind('</think>')
-                if thinking_end >= 0:
-                    return raw[thinking_end + 8:].strip()
-                return raw
-            elif resp.status_code == 429:
-                wait = 5 * (attempt + 1)
-                print(f"  ⚠️ Rate limited (429), waiting {wait}s... (attempt {attempt+1}/{max_retries})")
-                time.sleep(wait)
-            else:
-                return f'[ERROR: {resp.status_code}] {resp.text[:200]}'
-        except Exception as e:
-            if attempt < max_retries - 1:
-                time.sleep(3)
-            else:
-                return f'[ERROR: {e}]'
-    return '[ERROR: Max retries exceeded]'
+    """调用 LLM，统一走 provider.py（DeepSeek 官方 API）"""
+    return _provider_call_llm(prompt, system_prompt, max_tokens, timeout=120)
 
 
 def extract_json(text: str) -> Optional[list | dict]:
