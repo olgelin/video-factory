@@ -110,7 +110,7 @@ stages:
     produces:
       - output/lyrics.txt
     provider: llm
-    provider_task: creative
+    provider_task: creative_light
     checkpoint_required: false
     timeout: 300
     retry: 2
@@ -145,7 +145,7 @@ stages:
       - output/design.md
       - output/design_specs.json
     provider: llm
-    provider_task: creative
+    provider_task: creative_light
     checkpoint_required: false
     timeout: 300
     retry: 2
@@ -210,7 +210,7 @@ stages:
     skill: hf_builder
     phase: 4
     parallel_group: null
-    description: "HyperFrames 场景 HTML 生成"
+    description: "HyperFrames 场景 HTML 生成（V5.3 并行模式：5 模型轮换）"
     input:
       - output/step03_script.json
       - output/design.md
@@ -220,14 +220,32 @@ stages:
     produces:
       - hf_render_project/compositions/beat-*.html
     provider: llm
-    provider_task: creative
+    provider_task: creative_html
     checkpoint_required: false
     timeout: 1800
     retry: 2
     critical: true
     rate_limit:
-      delay_between_calls: 5
-      max_concurrent: 1
+      delay_between_calls: 0.5
+      max_concurrent: 5
+
+  - name: quality_scorer
+    step: 10.5
+    skill: quality_scorer
+    phase: 4
+    parallel_group: null
+    description: "V5.3: 逐场景质量评分 + 汇总报告"
+    input:
+      - hf_render_project/compositions/beat-*.html
+      - output/storyboard.json
+    produces:
+      - output/quality_scores.json
+    provider: local
+    provider_task: validate
+    checkpoint_required: false
+    timeout: 60
+    retry: 0
+    optional: true
 
   - name: video_renderer
     step: 11

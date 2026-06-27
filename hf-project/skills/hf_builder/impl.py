@@ -24,9 +24,16 @@ sys.path.insert(0, os.path.dirname(__file__))
 # ============================================================
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from llm_utils import call_llm as _shared_call_llm
+from llm_utils import call_llm_with_model as _shared_call_llm_with_model
 
 def call_llm(prompt: str, system_prompt: str = "", max_tokens: int = 12000) -> str:
     return _shared_call_llm(prompt, system_prompt, max_tokens, timeout=300, task="creative")
+
+def call_llm_for_html(prompt: str, system_prompt: str = "", max_tokens: int = 12000, model: str = None) -> str:
+    """V5.3: hf_builder 专用 — 支持指定模型（并行模式）"""
+    if model:
+        return _shared_call_llm_with_model(model, prompt, system_prompt, max_tokens, timeout=600)
+    return _shared_call_llm(prompt, system_prompt, max_tokens, timeout=600, task="creative_html")
 
 
 # ============================================================
@@ -220,8 +227,9 @@ gsap.to("#main-number", {{
 
 
 def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
-                            spec: dict, composition_id: str, W: int = 1920, H: int = 1080) -> str:
-    """用 LLM 根据上游数据生成完整的场景 HTML，带重试"""
+                            spec: dict, composition_id: str, W: int = 1920, H: int = 1080,
+                            model: str = None) -> str:
+    """用 LLM 根据上游数据生成完整的场景 HTML，带重试。V5.3: 支持指定模型（并行模式）"""
     depth_layers = scene.get("depth_layers", {})
     dl_text = ""
     if isinstance(depth_layers, dict):
@@ -283,7 +291,7 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
     system = "你是 HyperFrames 视频合成专家。只输出完整 HTML 代码，不输出任何其他文本。"
 
     # 第一次尝试
-    response = call_llm(prompt, system, max_tokens=12000)
+    response = call_llm_for_html(prompt, system, max_tokens=12000, model=model)
     html = _extract_html(response)
     if html:
         html = _auto_fix_html(html, composition_id)
@@ -310,7 +318,7 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
 - 禁止: <style>块、CSS class、Google Fonts、Math.random()、出场动画、CSS opacity:0（用GSAP from控制）
 
 只输出完整HTML，不要解释。"""
-    response = call_llm(simple_prompt, system, max_tokens=16000)
+    response = call_llm_for_html(simple_prompt, system, max_tokens=16000, model=model)
     html = _extract_html(response)
     if html:
         html = _auto_fix_html(html, composition_id)
@@ -327,7 +335,7 @@ Background: #1a1a2e, all styles inline.
 Include: GSAP CDN, gsap.timeline(paused:true), window.__timelines registration.
 Include: title, data cards, decorative layers.
 Only output HTML code."""
-    response = call_llm(minimal_prompt, system, max_tokens=16000)
+    response = call_llm_for_html(minimal_prompt, system, max_tokens=16000, model=model)
     html = _extract_html(response)
     if html:
         html = _auto_fix_html(html, composition_id)
@@ -755,7 +763,7 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 
     narration = scene.get("narration", "")
     # 提取口播金句作为标题（取前15字）
-    title = re.sub(r'[，。！？、；：""''（）\s]', '', narration)[:15] or "场景"
+    title = re.sub(r'[，。！？、；：\s]', '', narration)[:15] or "场景"
     # 从口播中提取关键词标签（4-8字短词，最多5个），不显示原文
     narration_tags = []
     if narration:
@@ -989,11 +997,22 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         print(f"      ⚠️ scene div缺少overflow:hidden", flush=True)
         return False
     
+    # V5.3: 质量评分（通过验证的场景）
+    try:
+        from motion_library import score_scene_quality
+        quality = score_scene_quality(html, scene)
+        scene["_quality_score"] = quality["total_score"]
+        scene["_quality_grade"] = quality["grade"]
+        if quality["total_score"] < 55:
+            print(f"      ⚠️ 质量评分 {quality['total_score']}/100 ({quality['grade']})，偏低", flush=True)
+    except ImportError:
+        pass
+    
     return True
 
 
-def generate_and_build(scene, sid, total, ctx=None):
-    """单个场景：LLM优先 → 模板兜底 → fallback"""
+def generate_and_build(scene, sid, total, ctx=None, model=None):
+    """单个场景：LLM优先 → 模板兜底 → fallback。V5.3: 支持指定模型"""
     ctx = ctx or {}
     design_md = ctx.get("_design_md", "")
     design_specs = ctx.get("_design_specs", {})
@@ -1002,14 +1021,15 @@ def generate_and_build(scene, sid, total, ctx=None):
     W = ctx.get("video_width", 1920)
     H = ctx.get("video_height", 1080)
     
-    # === V5: LLM优先（生成更高质量的视觉）===
+    # === V5.3: LLM优先（支持指定模型并行）===
     max_retries = 2
     for attempt in range(max_retries):
-        html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id, W, H)
+        html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id, W, H, model=model)
         if not html:
             continue
         if validate_scene_html(html, scene):
-            print(f"    ✅ [Scene {sid}] LLM生成成功")
+            model_label = f" [{model}]" if model else ""
+            print(f"    ✅ [Scene {sid}] LLM生成成功{model_label}")
             return sid, html
     
     # === 模板兜底（LLM失败时使用）===
@@ -1339,36 +1359,100 @@ def run(context: dict) -> dict:
         if html_path.exists():
             html_path.unlink()
 
-    print(f"[hf_builder] LLM 生成中 (串行模式, 需生成{len(scenes_to_build)}个场景)...")
-    results = dict(existing_scenes)
-    # Build a sid→scene map so we can access scene in the as_completed loop
-    scene_map = {i+1: scene for i, scene in enumerate(scenes)}
-    if scenes_to_build:
-        # 串行执行避免内存溢出（BGM生成已占大量VRAM）
-        # V5.2 Fix B: 场景间加3s间隔，防连续触发限流
-        for i, scene in scenes_to_build:
-            sid = i + 1
-            if i > 0:  # 第一个场景不需要等待
-                print(f"  ⏳ [hf_builder] 场景间隔 3s（防限流）...", flush=True)
-                time.sleep(3)
-            try:
-                sid, html = generate_and_build(scene, sid, total, context)
-                results[sid] = html
-                with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
-                    f.write(html)
-                src = "LLM" if len(html) > 3000 else "fallback"
-                print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
+    # V5.3: 并行模式 — 5 模型轮换，每个场景用不同模型
+    # 从 provider.py 导入模型轮换列表
+    parallel_models = None
+    try:
+        from provider import HF_PARALLEL_MODELS
+        parallel_models = HF_PARALLEL_MODELS
+    except ImportError:
+        parallel_models = ["deepseek-v4-pro", "kimi-k2.7-code", "glm-5.2", "deepseek-v4-flash", "minimax-m3"]
 
-                # Content validation: check for off-topic pollution
-                polluted = [kw for kw in off_topic_patterns if kw in html]
-                if polluted:
-                    print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
-                    fallback_html = _generate_fallback_html(scene_map[sid], context)
+    parallel_mode = len(scenes_to_build) >= 3  # 3+ 场景才启用并行
+    if parallel_mode:
+        print(f"[hf_builder] ⚡ 并行模式: {len(scenes_to_build)} 场景, {len(parallel_models)} 模型轮换", flush=True)
+    else:
+        print(f"[hf_builder] LLM 生成中 (串行模式, 需生成{len(scenes_to_build)}个场景)...", flush=True)
+
+    results = dict(existing_scenes)
+    scene_map = {i+1: scene for i, scene in enumerate(scenes)}
+
+    if scenes_to_build:
+        if parallel_mode:
+            # 并行：每个场景分配不同模型，ThreadPoolExecutor 并发
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            import threading
+
+            write_lock = threading.Lock()
+            max_workers = min(len(scenes_to_build), len(parallel_models))
+
+            def _build_scene(i, scene):
+                sid = i + 1
+                model = parallel_models[i % len(parallel_models)]
+                print(f"  🚀 [Scene {sid}] 启动 ({model})", flush=True)
+                try:
+                    sid_out, html = generate_and_build(scene, sid, total, context, model=model)
+                    with write_lock:
+                        with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
+                            f.write(html)
+                    src = "LLM" if len(html) > 3000 else "fallback"
+                    print(f"  ✅ [{sid_out}/{total}] {src} {len(html)} chars [{model}]", flush=True)
+
+                    # Content validation
+                    polluted = [kw for kw in off_topic_patterns if kw in html]
+                    if polluted:
+                        print(f"  ⚠️  [{sid_out}/{total}] 检测到旧话题内容: {polluted}，使用fallback", flush=True)
+                        fallback_html = _generate_fallback_html(scene_map[sid_out], context)
+                        with write_lock:
+                            with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
+                                f.write(fallback_html)
+                        print(f"  ✅ [{sid_out}/{total}] fallback {len(fallback_html)} chars", flush=True)
+                    return sid_out, html
+                except Exception as e:
+                    print(f"  ❌ [Scene {sid}] {model} 失败: {e}，尝试模板兜底", flush=True)
+                    try:
+                        fallback_html = _generate_fallback_html(scene_map[sid], context)
+                        with write_lock:
+                            with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
+                                f.write(fallback_html)
+                        print(f"  ✅ [Scene {sid}] fallback {len(fallback_html)} chars", flush=True)
+                        return sid, fallback_html
+                    except Exception as e2:
+                        print(f"  ❌ [Scene {sid}] 兜底也失败: {e2}", flush=True)
+                        return sid, ""
+                finally:
+                    time.sleep(0.5)  # 微间隔防限流
+
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                futures = {executor.submit(_build_scene, i, scene): (i, scene) for i, scene in scenes_to_build}
+                for future in as_completed(futures):
+                    sid, html = future.result()
+                    if html:
+                        results[sid] = html
+        else:
+            # 串行模式（场景少时）
+            for i, scene in scenes_to_build:
+                sid = i + 1
+                if i > 0:
+                    print(f"  ⏳ [hf_builder] 场景间隔 3s（防限流）...", flush=True)
+                    time.sleep(3)
+                try:
+                    sid, html = generate_and_build(scene, sid, total, context)
+                    results[sid] = html
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
-                        f.write(fallback_html)
-                    print(f"  ✅ [{sid}/{total}] fallback {len(fallback_html)} chars", flush=True)
-            except Exception as e:
-                print(f"  ❌ [{sid}/{total}] {e}", flush=True)
+                        f.write(html)
+                    src = "LLM" if len(html) > 3000 else "fallback"
+                    print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
+
+                    polluted = [kw for kw in off_topic_patterns if kw in html]
+                    if polluted:
+                        print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
+                        fallback_html = _generate_fallback_html(scene_map[sid], context)
+                        with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
+                            f.write(fallback_html)
+                        print(f"  ✅ [{sid}/{total}] fallback {len(fallback_html)} chars", flush=True)
+                except Exception as e:
+                    print(f"  ❌ [{sid}/{total}] {e}", flush=True)
 
     # 生成片尾HTML（没有片头）
     compositions_dir.mkdir(parents=True, exist_ok=True)  # 确保目录存在

@@ -67,7 +67,8 @@ def run(context: dict) -> dict:
 
 
 def _fallback_from_voice_durations(context: dict) -> dict:
-    """用voice_scene_durations生成近似transcript + SRT（ASR不可用时的fallback）"""
+    """V5.3: 用 voice_scene_durations 生成 transcript + SRT
+    改进：使用 voice_gen 的真实 segment 时长，而非按字符数均匀分配"""
     vsd_path = OUTPUT_DIR / "voice_scene_durations.json"
     if not vsd_path.exists():
         print(f"  ❌ [transcriber] fallback也失败: voice_scene_durations.json不存在")
@@ -94,6 +95,8 @@ def _fallback_from_voice_durations(context: dict) -> dict:
         if not text:
             text = vsd.get("text", f"段落{i+1}")
 
+        # V5.3: 使用 voice_gen 的真实时长作为 segment 边界
+        # 不再按字符数均匀分配，而是每个 scene 一个 segment
         segments.append({
             "start": round(cumulative, 3),
             "end": round(cumulative + dur, 3),
@@ -115,16 +118,16 @@ def _fallback_from_voice_durations(context: dict) -> dict:
     context["transcript_duration"] = cumulative
     context["transcript_segments"] = len(segments)
 
-    # === V5.2: 同时生成 SRT（之前 fallback 只生成 transcript，漏了 SRT）===
-    _generate_srt_from_segments(segments, str(SRT_PATH))
+    # V5.3: 生成 SRT — 每个 scene 的文本按标点拆分为多行，时间按真实时长分配
+    _generate_srt_from_segments_v2(segments, str(SRT_PATH))
     context["srt_path"] = str(SRT_PATH)
 
     print(f"  [transcriber] ✅ fallback完成: {len(segments)} segments, {cumulative:.1f}s, SRT已生成")
     return context
 
 
-def _generate_srt_from_segments(segments: list, output_path: str, max_chars: int = 18):
-    """从 transcript segments 生成 SRT 字幕文件（按实际时间戳对齐）"""
+def _generate_srt_from_segments_v2(segments: list, output_path: str, max_chars: int = 18):
+    """V5.3: 从 transcript segments 生成 SRT — 使用真实 segment 时间边界"""
     entries = []
     for seg in segments:
         text = seg.get("text", "").strip()
@@ -133,26 +136,37 @@ def _generate_srt_from_segments(segments: list, output_path: str, max_chars: int
         if not text or end <= start:
             continue
 
-        # 按标点拆分为短行（每行最多 max_chars 字）
+        # 按标点拆分为短行
         remaining = text
         seg_start = start
         seg_dur = end - start
-        while remaining:
-            if len(remaining) <= max_chars:
-                entries.append({"start": seg_start, "end": end, "text": remaining})
-                break
-            # 找最近的标点断行
-            cut = max_chars
-            for punct in "，。、；！？,.;!? ":
-                idx = remaining[:max_chars].rfind(punct)
-                if idx > max_chars // 2:
-                    cut = idx + 1
-                    break
-            chunk = remaining[:cut].strip()
-            chunk_dur = seg_dur * len(chunk) / max(len(text), 1)
+        # 先按标点拆分
+        import re
+        chunks = re.split(r'(?<=[。！？，；、])', remaining)
+        chunks = [c.strip() for c in chunks if c.strip()]
+        
+        if not chunks:
+            chunks = [remaining]
+        
+        # 合并过短的 chunk，拆分过长的 chunk
+        merged = []
+        buf = ""
+        for c in chunks:
+            if len(buf) + len(c) <= max_chars:
+                buf += c
+            else:
+                if buf:
+                    merged.append(buf)
+                buf = c
+        if buf:
+            merged.append(buf)
+        
+        # 分配时间
+        total_chars = sum(len(c) for c in merged)
+        for j, chunk in enumerate(merged):
+            chunk_dur = seg_dur * len(chunk) / max(total_chars, 1)
             chunk_end = min(seg_start + max(chunk_dur, 0.8), end)
             entries.append({"start": seg_start, "end": chunk_end, "text": chunk})
-            remaining = remaining[cut:].strip()
             seg_start = chunk_end
 
     # 写入 SRT

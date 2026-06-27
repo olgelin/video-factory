@@ -30,35 +30,59 @@ import yaml
 # 任务 → 模型分配策略
 # ============================================================
 
-# 模型策略：deepseek-v4-pro 主力，其他全部 fallback
-# 只有 pro 失败（429/超时/错误）才尝试 fallback
+# V5.3 模型智能路由：按任务复杂度分配模型
+# 原则：轻任务用快模型（flash/glm），重任务用强模型（pro/kimi）
+# hf_builder 并行模式：5 模型轮换，避免排队等 pro
 TASK_MODEL_MAP = {
     "research": {
         "description": "信息采集、热点分析",
-        "primary": "deepseek-v4-pro",
-        "fallback": ["deepseek-v4-flash", "glm-5.2", "minimax-m3"],
+        "primary": "deepseek-v4-flash",  # V5.3: 轻任务，flash 完全够
+        "fallback": ["glm-5.2", "minimax-m3"],
         "max_tokens": 4000,
     },
     "selection": {
         "description": "选题评估、多维度打分",
-        "primary": "deepseek-v4-pro",
-        "fallback": ["deepseek-v4-flash", "glm-5.2", "minimax-m3"],
+        "primary": "glm-5.2",  # V5.3: 结构化评分，glm 擅长
+        "fallback": ["deepseek-v4-flash", "minimax-m3"],
         "max_tokens": 4000,
     },
     "creative": {
-        "description": "脚本创作、HTML生成、设计系统",
+        "description": "脚本创作、设计系统、分镜",
         "primary": "deepseek-v4-pro",
         "fallback": ["kimi-k2.7-code", "glm-5.2", "deepseek-v4-flash"],
         "max_tokens": 12000,
-        "timeout": 600,  # V5.2 Fix B: pro模型生成25KB HTML常超300s
+        "timeout": 600,
+    },
+    "creative_light": {
+        "description": "歌词、设计系统等轻创意任务（并行时不抢pro）",
+        "primary": "kimi-k2.7-code",
+        "fallback": ["glm-5.2", "deepseek-v4-flash"],
+        "max_tokens": 8000,
+        "timeout": 300,
+    },
+    "creative_html": {
+        "description": "hf_builder 场景 HTML 生成（并行模式）",
+        "primary": "deepseek-v4-pro",
+        "fallback": ["kimi-k2.7-code", "glm-5.2", "deepseek-v4-flash", "minimax-m3"],
+        "max_tokens": 12000,
+        "timeout": 600,
     },
     "analysis": {
         "description": "质量诊断、内容审核",
-        "primary": "deepseek-v4-pro",
-        "fallback": ["deepseek-v4-flash", "glm-5.2", "minimax-m3"],
+        "primary": "deepseek-v4-flash",  # V5.3: 轻任务
+        "fallback": ["glm-5.2", "minimax-m3"],
         "max_tokens": 4000,
     },
 }
+
+# V5.3: hf_builder 并行模型轮换列表（按场景 index 取模分配）
+HF_PARALLEL_MODELS = [
+    "deepseek-v4-pro",
+    "kimi-k2.7-code",
+    "glm-5.2",
+    "deepseek-v4-flash",
+    "minimax-m3",
+]
 
 
 # ============================================================
@@ -190,6 +214,32 @@ class ProviderRegistry:
                     "url": aux_url.rstrip("/") + "/chat/completions",
                     "api_key": aux_key,
                 }
+
+    def call_with_model(
+        self,
+        model: str,
+        prompt: str,
+        system_prompt: str = "",
+        max_tokens: int = 12000,
+        timeout: int = 600,
+    ) -> str:
+        """V5.3: 指定模型调用（hf_builder 并行模式用）"""
+        provider = self._providers.get(model)
+        if not provider:
+            raise RuntimeError(f"模型 {model} 未注册")
+
+        self._rate_limiter.wait_if_needed()
+        if not self._rate_limiter.acquire():
+            time.sleep(1)
+            if not self._rate_limiter.acquire():
+                raise RuntimeError(f"账号限流，无法调用 {model}")
+
+        print(f"  [Provider] 指定模型 {model} (RPM={self._rate_limiter.current_rpm})")
+        result = self._call_single(provider, prompt, system_prompt, max_tokens, timeout)
+        if result:
+            self._last_model_used = model
+            return result
+        raise RuntimeError(f"模型 {model} 调用失败")
 
     def call(
         self,

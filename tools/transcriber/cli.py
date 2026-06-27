@@ -136,6 +136,64 @@ def transcribe_funasr(audio_path: str) -> dict:
     }
 
 
+def transcribe_faster_whisper(audio_path: str) -> dict:
+    """V5.3: 用 faster-whisper 转录（词级时间戳，中文准确率更高）"""
+    from faster_whisper import WhisperModel
+
+    print("[transcriber] Loading faster-whisper large-v3...", file=sys.stderr)
+    
+    # 使用 large-v3 模型（中文最佳），GPU int8 量化
+    model = WhisperModel(
+        "large-v3",
+        device="cuda",
+        compute_type="int8_float16",
+        num_workers=2,
+    )
+
+    print(f"[transcriber] Transcribing with faster-whisper: {audio_path}", file=sys.stderr)
+    
+    segments_raw, info = model.transcribe(
+        audio_path,
+        language="zh",
+        beam_size=5,
+        word_timestamps=True,  # 词级时间戳！
+        vad_filter=True,       # 内置VAD过滤
+        vad_parameters=dict(
+            min_silence_duration_ms=500,
+            threshold=0.5,
+        ),
+    )
+
+    segments = []
+    for seg in segments_raw:
+        words = []
+        if seg.words:
+            for w in seg.words:
+                words.append({
+                    "word": w.word.strip(),
+                    "start": round(w.start, 3),
+                    "end": round(w.end, 3),
+                    "probability": round(w.probability, 3) if w.probability else 1.0,
+                })
+        
+        text = _fix_transcription_errors(_fix_chinese_spacing(seg.text.strip()))
+        segments.append({
+            "start": round(seg.start, 3),
+            "end": round(seg.end, 3),
+            "text": text,
+            "words": words,
+        })
+
+    total_duration = segments[-1]["end"] if segments else 0
+    print(f"[transcriber] faster-whisper: {len(segments)} segments, {total_duration:.1f}s", file=sys.stderr)
+
+    return {
+        "segments": segments,
+        "language": info.language if info else "zh",
+        "duration": total_duration,
+    }
+
+
 def generate_srt(transcript: dict, output_path: str, max_chars: int = 18):
     """生成SRT字幕"""
     segments = transcript.get("segments", [])
@@ -193,7 +251,8 @@ def main():
     parser.add_argument("--input", required=True, help="输入音频文件")
     parser.add_argument("--output", required=True, help="输出transcript JSON")
     parser.add_argument("--srt-output", help="输出SRT字幕文件")
-    parser.add_argument("--method", default="funasr", choices=["funasr"], help="转录方法")
+    parser.add_argument("--method", default="faster-whisper", choices=["funasr", "faster-whisper"],
+                       help="转录方法 (default: faster-whisper)")
     args = parser.parse_args()
 
     if not os.path.exists(args.input):
@@ -201,7 +260,10 @@ def main():
         sys.exit(1)
 
     # 转录
-    transcript = transcribe_funasr(args.input)
+    if args.method == "faster-whisper":
+        transcript = transcribe_faster_whisper(args.input)
+    else:
+        transcript = transcribe_funasr(args.input)
 
     if not transcript:
         print(json.dumps({"error": "转录失败"}))

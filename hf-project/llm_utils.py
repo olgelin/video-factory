@@ -43,12 +43,23 @@ def call_llm(
         system_prompt: 系统提示
         max_tokens: 最大 token 数
         timeout: 超时时间
-        task: 任务类型 (research/selection/creative/analysis)
+        task: 任务类型 (research/selection/creative/creative_html/analysis)
 
     Returns:
         LLM 响应文本
     """
     return _provider_call_llm(prompt, system_prompt, max_tokens, timeout, task)
+
+
+def call_llm_with_model(
+    model: str,
+    prompt: str,
+    system_prompt: str = "",
+    max_tokens: int = 12000,
+    timeout: int = 600,
+) -> str:
+    """V5.3: 指定模型调用（hf_builder 并行模式用）"""
+    return get_registry().call_with_model(model, prompt, system_prompt, max_tokens, timeout)
 
 
 def call_llm_batch(
