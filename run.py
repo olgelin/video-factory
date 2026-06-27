@@ -82,6 +82,7 @@ def main():
     parser.add_argument("--vertical", action="store_true", help="竖屏模式")
     parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
     parser.add_argument("--no-cost", action="store_true", help="禁用成本追踪")
+    parser.add_argument("--clean", action="store_true", help="清理 output/ 中间文件后运行")
     parser.add_argument("--list", action="store_true", help="列出所有 pipeline")
     args = parser.parse_args()
 
@@ -114,6 +115,7 @@ def main():
         vertical=args.vertical,
         no_feedback=args.no_feedback,
         cost_tracker=cost_tracker,
+        clean=args.clean,
     )
 
     # 打印费用摘要

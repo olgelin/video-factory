@@ -29,6 +29,80 @@ PIPELINE_DEFS_DIR = WORKSPACE / "pipeline_defs"
 sys.path.insert(0, str(WORKSPACE))
 sys.path.insert(0, str(HF_PROJECT))
 
+# ── V5.5: 输出一致性工具 ──────────────────────────────────
+
+# 仅加载的结构字段（不含业务数据）
+_STRUCTURAL_KEYS = {
+    "output_dir", "project_root", "voice_path", "bgm_path",
+    "video_path", "video_width", "video_height",
+}
+
+# 需要清理的中间文件（保留最终输出 .mp4 / .wav / .srt）
+_INTERMEDIATE_FILES = [
+    "topic_research.json",
+    "topic_selected.json",
+    "step03_script.json",
+    "storyboard.json",
+    "design.md",
+    "design_specs.json",
+    "lyrics.txt",
+    "pipeline_context.json",
+    "cost_log.json",
+    "quality_check.json",
+    "quality_scores.json",
+]
+
+# 数据文件 → 话题字段映射（用于一致性检查）
+_TOPIC_CHECK_FILES = {
+    "topic_selected.json": ["selected_topic", "topic"],
+    "step03_script.json": ["topic"],
+}
+
+
+def _check_output_consistency(topic: Optional[str]) -> list[str]:
+    """V5.5: 检查 output/ 中间文件是否与当前话题一致。返回警告列表。"""
+    warnings = []
+    if not topic:
+        return warnings
+
+    for fname, keys in _TOPIC_CHECK_FILES.items():
+        fpath = OUTPUT_DIR / fname
+        if not fpath.exists():
+            continue
+        try:
+            data = json.loads(fpath.read_text(encoding="utf-8"))
+            for k in keys:
+                old_topic = data.get(k, "")
+                if old_topic and old_topic != topic:
+                    warnings.append(
+                        f"⚠️ {fname} 话题不匹配: \"{old_topic[:60]}\" "
+                        f"≠ 当前: \"{topic[:60]}\""
+                    )
+                    break
+        except Exception:
+            pass
+
+    # storyboard / design 按文件年龄检查（无内嵌 topic 字段时）
+    for fname in ["storyboard.json", "design_specs.json"]:
+        fpath = OUTPUT_DIR / fname
+        if fpath.exists():
+            age_h = (time.time() - fpath.stat().st_mtime) / 3600
+            if age_h > 24:
+                warnings.append(f"⚠️ {fname} 已 {age_h:.0f}h 未更新，可能过期")
+
+    return warnings
+
+
+def _clean_intermediate_files() -> int:
+    """V5.5: 清理 output/ 中间文件。返回清理数量。"""
+    cleaned = 0
+    for fname in _INTERMEDIATE_FILES:
+        fpath = OUTPUT_DIR / fname
+        if fpath.exists():
+            fpath.unlink()
+            cleaned += 1
+    return cleaned
+
 
 def load_pipeline(name: str) -> dict:
     """加载 pipeline YAML 定义"""
@@ -195,6 +269,7 @@ def run_pipeline(
     vertical: bool = False,
     no_feedback: bool = False,
     cost_tracker=None,
+    clean: bool = False,
 ) -> dict:
     """
     执行完整 pipeline
@@ -223,6 +298,24 @@ def run_pipeline(
     # 视频分辨率
     video_width, video_height = (1080, 1920) if vertical else (1920, 1080)
 
+    # ── V5.5: 输出一致性检查 + 清理 ─────────────────────────
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    if clean:
+        n = _clean_intermediate_files()
+        print(f"  🧹 --clean: 已清理 {n} 个中间文件")
+
+    if topic and not clean:
+        warnings = _check_output_consistency(topic)
+        if warnings:
+            print(f"\n  {'─'*50}")
+            print(f"  ⚠️  输出目录存在不匹配的旧文件:")
+            for w in warnings:
+                print(f"     {w}")
+            print(f"  💡 建议: 使用 --clean 清理旧文件，或确认要覆盖")
+            print(f"  {'─'*50}")
+    # ───────────────────────────────────────────────────────
+
     print(f"\n{'='*60}")
     print(f"🎬 {manifest.get('description', pipeline_name)}")
     print(f"{'='*60}")
@@ -244,19 +337,28 @@ def run_pipeline(
         "video_height": video_height,
     }
 
-    # 加载已保存的 context
+    # 加载已保存的 context（V5.5: 话题不匹配时仅加载结构字段）
     saved_ctx_path = OUTPUT_DIR / "pipeline_context.json"
-    if saved_ctx_path.exists():
+    if saved_ctx_path.exists() and not clean:
         try:
             with open(saved_ctx_path, encoding="utf-8") as f:
                 saved_ctx = json.load(f)
-            # V5.2 Fix F: topic 保护 — 如果当前context已有topic，不被旧值覆盖
-            protected_keys = {"topic"}  # 更多需要保护的key可以加到这里
-            for k, v in saved_ctx.items():
-                if k in protected_keys and context.get(k):
-                    continue  # 已有值，不覆盖
-                if k not in context or context[k] is None:
-                    context[k] = v
+            saved_topic = saved_ctx.get("topic", "")
+            # V5.5: 话题不匹配 → 仅加载结构字段，忽略业务数据
+            if topic and saved_topic and saved_topic != topic:
+                print(f"  ⚠️ pipeline_context.json 话题不匹配 "
+                      f"(\"{saved_topic[:50]}\" ≠ \"{topic[:50]}\") → 仅加载结构字段")
+                for k in _STRUCTURAL_KEYS:
+                    if k in saved_ctx and not context.get(k):
+                        context[k] = saved_ctx[k]
+            else:
+                # 话题匹配或无 topic 指定 → 正常加载
+                protected_keys = {"topic"}  # topic 始终保护，不覆盖
+                for k, v in saved_ctx.items():
+                    if k in protected_keys and context.get(k):
+                        continue
+                    if k not in context or context[k] is None:
+                        context[k] = v
         except Exception:
             pass
 
