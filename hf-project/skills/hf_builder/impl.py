@@ -519,7 +519,9 @@ def _reset_diversity():
     """每个 pipeline 运行开始时重置多样性检查。"""
     global _LAST_SIGNATURES
     _LAST_SIGNATURES = []
-# ─────────────────────────────────────────────────────────def _extract_html(response: str) -> str:
+# ─────────────────────────────────────────────────────────
+
+def _extract_html(response: str) -> str:
     """从 LLM 响应中提取 HTML，过滤掉 reasoning 文本"""
     if not response:
         return ""
