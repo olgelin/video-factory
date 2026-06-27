@@ -20,21 +20,7 @@ from pathlib import Path
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 STYLE_PROFILE_PATH = OUTPUT_DIR / "style_profile.json"
 
-# LLM配置
-LLM_CONFIGS = [
-    {
-        "name": "mimo",
-        "url": "https://token-plan-cn.xiaomimimo.com/v1/chat/completions",
-        "model": "mimo-v2.5-pro",
-        "env_key": "XIAOMI_API_KEY",
-    },
-    {
-        "name": "deepseek",
-        "url": "https://api.deepseek.com/v1/chat/completions",
-        "model": "deepseek-chat",
-        "env_key": "DEEPSEEK_API_KEY",
-    },
-]
+# LLM 调用统一走 provider.py
 
 
 import sys

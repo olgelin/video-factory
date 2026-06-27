@@ -171,12 +171,9 @@ class ProviderRegistry:
             except Exception:
                 pass
 
-        # V5.4: DEEPSEEK_API_KEY 优先，兼容旧 XIAOMI_API_KEY / VOLC_API_KEY
+        # V5.4: DEEPSEEK_API_KEY only
         self._api_key = (
             os.environ.get("DEEPSEEK_API_KEY")
-            or os.environ.get("VF_API_KEY")
-            or os.environ.get("XIAOMI_API_KEY")
-            or os.environ.get("VOLC_API_KEY")
             or self._config.get("model", {}).get("api_key", "")
         )
         # V5.4: DeepSeek 官方 API endpoint
