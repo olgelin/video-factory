@@ -236,7 +236,31 @@ gsap.to("#main-number", {{
 def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
                             spec: dict, composition_id: str, W: int = 1920, H: int = 1080,
                             model: str = None) -> str:
-    """用 LLM 根据上游数据生成完整的场景 HTML，带重试。V5.3: 支持指定模型（并行模式）"""
+    """用 LLM 根据上游数据生成完整的场景 HTML，带重试。V5.6: 模板优先。"""
+    # ── V5.6: 先试模板填充（不经过 LLM） ──
+    if TEMPLATES:
+        base_html = _fill_template(scene, spec, composition_id, W, H)
+        if base_html:
+            base_html = _auto_fix_taste(base_html, spec.get("colors", {}).get("accent", "#C1121F"))
+            if _validate_html(base_html, composition_id) and len(base_html) > 2000:
+                if _check_diversity(base_html, scene_id):
+                    return base_html
+    # ── V5.6: LLM 润色模板（短 prompt） ──
+    if TEMPLATES:
+        base_html = _fill_template(scene, spec, composition_id, W, H)
+        if base_html:
+            accent_c = spec.get("colors", {}).get("accent", "#C1121F")
+            polish_prompt = "修改这个 HTML 视频场景，保持布局不变。规则：1.标题字符 stagger 入场(blur 4px→0, stagger 0.08s) 2.禁止 linear/none easing 3.字体 Outfit 替代 Inter 4.只用一种 accent " + accent_c + " 5.只输出完整 HTML,别解释。\\n原始:\\n" + base_html[:3000]
+            response = call_llm_for_html(polish_prompt, "润色 HTML。只输出代码。", max_tokens=12000, model=model)
+            html = _extract_html(response)
+            if html:
+                html = _auto_fix_html(html, composition_id)
+                html = _fix_truncated_html(html, composition_id)
+                html = _auto_fix_taste(html, accent_c)
+                if _validate_html(html, composition_id) and len(html) > 2000:
+                    return html
+    # ───────────────────────────────────────
+
     depth_layers = scene.get("depth_layers", {})
     dl_text = ""
     if isinstance(depth_layers, dict):
@@ -359,7 +383,143 @@ Only output HTML code."""
     return ""
 
 
-def _extract_html(response: str) -> str:
+# ── V5.6: 模板填充 + 品味修正 + 多样性检查 ──────────────
+
+try:
+    from scene_templates import TEMPLATES, FALLBACK as _TPL_FALLBACK
+except ImportError:
+    TEMPLATES = {}
+    _TPL_FALLBACK = ""
+
+
+def _fill_template(scene: dict, spec: dict, composition_id: str,
+                   W: int = 1920, H: int = 1080) -> str:
+    """V5.6: 用数据填充场景骨架模板（不经过 LLM）。"""
+    vt = scene.get("visual_type", "")
+    tpl = TEMPLATES.get(vt) or TEMPLATES.get(vt.replace(" ", "_")) or _TPL_FALLBACK
+    if not tpl:
+        return ""
+
+    style = spec.get("colors", {})
+    accent = style.get("accent", "#C1121F")
+    bg = style.get("background", "#0a0a0a")
+
+    def _hex_to_rgba(hex_color: str, alpha: float = 0.3) -> str:
+        h = hex_color.lstrip("#")
+        r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+        return f"rgba({r},{g},{b},{alpha})"
+
+    # 从 scene 提取占位数据
+    ke = scene.get("key_elements", [])
+    items = []
+    if isinstance(ke, list):
+        for k in ke:
+            if isinstance(k, dict):
+                items.append(k.get("text") or k.get("value") or k.get("label", ""))
+            else:
+                items.append(str(k))
+
+    # fallback: 从 narration 提取关键词
+    narration = scene.get("narration", "")
+    headline = scene.get("concept", narration[:30] if narration else scene.get("talking_point", ""))
+    subhead = narration[:60] if narration else ""
+
+    data_value = ""
+    data_label = ""
+    data_change = ""
+    for k in (ke if isinstance(ke, list) else []):
+        if isinstance(k, dict):
+            if k.get("type") == "data":
+                data_value = str(k.get("value", ""))
+                data_label = k.get("label", "")
+                trend = k.get("trend", "")
+                if trend == "up":
+                    data_change = f"↑{data_value}" if data_value else ""
+                elif trend == "down":
+                    data_change = f"↓{data_value}" if data_value else ""
+
+    return tpl.format(
+        COMPOSITION_ID=composition_id,
+        W=str(W), H=str(H),
+        BG=bg,
+        ACCENT=accent,
+        ACCENT_GLOW=_hex_to_rgba(accent, 0.3),
+        HEADLINE=headline[:40],
+        SUBHEADLINE=subhead[:60],
+        TAG1=items[0] if len(items) > 0 else "",
+        TAG2=items[1] if len(items) > 1 else "",
+        DATA_VALUE=data_value or items[0] if items else "—",
+        DATA_LABEL=data_label or "数据",
+        DATA_CHANGE=data_change or "—",
+        ITEM1=items[0] if len(items) > 0 else "—",
+        ITEM2=items[1] if len(items) > 1 else "—",
+        ITEM3=items[2] if len(items) > 2 else "—",
+        ITEM4=items[3] if len(items) > 3 else "—",
+        ITEM5=items[4] if len(items) > 4 else "—",
+        QUOTE=headline[:40],
+        DURATION=str(scene.get("duration", 8.0)),
+    )
+
+
+def _auto_fix_taste(html: str, accent: str = "#C1121F") -> str:
+    """V5.6: 后处理修正品味违规。"""
+    # 1. AI-purple (#7c3aed / #a855f7 / #ec4899 / #8b5cf6) → accent
+    for purple in ["#7c3aed", "#7C3AED", "#a855f7", "#A855F7",
+                    "#ec4899", "#EC4899", "#8b5cf6", "#8B5CF6"]:
+        html = html.replace(purple, accent)
+
+    # 2. Inter 作默认字体 → Outfit（保留 Noto Sans SC fallback）
+    html = re.sub(r"font-family:\s*'Inter'\s*,\s*", "font-family:'Outfit',", html)
+    html = re.sub(r'font-family:\s*Inter\s*,', "font-family:'Outfit',", html)
+
+    # 3. linear / none 缓动 → power3.out
+    html = re.sub(r'ease:\s*"linear"', 'ease:"power3.out"', html)
+    html = re.sub(r'ease:\s*"none"', 'ease:"power3.out"', html)
+    html = re.sub(r'ease:\s*linear(;|")', 'ease:power3.out\\1', html)
+
+    # 4. CSS opacity:0 移除（GSAP from() 负责）
+    # 只移除 style 属性中的 opacity:0，保留 GSAP 中的
+    html = re.sub(
+        r'(style="[^"]*)opacity:\s*0\s*;?\s*', r'\\1', html
+    )
+    html = re.sub(r'style="\s*"', '', html)
+
+    return html
+
+
+# 场景结构签名（用于多样性检查）
+_LAST_SIGNATURES: list[str] = []
+
+
+def _scene_signature(html: str) -> str:
+    """提取场景的布局结构签名（忽略内容，只看元素数+层级）。"""
+    divs = len(re.findall(r'<div', html))
+    imgs = len(re.findall(r'<img', html))
+    svgs = len(re.findall(r'<svg', html))
+    froms = len(re.findall(r'tl\.from\(', html))
+    tos = len(re.findall(r'gsap\.to\(', html))
+    # 指纹: divs:imgs:svgs:froms:tos
+    return f"{divs//10}:{imgs}:{svgs}:{froms}:{tos}"
+
+
+def _check_diversity(html: str, scene_id: int) -> bool:
+    """V5.6: 检查场景结构是否与之前场景重复。返回 True=通过。"""
+    global _LAST_SIGNATURES
+    sig = _scene_signature(html)
+    # 同一 visual_type 允许相同签名；不同 visual_type 不允许
+    if sig in _LAST_SIGNATURES:
+        dup_count = _LAST_SIGNATURES.count(sig)
+        if dup_count >= 2:  # 3个相同结构 = 太单调
+            return False
+    _LAST_SIGNATURES.append(sig)
+    return True
+
+
+def _reset_diversity():
+    """每个 pipeline 运行开始时重置多样性检查。"""
+    global _LAST_SIGNATURES
+    _LAST_SIGNATURES = []
+# ─────────────────────────────────────────────────────────def _extract_html(response: str) -> str:
     """从 LLM 响应中提取 HTML，过滤掉 reasoning 文本"""
     if not response:
         return ""
@@ -1313,6 +1473,7 @@ def build_index_html(scenes: list, topic: str = "") -> str:
 
 def run(context: dict) -> dict:
     """hf_builder 主入口"""
+    _reset_diversity()  # V5.6: 每次运行重置多样性检查
     project_root = Path(context.get("project_root", Path(__file__).parent.parent.parent))
     output_dir = project_root / "output"
     hf_dir = project_root / "hf_render_project"
