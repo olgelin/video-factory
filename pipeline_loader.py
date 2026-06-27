@@ -94,12 +94,18 @@ def _check_output_consistency(topic: Optional[str]) -> list[str]:
 
 
 def _clean_intermediate_files() -> int:
-    """V5.5: 清理 output/ 中间文件。返回清理数量。"""
+    """V5.5: 清理 output/ 中间文件 + hf_render_project/compositions/。返回清理数量。"""
     cleaned = 0
     for fname in _INTERMEDIATE_FILES:
         fpath = OUTPUT_DIR / fname
         if fpath.exists():
             fpath.unlink()
+            cleaned += 1
+    # V5.6.1: 同时清理 composition 缓存（否则 hf_builder 复用旧 HTML）
+    comps_dir = Path(str(OUTPUT_DIR).replace("output", "hf_render_project/compositions"))
+    if comps_dir.exists():
+        for f in comps_dir.glob("beat-*.html"):
+            f.unlink()
             cleaned += 1
     return cleaned
 
@@ -284,6 +290,7 @@ def run_pipeline(
         vertical: 竖屏模式
         no_feedback: 禁用反馈系统
         cost_tracker: 成本追踪器实例
+        clean: V5.5 — 运行前清理 output/ 中间文件
 
     Returns:
         最终 context dict
