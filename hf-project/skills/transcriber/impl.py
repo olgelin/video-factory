@@ -43,6 +43,19 @@ def run(context: dict) -> dict:
         print(f"  [transcriber] 尝试fallback方案...")
         return _fallback_from_voice_durations(context)
 
+    # === V5.2 Fix A: FunASR质量检测 ===
+    # 即使FunASR返回成功，如果80%+文本挤在一个segment里，视为失败
+    segments = result.get("segments", [])
+    if isinstance(segments, list) and len(segments) > 0:
+        total_text_len = sum(len(s.get("text", "").strip()) for s in segments)
+        if total_text_len > 0:
+            max_seg_len = max(len(s.get("text", "").strip()) for s in segments)
+            concentration = max_seg_len / total_text_len
+            if concentration > 0.8:
+                print(f"  ⚠️ [transcriber] FunASR质量差: {concentration:.0%}文本集中在1个segment "
+                      f"({max_seg_len}/{total_text_len} chars)，触发fallback")
+                return _fallback_from_voice_durations(context)
+
     # 更新context
     context["transcript_path"] = str(TRANSCRIPT_PATH)
     context["srt_path"] = str(SRT_PATH)
@@ -54,7 +67,7 @@ def run(context: dict) -> dict:
 
 
 def _fallback_from_voice_durations(context: dict) -> dict:
-    """用voice_scene_durations生成近似transcript（ASR不可用时的fallback）"""
+    """用voice_scene_durations生成近似transcript + SRT（ASR不可用时的fallback）"""
     vsd_path = OUTPUT_DIR / "voice_scene_durations.json"
     if not vsd_path.exists():
         print(f"  ❌ [transcriber] fallback也失败: voice_scene_durations.json不存在")
@@ -102,8 +115,64 @@ def _fallback_from_voice_durations(context: dict) -> dict:
     context["transcript_duration"] = cumulative
     context["transcript_segments"] = len(segments)
 
-    print(f"  [transcriber] ✅ fallback完成: {len(segments)} segments, {cumulative:.1f}s")
+    # === V5.2: 同时生成 SRT（之前 fallback 只生成 transcript，漏了 SRT）===
+    _generate_srt_from_segments(segments, str(SRT_PATH))
+    context["srt_path"] = str(SRT_PATH)
+
+    print(f"  [transcriber] ✅ fallback完成: {len(segments)} segments, {cumulative:.1f}s, SRT已生成")
     return context
+
+
+def _generate_srt_from_segments(segments: list, output_path: str, max_chars: int = 18):
+    """从 transcript segments 生成 SRT 字幕文件（按实际时间戳对齐）"""
+    entries = []
+    for seg in segments:
+        text = seg.get("text", "").strip()
+        start = seg.get("start", 0)
+        end = seg.get("end", 0)
+        if not text or end <= start:
+            continue
+
+        # 按标点拆分为短行（每行最多 max_chars 字）
+        remaining = text
+        seg_start = start
+        seg_dur = end - start
+        while remaining:
+            if len(remaining) <= max_chars:
+                entries.append({"start": seg_start, "end": end, "text": remaining})
+                break
+            # 找最近的标点断行
+            cut = max_chars
+            for punct in "，。、；！？,.;!? ":
+                idx = remaining[:max_chars].rfind(punct)
+                if idx > max_chars // 2:
+                    cut = idx + 1
+                    break
+            chunk = remaining[:cut].strip()
+            chunk_dur = seg_dur * len(chunk) / max(len(text), 1)
+            chunk_end = min(seg_start + max(chunk_dur, 0.8), end)
+            entries.append({"start": seg_start, "end": chunk_end, "text": chunk})
+            remaining = remaining[cut:].strip()
+            seg_start = chunk_end
+
+    # 写入 SRT
+    srt_content = ""
+    for i, entry in enumerate(entries):
+        srt_content += f"{i+1}\n"
+        srt_content += f"{_format_srt_time(entry['start'])} --> {_format_srt_time(entry['end'])}\n"
+        srt_content += f"{entry['text']}\n\n"
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(srt_content)
+
+    print(f"  [transcriber] SRT已保存: {output_path} ({len(entries)} 条, 覆盖 {segments[-1]['end']:.1f}s)")
+
+
+def _format_srt_time(seconds: float) -> str:
+    """格式化SRT时间戳"""
+    h, r = divmod(seconds, 3600)
+    m, s = divmod(r, 60)
+    return f"{int(h):02d}:{int(m):02d}:{s:06.3f}".replace(".", ",")
 
 
 if __name__ == "__main__":

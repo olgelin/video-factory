@@ -54,7 +54,7 @@ def run(context: dict) -> dict:
 
 
 def _fallback_from_voice_durations(context: dict) -> dict:
-    """用voice_scene_durations生成近似transcript（ASR不可用时的fallback）"""
+    """用voice_scene_durations生成近似transcript + SRT（ASR不可用时的fallback）"""
     vsd_path = OUTPUT_DIR / "voice_scene_durations.json"
     if not vsd_path.exists():
         print(f"  ❌ [transcriber] fallback也失败: voice_scene_durations.json不存在")
@@ -102,8 +102,61 @@ def _fallback_from_voice_durations(context: dict) -> dict:
     context["transcript_duration"] = cumulative
     context["transcript_segments"] = len(segments)
 
-    print(f"  [transcriber] ✅ fallback完成: {len(segments)} segments, {cumulative:.1f}s")
+    # === V5.2: 同时生成 SRT ===
+    _generate_srt_from_segments(segments, str(SRT_PATH))
+    context["srt_path"] = str(SRT_PATH)
+
+    print(f"  [transcriber] ✅ fallback完成: {len(segments)} segments, {cumulative:.1f}s, SRT已生成")
     return context
+
+
+def _generate_srt_from_segments(segments: list, output_path: str, max_chars: int = 18):
+    """从 transcript segments 生成 SRT 字幕文件（按实际时间戳对齐）"""
+    entries = []
+    for seg in segments:
+        text = seg.get("text", "").strip()
+        start = seg.get("start", 0)
+        end = seg.get("end", 0)
+        if not text or end <= start:
+            continue
+
+        remaining = text
+        seg_start = start
+        seg_dur = end - start
+        while remaining:
+            if len(remaining) <= max_chars:
+                entries.append({"start": seg_start, "end": end, "text": remaining})
+                break
+            cut = max_chars
+            for punct in "，。、；！？,.;!? ":
+                idx = remaining[:max_chars].rfind(punct)
+                if idx > max_chars // 2:
+                    cut = idx + 1
+                    break
+            chunk = remaining[:cut].strip()
+            chunk_dur = seg_dur * len(chunk) / max(len(text), 1)
+            chunk_end = min(seg_start + max(chunk_dur, 0.8), end)
+            entries.append({"start": seg_start, "end": chunk_end, "text": chunk})
+            remaining = remaining[cut:].strip()
+            seg_start = chunk_end
+
+    srt_content = ""
+    for i, entry in enumerate(entries):
+        srt_content += f"{i+1}\n"
+        srt_content += f"{_format_srt_time(entry['start'])} --> {_format_srt_time(entry['end'])}\n"
+        srt_content += f"{entry['text']}\n\n"
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(srt_content)
+
+    print(f"  [transcriber] SRT已保存: {output_path} ({len(entries)} 条, 覆盖 {segments[-1]['end']:.1f}s)")
+
+
+def _format_srt_time(seconds: float) -> str:
+    """格式化SRT时间戳"""
+    h, r = divmod(seconds, 3600)
+    m, s = divmod(r, 60)
+    return f"{int(h):02d}:{int(m):02d}:{s:06.3f}".replace(".", ",")
 
 
 if __name__ == "__main__":

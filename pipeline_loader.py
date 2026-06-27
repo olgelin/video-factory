@@ -109,7 +109,14 @@ def run_stage(
             result = module.run(context)
 
             if cost_tracker:
-                cost_tracker.reconcile(stage_name=name, success=True)
+                # V5.2 Fix C: 从 provider 获取实际使用的模型名
+                model = ""
+                try:
+                    from provider import get_registry
+                    model = get_registry().last_model_used
+                except Exception:
+                    pass
+                cost_tracker.reconcile(stage_name=name, success=True, model=model)
 
             # Critical check
             if critical and not _check_critical(manifest, name, result):
@@ -243,7 +250,11 @@ def run_pipeline(
         try:
             with open(saved_ctx_path, encoding="utf-8") as f:
                 saved_ctx = json.load(f)
+            # V5.2 Fix F: topic 保护 — 如果当前context已有topic，不被旧值覆盖
+            protected_keys = {"topic"}  # 更多需要保护的key可以加到这里
             for k, v in saved_ctx.items():
+                if k in protected_keys and context.get(k):
+                    continue  # 已有值，不覆盖
                 if k not in context or context[k] is None:
                     context[k] = v
         except Exception:

@@ -165,7 +165,7 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
                 print(f"  [video-renderer]   ✅ {clip_src} 渲染完成")
             else:
                 # 重试1: 简化HTML中的GSAP动画后重试
-                print(f"  ⚠️ [video-renderer]   {clip_src} 渲染失败，尝试简化GSAP后重试...")
+                print(f"  ⚠️ [video-renderer]   {clip_src} 渲染失败(rc={result.returncode})，尝试简化GSAP后重试...")
                 simplified = _simplify_composition_gsap(project_dir, clip_src)
                 if simplified:
                     result2 = subprocess.run(
@@ -176,11 +176,18 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
                         print(f"  [video-renderer]   ✅ {clip_src} 简化后渲染成功")
                         continue
                 
-                print(f"  ⚠️ [video-renderer]   {clip_src} 重试也失败，跳过")
+                # 重试2: 用空白帧兜底（确保视频时长完整）
+                print(f"  ⚠️ [video-renderer]   {clip_src} 两次重试都失败，使用空白帧兜底...")
+                fallback_clip = _render_fallback_frame(temp_dir, i, duration, project_dir)
+                if fallback_clip:
+                    segment_files.append(fallback_clip)
+                    print(f"  [video-renderer]   ⚠️ {clip_src} 使用空白帧替代")
+                else:
+                    print(f"  ❌ [video-renderer]   {clip_src} 无法生成兜底帧，跳过")
                 if result.stderr:
                     for line in result.stderr.split('\n'):
-                        if 'Set maximum' in line or 'failed' in line.lower():
-                            print(f"    {line.strip()}")
+                        if 'Set maximum' in line or 'failed' in line.lower() or 'Error' in line:
+                            print(f"    {line.strip()[:200]}")
                 continue
                 
         except subprocess.TimeoutExpired:
@@ -233,6 +240,22 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
     except Exception as e:
         print(f"  ❌ [video-renderer] 拼接错误: {e}")
         return False
+
+
+def _render_fallback_frame(temp_dir: Path, index: int, duration: str, project_dir: str) -> str:
+    """渲染一个纯色空白帧作为兜底（确保视频时长完整）"""
+    import tempfile
+    clip_path = str(temp_dir / f"segment_{index:02d}.mp4")
+    
+    # 用 ffmpeg 生成纯色视频
+    cmd = f'ffmpeg -y -f lavfi -i "color=c=0x1a1a2e:s=1920x1080:d={duration}:r=30" -c:v libx264 -preset ultrafast -crf 28 -pix_fmt yuv420p "{clip_path}"'
+    try:
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
+        if result.returncode == 0 and Path(clip_path).exists():
+            return clip_path
+    except Exception:
+        pass
+    return ""
 
 
 def _validate_html_structure(project_dir: str) -> bool:

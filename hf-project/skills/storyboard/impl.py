@@ -591,13 +591,36 @@ def run(context: dict) -> dict:
             for i in range(n_voice - 1, n_sb):
                 merged_content.append(storyboard[i].get("narration", ""))
             storyboard = storyboard[:n_voice - 1]
-            # 创建合并后的场景
+            # 创建合并后的场景（V5.2: 强制注入结尾金句+CTA元素）
+            merged_narration = " ".join(merged_content)
             last_scene = {
                 "scene_id": n_voice,
-                "visual_type": "data_impact",
+                "visual_type": "quote_hero",
                 "concept": "总结升华",
-                "narration": " ".join(merged_content),
-                "key_elements": [],
+                "mood": "深邃、有力、引人深思",
+                "narration": merged_narration,
+                "key_elements": [
+                    {"type": "title", "text": "认知免疫系统"},
+                    {"type": "title", "text": "最后的堡垒"},
+                    {"type": "tag", "text": "保持判断力"},
+                    {"type": "tag", "text": "别让机器替你思考"},
+                    {"type": "data", "label": "人的判断力", "value": "不可替代", "unit": "", "trend": "up"},
+                ],
+                "chart_type": None,
+                "camera_motion": {"type": "dolly_out", "intensity": "subtle"},
+                "density_target": 8,
+                "depth_layers": {
+                    "background": "dark gradient + radial glow + ghost text",
+                    "midground": "hero quote text + key tags",
+                    "foreground": "grain overlay + accent lines"
+                },
+                "animations": {
+                    "title": "SLAMS in from center with glow",
+                    "subtitle": "CASCADES down in staggered fragments",
+                    "data": "FLOATS up gently",
+                    "decor": "PULSES with breathing rhythm"
+                },
+                "transition": {"in": "fade from black", "out": "fade to black"},
             }
             storyboard.append(last_scene)
         else:

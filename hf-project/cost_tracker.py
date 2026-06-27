@@ -113,13 +113,18 @@ class CostTracker:
 
         return estimate_id
 
-    def reconcile(self, stage_name: str, success: bool = True, actual_chars: int = 0):
+    def reconcile(self, stage_name: str, success: bool = True, actual_chars: int = 0, model: str = ""):
         """
         结算费用（根据 stage_name 匹配最近的 estimate）
+
+        V5.2 Fix C: model 参数从 provider 获取实际使用的模型名
         """
         # 找到匹配的 estimate
         for eid, entry in list(self._active_estimates.items()):
             if entry["stage"] == stage_name:
+                # V5.2 Fix C: 如果传入了model，更新entry
+                if model and not entry.get("model"):
+                    entry["model"] = model
                 if success:
                     # 粗略估算实际费用
                     prices = MODEL_PRICES.get(entry["model"], MODEL_PRICES["default"])
