@@ -1367,7 +1367,7 @@ def run(context: dict) -> dict:
         from provider import HF_PARALLEL_MODELS
         parallel_models = HF_PARALLEL_MODELS
     except ImportError:
-        parallel_models = ["deepseek-v4-pro", "kimi-k2.7-code", "glm-5.2", "deepseek-v4-flash", "minimax-m3"]
+        parallel_models = ["deepseek-v4-pro", "deepseek-v4-flash"]
 
     parallel_mode = len(scenes_to_build) >= 3  # 3+ 场景才启用并行
     if parallel_mode:

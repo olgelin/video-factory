@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-provider.py — LLM Provider 抽象层 v2
+provider.py — LLM Provider 抽象层 v3 (DeepSeek 官方 API)
 
 核心改进：
-- 账号级限流（所有模型共享火山引擎账号配额）
-- 429 全局退避（一个模型 429，全部暂停等待）
-- 按任务智能分配模型（轻任务用便宜模型，重任务用强模型）
-- 模型轮换（避免单个模型过热触发限流）
+- 切换至 DeepSeek 官方 API (api.deepseek.com)
+- 只用 deepseek-v4-pro + deepseek-v4-flash 两个模型
+- 账号级限流 + 429 全局退避
+- 按任务智能分配模型（轻→flash，重→pro）
 
 用法:
     from provider import ProviderRegistry
@@ -30,58 +30,54 @@ import yaml
 # 任务 → 模型分配策略
 # ============================================================
 
-# V5.3 模型智能路由：按任务复杂度分配模型
-# 原则：轻任务用快模型（flash/glm），重任务用强模型（pro/kimi）
-# hf_builder 并行模式：5 模型轮换，避免排队等 pro
+# V5.4: 全部切 DeepSeek 官方 API，只有 pro 和 flash 两个模型
+# 原则：轻任务用 flash（快+便宜），重任务用 pro（强）
 TASK_MODEL_MAP = {
     "research": {
         "description": "信息采集、热点分析",
-        "primary": "deepseek-v4-flash",  # V5.3: 轻任务，flash 完全够
-        "fallback": ["glm-5.2", "minimax-m3"],
+        "primary": "deepseek-v4-flash",
+        "fallback": ["deepseek-v4-pro"],
         "max_tokens": 4000,
     },
     "selection": {
         "description": "选题评估、多维度打分",
-        "primary": "glm-5.2",  # V5.3: 结构化评分，glm 擅长
-        "fallback": ["deepseek-v4-flash", "minimax-m3"],
+        "primary": "deepseek-v4-flash",
+        "fallback": ["deepseek-v4-pro"],
         "max_tokens": 4000,
     },
     "creative": {
         "description": "脚本创作、设计系统、分镜",
         "primary": "deepseek-v4-pro",
-        "fallback": ["kimi-k2.7-code", "glm-5.2", "deepseek-v4-flash"],
+        "fallback": ["deepseek-v4-flash"],
         "max_tokens": 12000,
         "timeout": 600,
     },
     "creative_light": {
         "description": "歌词、设计系统等轻创意任务（并行时不抢pro）",
-        "primary": "kimi-k2.7-code",
-        "fallback": ["glm-5.2", "deepseek-v4-flash"],
+        "primary": "deepseek-v4-flash",
+        "fallback": ["deepseek-v4-pro"],
         "max_tokens": 8000,
         "timeout": 300,
     },
     "creative_html": {
         "description": "hf_builder 场景 HTML 生成（并行模式）",
         "primary": "deepseek-v4-pro",
-        "fallback": ["kimi-k2.7-code", "glm-5.2", "deepseek-v4-flash", "minimax-m3"],
+        "fallback": ["deepseek-v4-flash"],
         "max_tokens": 12000,
         "timeout": 600,
     },
     "analysis": {
         "description": "质量诊断、内容审核",
-        "primary": "deepseek-v4-flash",  # V5.3: 轻任务
-        "fallback": ["glm-5.2", "minimax-m3"],
+        "primary": "deepseek-v4-flash",
+        "fallback": ["deepseek-v4-pro"],
         "max_tokens": 4000,
     },
 }
 
-# V5.3: hf_builder 并行模型轮换列表（按场景 index 取模分配）
+# V5.4: hf_builder 并行模型轮换 — 只有 pro 和 flash
 HF_PARALLEL_MODELS = [
     "deepseek-v4-pro",
-    "kimi-k2.7-code",
-    "glm-5.2",
     "deepseek-v4-flash",
-    "minimax-m3",
 ]
 
 
@@ -95,7 +91,7 @@ class AccountRateLimiter:
     def __init__(self, max_rpm: int = 100):
         """
         Args:
-            max_rpm: 每分钟最大请求数（V5.2 Fix D: 30→100，实际套餐≥500 RPM）
+            max_rpm: 每分钟最大请求数
         """
         self.max_rpm = max_rpm
         self.period = 60.0
@@ -154,11 +150,11 @@ class ProviderRegistry:
 
     def __init__(self, config_path: str = None):
         self._providers: dict[str, dict] = {}  # model_name → config
-        # V5.3.2 Fix: 20 RPM，避免触发火山引擎账号级限流
+        # V5.4: 20 RPM 令牌桶（DeepSeek 官方 API 限流温和但保持保守）
         max_rpm = int(os.environ.get("VF_MAX_RPM", "20"))
         self._rate_limiter = AccountRateLimiter(max_rpm=max_rpm)
         self._model_429_count: dict[str, int] = {}  # 每个模型的 429 计数
-        self._last_model_used: str = ""  # V5.2 Fix C: 记录最后使用的模型名
+        self._last_model_used: str = ""
         self._load_config(config_path)
         self._discover()
 
@@ -175,45 +171,39 @@ class ProviderRegistry:
             except Exception:
                 pass
 
+        # V5.4: DEEPSEEK_API_KEY 优先，兼容旧 XIAOMI_API_KEY / VOLC_API_KEY
         self._api_key = (
-            os.environ.get("VF_API_KEY")
+            os.environ.get("DEEPSEEK_API_KEY")
+            or os.environ.get("VF_API_KEY")
+            or os.environ.get("XIAOMI_API_KEY")
             or os.environ.get("VOLC_API_KEY")
             or self._config.get("model", {}).get("api_key", "")
         )
+        # V5.4: DeepSeek 官方 API endpoint
         self._base_url = (
             os.environ.get("VF_BASE_URL")
             or self._config.get("model", {}).get("base_url", "")
-            or "https://ark.cn-beijing.volces.com/api/plan/v3"
+            or "https://api.deepseek.com/v1"
         )
 
     def _discover(self):
         if not self._api_key:
             return
 
-        # 从 config 读取所有可用模型
-        default_models = self._config.get("model", {}).get("default", "")
-        if default_models:
-            for model_name in default_models.split(","):
-                model_name = model_name.strip()
-                if model_name and model_name not in self._providers:
-                    self._providers[model_name] = {
-                        "model": model_name,
-                        "url": self._base_url.rstrip("/") + "/chat/completions",
-                        "api_key": self._api_key,
-                    }
-
-        # 辅助模型
-        for aux_name in ["approval", "title_generation", "vision"]:
-            aux_cfg = self._config.get("auxiliary", {}).get(aux_name, {})
-            aux_model = aux_cfg.get("model", "")
-            aux_key = aux_cfg.get("api_key", "")
-            aux_url = aux_cfg.get("base_url", "")
-            if aux_model and aux_key and aux_url and aux_model not in self._providers:
-                self._providers[aux_model] = {
-                    "model": aux_model,
-                    "url": aux_url.rstrip("/") + "/chat/completions",
-                    "api_key": aux_key,
+        # V5.4: 硬注册 pro 和 flash（确保始终可用，不依赖 config.yaml）
+        for model_name in ["deepseek-v4-pro", "deepseek-v4-flash"]:
+            if model_name not in self._providers:
+                self._providers[model_name] = {
+                    "model": model_name,
+                    "url": self._base_url.rstrip("/") + "/chat/completions",
+                    "api_key": self._api_key,
                 }
+
+        # V5.4: 只保留 DeepSeek 模型，过滤掉 config.yaml/环境变量泄漏的其他模型
+        self._providers = {
+            k: v for k, v in self._providers.items()
+            if k in ("deepseek-v4-pro", "deepseek-v4-flash")
+        }
 
     def call_with_model(
         self,
@@ -253,14 +243,13 @@ class ProviderRegistry:
         智能路由 LLM 调用
 
         策略：
-        1. 主力模型 deepseek-v4-pro 优先
-        2. pro 失败（429/超时/错误）才尝试 fallback
+        1. 主力模型优先
+        2. 主力失败才尝试 fallback
         3. 账号级限流 + 429 全局退避
         """
         task_cfg = TASK_MODEL_MAP.get(task, TASK_MODEL_MAP["creative"])
         if max_tokens is None:
             max_tokens = task_cfg["max_tokens"]
-        # V5.2 Fix B: 使用task级别timeout（creative=600s）
         if timeout == 300:  # 默认值，尝试从task配置读取
             timeout = task_cfg.get("timeout", timeout)
 
@@ -277,7 +266,7 @@ class ProviderRegistry:
             if not provider:
                 continue
 
-            # V5.2 Fix E: 如果之前有模型收到429（账号级限流），跳过所有fallback
+            # 如果之前有模型收到429（账号级限流），跳过所有fallback
             if self._rate_limiter._global_cooldown_until > time.time():
                 if model != primary:
                     print(f"  [Provider] 账号级冷却中，跳过 fallback {model}")
@@ -301,10 +290,10 @@ class ProviderRegistry:
             result = self._call_single(provider, prompt, system_prompt, max_tokens, timeout)
 
             if result:
-                self._last_model_used = model  # V5.2 Fix C
+                self._last_model_used = model
                 return result
 
-            # V5.2 Fix E: 如果 primary 收到 429，直接停止（账号级限流，fallback 也会 429）
+            # 如果 primary 收到 429，直接停止（账号级限流，fallback 也会 429）
             if model == primary and self._rate_limiter._global_cooldown_until > time.time():
                 print(f"  [Provider] primary {model} 触发账号级限流，跳过所有 fallback")
                 break
@@ -362,6 +351,7 @@ class ProviderRegistry:
                     msg = data.get("choices", [{}])[0].get("message", {})
                     content = msg.get("content", "").strip()
 
+                    # 清洗 reasoning 前缀（某些模型会输出）
                     content = re.sub(r"^.+? response\s*", "", content, flags=re.DOTALL).strip()
                     if content:
                         return content
@@ -371,6 +361,11 @@ class ProviderRegistry:
                         return reasoning
 
                     return content
+
+                # 402 Insufficient Balance 等致命错误不重试
+                if resp.status_code == 402:
+                    print(f"  [Provider] {model} 402 余额不足，不重试")
+                    return None
 
                 # 其他错误
                 print(f"  [Provider] {model} HTTP {resp.status_code}: {resp.text[:100]}")
@@ -394,7 +389,7 @@ class ProviderRegistry:
 
     @property
     def last_model_used(self) -> str:
-        """V5.2 Fix C: 供 cost_tracker 读取实际使用的模型名"""
+        """供 cost_tracker 读取实际使用的模型名"""
         return self._last_model_used
 
     def support_envelope(self) -> dict:

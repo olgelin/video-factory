@@ -7,12 +7,9 @@ cost_tracker.py — API 费用追踪器
 - 支持 budget warn/cap 模式
 - 输出 cost_log.json 到 output 目录
 
-费用估算（火山引擎 Ark 价格，RMB/1M tokens）：
+费用估算（DeepSeek 官方 API 价格，RMB/1M tokens）：
 - deepseek-v4-pro:   输入 ¥2, 输出 ¥8
 - deepseek-v4-flash: 输入 ¥0.5, 输出 ¥2
-- glm-5.2:           输入 ¥5, 输出 ¥20
-- minimax-m3:        输入 ¥1, 输出 ¥4
-- kimi-k2.7-code:    输入 ¥2, 输出 ¥8
 """
 
 import json
@@ -26,9 +23,7 @@ from typing import Any, Optional
 MODEL_PRICES = {
     "deepseek-v4-pro":    {"input": 2.0,  "output": 8.0},
     "deepseek-v4-flash":  {"input": 0.5,  "output": 2.0},
-    "glm-5.2":            {"input": 5.0,  "output": 20.0},
-    "minimax-m3":         {"input": 1.0,  "output": 4.0},
-    "kimi-k2.7-code":     {"input": 2.0,  "output": 8.0},
+
     # 默认
     "default":            {"input": 2.0,  "output": 8.0},
 }
