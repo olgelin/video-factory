@@ -13,6 +13,13 @@ import os
 import sys
 import json
 import re
+
+# V1.0: design-taste 注入
+try:
+    from taste_inject import get_scene_taste_injection as _get_taste
+except ImportError:
+    _get_taste = lambda scene, style="": ""
+
 import time
 import subprocess
 from pathlib import Path
@@ -287,6 +294,11 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
         W=W,
         H=H,
     ) + feedback_lessons
+
+    # V1.0: 注入 design-taste 品味约束
+    taste_injection = _get_taste(scene, design_style=spec.get("design_style", ""))
+    if taste_injection:
+        prompt += taste_injection
 
     system = "你是 HyperFrames 视频合成专家。只输出完整 HTML 代码，不输出任何其他文本。"
 
