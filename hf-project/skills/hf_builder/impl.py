@@ -385,11 +385,25 @@ Only output HTML code."""
 
 # ── V5.6: 模板填充 + 品味修正 + 多样性检查 ──────────────
 
+# 确保 scene_templates 可导入（importlib 加载时 sys.path 可能不含当前目录）
+import os as _os
+_THIS_DIR = _os.path.dirname(_os.path.abspath(__file__))
+if _THIS_DIR not in sys.path:
+    sys.path.insert(0, _THIS_DIR)
+
 try:
     from scene_templates import TEMPLATES, FALLBACK as _TPL_FALLBACK
 except ImportError:
     TEMPLATES = {}
     _TPL_FALLBACK = ""
+
+
+# 兼容旧模板导入（line 1218 的 generate_scene_from_template）
+try:
+    from scene_templates import generate_scene_from_template, set_design_colors
+except ImportError:
+    generate_scene_from_template = None
+    set_design_colors = None
 
 
 def _fill_template(scene: dict, spec: dict, composition_id: str,
@@ -1209,8 +1223,7 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
     
     # === 模板兜底（LLM失败时使用）===
     print(f"    ⚠️ [Scene {sid}] LLM失败，使用模板兜底")
-    try:
-        from scene_templates import generate_scene_from_template, set_design_colors
+    if generate_scene_from_template:
         design_dict = {}
         if spec:
             design_dict = spec
@@ -1231,8 +1244,6 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
             if validate_scene_html(full_html, scene):
                 print(f"    ✅ [Scene {sid}] 模板兜底成功")
                 return sid, full_html
-    except Exception as e:
-        print(f"    ⚠️ [Scene {sid}] 模板异常: {e}")
     
     # === 最终fallback ===
     print(f"    ⚠️ [Scene {sid}] 使用硬编码fallback")
