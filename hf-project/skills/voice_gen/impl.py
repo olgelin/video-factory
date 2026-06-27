@@ -55,6 +55,10 @@ def run(context: dict) -> dict:
 
     if result.get("error"):
         print(f"  ❌ [voice-gen] 失败: {result['error']}")
+        # V5.2 Fix: 删除可能存在的旧配音，防止critical check误通过
+        if VOICE_PATH.exists():
+            VOICE_PATH.unlink()
+            print(f"  🗑️ [voice-gen] 已删除旧配音防止误用")
         return context
 
     # 更新context

@@ -492,6 +492,20 @@ def run(context: dict) -> dict:
         print(f"  ❌ [script-writer] 过多短段落: {len(short_sections)}/{len(sections)}")
         return context
 
+    # === V5.2 Fix: 话题一致性验证 ===
+    # LLM 可能被旧 context 污染，生成完全不相关的话题
+    script_topic = script.get("topic", "")
+    if selected_topic and script_topic:
+        # 提取关键词做模糊匹配
+        input_keywords = set(selected_topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
+        script_keywords = set(script_topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
+        overlap = input_keywords & script_keywords
+        if len(overlap) < 2 and len(input_keywords) > 3:
+            print(f"  ❌ [script-writer] 话题不一致！输入={selected_topic[:40]}，输出={script_topic[:40]}，重叠词={overlap}")
+            if SCRIPT_PATH.exists():
+                SCRIPT_PATH.unlink()
+            return context
+
     # 统计
     total_chars = sum(len(s.get("content", "")) for s in sections)
     print(f"  [script-writer] 生成 {len(sections)} 个段落，{total_chars} 字")
