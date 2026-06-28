@@ -134,13 +134,15 @@ def run(context: dict) -> dict:
         vr = subprocess.run(voice_duration_cmd, shell=True, capture_output=True, text=True)
         voice_dur = float(vr.stdout.strip()) if vr.stdout.strip() else 120
         
-        # 动态混合：配音为主(1.5x)，BGM做背景(0.15x) + 淡入2s + 淡出3s
-        # sidechaincompress让BGM在配音说话时自动降低
-        cmd = f"""ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" \
-            -filter_complex " \
-            [0:a]volume=1.5[voice]; \
-            [1:a]atrim=0:{voice_dur + 5},volume=0.15,afade=t=in:st=0:d=2,afade=t=out:st={voice_dur - 3}:d=3[bgm]; \
-            [voice][bgm]amix=inputs=2:duration=first:dropout_transition=2[out] \
+        # V5.8: 动态混合 + sidechain压缩（真正的ducking）
+        # BGM在配音说话时自动降低，不说话时恢复
+        # sidechaincompress: voice作为sidechain信号，压缩BGM
+        cmd = f"""ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" \\
+            -filter_complex " \\
+            [0:a]volume=1.5[voice]; \\
+            [1:a]atrim=0:{voice_dur + 5},volume=0.2,afade=t=in:st=0:d=2,afade=t=out:st={voice_dur - 3}:d=3[bgm_raw]; \\
+            [bgm_raw][voice]sidechaincompress=threshold=0.005:ratio=4:attack=5:release=200:level_sc=0.8[bgm_ducked]; \\
+            [voice][bgm_ducked]amix=inputs=2:duration=first:dropout_transition=3[out] \\
             " -map "[out]" "{mixed_audio}" """
 
         if not run_ffmpeg(cmd):

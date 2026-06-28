@@ -204,19 +204,95 @@ stages:
     timeout: 300
     retry: 2
 
+# ── Phase 3.6: 电影级视觉设计（串行，依赖 storyboard + design_system）──
+  - name: color_grader
+    step: 9.1
+    skill: color_grader
+    phase: 3.6
+    parallel_group: null
+    description: "电影级色彩分级 — 选配色方案 + LUT/暗角/颗粒/宽银幕"
+    input:
+      - output/storyboard.json
+      - output/design.md
+    produces:
+      - output/color_grade.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  - name: layout_composer
+    step: 9.2
+    skill: layout_composer
+    phase: 3.6
+    parallel_group: null
+    description: "布局骨架选择 + 构图网格 + 景深分层"
+    input:
+      - output/storyboard.json
+      - output/color_grade.json
+    produces:
+      - output/layout_plan.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  - name: motion_director
+    step: 9.3
+    skill: motion_director
+    phase: 3.6
+    parallel_group: null
+    description: "镜头运动 + 文字动画时间线 + ease曲线"
+    input:
+      - output/storyboard.json
+      - output/layout_plan.json
+      - output/color_grade.json
+    produces:
+      - output/motion_plan.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  - name: depth_composer
+    step: 9.4
+    skill: depth_composer
+    phase: 3.6
+    parallel_group: null
+    description: "z-index层级分配 + 视差倍率 + 装饰元素"
+    input:
+      - output/storyboard.json
+      - output/layout_plan.json
+      - output/motion_plan.json
+      - output/color_grade.json
+    produces:
+      - output/depth_plan.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
   # ── Phase 4: 串行 ──
   - name: hf_builder
     step: 10
     skill: hf_builder
     phase: 4
     parallel_group: null
-    description: "HyperFrames 场景 HTML 生成（V5.3 并行模式：5 模型轮换）"
+    description: "HyperFrames 场景 HTML 生成（V5.8: 消费电影级设计JSON + 模板直出）"
     input:
       - output/step03_script.json
       - output/design.md
       - output/design_specs.json
       - output/storyboard.json
       - output/whisperx_transcript.json
+      - output/color_grade.json
+      - output/layout_plan.json
+      - output/motion_plan.json
+      - output/depth_plan.json
     produces:
       - hf_render_project/compositions/beat-*.html
     provider: llm

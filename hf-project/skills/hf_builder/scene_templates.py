@@ -95,14 +95,14 @@ COMPARE = r'''<!DOCTYPE html>
 <div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 左侧大栏 —— 70% 宽度 -->
-  <div id="left-col" style="position:absolute;top:100px;left:60px;width:55%;bottom:100px;border-right:1px solid rgba(255,255,255,0.1);padding-right:60px;display:flex;flex-direction:column;justify-content:center;">
+  <div id="left-col" style="position:absolute;top:100px;left:60px;width:55%;bottom:100px;border-right:1px solid rgba(255,255,255,0.1);padding-right:60px;display:flex;flex-direction:column;justify-content:center;z-index:5;">
     <div id="left-label" style="font-size:22px;color:{ACCENT};font-family:'Outfit','PingFang SC',sans-serif;letter-spacing:0.1em;margin-bottom:24px;">{TAG1}</div>
     <div id="left-title" style="font-size:56px;font-weight:800;color:#fff;font-family:'Outfit','PingFang SC',sans-serif;line-height:1.2;">{HEADLINE}</div>
     <div id="left-desc" style="font-size:24px;color:#999;font-family:'Outfit','PingFang SC',sans-serif;line-height:1.6;margin-top:24px;">{SUBHEADLINE}</div>
   </div>
 
   <!-- 右侧小栏 —— 30% 宽度 -->
-  <div id="right-col" style="position:absolute;top:100px;right:60px;width:30%;bottom:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+  <div id="right-col" style="position:absolute;top:100px;right:60px;width:30%;bottom:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:5;">
     <div id="right-data" style="font-size:100px;font-weight:900;color:{ACCENT};font-family:'JetBrains Mono',monospace;text-shadow:0 0 40px {ACCENT_GLOW};">{DATA_VALUE}</div>
     <div id="right-label" style="font-size:24px;color:#ccc;font-family:'Outfit','PingFang SC',sans-serif;margin-top:16px;text-align:center;">{DATA_LABEL}</div>
     <div id="right-change" style="font-size:36px;font-weight:700;color:{ACCENT};font-family:'JetBrains Mono',monospace;margin-top:24px;">{DATA_CHANGE}</div>
@@ -264,7 +264,7 @@ LIST_ALERT = r'''<!DOCTYPE html>
   </div>
 
   <!-- 列表项 -->
-  <div id="items" style="position:absolute;top:340px;left:100px;right:100px;display:flex;flex-direction:column;gap:30px;">
+  <div id="items" style="position:absolute;top:340px;left:100px;right:100px;display:flex;flex-direction:column;gap:30px;z-index:5;">
     <div class="item" style="display:flex;align-items:center;gap:30px;">
       <div style="width:12px;height:12px;background:{ACCENT};border-radius:2px;box-shadow:0 0 10px {ACCENT_GLOW};flex-shrink:0;"></div>
       <div style="font-size:28px;color:#ccc;font-family:'Outfit','PingFang SC',sans-serif;">{ITEM1}</div>
@@ -314,7 +314,7 @@ QUOTE_HERO = r'''<!DOCTYPE html>
 <div class="scene" style="position:relative;width:{W}px;height:{H}px;background:#000;overflow:hidden;">
 
   <!-- 径向光晕 -->
-  <div id="glow" style="position:absolute;top:50%;left:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 60%);border-radius:50%;"></div>
+  <div id="glow" style="position:absolute;top:50%;left:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 60%);border-radius:50%;z-index:0;"></div>
 
   <!-- 压轴文字 -->
   <div id="quote" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;">

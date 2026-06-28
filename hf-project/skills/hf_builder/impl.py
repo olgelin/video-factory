@@ -238,24 +238,25 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
                             model: str = None) -> str:
     """用 LLM 根据上游数据生成完整的场景 HTML，带重试。V5.6: 模板优先。"""
     # ── V5.7: 模板填充（不经过 LLM） ──
+    vt = scene.get("visual_type", "")
     if TEMPLATES:
         base_html = _fill_template(scene, spec, composition_id, W, H)
         if base_html:
             vt = scene.get("visual_type", "")
             accent_c = _PER_TYPE_ACCENT.get(vt, spec.get("colors", {}).get("accent", "#C1121F"))
             base_html = _auto_fix_taste(base_html, accent_c)
-            if _validate_html(base_html, composition_id) and len(base_html) > 1200:
+            valid = _validate_html(base_html, composition_id)
+            ok_len = len(base_html) > 1200
+            if valid and ok_len:
                 if _check_diversity(base_html, scene_id, scene.get("visual_type", "")):
+                    print(f"    ✅ [Scene {scene_id}] 模板直出 ({vt}) {len(base_html)} chars", flush=True)
                     return base_html
-        # 模板失败：换同族模板重试，不走 LLM
-        for fallback_vt in _TEMPLATE_FALLBACKS.get(scene.get("visual_type", ""), []):
-            fallback_scene = dict(scene, visual_type=fallback_vt)
-            base_html = _fill_template(fallback_scene, spec, composition_id, W, H)
-            if base_html:
-                base_html = _auto_fix_taste(base_html, accent_c)
-                if _validate_html(base_html, composition_id) and len(base_html) > 1200:
-                    if _check_diversity(base_html, scene_id, scene.get("visual_type", "")):
-                        return base_html
+                else:
+                    print(f"    ⚠️ [Scene {scene_id}] 模板多样性失败 ({vt})", flush=True)
+            else:
+                print(f"    ⚠️ [Scene {scene_id}] 模板验证失败 ({vt}) valid={valid} len={len(base_html)}", flush=True)
+        else:
+            print(f"    ⚠️ [Scene {scene_id}] 模板填充空 ({vt})", flush=True)
     # ───────────────────────────────────────
 
     depth_layers = scene.get("depth_layers", {})
@@ -390,9 +391,11 @@ if _THIS_DIR not in sys.path:
 
 try:
     from scene_templates import TEMPLATES, FALLBACK as _TPL_FALLBACK
-except ImportError:
+    print(f"  [hf_builder] ✅ 模板加载成功: {len(TEMPLATES)} 个模板", flush=True)
+except ImportError as e:
     TEMPLATES = {}
     _TPL_FALLBACK = ""
+    print(f"  [hf_builder] ⚠️ 模板加载失败: {e}", flush=True)
 
 
 # 兼容旧模板导入（line 1218 的 generate_scene_from_template）
@@ -1153,12 +1156,13 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 
 def validate_scene_html(html: str, scene: dict) -> bool:
     """验证场景HTML质量（纯regex，不调LLM）"""
-    if not html or len(html) < 3000:
+    if not html or len(html) < 1200:
         return False
     
     import re
     
     # 检查0：版本标记（v5.1+ 新 prompt 生成的才有）
+    # V5.7: 模板生成的含 vf-v5.6 标记
     if "vf-v5" not in html:
         print(f"      ⚠️ 旧版HTML（缺少 vf-v5 标记），需要重新生成", flush=True)
         return False
@@ -1182,7 +1186,7 @@ def validate_scene_html(html: str, scene: dict) -> bool:
         return False
     
     # 检查3：必须有背景色（深色背景）
-    if '#1a1a2e' not in html and '#0a0a1a' not in html and '#16213e' not in html:
+    if '#1a1a2e' not in html and '#0a0a1a' not in html and '#16213e' not in html and '#0a0a0a' not in html and '#000' not in html:
         print(f"      ⚠️ 缺少深色背景", flush=True)
         return False
     
@@ -1267,7 +1271,7 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
         html = generate_scene_from_template(scene, sid, design_dict)
         if html and len(html) > 100:
             # 包裹完整HTML结构（传入scene用于scene-specific GSAP）
-            full_html = _wrap_html(html, composition_id, W, H, scene=scene)
+            full_html = _wrap_html(html, composition_id, W, H, scene=scene, color_grade=ctx.get("_color_grade"))
             if validate_scene_html(full_html, scene):
                 print(f"    ✅ [Scene {sid}] 模板兜底成功")
                 return sid, full_html
@@ -1278,34 +1282,92 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
     return sid, html
 
 
-def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080, scene: dict = None) -> str:
-    """将模板生成的body内容包裹成完整HTML文档
+def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080, scene: dict = None, color_grade: dict = None) -> str:
+    """将模板生成的body内容包裹成完整HTML文档 + 电影覆盖层
     
     如果body_html已包含GSAP脚本（模板生成的），不再注入generic GSAP。
     如果没有GSAP，根据scene的animation verbs生成scene-specific GSAP。
+    V5.8: 注入电影覆盖层（色彩分级/暗角/颗粒/宽银幕）。
     """
-    # 检查body_html是否已包含GSAP场景动画（不含Canvas粒子的tl.to(proxy)）
-    # 只检查tl.from/tl.fromTo（入场动画），不检查tl.to(proxy)（粒子驱动）
+    # 检查body_html是否已包含GSAP场景动画
     has_scene_gsap = bool(re.search(r'tl\.(from|fromTo)\s*\(', body_html))
     
     gsap_section = ""
     if not has_scene_gsap:
-        # 根据storyboard的animation verbs生成scene-specific GSAP
         gsap_section = _generate_scene_gsap(composition_id, scene)
     
+    # 电影覆盖层
+    film_overlay = _build_film_overlay(W, H, color_grade) if color_grade else ""
+    
+    bg = color_grade.get("palette", {}).get("background", "#1a1a2e") if color_grade else "#1a1a2e"
+    
     return f'''<!DOCTYPE html>
-<html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" style="background:#1a1a2e;">
+<html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" style="background:{bg};">
 <head>
 <meta charset="UTF-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#1a1a2e;">
-<div style="position:relative;width:{W}px;height:{H}px;background:#1a1a2e;overflow:hidden;">
+<body style="margin:0;padding:0;overflow:hidden;background:{bg};">
+<div style="position:relative;width:{W}px;height:{H}px;background:{bg};overflow:hidden;">
 {body_html}
+{film_overlay}
 </div>
 {gsap_section}
 </body>
 </html>'''
+
+
+def _build_film_overlay(W: int, H: int, color_grade: dict) -> str:
+    """V5.8: 构建电影级覆盖层HTML（色彩分级 + 暗角 + 颗粒 + 宽银幕 + 扫描线）"""
+    grading = color_grade.get("grading", {})
+    post = color_grade.get("post", {})
+    
+    parts = []
+    
+    # 1. 色彩分级覆盖层 (mix-blend-mode)
+    overlay_gradient = grading.get("overlay", "")
+    blend_mode = grading.get("blend_mode", "overlay")
+    if overlay_gradient:
+        parts.append(f'''<div style="position:absolute;top:0;left:0;width:{W}px;height:{H}px;background:{overlay_gradient};mix-blend-mode:{blend_mode};pointer-events:none;z-index:900;"></div>''')
+    
+    # 2. 暗角
+    if post.get("vignette_enabled", True):
+        vignette = grading.get("vignette", "radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.55))")
+        parts.append(f'''<div style="position:absolute;top:0;left:0;width:{W}px;height:{H}px;background:{vignette};pointer-events:none;z-index:900;"></div>''')
+    
+    # 3. 胶片颗粒 (SVG)
+    if post.get("grain_enabled", True):
+        opacity = post.get("grain_opacity", 0.04)
+        parts.append(f'''<svg style="position:absolute;top:0;left:0;width:{W}px;height:{H}px;pointer-events:none;z-index:700;opacity:{opacity};"><filter id="grain-{id(parts)}"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="{W}" height="{H}" filter="url(#grain-{id(parts)})"/></svg>''')
+    
+    # 4. 扫描线 (CRT)
+    if post.get("scanlines", False):
+        parts.append(f'''<div style="position:absolute;top:0;left:0;width:{W}px;height:{H}px;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:950;"></div>''')
+    
+    # 5. 宽银幕黑边
+    if post.get("letterbox", True):
+        lh = post.get("letterbox_height", "10vh")
+        parts.append(f'''<div style="position:fixed;top:0;left:0;right:0;height:{lh};background:#000;pointer-events:none;z-index:600;"></div>''')
+        parts.append(f'''<div style="position:fixed;bottom:0;left:0;right:0;height:{lh};background:#000;pointer-events:none;z-index:600;"></div>''')
+    
+    return "".join(parts)
+
+
+def _inject_film_overlay(html: str, color_grade: dict, W: int, H: int) -> str:
+    """V5.8: 往完整HTML文档的body内注入电影覆盖层"""
+    if not color_grade or not html:
+        return html
+    film_html = _build_film_overlay(W, H, color_grade)
+    if not film_html:
+        return html
+    # 在 </div> 之前（场景容器末尾）注入
+    # 找 scene div 的闭合标签前
+    marker = 'overflow:hidden;">'
+    if marker in html:
+        # 在场景div的开标签后、body_html之前有 content，在场景div的闭合前注入
+        # 简单策略：在 </body> 前注入
+        html = html.replace("</body>", film_html + "</body>")
+    return html
 
 
 def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
@@ -1532,6 +1594,29 @@ def run(context: dict) -> dict:
     context["_design_specs"] = design_specs
     print(f"[hf_builder] design.md: {len(design_md)} chars | specs: {len(design_specs)} scenes")
 
+    # V5.8: 加载电影级设计JSON
+    cg_path = context.get("color_grade_path") or str(output_dir / "color_grade.json")
+    color_grade = {}
+    if os.path.exists(cg_path):
+        with open(cg_path, encoding="utf-8") as f:
+            color_grade = json.load(f)
+        print(f"[hf_builder] color_grade: {color_grade.get('selected', '?')} loaded")
+    context["_color_grade"] = color_grade
+
+    lp_path = context.get("layout_plan_path") or str(output_dir / "layout_plan.json")
+    layout_plan = {}
+    if os.path.exists(lp_path):
+        with open(lp_path, encoding="utf-8") as f:
+            layout_plan = json.load(f)
+    context["_layout_plan"] = layout_plan
+
+    mp_path = context.get("motion_plan_path") or str(output_dir / "motion_plan.json")
+    motion_plan = {}
+    if os.path.exists(mp_path):
+        with open(mp_path, encoding="utf-8") as f:
+            motion_plan = json.load(f)
+    context["_motion_plan"] = motion_plan
+
     sb_path = context.get("storyboard_path") or str(output_dir / "storyboard.json")
     with open(sb_path, encoding="utf-8") as f:
         storyboard = json.load(f)
@@ -1610,6 +1695,8 @@ def run(context: dict) -> dict:
                 print(f"  🚀 [Scene {sid}] 启动 ({model})", flush=True)
                 try:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
+                    # V5.8: 注入电影覆盖层
+                    html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
                     with write_lock:
                         with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
                             f.write(html)
@@ -1656,6 +1743,8 @@ def run(context: dict) -> dict:
                     time.sleep(3)
                 try:
                     sid, html = generate_and_build(scene, sid, total, context)
+                    # V5.8: 注入电影覆盖层
+                    html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
                     results[sid] = html
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
                         f.write(html)
