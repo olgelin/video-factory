@@ -237,28 +237,25 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
                             spec: dict, composition_id: str, W: int = 1920, H: int = 1080,
                             model: str = None) -> str:
     """用 LLM 根据上游数据生成完整的场景 HTML，带重试。V5.6: 模板优先。"""
-    # ── V5.6: 先试模板填充（不经过 LLM） ──
+    # ── V5.7: 模板填充（不经过 LLM） ──
     if TEMPLATES:
         base_html = _fill_template(scene, spec, composition_id, W, H)
         if base_html:
-            base_html = _auto_fix_taste(base_html, spec.get("colors", {}).get("accent", "#C1121F"))
-            if _validate_html(base_html, composition_id) and len(base_html) > 2000:
-                if _check_diversity(base_html, scene_id):
+            vt = scene.get("visual_type", "")
+            accent_c = _PER_TYPE_ACCENT.get(vt, spec.get("colors", {}).get("accent", "#C1121F"))
+            base_html = _auto_fix_taste(base_html, accent_c)
+            if _validate_html(base_html, composition_id) and len(base_html) > 1200:
+                if _check_diversity(base_html, scene_id, scene.get("visual_type", "")):
                     return base_html
-    # ── V5.6: LLM 润色模板（短 prompt） ──
-    if TEMPLATES:
-        base_html = _fill_template(scene, spec, composition_id, W, H)
-        if base_html:
-            accent_c = spec.get("colors", {}).get("accent", "#C1121F")
-            polish_prompt = "修改这个 HTML 视频场景，保持布局不变。规则：1.标题字符 stagger 入场(blur 4px→0, stagger 0.08s) 2.禁止 linear/none easing 3.字体 Outfit 替代 Inter 4.只用一种 accent " + accent_c + " 5.只输出完整 HTML,别解释。\\n原始:\\n" + base_html[:3000]
-            response = call_llm_for_html(polish_prompt, "润色 HTML。只输出代码。", max_tokens=12000, model=model)
-            html = _extract_html(response)
-            if html:
-                html = _auto_fix_html(html, composition_id)
-                html = _fix_truncated_html(html, composition_id)
-                html = _auto_fix_taste(html, accent_c)
-                if _validate_html(html, composition_id) and len(html) > 2000:
-                    return html
+        # 模板失败：换同族模板重试，不走 LLM
+        for fallback_vt in _TEMPLATE_FALLBACKS.get(scene.get("visual_type", ""), []):
+            fallback_scene = dict(scene, visual_type=fallback_vt)
+            base_html = _fill_template(fallback_scene, spec, composition_id, W, H)
+            if base_html:
+                base_html = _auto_fix_taste(base_html, accent_c)
+                if _validate_html(base_html, composition_id) and len(base_html) > 1200:
+                    if _check_diversity(base_html, scene_id, scene.get("visual_type", "")):
+                        return base_html
     # ───────────────────────────────────────
 
     depth_layers = scene.get("depth_layers", {})
@@ -406,16 +403,43 @@ except ImportError:
     set_design_colors = None
 
 
+# V5.7: 模板失败时的同族回退（不走 LLM）
+_TEMPLATE_FALLBACKS: dict[str, list[str]] = {
+    "quote_hero":     ["opening", "data_impact"],
+    "opening":        ["quote_hero", "data_impact"],
+    "data_impact":    ["hud", "opening"],
+    "compare":        ["flow", "data_impact"],
+    "flow":           ["compare", "timeline_event"],
+    "list_alert":     ["data_impact", "flow"],
+    "timeline_event": ["flow", "compare"],
+    "hud":            ["data_impact", "compare"],
+    "ranking_board":  ["list_alert", "data_impact"],
+}
+
+# V5.7: 每种视觉类型独立配色（不再共用同一个 accent）
+_PER_TYPE_ACCENT: dict[str, str] = {
+    "data_impact":    "#7c3aed",  # 紫 — 数字冲击
+    "compare":        "#06b6d4",  # 青 — 双栏对比
+    "flow":           "#10b981",  # 翠绿 — 流程
+    "quote_hero":     "#f59e0b",  # 琥珀 — 金句
+    "list_alert":     "#ef4444",  # 红 — 警示
+    "timeline_event": "#6366f1",  # 靛蓝 — 时间
+    "hud":            "#3b82f6",  # 蓝 — 仪表盘
+    "ranking_board":  "#f59e0b",  # 琥珀 — 排行
+    "opening":        "#a855f7",  # 浅紫 — 开场
+}
+
+
 def _fill_template(scene: dict, spec: dict, composition_id: str,
                    W: int = 1920, H: int = 1080) -> str:
-    """V5.6: 用数据填充场景骨架模板（不经过 LLM）。"""
+    """V5.7: 用数据填充场景骨架模板（不经过 LLM），每类独立配色。"""
     vt = scene.get("visual_type", "")
     tpl = TEMPLATES.get(vt) or TEMPLATES.get(vt.replace(" ", "_")) or _TPL_FALLBACK
     if not tpl:
         return ""
 
     style = spec.get("colors", {})
-    accent = style.get("accent", "#C1121F")
+    accent = _PER_TYPE_ACCENT.get(vt, style.get("accent", "#C1121F"))
     bg = style.get("background", "#0a0a0a")
 
     def _hex_to_rgba(hex_color: str, alpha: float = 0.3) -> str:
@@ -505,25 +529,28 @@ def _auto_fix_taste(html: str, accent: str = "#C1121F") -> str:
 _LAST_SIGNATURES: list[str] = []
 
 
-def _scene_signature(html: str) -> str:
-    """提取场景的布局结构签名（忽略内容，只看元素数+层级）。"""
+def _scene_signature(html: str, visual_type: str = "") -> str:
+    """V5.7: 提取场景结构签名（精确 div 数 + 动画数 + visual_type）。"""
     divs = len(re.findall(r'<div', html))
     imgs = len(re.findall(r'<img', html))
     svgs = len(re.findall(r'<svg', html))
     froms = len(re.findall(r'tl\.from\(', html))
-    tos = len(re.findall(r'gsap\.to\(', html))
-    # 指纹: divs:imgs:svgs:froms:tos
-    return f"{divs//10}:{imgs}:{svgs}:{froms}:{tos}"
+    tos   = len(re.findall(r'gsap\.to\(', html))
+    # 指纹: visual_type:divs:froms:tos (精确 div 数，不再 //10)
+    return f"{visual_type}:{divs}:{froms}:{tos}"
 
 
-def _check_diversity(html: str, scene_id: int) -> bool:
-    """V5.6: 检查场景结构是否与之前场景重复。返回 True=通过。"""
+def _check_diversity(html: str, scene_id: int, visual_type: str = "") -> bool:
+    """V5.7: 检查场景布局是否与之前重复。返回 True=通过。
+    同 visual_type 可复用相同结构；不同 visual_type 不可重复。"""
     global _LAST_SIGNATURES
-    sig = _scene_signature(html)
-    # 同一 visual_type 允许相同签名；不同 visual_type 不允许
-    if sig in _LAST_SIGNATURES:
-        dup_count = _LAST_SIGNATURES.count(sig)
-        if dup_count >= 2:  # 3个相同结构 = 太单调
+    sig = _scene_signature(html, visual_type)
+    for prev_sig in _LAST_SIGNATURES:
+        prev_vt = prev_sig.split(":", 1)[0]
+        prev_struct = prev_sig.split(":", 1)[1]   # 完整结构部分 "17:5:1"
+        cur_struct = sig.split(":", 1)[1]          # 完整结构部分 "5:3:1"
+        if prev_vt != visual_type and prev_struct == cur_struct:
+            # 不同视觉类型但结构相同 → 拒绝
             return False
     _LAST_SIGNATURES.append(sig)
     return True
