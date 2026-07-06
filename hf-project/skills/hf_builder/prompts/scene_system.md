@@ -41,15 +41,14 @@ JSON 对象，字段说明：
   // 入场动画：tl.from / tl.fromTo，stagger 0.12-0.15s
   // 呼吸动画：gsap.to repeat:-1 yoyo:true，2-3 个
   // 扫光 + 粒子
-  window.__timelines = window.__timelines || {};
-  window.__timelines["BEAT_ID"] = tl;
   tl.play();
 })();
 </script>
 ```
 
 **脚本规范**：`var tl` 第一行、`tl.play()` 最后一行、每句 `;` 结尾、repeat ≤ 5 次。
-不输出 DOCTYPE / `<html>` / `<head>` / `<body>` / GSAP CDN。
+不输出 DOCTYPE / `<html>` / `<head>` / `<body>` / GSAP CDN / `window.__timelines`。
+🔴 **输出必须完整**：script 标签必须闭合 `</script>`，所有动画参数完整，不允许截断。
 
 ## 背景规范（每场景必须）
 
@@ -57,9 +56,11 @@ JSON 对象，字段说明：
 - CSS 3D 透视网格：perspective(800-1200px) + rotateX(55-65deg)，消失点 42% 高度
 - 🔴 ghost text 水印（必须有！）：中文关键词，140-200px，透明度 3-6%，z-index 低于内容
 - 🔴 地平线辉光带（必须有！）：蓝紫渐变，位于 top:40-45%
-- 粒子雨：≥25 个细长坠线（linear-gradient），三层景深，仅上半区。禁止圆形光点
+- 粒子雨：≥15 个细长坠线（linear-gradient），两到三层景深，仅上半区。禁止圆形光点
 - 扫光：`id="light-scan"`，GSAP x 平移
 - 径向光晕：蓝+紫两处
+
+⚡ **输出精简**：粒子/点阵等重复元素可以用简短内联样式，避免单 div 超过 200 字符。确保 script 先写完再写装饰元素。
 
 ## 排版规范
 
@@ -111,7 +112,7 @@ gsap.to('.p-far',  {y:800, opacity:0.15, duration:11, repeat:1, ease:'none'});
 ## 禁止
 
 - `<style>` 块、`<br>`、`<img>`、外部资源
-- CSS opacity:0（GSAP from 处理）
+- **🔴 opacity:0 作为初始状态** — 所有内容元素默认必须可见（opacity≥0.3）。入场动画只能用 GSAP from()/fromTo()，禁止静态 opacity:0
 - 纯色/白底/浅底、元素贴边
 - 口播原文超过 15 字连续出现
 - 内容元素用 linear 缓动
@@ -126,8 +127,8 @@ gsap.to('.p-far',  {y:800, opacity:0.15, duration:11, repeat:1, ease:'none'});
 - [ ] 粒子 ≥25 个细线 + 扫光 + 径向光晕
 - [ ] 所有元素在 90% 安全区内（横屏 96/54px 边距，竖屏 54/96px）
 - [ ] 主标题 + 副标题 + ≥4 标签 + ≥1 数据可视化
-- [ ] script: var tl + 入场 + 呼吸 + 扫光 + 粒子 + __timelines + tl.play()
-- [ ] 无截断、repeat≤5、无英文 ghost text、无圆形光点
+- [ ] script: var tl + 入场 + 呼吸 + 扫光 + 粒子 + tl.play()
+- [ ] 无截断、`</script>` 闭合、repeat≤5、无英文 ghost text、无圆形光点
 - [ ] 不输出 DOCTYPE/html/head/body/[VISUAL]/[GSAP]
 - [ ] **与前一场景视觉完全不同**：换了布局、换了主色比例、换了动效节奏
 

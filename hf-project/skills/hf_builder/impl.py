@@ -1290,7 +1290,7 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     response = call_llm_for_html(
         user_prompt,
         system_prompt=system_prompt,
-        max_tokens=16000,
+        max_tokens=24000,
         model=model
     )
 
@@ -1304,6 +1304,9 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     # 去掉 markdown 代码块标记（LLM 有时不听话）
     body = _re_sg.sub(r'^```html\s*\n?', '', body, flags=_re_sg.MULTILINE)
     body = _re_sg.sub(r'\n?```\s*$', '', body, flags=_re_sg.MULTILINE)
+    # 安全网：把静态 opacity:0 替换为 opacity:0.01（防黑屏，GSAP from() 会自己设 opacity:0）
+    # ⚠️ negative lookahead (?![\d.]) 防止误伤 opacity:0.7 → opacity:0.01.7
+    body = _re_sg.sub(r'opacity:\s*0(?![\d.])', 'opacity:0.01', body)
     body = body.strip()
 
     # 确保被 .scene 包裹
@@ -1326,10 +1329,12 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
         last_script = body.rfind('</script>')
         if last_script > 0:
             body = body[:last_script] + '\n  ' + timeline_code + '\n' + body[last_script:]
+            print(f"    🔧 [Scene {sid}] 注入 __timelines + tl.play()")
         else:
-            # 没找到 </script>，在末尾追加完整的 script 块
+            # 没找到 </script> → LLM 输出截断，先移除残留的 <script> 开头再注入干净脚本
+            body = _re_sg.sub(r'<script>.*$', '', body, flags=_re_sg.DOTALL)
             body += f'\n<script>\n(function(){{\n  var tl = gsap.timeline({{paused:true}});\n  {timeline_code}\n}})();\n</script>'
-        print(f"    🔧 [Scene {sid}] 注入 __timelines + tl.play()")
+            print(f"    ⚠️ [Scene {sid}] LLM脚本截断，已清理+注入保底")
 
     # 确保 var tl 声明存在
     if 'var tl =' not in body and 'var tl=' not in body and 'let tl =' not in body:
@@ -1348,7 +1353,7 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
 <title>{composition_id}</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:{W}px;height:{H}px;clip-path:inset(5%);">
+<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:{W}px;height:{H}px;">
 {body}
 </body>
 </html>'''
@@ -1385,8 +1390,8 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
         else:
             print(f"    ⚠️ [Scene {sid}] 内容过短（第{attempt+1}次重试），重新生成...")
 
-    # 3次全部失败，回退旧方案
-    print(f"    ⚠️ [Scene {sid}] 3次重试后仍无GSAP，回退旧方案")
+    # 3次全部失败，回退旧方案 + 注入保底GSAP防止黑屏
+    print(f"    ⚠️ [Scene {sid}] 3次重试后仍无GSAP，回退旧方案+保底动画")
     design_md = ctx.get("_design_md", "")
     design_specs = ctx.get("_design_specs", {})
     spec = design_specs.get(sid, {})
@@ -1395,8 +1400,29 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
     H = ctx.get("video_height", 1080)
     html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id, W, H, model=model)
     if html:
+        # 注入保底GSAP：把场景内所有顶层元素做个简单淡入
+        html = _inject_safety_gsap(html, composition_id)
         return sid, html
-    return sid, fallback_scene_html(scene, sid, design_md, composition_id)
+    html = fallback_scene_html(scene, sid, design_md, composition_id)
+    html = _inject_safety_gsap(html, composition_id)
+    return sid, html
+
+
+def _inject_safety_gsap(html: str, composition_id: str) -> str:
+    """保底GSAP：如果HTML没有可用的timeline，注入一个简单淡入"""
+    import re as _re_sg2
+    if 'window.__timelines' in html and 'tl.play()' in html:
+        return html  # 已有GSAP，不覆盖
+    # 找最后一个</script>前注入
+    safety = f'''window.__timelines = window.__timelines || {{}};
+  if (typeof tl === 'undefined') var tl = gsap.timeline({{paused:true}});
+  tl.from('.scene > div:not([class*="bg-"]):not([class*="particle"]):not([class*="ghost"]):not([class*="radial"]):not([class*="horizon"]):not(#light-scan)', {{opacity:0, y:20, duration:0.5, stagger:0.1, ease:'power2.out'}});
+  window.__timelines["{composition_id}"] = tl;
+  tl.play();'''
+    last_script = html.rfind('</script>')
+    if last_script > 0:
+        html = html[:last_script] + '\n  ' + safety + '\n' + html[last_script:]
+    return html
 
 
 def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080, scene: dict = None, color_grade: dict = None) -> str:
@@ -1600,7 +1626,7 @@ def build_outro_html() -> str:
 <meta charset="UTF-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:1920px;height:1080px;clip-path:inset(5%);">
+<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:1920px;height:1080px;">
 <div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
   <div class="bg-stage" style="position:absolute;top:0;left:0;width:100%;height:100%;perspective:1000px;">
     <div class="grid-floor" style="position:absolute;top:42%;left:0;width:100%;height:58%;background:linear-gradient(180deg,rgba(108,140,255,0.06),rgba(108,140,255,0.02));transform:rotateX(60deg);transform-origin:top;"></div>

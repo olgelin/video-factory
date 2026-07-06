@@ -310,8 +310,8 @@ QUOTE_HERO = r'''<!DOCTYPE html>
 <head><meta charset="UTF-8">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#000;">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:#000;overflow:hidden;">
+<body style="margin:0;padding:0;overflow:hidden;background:{BG};">
+<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 径向光晕 -->
   <div id="glow" style="position:absolute;top:50%;left:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 60%);border-radius:50%;z-index:0;"></div>
@@ -461,8 +461,8 @@ OPENING = r'''<!DOCTYPE html>
 <head><meta charset="UTF-8">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#000;">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:#000;overflow:hidden;">
+<body style="margin:0;padding:0;overflow:hidden;background:{BG};">
+<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 微弱径向光晕 -->
   <div id="glow" style="position:absolute;top:50%;left:50%;width:1000px;height:1000px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 70%);border-radius:50%;"></div>

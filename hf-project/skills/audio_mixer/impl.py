@@ -22,7 +22,11 @@ def run_ffmpeg(cmd: str, timeout: int = 120) -> bool:
         if result.returncode == 0:
             return True
         else:
-            print(f"  ❌ ffmpeg失败: {result.stderr[:200]}")
+            # 打印完整错误信息用于调试
+            stderr_tail = result.stderr.strip().split('\n')[-5:] if result.stderr else ['(empty stderr)']
+            print(f"  ❌ ffmpeg失败 (code={result.returncode}):")
+            for line in stderr_tail:
+                print(f"     {line.strip()}")
             return False
     except Exception as e:
         print(f"  ❌ ffmpeg错误: {e}")
@@ -38,9 +42,7 @@ def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
     # 转义路径中的特殊字符（ffmpeg subtitles滤镜需要）
     srt_escaped = srt_path.replace("\\", "/").replace(":", "\\:")
     
-    cmd = f"""ffmpeg -y -i "{video_path}" \
-        -vf "subtitles='{srt_escaped}':force_style='FontSize=20,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2'" \
-        -c:a copy "{output_path}" """
+    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize=20,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2\'" -c:a copy "{output_path}"'
     
     print(f"  [audio-mixer] 烧录字幕...")
     return run_ffmpeg(cmd, timeout=180)
@@ -82,10 +84,7 @@ def run(context: dict) -> dict:
         print(f"  ⚠️ [audio-mixer] BGM不存在，只用配音")
 
         # 合并视频+配音
-        cmd = f"""ffmpeg -y -i "{video_path}" -i "{voice_path}" \
-            -c:v copy -c:a aac -b:a 128k \
-            -map 0:v:0 -map 1:a:0 \
-            "{MIXED_PATH}" """
+        cmd = f'ffmpeg -y -i "{video_path}" -i "{voice_path}" -c:v copy -c:a aac -b:a 128k -map 0:v:0 -map 1:a:0 "{MIXED_PATH}"'
 
         if run_ffmpeg(cmd):
             context["mixed_path"] = str(MIXED_PATH)
@@ -134,26 +133,15 @@ def run(context: dict) -> dict:
         vr = subprocess.run(voice_duration_cmd, shell=True, capture_output=True, text=True)
         voice_dur = float(vr.stdout.strip()) if vr.stdout.strip() else 120
         
-        # V5.8: 动态混合 + sidechain压缩（真正的ducking）
-        # BGM在配音说话时自动降低，不说话时恢复
-        # sidechaincompress: voice作为sidechain信号，压缩BGM
-        cmd = f"""ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" \\
-            -filter_complex " \\
-            [0:a]volume=1.5[voice]; \\
-            [1:a]atrim=0:{voice_dur + 5},volume=0.2,afade=t=in:st=0:d=2,afade=t=out:st={voice_dur - 3}:d=3[bgm_raw]; \\
-            [bgm_raw][voice]sidechaincompress=threshold=0.005:ratio=4:attack=5:release=200:level_sc=0.8[bgm_ducked]; \\
-            [voice][bgm_ducked]amix=inputs=2:duration=first:dropout_transition=3[out] \\
-            " -map "[out]" "{mixed_audio}" """
+        # V9.0: 简单混合（无闪避），BGM恒定音量
+        cmd = f'ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" -filter_complex "[0:a]volume=1.5[voice]; [1:a]atrim=0:{voice_dur + 5},volume=0.2,afade=t=in:st=0:d=2,afade=t=out:st={voice_dur - 3}:d=3[bgm]; [voice][bgm]amix=inputs=2:duration=first:dropout_transition=3[out]" -map "[out]" "{mixed_audio}"'
 
         if not run_ffmpeg(cmd):
             print(f"  ❌ [audio-mixer] 音频混合失败")
             return context
 
         # 再合并视频+混合音频
-        cmd = f"""ffmpeg -y -i "{video_path}" -i "{mixed_audio}" \
-            -c:v copy -c:a aac -b:a 128k \
-            -map 0:v:0 -map 1:a:0 \
-            "{MIXED_PATH}" """
+        cmd = f'ffmpeg -y -i "{video_path}" -i "{mixed_audio}" -c:v copy -c:a aac -b:a 128k -map 0:v:0 -map 1:a:0 "{MIXED_PATH}"'
 
         if run_ffmpeg(cmd):
             context["mixed_path"] = str(MIXED_PATH)

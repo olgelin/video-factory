@@ -46,6 +46,15 @@ TOPIC_SELECTED_PATH = OUTPUT_DIR / "topic_selected.json"
 SCRIPT_PATH = OUTPUT_DIR / "step03_script.json"
 STYLE_PROFILE_PATH = OUTPUT_DIR / "style_profile.json"
 
+# === Prompt 加载 ===
+_PROMPTS_DIR = Path(__file__).parent / "prompts"
+
+def _load_prompt(name: str) -> str:
+    p = _PROMPTS_DIR / f"{name}.md"
+    if not p.exists():
+        raise FileNotFoundError(f"Prompt missing: {p}")
+    return p.read_text(encoding="utf-8")
+
 # LLM配置已移至llm_utils.py
 
 # 数字转中文映射
@@ -172,97 +181,18 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 - 示例：{'、'.join(closing.get('examples', [])[:2])}
 """
     
-    system_prompt = f"""你是一个有深度思考力的短视频口播博主。你不人云亦云，你善于从事件表面挖到底层逻辑，用隐喻和反差让人看到别人看不到的角度。
-
-{style_guide}
-
-## 核心思维要求
-
-### 深度思考（最重要）
-- 不要只复述新闻，要分析"为什么会这样"和"这意味着什么"
-- 找到事件背后的底层逻辑、利益链条、人性因素
-- 用隐喻、类比、反差来解释复杂问题（如"这不是在炒股票，是在炒信仰"）
-- 每个观点要有独特视角，不要说任何搜索第一条就能看到的话
-
-### 开场设计
-- 根据事件的深度和冲击力，设计一个让人停下来想听的问句或断言
-- 不要用固定模板，每期开场应该完全不同
-- 好的开场是基于事件本身的矛盾点或反差点来设计
-- 示例思路：反差（"最赚钱的公司做了最亏的事"）、悬念（"一个数字暴露了真相"）、挑战常识（"你以为的利好，其实是利空"）
-
-### 语言风格
-- 像一个研究深入、体贴关心的学者在跟你聊天
-- 口语化但有质感，不要书面腔也不要网络烂梗
-- 语言应该自然流动，根据内容语义选择最合适的表达方式
-- 禁止使用模板化固定表达（每期都出现的相同句式和词汇是失败的）
-- 禁止AI腔：值得注意的是、需要指出的是、首先其次最后、总而言之、宝子们、家人们
-
-### 结尾设计
-- 用一个与话题深度匹配的金句收尾，让人记住或想转发
-- 金句应该是对整个话题的独特洞察总结，不是万能鸡汤
-- 不要用固定模板结尾，每期应该完全不同
-
-## 你的职责
-你负责写口播文案（观众听到的内容），同时为每个段落建议最合适的视觉类型，帮助后续storyboard设计画面。
-
-### visual_hint 选择指南（必须为每个段落选择一个，相邻段落不能相同）
-- **data_impact**: 数据冲击型 — 有具体数字、统计、百分比时使用
-- **timeline_event**: 时间线型 — 有事件发展顺序、历史脉络时使用
-- **compare**: 对比型 — 有两个对立面、前后对比、正反比较时使用
-- **quote_hero**: 金句型 — 核心观点、人物金句、情感高潮时使用
-- **flow**: 流程型 — 有因果关系、逻辑链条、推导过程时使用
-- **hud**: 信息面板型 — 实时数据、监控画面、系统状态时使用
-- **list_alert**: 列表警报型 — 多个要点、注意事项、警示信息时使用
-- **ranking_board**: 排行榜型 — 有排名、先后顺序、竞争关系时使用
-
-### 结构要求
-- 6-10个段落（每个段落对应一个talking point）
-- 总字数400-600字
-- 情绪弧线：悬念→数据冲击→深度分析→洞察升华
-
-## 输出格式
-输出JSON对象：
-{{
-  "topic": "话题",
-  "mood": "整体情绪",
-  "voiceover_sections": [
-    {{
-      "section_id": 1,
-      "content": "口播文案段落（观众听到的）",
-      "talking_point": "这个段落的核心主题（一句话，给storyboard参考）",
-      "visual_hint": "建议的视觉类型：data_impact|timeline_event|compare|quote_hero|flow|hud|list_alert|code_terminal|ranking_board|product_showcase",
-      "rhythm_hint": "节奏：slow|medium|fast",
-      "emotion_intensity": "情绪强度1-10（1=平静，10=极度震撼）",
-      "transition_hint": "转场建议：黑屏渐入|硬切|模糊过渡|缩放过渡|无"
-    }}
-  ],
-  "total_chars": 575
-}}
-
-只输出JSON，不要其他内容。不要输出visual_hint或scene相关的内容。"""
+    system_prompt = _load_prompt("system").format(style_guide=style_guide)
 
     research_section = ""
     if research_data:
         research_section = "\n\n## 真实数据（必须在脚本中引用）:\n" + research_data + "\n"
-    prompt = f"""选题：{selected_topic}
-
-切入角度：{angle}
-
-目标受众：{target_audience}{research_section}
-
-关键点（必须覆盖）：
-{key_points_text}
-
-请根据以上选题信息，深入思考后生成口播脚本。要求：
-1. 深度分析事件的底层逻辑，不要只复述表面信息
-2. 用隐喻、反差、类比来呈现独特视角
-3. 覆盖所有关键点，使用提供的真实数据
-4. 每个段落有talking_point（给storyboard参考）
-5. 每个段落必须选择visual_hint（从上述8种类型中选择，相邻段落不能相同）
-6. 总字数400-600字
-7. ⚠️ 禁止编造具体数字！只使用"关键点"中提供的数据。如果没有具体数字，用定性描述（如"超过百万"、"创下新高"）代替
-
-只输出JSON，不要其他内容。"""
+    prompt = _load_prompt("topic").format(
+        selected_topic=selected_topic,
+        angle=angle,
+        target_audience=target_audience,
+        research_section=research_section,
+        key_points_text=key_points_text,
+    )
 
     llm_response = call_llm(prompt, system_prompt, max_tokens=4000)
 

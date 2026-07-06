@@ -128,7 +128,7 @@ stages:
     provider: local
     provider_task: tts
     checkpoint_required: false
-    timeout: 600
+    timeout: 1800
     retry: 1
     critical: true
 

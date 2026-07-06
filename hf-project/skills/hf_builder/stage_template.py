@@ -25,7 +25,7 @@ def build_skeleton(composition_id: str, scene_duration: float, W: int = 1920, H:
 <title>{composition_id}</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:{W}px;height:{H}px;clip-path:inset(5%);">
+<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:{W}px;height:{H}px;">
 {{LLM_VISUAL}}
 <script>
 (function(){{

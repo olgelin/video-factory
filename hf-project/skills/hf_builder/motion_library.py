@@ -309,10 +309,12 @@ def score_scene_quality(html: str, scene: dict) -> dict:
     
     if has_chart and has_progress and has_trend and has_number_impact:
         scores["data_visualization"] = 10
-    elif has_progress and has_trend and has_number_impact:
+    elif has_chart and has_progress:
         scores["data_visualization"] = 8
-    elif has_number_impact or has_trend:
+    elif has_chart or has_progress:
         scores["data_visualization"] = 6
+    elif has_number_impact or has_trend:
+        scores["data_visualization"] = 4
     elif 'font-size:1' in html or 'font-size: 1' in html:
         scores["data_visualization"] = 4
     else:
@@ -322,8 +324,9 @@ def score_scene_quality(html: str, scene: dict) -> dict:
     
     # 3. 动画质量
     gsap_from_count = len(re.findall(r'\.from\(', html))
-    eases = set(re.findall(r"ease:'([^']+)'", html))
-    has_breath = 'repeat:-1' in html and 'yoyo:true' in html
+    # V9: 匹配单引号和双引号 ease
+    eases = set(re.findall(r'ease:\s*["\']([^"\']+)["\']', html))
+    has_breath = bool(re.search(r'repeat:\s*-1', html)) and bool(re.search(r'yoyo:\s*true', html))
     
     if gsap_from_count >= 8 and len(eases) >= 3 and has_breath:
         scores["animation_quality"] = 10
@@ -338,11 +341,21 @@ def score_scene_quality(html: str, scene: dict) -> dict:
     details["gsap_from_count"] = gsap_from_count
     details["ease_types"] = list(eases)
     
-    # 4. 色彩和谐
+    # 4. 色彩和谐（V13: 识别新配色方案 #0A0A1A 系深蓝紫背景）
     hex_colors = set(re.findall(r'#[0-9a-fA-F]{6}', html))
-    has_deep_bg = '#1a1a2e' in html or '#0a0a0a' in html
+    DEEP_BG_COLORS = {
+        '#1a1a2e', '#0a0a0a',          # 旧配色
+        '#0A0A1A', '#0a0a1a',          # V13 主背景
+        '#0F0F2E', '#0f0f2e',          # V13 中点
+        '#1A0A2E', '#1a0a2e',          # V13 渐变终点
+        '#0D0D2B', '#0d0d2b',          # V13 备选深色
+        '#0B0B1E', '#0b0b1e',          # 极深底色
+        '#060620', '#060620',
+    }
+    has_deep_bg = any(bg in html for bg in DEEP_BG_COLORS) or 'linear-gradient' in html
     has_glow = 'text-shadow' in html
-    has_accent = len([c for c in hex_colors if c not in ('#1a1a2e', '#0a0a0a', '#ffffff', '#FFFFFF')]) >= 2
+    BG_WHITELIST = DEEP_BG_COLORS | {'#ffffff', '#FFFFFF'}
+    has_accent = len([c for c in hex_colors if c not in BG_WHITELIST]) >= 2
     
     if has_deep_bg and has_accent and has_glow and len(hex_colors) >= 4:
         scores["color_harmony"] = 10

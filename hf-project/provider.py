@@ -60,10 +60,11 @@ TASK_MODEL_MAP = {
         "timeout": 300,
     },
     "creative_html": {
-        "description": "hf_builder 场景 HTML 生成（并行模式）",
-        "primary": "deepseek-v4-pro",
-        "fallback": ["deepseek-v4-flash"],
+        "description": "hf_builder 场景 HTML 生成（V7: flash主力，pro兜底——flash更快更稳）",
+        "primary": "deepseek-v4-flash",
+        "fallback": ["deepseek-v4-pro"],
         "max_tokens": 12000,
+        "flash_max_tokens": 12000,
         "timeout": 600,
     },
     "analysis": {
@@ -74,10 +75,10 @@ TASK_MODEL_MAP = {
     },
 }
 
-# V5.4: hf_builder 并行模型轮换 — 只有 pro 和 flash
+# V7: hf_builder 并行模型 — pro 主力，分层生成不截断
 HF_PARALLEL_MODELS = [
     "deepseek-v4-pro",
-    "deepseek-v4-flash",
+    "deepseek-v4-pro",
 ]
 
 
@@ -150,8 +151,8 @@ class ProviderRegistry:
 
     def __init__(self, config_path: str = None):
         self._providers: dict[str, dict] = {}  # model_name → config
-        # V5.4: 20 RPM 令牌桶（DeepSeek 官方 API 限流温和但保持保守）
-        max_rpm = int(os.environ.get("VF_MAX_RPM", "20"))
+        # V7: 100 RPM（官方 DeepSeek 并发 500，远未到瓶颈）
+        max_rpm = int(os.environ.get("VF_MAX_RPM", "100"))
         self._rate_limiter = AccountRateLimiter(max_rpm=max_rpm)
         self._model_429_count: dict[str, int] = {}  # 每个模型的 429 计数
         self._last_model_used: str = ""

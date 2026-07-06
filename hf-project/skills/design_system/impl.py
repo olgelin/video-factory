@@ -80,10 +80,10 @@ PRESET_STYLES = {
     # 官方8种风格（来自HyperFrames visual-styles.md）
     "swiss_pulse": {
         "name": "Swiss Pulse",
-        "description": "Grid-locked compositions, clinical precision",
-        "mood": "Clinical, precise",
-        "best_for": "SaaS, data, dev tools, metrics",
-        "colors": {"background":"#1a1a1a","primary":"#ffffff","accent":"#0066FF","data":"#0066FF","text":"#ffffff","text_secondary":"#999999"},
+        "description": "Grid-locked compositions, dark tech blue-purple gradient",
+        "mood": "Precise, futuristic, tech",
+        "best_for": "SaaS, data, dev tools, metrics, news",
+        "colors": {"background":"#0A0A1A","primary":"#6C8CFF","accent":"#A855F7","data":"#6C8CFF","text":"#E8ECFF","text_secondary":"#8890B8"},
         "typography": {
             "headline": {"fontFamily":"Helvetica Neue","fontSize":"80-120px","fontWeight":"700"},
             "body": {"fontFamily":"Inter","fontSize":"14px","fontWeight":"400"},

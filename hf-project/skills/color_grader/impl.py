@@ -83,6 +83,44 @@ PALETTES = {
         "scanlines": False,
         "grain_intensity": 0.02,
     },
+    "apple_light": {
+        "name": "Apple Light 干净明亮",
+        "background": "#FAFAFA",
+        "surface": "#FFFFFF",
+        "primary": "#007AFF",
+        "accent": "#5856D6",
+        "data": "#007AFF",
+        "text": "#1D1D1F",
+        "text_secondary": "#86868B",
+        "glow": "rgba(0,122,255,0.12)",
+        "grading": {
+            "overlay": "linear-gradient(180deg, rgba(0,122,255,0.02), rgba(88,86,214,0.02))",
+            "blend_mode": "overlay",
+            "vignette": "radial-gradient(ellipse at center, transparent 70%, rgba(0,0,0,0.03))",
+            "chromatic_aberration": False,
+        },
+        "scanlines": False,
+        "grain_intensity": 0.0,
+    },
+    "blue_purple": {
+        "name": "Blue-Purple Tech 蓝紫渐层",
+        "background": "#0A0A1A",
+        "surface": "#0F0F2E",
+        "primary": "#6C8CFF",
+        "accent": "#A855F7",
+        "data": "#6C8CFF",
+        "text": "#E8ECFF",
+        "text_secondary": "#8890B8",
+        "glow": "rgba(108,140,255,0.25)",
+        "grading": {
+            "overlay": "linear-gradient(135deg, rgba(108,140,255,0.08), rgba(168,85,247,0.06))",
+            "blend_mode": "overlay",
+            "vignette": "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55))",
+            "chromatic_aberration": False,
+        },
+        "scanlines": False,
+        "grain_intensity": 0.02,
+    },
 }
 
 # 通用电影后期参数
@@ -152,27 +190,24 @@ def run(context: dict) -> dict:
 
 
 def _select_palette(mood_text: str) -> str:
-    """根据 mood 关键词选择配色方案"""
+    """根据 mood 关键词选择配色方案。默认苹果浅色。"""
     mood_lower = mood_text.lower()
     
-    # 赛博/未来/科技/数字 → blade_runner
-    if any(w in mood_lower for w in ["赛博", "未来", "沉浸", "数据", "数字", "cyber", "futuristic", "immersive", "digital"]):
+    # 赛博/未来/科技/数字 → blade_runner（用户明确要暗黑赛博才触发）
+    if any(w in mood_lower for w in ["赛博", "cyber", "futuristic"]):
         return "blade_runner"
     
     # 全息/hud/界面/冷酷 → holographic
-    if any(w in mood_lower for w in ["全息", "hud", "界面", "冷酷", "机械", "holographic", "cool", "机械"]):
+    if any(w in mood_lower for w in ["全息", "hud", "holographic", "机械"]):
         return "holographic"
     
     # 霓虹/冲击/警示/黑暗 → neon_noir
-    if any(w in mood_lower for w in ["霓虹", "冲击", "警示", "紧张", "暗黑", "neon", "alert", "dark", "urgent"]):
+    if any(w in mood_lower for w in ["霓虹", "neon", "暗黑", "dark"]):
         return "neon_noir"
     
-    # 专业/克制/高端/简约 → apple_dark  
-    if any(w in mood_lower for w in ["专业", "克制", "高端", "简约", "冷静", "professional", "minimal"]):
+    # 专业/克制/高端/简约/深沉 → apple_dark  
+    if any(w in mood_lower for w in ["专业", "克制", "高端", "简约", "深沉", "professional", "minimal"]):
         return "apple_dark"
     
-    # 默认：根据情感强度选
-    if any(w in mood_lower for w in ["紧迫", "断裂", "危机", "恐惧"]):
-        return "neon_noir"
-    
-    return "blade_runner"  # 安全默认
+    # 默认：蓝紫渐层科技风
+    return "blue_purple"
