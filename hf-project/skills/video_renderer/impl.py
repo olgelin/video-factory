@@ -121,43 +121,27 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
     segment_files = []
     concat_list = temp_dir / "concat.txt"
     
-    # 渲染每个composition
+    # 渲染每个composition — V16: 每个beat-*.html作为独立root composition渲染
+    # 避免嵌套composition导致 __timelines 丢失 → 白屏
     for i, (comp_id, clip_src, duration) in enumerate(clips):
         clip_path = str(temp_dir / f"segment_{i:02d}.mp4")
         print(f"  [video-renderer] [{i+1}/{len(clips)}] 渲染 {clip_src} (id: {comp_id}, duration: {duration}s)...")
         
-        # 创建临时index.html，只引用这一个composition，使用正确的composition ID
-        temp_index_content = f'''<!doctype html>
-<html>
-<body>
-  <div id="root" data-composition-id="main" data-start="0"
-       data-duration="{duration}" data-width="1920" data-height="1080">
-      <div id="{comp_id}" class="clip"
-           data-composition-id="{comp_id}"
-           data-composition-src="{clip_src}"
-           data-start="0.0"
-           data-duration="{duration}"
-           data-track-index="0"
-           data-width="1920"
-           data-height="1080">
-      </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-  <script>
-    const mainTl = gsap.timeline({{ paused: true }});
-    window.__timelines = window.__timelines || {{}};
-    window.__timelines["main"] = mainTl;
-  </script>
-</body>
-</html>'''
-        original_index.write_text(temp_index_content, encoding="utf-8")
+        # 创建独立渲染目录，composition HTML 直接作为 index.html（root composition）
+        standalone_dir = temp_dir / f"standalone_{i:02d}"
+        standalone_dir.mkdir(exist_ok=True)
+        comp_src_path = Path(project_dir) / clip_src
+        if not comp_src_path.exists():
+            print(f"    ❌ {clip_src} 不存在，跳过")
+            continue
+        shutil.copy2(comp_src_path, standalone_dir / "index.html")
         
-        # 使用项目根目录渲染
-        cmd = f'npx hyperframes render . --output "{clip_path}" --low-memory-mode --protocol-timeout 600000 --quality draft --workers 1 --no-browser-gpu'
+        # 使用 standalone 目录渲染
+        cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --no-browser-gpu'
         
         try:
             result = subprocess.run(
-                cmd, shell=True, cwd=project_dir, capture_output=True, text=True, timeout=300
+                cmd, shell=True, cwd=str(standalone_dir), capture_output=True, text=True, timeout=600
             )
             
             if result.returncode == 0 and Path(clip_path).exists():
@@ -166,10 +150,10 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
             else:
                 # 重试1: 简化HTML中的GSAP动画后重试
                 print(f"  ⚠️ [video-renderer]   {clip_src} 渲染失败(rc={result.returncode})，尝试简化GSAP后重试...")
-                simplified = _simplify_composition_gsap(project_dir, clip_src)
+                simplified = _simplify_composition_gsap(str(standalone_dir), "index.html")
                 if simplified:
                     result2 = subprocess.run(
-                        cmd, shell=True, cwd=project_dir, capture_output=True, text=True, timeout=300
+                        cmd, shell=True, cwd=str(standalone_dir), capture_output=True, text=True, timeout=600
                     )
                     if result2.returncode == 0 and Path(clip_path).exists():
                         segment_files.append(clip_path)

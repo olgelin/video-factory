@@ -33,6 +33,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from llm_utils import call_llm as _shared_call_llm
 from llm_utils import call_llm_with_model as _shared_call_llm_with_model
 
+# 脚手架：Python 只出 HTML 骨架
+sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+from stage_template import build_skeleton
+
 def call_llm(prompt: str, system_prompt: str = "", max_tokens: int = 12000) -> str:
     return _shared_call_llm(prompt, system_prompt, max_tokens, timeout=300, task="creative")
 
@@ -1231,55 +1235,168 @@ def validate_scene_html(html: str, scene: dict) -> bool:
     return True
 
 
+# ═══════════════════════════════════════════════════════════
+# V15: 单 LLM 全场景生成 — JSON 直入直出，Python 只出骨架
+# ═══════════════════════════════════════════════════════════
+
+def _load_scene_prompts():
+    """加载 scene_system.md (system) 和 scene_user.md (user) 两个 prompt"""
+    prompts_dir = Path(__file__).parent / "prompts"
+    system_path = prompts_dir / "scene_system.md"
+    user_path = prompts_dir / "scene_user.md"
+    if not system_path.exists() or not user_path.exists():
+        raise FileNotFoundError(f"scene_system.md or scene_user.md missing in {prompts_dir}")
+    return system_path.read_text(encoding="utf-8"), user_path.read_text(encoding="utf-8")
+
+def _fix_repeat_infinite(html: str, duration: float) -> str:
+    """将 repeat:-1 替换为有限次数，限制最大循环数防渲染超时"""
+    import re as _re_rpt
+    MAX_REPEAT = 5  # 单场景最多 5 次循环，防渲染超时
+    def _replace_repeat(m):
+        full = m.group(0)
+        dur_match = _re_rpt.search(r'duration\s*:\s*([\d.]+)', full[:200])
+        anim_dur = float(dur_match.group(1)) if dur_match else 5.0
+        cycles = min(max(1, int(duration / anim_dur)), MAX_REPEAT)
+        return full.replace("repeat:-1", f"repeat:{cycles}")
+    # 也限制显式 repeat 次数
+    def _cap_repeat(m):
+        n = int(m.group(1))
+        if n > MAX_REPEAT:
+            return f"repeat:{MAX_REPEAT}"
+        return m.group(0)
+    html = _re_rpt.sub(r'repeat:-1', _replace_repeat, html)
+    html = _re_rpt.sub(r'repeat:(\d+)', _cap_repeat, html)
+    return html
+
+def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
+    """单 LLM 调用：JSON → 完整场景 HTML（含 GSAP）。
+
+    LLM 输出完整 body 内容（HTML + <script> 含 GSAP 动画）。
+    Python 只做：DOCTYPE包裹、.scene兜底、repeat:-1修复。
+    """
+    import re as _re_sg
+    import json as _json_sg
+
+    composition_id = f"beat-{sid}"
+    W, H = 1920, 1080
+    duration = scene.get("duration", 8.0)
+
+    system_prompt, user_tmpl = _load_scene_prompts()
+    scene_json = _json_sg.dumps(scene, ensure_ascii=False, indent=2)
+    user_prompt = user_tmpl.replace("{scene_json}", scene_json)
+
+    print(f"    📤 [Scene {sid}] LLM 生成中 (user={len(user_prompt)}c, sys={len(system_prompt)}c)...")
+
+    response = call_llm_for_html(
+        user_prompt,
+        system_prompt=system_prompt,
+        max_tokens=16000,
+        model=model
+    )
+
+    if not response or len(response) < 100:
+        print(f"    ⚠️ [Scene {sid}] LLM 返回空/过短 ({len(response) if response else 0}c)")
+        return ""
+
+    # 去掉可能的 [VISUAL]/[GSAP] 标记（兼容旧格式）
+    body = _re_sg.sub(r'\[VISUAL\]\s*\n?', '', response)
+    body = _re_sg.sub(r'\[GSAP\]\s*\n?', '', body)
+    # 去掉 markdown 代码块标记（LLM 有时不听话）
+    body = _re_sg.sub(r'^```html\s*\n?', '', body, flags=_re_sg.MULTILINE)
+    body = _re_sg.sub(r'\n?```\s*$', '', body, flags=_re_sg.MULTILINE)
+    body = body.strip()
+
+    # 确保被 .scene 包裹
+    if 'class="scene"' not in body and "class='scene'" not in body:
+        if body.startswith('<div'):
+            # 给第一个 div 加上 scene class
+            body = _re_sg.sub(
+                r'(<div\s+)',
+                r'\1id="scene" class="scene" ',
+                body, count=1
+            )
+        else:
+            body = f'<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;">\n{body}\n</div>'
+        print(f"    🔧 [Scene {sid}] 注入 .scene div")
+
+    # 确保 GSAP timeline 注册和 tl.play() 存在
+    if 'window.__timelines' not in body:
+        timeline_code = f'window.__timelines = window.__timelines || {{}};\n  window.__timelines["{composition_id}"] = tl;\n  tl.play();'
+        # 找到最后一个 </script> 之前插入
+        last_script = body.rfind('</script>')
+        if last_script > 0:
+            body = body[:last_script] + '\n  ' + timeline_code + '\n' + body[last_script:]
+        else:
+            # 没找到 </script>，在末尾追加完整的 script 块
+            body += f'\n<script>\n(function(){{\n  var tl = gsap.timeline({{paused:true}});\n  {timeline_code}\n}})();\n</script>'
+        print(f"    🔧 [Scene {sid}] 注入 __timelines + tl.play()")
+
+    # 确保 var tl 声明存在
+    if 'var tl =' not in body and 'var tl=' not in body and 'let tl =' not in body:
+        first_script = body.find('<script>')
+        if first_script > 0:
+            insert_pos = body.find('\n', first_script) + 1
+            body = body[:insert_pos] + '  var tl = gsap.timeline({paused:true});\n' + body[insert_pos:]
+            print(f"    🔧 [Scene {sid}] 注入 var tl 声明")
+
+    # 包裹 DOCTYPE 骨架
+    final_html = f'''<!DOCTYPE html>
+<html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" data-duration="{duration:.1f}" lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>{composition_id}</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:{W}px;height:{H}px;clip-path:inset(5%);">
+{body}
+</body>
+</html>'''
+
+    final_html = _fix_repeat_infinite(final_html, duration)
+
+    gsap_count = len(_re_sg.findall(r'(?:tl|gsap)\.(?:from|fromTo|to)\s*\(', final_html))
+    div_count = final_html.count('<div')
+    print(f"    📥 [Scene {sid}] {len(final_html)}c, gsap={gsap_count}, divs={div_count}")
+
+    # 密度告警（不拦截，LLM re-gen 容易砍掉所有动画导致质量暴跌）
+    if gsap_count > 30:
+        print(f"    ⚠️ [Scene {sid}] GSAP 密度偏高 ({gsap_count})，如渲染超时需手动调优")
+    if div_count > 120:
+        print(f"    ⚠️ [Scene {sid}] DOM 密度偏高 ({div_count})，如渲染超时需手动调优")
+
+    return final_html
+
+
 def generate_and_build(scene, sid, total, ctx=None, model=None):
-    """单个场景：LLM优先 → 模板兜底 → fallback。V5.3: 支持指定模型"""
+    """单个场景：单 LLM 全场景生成 → 验证。V15: JSON 直入直出。
+    如果 GSAP=0（动画缺失），自动重试最多 3 次。
+    """
     ctx = ctx or {}
+    import re as _re_gsap
+
+    for attempt in range(3):
+        html = _single_llm_generate(scene, sid, model=model)
+        if html and len(html) > 500:
+            gsap_count = len(_re_gsap.findall(r'(?:tl|gsap)\.(?:from|fromTo|to)\s*\(', html))
+            if gsap_count > 0:
+                return sid, html
+            print(f"    ⚠️ [Scene {sid}] GSAP=0（第{attempt+1}次重试），动画缺失，重新生成...")
+        else:
+            print(f"    ⚠️ [Scene {sid}] 内容过短（第{attempt+1}次重试），重新生成...")
+
+    # 3次全部失败，回退旧方案
+    print(f"    ⚠️ [Scene {sid}] 3次重试后仍无GSAP，回退旧方案")
     design_md = ctx.get("_design_md", "")
     design_specs = ctx.get("_design_specs", {})
     spec = design_specs.get(sid, {})
     composition_id = f"beat-{sid}"
     W = ctx.get("video_width", 1920)
     H = ctx.get("video_height", 1080)
-    
-    # === V5.3: LLM优先（支持指定模型并行）===
-    max_retries = 2
-    for attempt in range(max_retries):
-        html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id, W, H, model=model)
-        if not html:
-            continue
-        if validate_scene_html(html, scene):
-            model_label = f" [{model}]" if model else ""
-            print(f"    ✅ [Scene {sid}] LLM生成成功{model_label}")
-            return sid, html
-    
-    # === 模板兜底（LLM失败时使用）===
-    print(f"    ⚠️ [Scene {sid}] LLM失败，使用模板兜底")
-    if generate_scene_from_template:
-        design_dict = {}
-        if spec:
-            design_dict = spec
-        elif design_md:
-            # 从design.md提取颜色
-            for line in design_md.split("\n"):
-                for key in ["background", "primary", "accent", "data"]:
-                    if f"{key}:" in line.lower():
-                        import re as _re
-                        m = _re.search(r'#[0-9a-fA-F]{6}', line)
-                        if m:
-                            design_dict.setdefault("colors", {})[key] = m.group(0)
-        
-        html = generate_scene_from_template(scene, sid, design_dict)
-        if html and len(html) > 100:
-            # 包裹完整HTML结构（传入scene用于scene-specific GSAP）
-            full_html = _wrap_html(html, composition_id, W, H, scene=scene, color_grade=ctx.get("_color_grade"))
-            if validate_scene_html(full_html, scene):
-                print(f"    ✅ [Scene {sid}] 模板兜底成功")
-                return sid, full_html
-    
-    # === 最终fallback ===
-    print(f"    ⚠️ [Scene {sid}] 使用硬编码fallback")
-    html = fallback_scene_html(scene, sid, design_md, composition_id)
-    return sid, html
+    html = generate_scene_html_llm(scene, sid, design_md, spec, composition_id, W, H, model=model)
+    if html:
+        return sid, html
+    return sid, fallback_scene_html(scene, sid, design_md, composition_id)
 
 
 def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080, scene: dict = None, color_grade: dict = None) -> str:
@@ -1476,45 +1593,77 @@ def build_intro_html(topic: str) -> str:
 
 
 def build_outro_html() -> str:
-    """构建片尾HTML - 增强版（V5.2 修复：移除重复scale属性+repeat:-1，增加CTA按钮）"""
-    return '''<!DOCTYPE html>
-<html data-composition-id="beat-outro" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+    """构建片尾HTML — V15 风格：3D透视网格 + 粒子雨 + 扫光 + 地平线辉光 + 中文水印"""
+    return r'''<!DOCTYPE html>
+<html data-composition-id="beat-outro" data-width="1920" data-height="1080" style="background:#060618;">
 <head>
 <meta charset="UTF-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body style="margin:0;padding:0;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;background:#1a1a2e;">
-<div style="position:relative;width:1920px;height:1080px;background:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-    <!-- 网格背景 -->
-    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:
-        linear-gradient(rgba(0,102,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,102,255,0.06) 1px, transparent 1px),
-        radial-gradient(circle at 50% 50%, rgba(0,102,255,0.1) 0%, transparent 50%);
-        background-size: 80px 80px, 80px 80px, 100% 100%;z-index:0;pointer-events:none;"></div>
-    <!-- Ghost text -->
-    <div id="ghost-end" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:200px;font-weight:700;color:rgba(255,255,255,0.02);z-index:0;white-space:nowrap;pointer-events:none;">END</div>
-    <!-- 径向光晕 -->
-    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 40%, rgba(0,102,255,0.15) 0%, transparent 60%);z-index:0;pointer-events:none;"></div>
-    <!-- 品牌名 -->
-    <div id="brand-name" style="position:relative;z-index:1;font-size:80px;font-weight:900;color:#FFFFFF;text-shadow:0 0 40px rgba(255,122,46,0.6);letter-spacing:15px;">不闻AI</div>
-    <!-- 品牌标语 -->
-    <div id="brand-title" style="position:relative;z-index:1;font-size:100px;font-weight:900;background:linear-gradient(135deg,#A855F7,#FFFFFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;letter-spacing:10px;margin-top:30px;">癫狂吧世界</div>
-    <!-- 关注按钮 -->
-    <div id="cta-btn" style="position:relative;z-index:1;margin-top:50px;padding:18px 60px;background:linear-gradient(135deg,#FF7A2E,#FF5E13);border-radius:50px;font-size:28px;font-weight:700;color:#FFFFFF;letter-spacing:3px;box-shadow:0 0 30px rgba(255,122,46,0.4);">点击关注</div>
-    <!-- 底部小字 -->
-    <div id="follow-hint" style="position:relative;z-index:1;font-size:22px;color:rgba(255,255,255,0.5);margin-top:30px;">不错过每期精彩</div>
+<body style="margin:0;padding:0;overflow:hidden;background:#060618;width:1920px;height:1080px;clip-path:inset(5%);">
+<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
+  <div class="bg-stage" style="position:absolute;top:0;left:0;width:100%;height:100%;perspective:1000px;">
+    <div class="grid-floor" style="position:absolute;top:42%;left:0;width:100%;height:58%;background:linear-gradient(180deg,rgba(108,140,255,0.06),rgba(108,140,255,0.02));transform:rotateX(60deg);transform-origin:top;"></div>
+  </div>
+  <div class="horizon-glow" style="position:absolute;top:40%;left:5%;width:90%;height:4px;background:linear-gradient(90deg,transparent,rgba(108,140,255,0.5),rgba(168,85,247,0.4),transparent);z-index:1;"></div>
+  <div class="ghost-text" style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);font-size:180px;font-weight:900;color:rgba(108,140,255,0.04);z-index:0;white-space:nowrap;">不闻AI</div>
+  <div class="radial-glow-blue" style="position:absolute;top:20%;left:30%;width:600px;height:600px;background:radial-gradient(circle,rgba(108,140,255,0.12),transparent 70%);z-index:0;"></div>
+  <div class="radial-glow-purple" style="position:absolute;top:20%;right:20%;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,0.1),transparent 70%);z-index:0;"></div>
+  <div id="light-scan" style="position:absolute;top:0;left:-200px;width:180px;height:100%;background:linear-gradient(90deg,transparent,rgba(108,140,255,0.08),transparent);z-index:2;"></div>
+  <div class="particles-near" style="position:absolute;top:0;left:0;width:100%;height:45%;z-index:1;">
+    <div style="position:absolute;left:10%;width:3px;height:120px;background:linear-gradient(180deg,transparent,rgba(108,140,255,0.6),transparent);"></div>
+    <div style="position:absolute;left:25%;width:2px;height:90px;background:linear-gradient(180deg,transparent,rgba(168,85,247,0.5),transparent);"></div>
+    <div style="position:absolute;left:40%;width:4px;height:140px;background:linear-gradient(180deg,transparent,rgba(0,212,255,0.5),transparent);"></div>
+    <div style="position:absolute;left:55%;width:2px;height:100px;background:linear-gradient(180deg,transparent,rgba(108,140,255,0.55),transparent);"></div>
+    <div style="position:absolute;left:70%;width:3px;height:130px;background:linear-gradient(180deg,transparent,rgba(168,85,247,0.5),transparent);"></div>
+    <div style="position:absolute;left:85%;width:2px;height:110px;background:linear-gradient(180deg,transparent,rgba(0,212,255,0.45),transparent);"></div>
+  </div>
+  <div class="particles-mid" style="position:absolute;top:0;left:0;width:100%;height:43%;z-index:1;">
+    <div style="position:absolute;left:15%;width:2px;height:70px;background:linear-gradient(180deg,transparent,rgba(108,140,255,0.35),transparent);"></div>
+    <div style="position:absolute;left:35%;width:3px;height:85px;background:linear-gradient(180deg,transparent,rgba(168,85,247,0.3),transparent);"></div>
+    <div style="position:absolute;left:50%;width:2px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,212,255,0.3),transparent);"></div>
+    <div style="position:absolute;left:65%;width:3px;height:75px;background:linear-gradient(180deg,transparent,rgba(108,140,255,0.3),transparent);"></div>
+    <div style="position:absolute;left:80%;width:2px;height:65px;background:linear-gradient(180deg,transparent,rgba(168,85,247,0.28),transparent);"></div>
+  </div>
+  <div class="particles-far" style="position:absolute;top:0;left:0;width:100%;height:40%;z-index:0;">
+    <div style="position:absolute;left:8%;width:1px;height:40px;background:linear-gradient(180deg,transparent,rgba(108,140,255,0.2),transparent);"></div>
+    <div style="position:absolute;left:30%;width:2px;height:50px;background:linear-gradient(180deg,transparent,rgba(168,85,247,0.18),transparent);"></div>
+    <div style="position:absolute;left:52%;width:1px;height:35px;background:linear-gradient(180deg,transparent,rgba(0,212,255,0.18),transparent);"></div>
+    <div style="position:absolute;left:72%;width:2px;height:45px;background:linear-gradient(180deg,transparent,rgba(108,140,255,0.17),transparent);"></div>
+    <div style="position:absolute;left:90%;width:1px;height:38px;background:linear-gradient(180deg,transparent,rgba(168,85,247,0.15),transparent);"></div>
+  </div>
+  <div id="brand-name" style="position:absolute;top:36%;left:50%;transform:translate(-50%,0);font-size:90px;font-weight:900;color:#FFFFFF;text-shadow:0 0 40px rgba(108,140,255,0.7);letter-spacing:18px;z-index:3;">不闻AI</div>
+  <div id="brand-title" style="position:absolute;top:50%;left:50%;transform:translate(-50%,0);font-size:100px;font-weight:900;background:linear-gradient(135deg,#6C8CFF,#A855F7,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:12px;z-index:3;">癫狂吧世界</div>
+  <div id="cta-btn" style="position:absolute;top:66%;left:50%;transform:translate(-50%,0);padding:20px 70px;background:linear-gradient(135deg,#6C8CFF,#A855F7);border-radius:50px;font-size:30px;font-weight:700;color:#FFFFFF;letter-spacing:5px;box-shadow:0 0 40px rgba(108,140,255,0.5);z-index:3;">点击关注</div>
+  <div id="follow-hint" style="position:absolute;top:76%;left:50%;transform:translate(-50%,0);font-size:24px;color:rgba(255,255,255,0.5);z-index:3;">不错过每期精彩</div>
+  <div id="data-card-1" style="position:absolute;bottom:10%;left:15%;padding:16px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(108,140,255,0.25);border-radius:12px;z-index:3;">
+    <div style="font-size:14px;color:#888;margin-bottom:4px;">本期话题</div>
+    <div style="font-size:22px;font-weight:700;color:#6C8CFF;">文化边界</div>
+  </div>
+  <div id="data-card-2" style="position:absolute;bottom:10%;right:15%;padding:16px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.25);border-radius:12px;z-index:3;">
+    <div style="font-size:14px;color:#888;margin-bottom:4px;">下期预告</div>
+    <div style="font-size:22px;font-weight:700;color:#A855F7;">敬请期待</div>
+  </div>
 </div>
 <script>
-(function() {
-    var tl = gsap.timeline({paused:true});
-    tl.from("#brand-name", {opacity:0, y:-30, duration:0.5, ease:"power2.out"}, 0);
-    tl.from("#brand-title", {opacity:0, scale:0.9, duration:0.6, ease:"power2.out"}, 0.2);
-    tl.from("#cta-btn", {opacity:0, scale:0.8, duration:0.5, ease:"back.out(1.7)"}, 0.6);
-    tl.from("#follow-hint", {opacity:0, y:15, duration:0.4, ease:"power2.out"}, 0.9);
-    // 按钮呼吸（有限次数）
-    tl.to("#cta-btn", {scale:1.05, duration:1.5, yoyo:true, repeat:1, ease:"sine.inOut"}, 1.2);
-    window.__timelines = window.__timelines || {};
-    window.__timelines["beat-outro"] = tl;
+(function(){
+  var tl = gsap.timeline({paused:true});
+  tl.from("#brand-name", {opacity:0, y:-40, duration:0.6, ease:"power3.out"}, 0);
+  tl.from("#brand-title", {opacity:0, scale:0.85, duration:0.7, ease:"back.out(1.7)"}, 0.15);
+  tl.from("#cta-btn", {opacity:0, scale:0.7, duration:0.6, ease:"back.out(1.7)"}, 0.5);
+  tl.from("#follow-hint", {opacity:0, y:20, duration:0.5, ease:"power2.out"}, 0.75);
+  tl.from("#data-card-1", {opacity:0, x:-40, duration:0.5, ease:"power2.out"}, 0.6);
+  tl.from("#data-card-2", {opacity:0, x:40, duration:0.5, ease:"power2.out"}, 0.6);
+  tl.to("#cta-btn", {scale:1.06, duration:1.8, yoyo:true, repeat:1, ease:"sine.inOut"}, 1.0);
+  tl.to("#light-scan", {x:2200, duration:2.5, repeat:1, ease:"none"}, 0);
+  gsap.to(".particles-near div", {y:600, opacity:0.1, duration:3, repeat:0, ease:"none"});
+  gsap.to(".particles-mid div", {y:500, opacity:0.08, duration:4, repeat:0, ease:"none"});
+  gsap.to(".particles-far div", {y:350, opacity:0.05, duration:5, repeat:0, ease:"none"});
+  gsap.to(".radial-glow-blue", {opacity:0.4, duration:2, yoyo:true, repeat:1, ease:"sine.inOut"});
+  gsap.to(".radial-glow-purple", {opacity:0.5, duration:2.5, yoyo:true, repeat:0, ease:"sine.inOut"});
+  window.__timelines = window.__timelines || {};
+  window.__timelines["beat-outro"] = tl;
+  tl.play();
 })();
 </script>
 </body>
@@ -1670,7 +1819,7 @@ def run(context: dict) -> dict:
     parallel_mode = len(scenes_to_build) >= 3  # 3+ 场景才启用并行
     if parallel_mode:
         # V5.3.2: 继续降并发 — 最多 2 个 worker，6s 错峰启动防 429
-        max_workers = min(len(scenes_to_build), 2)  # 从 3 降到 2
+        max_workers = min(len(scenes_to_build), 3)  # V15: 3 workers
         print(f"[hf_builder] ⚡ 并行模式: {len(scenes_to_build)} 场景, {max_workers} workers", flush=True)
     else:
         print(f"[hf_builder] LLM 生成中 (串行模式, 需生成{len(scenes_to_build)}个场景)...", flush=True)

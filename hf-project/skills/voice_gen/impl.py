@@ -20,6 +20,20 @@ def run(context: dict) -> dict:
         print(f"  ❌ [voice-gen] 找不到脚本: {script_path}")
         return context
 
+    # 🔧 校验配音是否匹配当前脚本（按脚本内容哈希，避免旧话题配音被复用）
+    import hashlib
+    script_text = Path(script_path).read_text(encoding="utf-8")
+    script_hash = hashlib.md5(script_text.encode()).hexdigest()[:8]
+    hash_file = OUTPUT_DIR / ".voice_script_hash"
+    if VOICE_PATH.exists() and VOICE_PATH.stat().st_size > 1000 and hash_file.exists():
+        old_hash = hash_file.read_text().strip()
+        if old_hash == script_hash:
+            print(f"  ⏭️ [voice-gen] 配音已存在且脚本未变 (hash={script_hash})，跳过生成")
+            context["voice_path"] = str(VOICE_PATH)
+            return context
+        else:
+            print(f"  🔄 [voice-gen] 脚本已变更 ({old_hash} → {script_hash})，重新生成配音...")
+
     # 参考音频
     ref_wav = context.get("voice_ref") or os.environ.get(
         "VOICE_REF_WAV",
@@ -80,6 +94,8 @@ def run(context: dict) -> dict:
             json.dump(context["voice_scene_durations"], f, ensure_ascii=False, indent=2)
 
     print(f"  [voice-gen] ✅ 配音生成完成: {context['voice_duration']:.1f}s")
+    # 保存脚本哈希，下次比对
+    hash_file.write_text(script_hash)
     return context
 
 

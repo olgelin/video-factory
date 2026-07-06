@@ -12,7 +12,7 @@ import subprocess
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
-TOOLS_DIR = Path(__file__).parent.parent.parent / "tools"
+TOOLS_DIR = Path(__file__).parent.parent.parent.parent / "tools"
 
 
 def _find_video2x() -> str:
@@ -37,7 +37,7 @@ def run(context: dict) -> dict:
     # 参数
     scale = context.get("upscale_factor", 2)  # 默认2x
     denoise = context.get("upscale_denoise", 0)  # 降噪强度 0-10
-    model = context.get("upscale_model", "realesrgan-x2plus")
+    model = context.get("upscale_model", "realesr-animevideov3")
 
     # 输出路径
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -49,14 +49,14 @@ def run(context: dict) -> dict:
     print(f"  [upscaler] 参数: scale={scale}x, denoise={denoise}, model={model}")
     print(f"  [upscaler] 工具: {v2x}")
 
-    # Video2X CLI调用
+    # Video2X 6.4.0 CLI: -p <processor> --realesrgan-model <model>
     cmd = [
         v2x,
         "-i", video_path,
         "-o", str(output_path),
         "-s", str(scale),
-        "-n", str(denoise),
-        "-p", model,
+        "-p", "realesrgan",
+        "--realesrgan-model", model,
     ]
 
     try:
