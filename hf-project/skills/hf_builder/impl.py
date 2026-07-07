@@ -73,6 +73,7 @@ def load_design_specs(project_root: Path) -> dict:
 # 模块级分辨率配置（由run()设置，auto_fix/fallback读取）
 _VIDEO_W = 1920
 _VIDEO_H = 1080
+_VIDEO_STYLE = "news"  # V6: edu/news 样式标记，_load_scene_prompts() 据此选提示词
 
 SCENE_PROMPT = """你是 HyperFrames 视频合成专家。为以下场景编写完整 HTML。
 
@@ -1239,13 +1240,19 @@ def validate_scene_html(html: str, scene: dict) -> bool:
 # V15: 单 LLM 全场景生成 — JSON 直入直出，Python 只出骨架
 # ═══════════════════════════════════════════════════════════
 
-def _load_scene_prompts():
-    """加载 scene_system.md (system) 和 scene_user.md (user) 两个 prompt"""
-    prompts_dir = Path(__file__).parent / "prompts"
-    system_path = prompts_dir / "scene_system.md"
-    user_path = prompts_dir / "scene_user.md"
-    if not system_path.exists() or not user_path.exists():
-        raise FileNotFoundError(f"scene_system.md or scene_user.md missing in {prompts_dir}")
+def _load_scene_prompts() -> tuple[str, str]:
+    """V7: 从 prompts/{style}/ 加载 scene_system.md (system) 和 scene_user.md (user)。
+    example: prompts/news/scene_system.md + scene_user.md"""
+    # V7: 统一 prompts 目录
+    prompts_root = Path(__file__).parent.parent.parent / "prompts"
+    style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music") else "news"
+    system_path = prompts_root / style_dir / "scene_system.md"
+    # scene_user.md 各类型共用（只有 {scene_json} 占位符）
+    user_path = Path(__file__).parent / "prompts" / "scene_user.md"
+    if not system_path.exists():
+        raise FileNotFoundError(f"Prompt missing: {system_path} (video_style={_VIDEO_STYLE})")
+    if not user_path.exists():
+        raise FileNotFoundError(f"scene_user.md missing")
     return system_path.read_text(encoding="utf-8"), user_path.read_text(encoding="utf-8")
 
 def _fix_repeat_infinite(html: str, duration: float) -> str:
@@ -1756,10 +1763,13 @@ def run(context: dict) -> dict:
     hf_dir = project_root / "hf_render_project"
     
     # 视频分辨率（支持横屏/竖屏）
-    global _VIDEO_W, _VIDEO_H
+    global _VIDEO_W, _VIDEO_H, _VIDEO_STYLE
     _VIDEO_W = context.get("video_width", 1920)
     _VIDEO_H = context.get("video_height", 1080)
+    _VIDEO_STYLE = context.get("video_style", "news")
     W, H = _VIDEO_W, _VIDEO_H
+    if _VIDEO_STYLE == "edu":
+        print(f"[hf_builder] 🎓 教育模式 — 白板+卡片+分步揭示")
     if W != 1920 or H != 1080:
         print(f"[hf_builder] 竖屏模式: {W}x{H}")
 

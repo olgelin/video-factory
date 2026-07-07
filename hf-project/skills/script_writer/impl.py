@@ -124,7 +124,7 @@ def preprocess_text(text: str) -> str:
 
 
 
-def generate_script(topic_selected: dict, style_profile: dict = None, research_data: str = "") -> dict:
+def generate_script(topic_selected: dict, style_profile: dict = None, research_data: str = "", video_style: str = "news") -> dict:
     """根据选题结果生成口播脚本（纯文案，不含视觉设计）"""
     
     selected_topic = topic_selected.get("selected_topic", "")
@@ -181,7 +181,18 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 - 示例：{'、'.join(closing.get('examples', [])[:2])}
 """
     
-    system_prompt = _load_prompt("system").format(style_guide=style_guide)
+    # V7: 从 prompts/{style}/script_system.md 加载（统一 prompts 目录）
+    prompts_root = Path(__file__).parent.parent.parent / "prompts"
+    style_dir = video_style if video_style in ("edu", "news", "music") else "news"
+    system_path = prompts_root / style_dir / "script_system.md"
+    if system_path.exists():
+        system_prompt = system_path.read_text(encoding="utf-8").format(style_guide=style_guide)
+        print(f"  [script-writer] 使用提示词: prompts/{style_dir}/script_system.md")
+    else:
+        # 兼容旧位置
+        sys_name = "edu_system" if video_style == "edu" else "system"
+        system_prompt = _load_prompt(sys_name).format(style_guide=style_guide)
+        print(f"  [script-writer] 使用提示词(旧): {sys_name}.md")
 
     research_section = ""
     if research_data:
@@ -221,7 +232,7 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
 
 def _parse_json_response(llm_response: str) -> dict:
     """多层JSON解析"""
-    ALLOWED_VISUAL_HINTS = {"data_impact", "timeline_event", "compare", "quote_hero", "flow", "hud", "list_alert", "code_terminal", "ranking_board", "product_showcase"}
+    ALLOWED_VISUAL_HINTS = {"data_impact", "timeline_event", "compare", "quote_hero", "flow", "hud", "list_alert", "code_terminal", "ranking_board", "product_showcase", "explain_card", "example_showcase", "step_reveal", "keyword_highlight", "practice_prompt", "summary_grid"}
     
     def _validate_section(section: dict, idx: int) -> dict:
         """验证并补全段落字段"""
@@ -401,7 +412,9 @@ def run(context: dict) -> dict:
             if point and data:
                 research_data += f"- {point} [数据: {data}] (来源: {source})\n"
     
-    script = generate_script(topic_selected, style_profile, research_data)
+    # V6: edu 模式用教师风格
+    video_style = context.get("video_style", "news")
+    script = generate_script(topic_selected, style_profile, research_data, video_style)
 
     if not script:
         print("  ❌ [script-writer] 脚本生成失败")

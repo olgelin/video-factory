@@ -342,6 +342,7 @@ def run_pipeline(
         "video_path": str(OUTPUT_DIR / "step10_video.mp4"),
         "video_width": video_width,
         "video_height": video_height,
+        "video_style": manifest.get("video_style", "news"),  # V6: edu/news 样式标记
     }
 
     # 加载已保存的 context（V5.5: 话题不匹配时仅加载结构字段）
@@ -381,6 +382,14 @@ def run_pipeline(
                 pass
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # ── V6: pipeline context_defaults（edu 等变体注入 BGM/样式等）──
+    context_defaults = manifest.get("context_defaults", {})
+    if context_defaults:
+        for k, v in context_defaults.items():
+            if k not in context or context[k] is None:
+                context[k] = v
+        print(f"  📋 context_defaults: {list(context_defaults.keys())}")
 
     # 处理 --topic（跳过选题）
     if topic:
