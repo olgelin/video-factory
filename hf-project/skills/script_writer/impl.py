@@ -183,7 +183,7 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
     
     # V7: 从 prompts/{style}/script_system.md 加载（统一 prompts 目录）
     prompts_root = Path(__file__).parent.parent.parent / "prompts"
-    style_dir = video_style if video_style in ("edu", "news", "music") else "news"
+    style_dir = video_style if video_style in ("edu", "news", "music", "edu_music") else "news"
     system_path = prompts_root / style_dir / "script_system.md"
     if system_path.exists():
         system_prompt = system_path.read_text(encoding="utf-8").format(style_guide=style_guide)

@@ -1245,7 +1245,7 @@ def _load_scene_prompts() -> tuple[str, str]:
     example: prompts/news/scene_system.md + scene_user.md"""
     # V7: 统一 prompts 目录
     prompts_root = Path(__file__).parent.parent.parent / "prompts"
-    style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music") else "news"
+    style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music", "edu_music") else "news"
     system_path = prompts_root / style_dir / "scene_system.md"
     # scene_user.md 各类型共用（只有 {scene_json} 占位符）
     user_path = Path(__file__).parent / "prompts" / "scene_user.md"

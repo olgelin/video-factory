@@ -1,0 +1,256 @@
+# video-factory Pipeline Definition — 音乐学习短视频
+# 基于 edu_video，区别：
+#   1. storyboard 追加BGM歌词专属画面
+#   2. audio_mixer 纯BGM段正常音量
+#   3. 视频长度 = 配音长度 + BGM完整长度
+
+name: edu-music-video
+version: "1.0"
+description: >
+  音乐学习短视频。教学部分（白板+卡片）+ BGM完整播放部分（歌词大字+旋律可视化）。
+  视频长度 = 配音 + BGM全长，BGM纯音乐段正常音量。
+category: edu-music
+stability: beta
+
+video_style: edu_music
+
+render_runtime: hyperframes
+renderer_family: edu-music
+
+context_defaults:
+  bgm_captions: "ambient piano, calm, 60 BPM, focus, gentle strings, meditative, soft"
+  bgm_duration: 180
+
+output:
+  default_format: mp4
+  default_codec: libx264
+  default_audio_codec: aac
+  default_resolution: "1920x1080"
+  vertical_resolution: "1080x1920"
+  default_fps: 30
+  default_crf: 23
+
+budget:
+  mode: warn
+  total_usd: 2.00
+  reserve_pct: 0.10
+
+critical_checks:
+  script_writer: "output/step03_script.json"
+  voice_gen: "output/step05_voice.wav"
+  hf_builder: "hf_render_project/compositions/beat-*.html"
+  video_renderer: "output/step10_video.mp4"
+  audio_mixer: "output/step11_final.mp4"
+
+stages:
+  # ── Phase 1: 串行 ──
+  - name: topic_scout
+    step: 1
+    skill: topic_scout
+    phase: 1
+    description: "多平台热点采集"
+    provider: llm
+    provider_task: research
+    timeout: 300
+    retry: 2
+
+  - name: topic_selector
+    step: 2
+    skill: topic_selector
+    phase: 1
+    description: "选出最佳选题"
+    provider: llm
+    provider_task: selection
+    timeout: 300
+    retry: 2
+
+  - name: script_writer
+    step: 3
+    skill: script_writer
+    phase: 1
+    description: "教育类口播脚本（教师风格）"
+    provider: llm
+    provider_task: creative
+    timeout: 300
+    retry: 2
+    critical: true
+
+  # ── Phase 2: 并行 ──
+  - name: lyrics_writer
+    step: 4
+    skill: lyrics_writer
+    phase: 2
+    parallel_group: group_a
+    description: "创作歌词（BGM歌词画面使用）"
+    provider: llm
+    provider_task: creative_light
+    timeout: 300
+    retry: 2
+
+  - name: voice_gen
+    step: 5
+    skill: voice_gen
+    phase: 2
+    parallel_group: group_a
+    description: "VoxCPM2 配音"
+    provider: local
+    provider_task: tts
+    timeout: 1800
+    retry: 1
+    critical: true
+
+  - name: design_system
+    step: 8
+    skill: design_system
+    phase: 2
+    parallel_group: group_a
+    description: "视觉设计系统"
+    provider: llm
+    provider_task: creative_light
+    timeout: 300
+    retry: 2
+
+  # ── Phase 3: 并行 ──
+  - name: transcriber
+    step: 6
+    skill: transcriber
+    phase: 3
+    parallel_group: group_b
+    description: "语音转录 + 字幕"
+    provider: local
+    provider_task: stt
+    timeout: 300
+    retry: 1
+
+  - name: bgm_generator
+    step: 7
+    skill: bgm_generator
+    phase: 3
+    parallel_group: group_b
+    description: "ACE-Step BGM（放松学习型）"
+    provider: local
+    provider_task: music
+    timeout: 600
+    retry: 1
+
+  # ── Phase 3.5: 串行 ──
+  - name: storyboard
+    step: 9
+    skill: storyboard_lyric       # V1: 追加BGM歌词场景
+    phase: 3.5
+    description: "分镜设计 + BGM歌词场景"
+    provider: llm
+    provider_task: creative
+    timeout: 300
+    retry: 2
+
+  # ── Phase 3.6: 视觉设计 ──
+  - name: color_grader
+    step: 9.1
+    skill: color_grader
+    phase: 3.6
+    description: "色彩分级"
+    provider: local
+    provider_task: design
+    timeout: 30
+    retry: 1
+
+  - name: layout_composer
+    step: 9.2
+    skill: layout_composer
+    phase: 3.6
+    description: "布局骨架"
+    provider: local
+    provider_task: design
+    timeout: 30
+    retry: 1
+
+  - name: motion_director
+    step: 9.3
+    skill: motion_director
+    phase: 3.6
+    description: "镜头运动"
+    provider: local
+    provider_task: design
+    timeout: 30
+    retry: 1
+
+  - name: depth_composer
+    step: 9.4
+    skill: depth_composer
+    phase: 3.6
+    description: "z-index层级"
+    provider: local
+    provider_task: design
+    timeout: 30
+    retry: 1
+
+  # ── Phase 4: 串行 ──
+  - name: hf_builder
+    step: 10
+    skill: hf_builder
+    phase: 4
+    description: "HyperFrames 场景 HTML（教学+歌词）"
+    provider: llm
+    provider_task: creative_html
+    timeout: 1800
+    retry: 2
+    critical: true
+    rate_limit:
+      delay_between_calls: 0.5
+      max_concurrent: 5
+
+  - name: quality_scorer
+    step: 10.5
+    skill: quality_scorer
+    phase: 4
+    description: "质量评分"
+    provider: local
+    provider_task: validate
+    timeout: 60
+    retry: 0
+    optional: true
+
+  - name: video_renderer
+    step: 11
+    skill: video_renderer
+    phase: 4
+    description: "HyperFrames 渲染"
+    provider: local
+    provider_task: render
+    timeout: 1200
+    retry: 1
+    critical: true
+
+  - name: video_upscaler
+    step: 13
+    skill: video_upscaler
+    phase: 4
+    description: "高清修复（可选）"
+    provider: local
+    provider_task: enhance
+    timeout: 1800
+    retry: 0
+    optional: true
+
+  - name: audio_mixer
+    step: 12
+    skill: audio_mixer_lyric      # V1: BGM分段混合
+    phase: 4
+    description: "FFmpeg 音视频混合（配音段压低 + 纯BGM段正常音量）"
+    provider: local
+    provider_task: compose
+    timeout: 300
+    retry: 1
+    critical: true
+
+  - name: quality_checker
+    step: 14
+    skill: quality_checker
+    phase: 4
+    description: "质量自检"
+    provider: local
+    provider_task: validate
+    timeout: 120
+    retry: 0
+    optional: true
