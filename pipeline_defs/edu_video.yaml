@@ -107,7 +107,7 @@ stages:
     skill: lyrics_writer
     phase: 2
     parallel_group: group_a
-    description: "根据口播稿创作歌词（教育视频可跳过）"
+    description: "根据口播稿创作歌词"
     input:
       - output/step03_script.json
       - output/topic_selected.json
