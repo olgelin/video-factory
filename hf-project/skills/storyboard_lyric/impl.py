@@ -645,9 +645,9 @@ def run(context: dict) -> dict:
             for gi, group in enumerate(grouped):
                 combined_text = " / ".join(group)
                 
-                # 优先用 lyric_scene_designer 的概念，否则 fallback
-                if gi < len(lyric_concepts):
-                    lc = lyric_concepts[gi]
+                # 优先用 lyric_scene_designer 的概念，循环复用
+                lc = lyric_concepts[gi % len(lyric_concepts)] if lyric_concepts else None
+                if lc:
                     visual_type = lc.get("visual_type", "quote_hero")
                     concept = lc.get("concept", combined_text[:80])
                     mood = lc.get("mood", "沉浸、放松")

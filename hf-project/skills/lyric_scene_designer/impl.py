@@ -75,15 +75,14 @@ def run(context: dict) -> dict:
 ## 视觉风格
 {design_md}
 
-## 歌词（共{len(lyrics_lines)}行）
+## 歌词（共{len(lyrics_lines)}行，风格一致）
 {lyrics_summary}
 
-请为上面的歌词设计视觉概念。要求：
-- 每组1-2行歌词配一个视觉概念
+请为这些歌词设计 20 个视觉概念（如果歌词超过20行，按主题分组复用）。要求：
 - visual_type 从可用类型中选择
 - 每个概念必须包含教学相关的视觉元素 + 歌词文字
-- 输出恰好 {len(lyrics_lines)} 个概念的 JSON 数组
-- 只输出 JSON"""
+- 输出恰好 20 个概念的 JSON 数组
+- 只输出 JSON，不要 markdown 代码块"""
 
     print(f"  [lyric-scene-designer] 为 {len(lyrics_lines)} 行歌词设计视觉概念...")
 
@@ -93,13 +92,19 @@ def run(context: dict) -> dict:
     concepts = []
     if response:
         try:
-            cleaned = re.sub(r"```json\s*", "", response)
-            cleaned = re.sub(r"```\s*$", "", cleaned).strip()
-            json_match = re.search(r"\[.*\]", cleaned, re.DOTALL)
-            if json_match:
-                concepts = json.loads(json_match.group())
+            # 策略1: 直接找最外层 [...]（最可靠）
+            start = response.find('[')
+            end = response.rfind(']')
+            if start >= 0 and end > start:
+                concepts = json.loads(response[start:end+1])
         except json.JSONDecodeError:
-            print("  ⚠️ [lyric-scene-designer] JSON解析失败")
+            try:
+                # 策略2: markdown代码块
+                m = re.search(r'```(?:json)?\s*(\[[\s\S]*?\])\s*```', response)
+                if m:
+                    concepts = json.loads(m.group(1))
+            except json.JSONDecodeError:
+                print("  ⚠️ [lyric-scene-designer] JSON解析失败")
 
     if concepts:
         out_path = OUTPUT_DIR / "lyric_scenes.json"
