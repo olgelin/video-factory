@@ -1363,17 +1363,16 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
             body = f'<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;">\n{body}\n</div>'
         print(f"    🔧 [Scene {sid}] 注入 .scene div")
 
-    # 校验 .scene div 宽高（LLM 有时忽略 prompt 写 1280×720）
-    body = _re_sg.sub(
-        r'(class=["\']scene["\'][^>]*?)width:\s*\d+px',
-        r'\1width:1920px',
-        body
-    )
-    body = _re_sg.sub(
-        r'(class=["\']scene["\'][^>]*?width:1920px[^>]*?)height:\s*\d+px',
-        r'\1height:1080px',
-        body
-    )
+    # 校验 .scene div 宽高（LLM 有时写 1280×720 / 100% / 100vw 等错误值）
+    def _fix_scene_wh(m):
+        """替换 scene div 里的 width/height 为正确值"""
+        tag = m.group(0)
+        # 替换 width（任何非 1920px 的值）
+        tag = _re_sg.sub(r'width\s*:\s*(?!1920px)[^;\"]+', 'width:1920px', tag)
+        # 替换 height（任何非 1080px 的值）
+        tag = _re_sg.sub(r'height\s*:\s*(?!1080px)[^;\"]+', 'height:1080px', tag)
+        return tag
+    body = _re_sg.sub(r'<div[^>]*class=["\']scene["\'][^>]*>', _fix_scene_wh, body)
 
     # 确保 GSAP timeline 注册和 tl.play() 存在
     if 'window.__timelines' not in body:

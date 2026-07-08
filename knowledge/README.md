@@ -1,25 +1,28 @@
 # 知识库
 
-> 全公司共享的项目经验。踩过的坑，不会再踩第二遍。
+> 自动生成 + 人工维护。Agent 干活前先读这里。
 
 ## 结构
 
 ```
 knowledge/
-├── constraints/       ← 硬性约束（违反就出 bug）
-├── bug-patterns/      ← 缺陷 → 根因 → 修复链
-├── prompt-rules/      ← LLM 提示词设计禁忌
-├── tool-configs/      ← 本地工具配置 + 已知坑
-└── design-decisions/  ← 重要设计决策及理由
+├── README.md              ← 这个文件
+├── codebase/              ← 🤖 自动生成（扫描代码结构）
+│   ├── skills.md          ←    每个 skill 干什么、输入输出
+│   ├── pipeline.md        ←    pipeline 步骤和数据流
+│   └── tools.md           ←    本地工具配置
+├── constraints/           ← ✍️ 人工维护（违反就出 bug）
+├── bug-patterns/          ← ✍️ 人工维护（缺陷 → 根因 → 修复链）
+├── prompt-rules/          ← ✍️ 人工维护（LLM 提示词禁忌）
+├── tool-configs/          ← ✍️+🤖（工具配置 + 已知坑）
+└── design-decisions/      ← ✍️ 人工维护（设计决策和理由）
 ```
+
+## 更新机制
+
+- **自动更新**: 代码变更后跑 `python scripts/gen_knowledge.py` → 刷新 codebase/ 和 tool-configs/
+- **手动更新**: 出 bug 后反推根因 → 写入 bug-patterns/ 和 constraints/
 
 ## 使用方式
 
-- **AI agent**：干活前先读相关文件，避开已知坑
-- **人类**：打开 Markdown 直接看
-- **新项目**：从 `_template/knowledge/` 复制脚手架
-
-## 跨项目共享
-
-`SHARED/knowledge/` 里的东西所有项目通用。
-改了 SHARED → 所有项目自动受益。
+Agent 启动时自动加载 AGENTS.md → 引导读取 knowledge/
