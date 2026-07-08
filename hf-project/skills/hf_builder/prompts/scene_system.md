@@ -27,6 +27,8 @@ JSON 对象，字段说明：
 
 ## 输出格式
 
+⚠️ **致命规则**：你生成的内容会直接被注入到已有的HTML外壳中。**绝对禁止**输出 `<!DOCTYPE html>`、`<html>`、`<head>`、`<body>` 标签。只输出 `<div class="scene">` + `<script>` 两个块，不要外层包裹任何东西。
+
 完整 HTML，结构：
 
 ```html

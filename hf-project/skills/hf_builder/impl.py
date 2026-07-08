@@ -332,6 +332,7 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
     # 第一次尝试
     response = call_llm_for_html(prompt, system, max_tokens=12000, model=model)
     html = _extract_html(response)
+    html = _strip_outer_html(html)
     if html:
         html = _auto_fix_html(html, composition_id)
         html = _fix_truncated_html(html, composition_id)
@@ -359,6 +360,7 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
 只输出完整HTML，不要解释。"""
     response = call_llm_for_html(simple_prompt, system, max_tokens=16000, model=model)
     html = _extract_html(response)
+    html = _strip_outer_html(html)
     if html:
         html = _auto_fix_html(html, composition_id)
         html = _fix_truncated_html(html, composition_id)
@@ -376,6 +378,7 @@ Include: title, data cards, decorative layers.
 Only output HTML code."""
     response = call_llm_for_html(minimal_prompt, system, max_tokens=16000, model=model)
     html = _extract_html(response)
+    html = _strip_outer_html(html)
     if html:
         html = _auto_fix_html(html, composition_id)
         html = _fix_truncated_html(html, composition_id)
@@ -595,6 +598,26 @@ def _extract_html(response: str) -> str:
         return response[start:].strip()
     # 不是 HTML
     return ""
+
+
+def _strip_outer_html(html: str) -> str:
+    """剥离外层 <html>/<body> 标签，只保留 <body> 内的内容。
+    
+    LLM 经常生成完整 HTML 文档（<!DOCTYPE> <html> <head> <body>），
+    但 stage_template 已经提供了外层骨架。必须剥掉 LLM 的外层，否则
+    双层嵌套导致 960×540 的 scene 出现在 1920×1080 画面左上角。
+    """
+    if not html:
+        return html
+    # 提取 <body> 内的全部内容（包括 <div class="scene"> 和 <script>）
+    m = re.search(r'<body[^>]*>(.*)</body>', html, re.DOTALL | re.IGNORECASE)
+    if m:
+        inner = m.group(1).strip()
+        # 去掉 LLM 自己生成的 <script>GSAP CDN</script>（骨架已提供）
+        inner = re.sub(r'<script[^>]*src=[\"\']https?://[^\"\']*gsap[^\"\']*[\"\'][^>]*>\s*</script>', '', inner, flags=re.IGNORECASE)
+        return inner
+    # 没找到 <body> 标签，返回原内容（可能已经是纯 div+script）
+    return html
 
 
 def _validate_html(html: str, composition_id: str) -> bool:
