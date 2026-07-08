@@ -134,22 +134,14 @@ def run(context: dict) -> dict:
         voice_dur = float(vr.stdout.strip()) if vr.stdout.strip() else 120
         
         # ── edu_music: BGM配音段压低，纯BGM段正常音量 ──
-        # 获取BGM完整时长
-        bgm_duration_cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{bgm_path}"'
-        br = subprocess.run(bgm_duration_cmd, shell=True, capture_output=True, text=True)
-        bgm_full_dur = float(br.stdout.strip()) if br.stdout.strip() else 180
+        # 从 context 获取 BGM 时长（pipeline context_defaults 已设置）
+        bgm_full_dur = context.get("bgm_duration", 180)
+        print(f"  [audio-mixer_lyric] 配音: {voice_dur:.1f}s, BGM: {bgm_full_dur}s")
         
-        print(f"  [audio-mixer_lyric] 配音: {voice_dur:.1f}s, BGM: {bgm_full_dur:.1f}s")
-        
-        if bgm_full_dur <= voice_dur:
-            # BGM比配音短：全部压低当背景
-            cmd = f'ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" -filter_complex "[0:a]volume=1.5[voice]; [1:a]volume=0.2,afade=t=in:st=0:d=2,afade=t=out:st={bgm_full_dur - 3}:d=3[bgm]; [voice][bgm]amix=inputs=2:duration=first:dropout_transition=3[out]" -map "[out]" "{mixed_audio}"'
-        else:
-            # BGM比配音长：配音段压低(0.2)，纯BGM段正常音量(1.0)
-            bgm_tail = bgm_full_dur - voice_dur
-            voice_dur_safe = max(voice_dur, 0.1)
-            cmd = f'ffmpeg -y -i "{voice_for_mix}" -i "{bgm_path}" -filter_complex "[0:a]volume=1.5[voice]; [1:a]asplit=2[bgm_ducked][bgm_full]; [bgm_ducked]atrim=0:{voice_dur_safe},volume=0.2,afade=t=in:st=0:d=2[bgm1]; [bgm_full]atrim={voice_dur_safe}:{bgm_full_dur},volume=1.0,afade=t=in:st=0:d=1.5,afade=t=out:st={bgm_tail - 3}:d=3[bgm2]; [bgm1][bgm2]concat=n=2:v=0:a=1[bgm_segmented]; [voice][bgm_segmented]amix=inputs=2:duration=longest:dropout_transition=3[out]" -map "[out]" "{mixed_audio}"'
-            print(f"  [audio-mixer_lyric] BGM分段: 配音段(0-{voice_dur:.0f}s)压低 + 纯BGM段({voice_dur:.0f}-{bgm_full_dur:.0f}s)正常音量")
+        # 使用 volume 表达式：lt(t,voice_dur) 时压低到 0.2，否则正常 1.0
+        # 这比 asplit/atrim/concat 链更简单可靠，避免浮点精度和滤镜链问题
+        cmd = f"ffmpeg -y -i \"{voice_for_mix}\" -i \"{bgm_path}\" -filter_complex \"[0:a]volume=1.5[voice]; [1:a]volume='if(lt(t,{voice_dur}),0.2,1.0)':eval=frame[bgm_vol]; [bgm_vol]afade=t=in:st=0:d=2,afade=t=out:st={bgm_full_dur - 3}:d=3[bgm_env]; [voice][bgm_env]amix=inputs=2:duration=longest:dropout_transition=3[out]\" -map \"[out]\" \"{mixed_audio}\""
+        print(f"  [audio-mixer_lyric] BGM音量: 配音段(0-{voice_dur:.0f}s)压低 + 纯BGM段({voice_dur:.0f}-{bgm_full_dur:.0f}s)正常")
 
         if not run_ffmpeg(cmd):
             print(f"  ❌ [audio-mixer] 音频混合失败")

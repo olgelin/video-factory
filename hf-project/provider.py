@@ -75,10 +75,11 @@ TASK_MODEL_MAP = {
     },
 }
 
-# V7: hf_builder 并行模型 — pro 主力，分层生成不截断
+# V7: hf_builder 并行模型 — flash 主力（快+高RPM），pro 兜底
 HF_PARALLEL_MODELS = [
-    "deepseek-v4-pro",
-    "deepseek-v4-pro",
+    "deepseek-v4-flash",
+    "deepseek-v4-flash",
+    "deepseek-v4-flash",
 ]
 
 

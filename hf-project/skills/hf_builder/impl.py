@@ -604,19 +604,27 @@ def _strip_outer_html(html: str) -> str:
     """剥离外层 <html>/<body> 标签，只保留 <body> 内的内容。
     
     LLM 经常生成完整 HTML 文档（<!DOCTYPE> <html> <head> <body>），
-    但 stage_template 已经提供了外层骨架。必须剥掉 LLM 的外层，否则
+    但 _single_llm_generate 会再次包裹外层骨架。必须剥掉 LLM 的外层，否则
     双层嵌套导致 960×540 的 scene 出现在 1920×1080 画面左上角。
     """
     if not html:
         return html
-    # 提取 <body> 内的全部内容（包括 <div class="scene"> 和 <script>）
+    # 策略1: 提取 <body> 内的全部内容（包括 <div class="scene"> 和 <script>）
     m = re.search(r'<body[^>]*>(.*)</body>', html, re.DOTALL | re.IGNORECASE)
     if m:
         inner = m.group(1).strip()
         # 去掉 LLM 自己生成的 <script>GSAP CDN</script>（骨架已提供）
-        inner = re.sub(r'<script[^>]*src=[\"\']https?://[^\"\']*gsap[^\"\']*[\"\'][^>]*>\s*</script>', '', inner, flags=re.IGNORECASE)
+        inner = re.sub(r'<script[^>]*src=[\"\']https?://[^\"]*gsap[^\"]*[\"\'][^>]*>\s*</script>', '', inner, flags=re.IGNORECASE)
         return inner
-    # 没找到 <body> 标签，返回原内容（可能已经是纯 div+script）
+    # 策略2: body匹配失败时，尝试剥离 <!DOCTYPE> 和 <html> 标签
+    inner = re.sub(r'<!DOCTYPE[^>]*>', '', html, flags=re.IGNORECASE)
+    inner = re.sub(r'</?html[^>]*>', '', inner, flags=re.IGNORECASE)
+    inner = re.sub(r'</?head[^>]*>', '', inner, flags=re.IGNORECASE)
+    inner = re.sub(r'<meta[^>]*>', '', inner, flags=re.IGNORECASE)
+    inner = re.sub(r'<title>[^<]*</title>', '', inner, flags=re.IGNORECASE)
+    if inner != html:
+        return inner.strip()
+    # 没找到任何外层标签，返回原内容（可能已经是纯 div+script）
     return html
 
 
@@ -1338,6 +1346,9 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     # ⚠️ negative lookahead (?![\d.]) 防止误伤 opacity:0.7 → opacity:0.01.7
     body = _re_sg.sub(r'opacity:\s*0(?![\d.])', 'opacity:0.01', body)
     body = body.strip()
+
+    # 剥离 LLM 可能输出的外层 HTML 标签（防双层嵌套 → 左上角）
+    body = _strip_outer_html(body)
 
     # 确保被 .scene 包裹
     if 'class="scene"' not in body and "class='scene'" not in body:

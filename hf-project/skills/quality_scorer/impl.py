@@ -72,13 +72,18 @@ def run(context: dict) -> dict:
 
         print(f"  [quality_scorer] Scene {sid}: {result['total_score']}/100 ({result['grade']})")
 
-    # V13: LLM 二次校验 — 每个场景让 LLM 实际看 HTML 判断画面质量
+    # V13: LLM 二次校验 — 采样审查（场景多时只查代表性样本，避免臃肿）
     llm_reviews = []
     if _llm_review_available:
         review_prompt = _load_llm_review_prompt()
-        for html_file in sorted(comp_dir.glob("beat-*.html")):
-            if "outro" in html_file.name or "intro" in html_file.name:
-                continue
+        all_html_files = sorted(comp_dir.glob("beat-*.html"))
+        all_html_files = [f for f in all_html_files if "outro" not in f.name and "intro" not in f.name]
+        # 采样策略：≤10个场景全部审查，否则均匀采样最多5个
+        sample_size = min(5, len(all_html_files)) if len(all_html_files) > 10 else len(all_html_files)
+        step = max(1, len(all_html_files) // sample_size)
+        sampled_files = all_html_files[::step][:sample_size]
+        print(f"  [LLM审查] {len(all_html_files)} 个场景, 采样 {len(sampled_files)} 个进行 LLM 审查")
+        for html_file in sampled_files:
             html = html_file.read_text(encoding="utf-8")
             sid = int(re.search(r'beat-(\d+)', html_file.name).group(1))
             try:
