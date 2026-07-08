@@ -79,8 +79,11 @@ def run(context: dict) -> dict:
         all_html_files = sorted(comp_dir.glob("beat-*.html"))
         all_html_files = [f for f in all_html_files if "outro" not in f.name and "intro" not in f.name]
         # 采样策略：≤10个场景全部审查，否则均匀采样最多5个
-        sample_size = min(5, len(all_html_files)) if len(all_html_files) > 10 else len(all_html_files)
-        step = max(1, len(all_html_files) // sample_size)
+        if len(all_html_files) <= 10:
+            sample_size = len(all_html_files)
+        else:
+            sample_size = min(5, len(all_html_files))
+        step = max(1, len(all_html_files) // max(1, sample_size))
         sampled_files = all_html_files[::step][:sample_size]
         print(f"  [LLM审查] {len(all_html_files)} 个场景, 采样 {len(sampled_files)} 个进行 LLM 审查")
         for html_file in sampled_files:
