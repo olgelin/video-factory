@@ -1,5 +1,5 @@
 # Skills 模块文档
-> 自动生成于 2026-07-09 06:36
+> 自动生成于 2026-07-09 06:37
 
 共 27 个 skill。
 
@@ -8,7 +8,7 @@
 **描述**: (无描述)
 **代码行数**: 246
 **主要函数**: screenshot_url, download_image, prepare_assets, run
-**日志标签**: 截图, 下载, 素材
+**日志标签**: 素材, 截图, 下载
 **SKILL.md**: ❌ 缺失
 
 ## audio_mixer
@@ -116,7 +116,7 @@
 **描述**: (无描述)
 **代码行数**: 273
 **主要函数**: run, _overall_grade, _dimension_averages, _load_llm_review_prompt, _llm_review_html, _extract_json
-**日志标签**: LLM审查, quality_scorer
+**日志标签**: quality_scorer, LLM审查
 **SKILL.md**: ❌ 缺失
 
 ## script_writer
@@ -154,7 +154,7 @@
 **描述**: (无描述)
 **代码行数**: 358
 **主要函数**: get_session, fetch_baidu_hot, fetch_toutiao_hot, fetch_bilibili_hot, fetch_douyin_hot, fetch_v2ex_hot, fetch_all_trending, similarity
-**日志标签**: V2EX, B站热搜, future, 百度热搜, 今日头条, 热点采集
+**日志标签**: B站热搜, future, V2EX, 今日头条, 热点采集, 抖音热搜
 **SKILL.md**: ✅
 
 ## topic_selector
