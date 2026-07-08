@@ -9,6 +9,7 @@ storyboard/skill.py — 分镜设计（HyperFrames Step 2+3: Prompt Expansion + 
 import os
 import json
 import re
+import math
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -619,21 +620,32 @@ def run(context: dict) -> dict:
         
         bgm_only_dur = max(0, bgm_dur - voice_end)
         if bgm_only_dur > 0 and lyric_lines:
-            # 每条歌词至少 4 秒，根据 BGM 长度和歌词数量动态分配
-            per_lyric = max(4.0, bgm_only_dur / len(lyric_lines))
+            # 动态分组：按实际可用时间分配，确保总长 = bgm_only_dur
+            per_line = bgm_only_dur / len(lyric_lines)
+            min_scene = 2.0  # 每个场景最少2秒才看得清
+            if per_line < min_scene:
+                # 行太短就分组，每组至少 min_scene 秒
+                lines_per_group = max(1, math.ceil(min_scene / per_line))
+                grouped = [lyric_lines[i:i+lines_per_group] for i in range(0, len(lyric_lines), lines_per_group)]
+                group_dur = bgm_only_dur / len(grouped)
+            else:
+                grouped = [[l] for l in lyric_lines]
+                group_dur = per_line
+            
             t = voice_end
             sid = len(storyboard) + 1
-            for line in lyric_lines:
+            for group in grouped:
+                combined_text = " / ".join(group)
                 storyboard.append({
                     "scene_id": sid,
                     "visual_type": "lyric_display",
-                    "concept": line[:80],
+                    "concept": combined_text[:80],
                     "mood": "沉浸、放松、音乐美感",
                     "narration": "",
-                    "duration": round(per_lyric, 2),
+                    "duration": round(group_dur, 2),
                     "start_time": round(t, 2),
-                    "end_time": round(t + per_lyric, 2),
-                    "key_elements": [{"type": "lyric", "text": line[:40]}],
+                    "end_time": round(t + group_dur, 2),
+                    "key_elements": [{"type": "lyric", "text": g[:40]} for g in group[:3]],
                     "chart_type": None,
                     "camera_motion": None,
                     "density_target": 5,
@@ -641,9 +653,9 @@ def run(context: dict) -> dict:
                     "animations": {"lyric": "FLOATS up with glow", "wave": "PULSES with beat"},
                     "transition": {"in": "fade", "out": "fade"},
                 })
-                t += per_lyric
+                t += group_dur
                 sid += 1
-            print(f"  [storyboard_lyric] 追加 {len(lyric_lines)} 个歌词场景 (BGM段 {bgm_only_dur:.0f}s)")
+            print(f"  [storyboard_lyric] 追加 {len(lyric_lines)}行歌词 → {len(grouped)} 个场景 (BGM段 {bgm_only_dur:.0f}s, 每组{group_dur:.1f}s)")
         else:
             print(f"  [storyboard_lyric] BGM段太短或无歌词，跳过")
     else:
