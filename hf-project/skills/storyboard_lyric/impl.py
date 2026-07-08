@@ -632,23 +632,55 @@ def run(context: dict) -> dict:
                 grouped = [[l] for l in lyric_lines]
                 group_dur = per_line
             
+            # 加载 lyric_scene_designer 产出的视觉概念（如果有）
+            lyric_scenes_path = OUTPUT_DIR / "lyric_scenes.json"
+            lyric_concepts = []
+            if lyric_scenes_path.exists():
+                with open(lyric_scenes_path, "r", encoding="utf-8") as f:
+                    lyric_concepts = json.load(f)
+                print(f"  [storyboard_lyric] 加载 {len(lyric_concepts)} 个歌词视觉概念")
+            
             t = voice_end
             sid = len(storyboard) + 1
-            for group in grouped:
+            for gi, group in enumerate(grouped):
                 combined_text = " / ".join(group)
+                
+                # 优先用 lyric_scene_designer 的概念，否则 fallback
+                if gi < len(lyric_concepts):
+                    lc = lyric_concepts[gi]
+                    visual_type = lc.get("visual_type", "quote_hero")
+                    concept = lc.get("concept", combined_text[:80])
+                    mood = lc.get("mood", "沉浸、放松")
+                    # 融合歌词 key_elements 和设计师的 key_elements
+                    key_elems = lc.get("key_elements", [])
+                    # 确保每组歌词都作为 lyric 元素出现
+                    lyric_elems = [{"type": "lyric", "text": g[:40]} for g in group[:3]]
+                    key_elems = lyric_elems + [e for e in key_elems if e.get("type") != "lyric"]
+                    density = lc.get("density_target", 7)
+                    chart = lc.get("chart_type", None)
+                    camera = lc.get("camera_motion", None)
+                else:
+                    visual_type = "lyric_display"
+                    concept = combined_text[:80]
+                    mood = "沉浸、放松、音乐美感"
+                    key_elems = [{"type": "lyric", "text": g[:40]} for g in group[:3]]
+                    density = 5
+                    chart = None
+                    camera = None
+                
                 storyboard.append({
                     "scene_id": sid,
-                    "visual_type": "lyric_display",
-                    "concept": combined_text[:80],
-                    "mood": "沉浸、放松、音乐美感",
+                    "visual_type": visual_type,
+                    "concept": concept[:80],
+                    "mood": mood,
                     "narration": "",
                     "duration": round(group_dur, 2),
                     "start_time": round(t, 2),
                     "end_time": round(t + group_dur, 2),
-                    "key_elements": [{"type": "lyric", "text": g[:40]} for g in group[:3]],
-                    "chart_type": None,
-                    "camera_motion": None,
-                    "density_target": 5,
+                    "key_elements": key_elems[:8],
+                    "chart_type": chart,
+                    "camera_motion": camera,
+                    "density_target": density,
                     "depth_layers": {"background": "dark gradient + music waves", "midground": "lyric text + glow", "foreground": "particles + accent light"},
                     "animations": {"lyric": "FLOATS up with glow", "wave": "PULSES with beat"},
                     "transition": {"in": "fade", "out": "fade"},

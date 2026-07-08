@@ -133,6 +133,17 @@ stages:
     timeout: 600
     retry: 1
 
+  - name: lyric_scene_designer
+    step: 7.5
+    skill: lyric_scene_designer
+    phase: 3
+    parallel_group: group_b
+    description: "BGM歌词段视觉概念设计（知识+歌词融合）"
+    provider: llm
+    provider_task: creative_light
+    timeout: 300
+    retry: 2
+
   # ── Phase 3.5: 串行 ──
   - name: storyboard
     step: 9
