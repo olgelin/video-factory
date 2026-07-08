@@ -38,6 +38,7 @@ budget:
 critical_checks:
   script_writer: "output/step03_script.json"
   voice_gen: "output/step05_voice.wav"
+  lyric_scene_designer: "output/lyric_scenes.json"
   hf_builder: "hf_render_project/compositions/beat-*.html"
   video_renderer: "output/step10_video.mp4"
   audio_mixer: "output/step11_final.mp4"

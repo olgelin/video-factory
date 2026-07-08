@@ -8,7 +8,7 @@
 **描述**: (无描述)
 **代码行数**: 246
 **主要函数**: screenshot_url, download_image, prepare_assets, run
-**日志标签**: 素材, 截图, 下载
+**日志标签**: 下载, 截图, 素材
 **SKILL.md**: ❌ 缺失
 
 ## audio_mixer
@@ -116,7 +116,7 @@
 **描述**: (无描述)
 **代码行数**: 273
 **主要函数**: run, _overall_grade, _dimension_averages, _load_llm_review_prompt, _llm_review_html, _extract_json
-**日志标签**: quality_scorer, LLM审查
+**日志标签**: LLM审查, quality_scorer
 **SKILL.md**: ❌ 缺失
 
 ## script_writer
@@ -154,7 +154,7 @@
 **描述**: (无描述)
 **代码行数**: 358
 **主要函数**: get_session, fetch_baidu_hot, fetch_toutiao_hot, fetch_bilibili_hot, fetch_douyin_hot, fetch_v2ex_hot, fetch_all_trending, similarity
-**日志标签**: B站热搜, future, V2EX, 今日头条, 热点采集, 抖音热搜
+**日志标签**: 抖音热搜, B站热搜, future, 热点采集, 百度热搜, 今日头条
 **SKILL.md**: ✅
 
 ## topic_selector
