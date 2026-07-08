@@ -644,7 +644,7 @@ def _validate_html(html: str, composition_id: str) -> bool:
         return False
 
     # 动画丰富度检查（核心：没有动画=没有灵魂）
-    gsap_from_count = len(re.findall(r'\.from\(', html))
+    gsap_from_count = len(re.findall(r'(?:tl|gsap)\.(?:from|fromTo|to)\s*\(', html))
     if gsap_from_count < 3:
         print(f"      ⚠️ GSAP动画不足: {gsap_from_count} < 3，场景会很静态", flush=True)
         return False
@@ -1362,6 +1362,18 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
         else:
             body = f'<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;">\n{body}\n</div>'
         print(f"    🔧 [Scene {sid}] 注入 .scene div")
+
+    # 校验 .scene div 宽高（LLM 有时忽略 prompt 写 1280×720）
+    body = _re_sg.sub(
+        r'(class=["\']scene["\'][^>]*?)width:\s*\d+px',
+        r'\1width:1920px',
+        body
+    )
+    body = _re_sg.sub(
+        r'(class=["\']scene["\'][^>]*?width:1920px[^>]*?)height:\s*\d+px',
+        r'\1height:1080px',
+        body
+    )
 
     # 确保 GSAP timeline 注册和 tl.play() 存在
     if 'window.__timelines' not in body:

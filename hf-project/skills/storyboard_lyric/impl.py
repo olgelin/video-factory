@@ -632,13 +632,24 @@ def run(context: dict) -> dict:
                 grouped = [[l] for l in lyric_lines]
                 group_dur = per_line
             
-            # 加载 lyric_scene_designer 产出的视觉概念（如果有）
+            # 加载 lyric_scene_designer 产出的视觉概念（必须有）
             lyric_scenes_path = OUTPUT_DIR / "lyric_scenes.json"
             lyric_concepts = []
             if lyric_scenes_path.exists():
                 with open(lyric_scenes_path, "r", encoding="utf-8") as f:
                     lyric_concepts = json.load(f)
                 print(f"  [storyboard_lyric] 加载 {len(lyric_concepts)} 个歌词视觉概念")
+            else:
+                # 兜底：内置 6 种视觉概念，避免退化到纯大字报
+                print(f"  ⚠️ [storyboard_lyric] lyric_scenes.json 不存在！使用内置兜底概念池")
+                lyric_concepts = [
+                    {"visual_type": "quote_hero", "concept": "知识点金句大字 + 发光背景", "mood": "激励、向上", "key_elements": [{"type": "title", "text": "核心知识点"}], "density_target": 6},
+                    {"visual_type": "explain_card", "concept": "概念卡片 + 图解", "mood": "专注、理解", "key_elements": [{"type": "card", "text": "概念拆解"}], "density_target": 7},
+                    {"visual_type": "compare", "concept": "对比展示", "mood": "思辨、对比", "key_elements": [{"type": "compare", "text": "对比"}], "density_target": 7},
+                    {"visual_type": "flow", "concept": "流程/步骤展示", "mood": "流畅、推进", "key_elements": [{"type": "flow", "text": "步骤"}], "density_target": 6},
+                    {"visual_type": "keyword_highlight", "concept": "关键词高亮 + 释义词条", "mood": "聚焦、记忆", "key_elements": [{"type": "keyword", "text": "关键词"}], "density_target": 7},
+                    {"visual_type": "data_impact", "concept": "数字冲击 + 意义阐释", "mood": "震撼、认知", "key_elements": [{"type": "number", "text": "数据"}], "density_target": 6},
+                ]
             
             t = voice_end
             sid = len(storyboard) + 1
