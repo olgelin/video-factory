@@ -323,7 +323,7 @@ def score_scene_quality(html: str, scene: dict) -> dict:
     details["has_progress"] = has_progress
     
     # 3. 动画质量
-    gsap_from_count = len(re.findall(r'(?:tl|gsap)\\.(?:from|fromTo|to)\\s*\\(', html))
+    gsap_from_count = len(re.findall(r'(?:tl|gsap)\.(?:from|fromTo|to)\s*\(', html))
     # V9: 匹配单引号和双引号 ease
     eases = set(re.findall(r'ease:\s*["\']([^"\']+)["\']', html))
     has_breath = bool(re.search(r'repeat:\s*-1', html)) and bool(re.search(r'yoyo:\s*true', html))
