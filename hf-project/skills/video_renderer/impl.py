@@ -137,11 +137,11 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
         shutil.copy2(comp_src_path, standalone_dir / "index.html")
         
         # 使用 standalone 目录渲染
-        cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --no-browser-gpu'
+        cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --gpu'
         
         try:
             result = subprocess.run(
-                cmd, shell=True, cwd=str(standalone_dir), capture_output=True, text=True, timeout=600
+                cmd, shell=True, cwd=str(standalone_dir), capture_output=True, text=True, timeout=900
             )
             
             if result.returncode == 0 and Path(clip_path).exists():
@@ -175,8 +175,13 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
                 continue
                 
         except subprocess.TimeoutExpired:
-            print(f"  ❌ [video-renderer]   {clip_src} 渲染超时（300s）")
-            return False
+            print(f"  ⚠️ [video-renderer]   {clip_src} 渲染超时（600s），使用空白帧兜底...")
+            fallback_clip = _render_fallback_frame(temp_dir, i, duration, project_dir)
+            if fallback_clip:
+                segment_files.append(fallback_clip)
+                print(f"  [video-renderer]   ⚠️ {clip_src} 使用空白帧替代")
+            else:
+                print(f"  ❌ [video-renderer]   {clip_src} 无法生成兜底帧，跳过")
         except Exception as e:
             print(f"  ❌ [video-renderer]   {clip_src} 渲染错误: {e}")
             return False
