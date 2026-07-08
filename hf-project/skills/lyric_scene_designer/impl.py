@@ -91,20 +91,27 @@ def run(context: dict) -> dict:
     # 解析
     concepts = []
     if response:
+        # DEBUG: 保存 raw 返回用于诊断
+        debug_path = OUTPUT_DIR / "lyric_scene_debug.txt"
+        debug_path.write_text(response, encoding="utf-8")
+        print(f"  [lyric-scene-designer] LLM 返回 {len(response)} 字符 → {debug_path}")
+
         try:
             # 策略1: 直接找最外层 [...]（最可靠）
             start = response.find('[')
             end = response.rfind(']')
             if start >= 0 and end > start:
-                concepts = json.loads(response[start:end+1])
-        except json.JSONDecodeError:
+                json_str = response[start:end+1]
+                concepts = json.loads(json_str)
+        except json.JSONDecodeError as e:
+            print(f"  [lyric-scene-designer] 策略1失败: {e}")
             try:
                 # 策略2: markdown代码块
                 m = re.search(r'```(?:json)?\s*(\[[\s\S]*?\])\s*```', response)
                 if m:
                     concepts = json.loads(m.group(1))
-            except json.JSONDecodeError:
-                print("  ⚠️ [lyric-scene-designer] JSON解析失败")
+            except json.JSONDecodeError as e2:
+                print(f"  [lyric-scene-designer] 策略2失败: {e2}")
 
     if concepts:
         out_path = OUTPUT_DIR / "lyric_scenes.json"

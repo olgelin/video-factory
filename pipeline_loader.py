@@ -299,8 +299,8 @@ def run_pipeline(
 
     # 解析步骤范围
     parts = steps.split("-")
-    start_step = int(parts[0])
-    end_step = int(parts[1]) if len(parts) > 1 else start_step
+    start_step = float(parts[0])
+    end_step = float(parts[1]) if len(parts) > 1 else start_step
 
     # 视频分辨率
     video_width, video_height = (1080, 1920) if vertical else (1920, 1080)
