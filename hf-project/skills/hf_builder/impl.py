@@ -1395,6 +1395,32 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
             if total_class_elems > 0:
                 print(f"    ✅ [Scene {sid}] {total_class_elems} 个 class 元素均有内联 style，安全")
 
+    # 校验同色系碰撞：fg color 与 bg 同色系 → 替换为高对比色
+    _hue_fixes = 0
+    def _fix_hue_collision(m):
+        nonlocal _hue_fixes
+        tag = m.group(0)
+        style = m.group(1)
+        # 提取 color 和 background
+        c = _re_sg.search(r'color:\s*(#?[0-9a-fA-F]+|rgba?\([^)]+\))', style)
+        bg = _re_sg.search(r'background:\s*(rgba?\([^)]+\)|#[0-9a-fA-F]+)', style)
+        if not c or not bg:
+            return tag
+        # 提取RGB数值
+        fg_nums = [int(x) for x in _re_sg.findall(r'\d+', c.group(1))[:3]]
+        bg_nums = [int(x) for x in _re_sg.findall(r'\d+', bg.group(1))[:3]]
+        if len(fg_nums) < 3 or len(bg_nums) < 3:
+            return tag
+        dist = abs(fg_nums[0]-bg_nums[0]) + abs(fg_nums[1]-bg_nums[1]) + abs(fg_nums[2]-bg_nums[2])
+        if dist < 80 and bg_nums[0]+bg_nums[1]+bg_nums[2] > 30:
+            # 同色系碰撞 — 替换文字颜色为纯白
+            tag = _re_sg.sub(r'color:\s*[^;"]+', 'color:#ffffff', tag, count=1)
+            _hue_fixes += 1
+        return tag
+    body = _re_sg.sub(r'(<[^>]*style="([^"]*color:[^"]*background[^"]*)"[^>]*>)', _fix_hue_collision, body)
+    if _hue_fixes > 0:
+        print(f"    🔧 [Scene {sid}] 修复 {_hue_fixes} 处同色系碰撞 → color:#ffffff")
+
     # 确保 GSAP timeline 注册和 tl.play() 存在
     if 'window.__timelines' not in body:
         timeline_code = f'window.__timelines = window.__timelines || {{}};\n  window.__timelines["{composition_id}"] = tl;\n  tl.play();'

@@ -303,6 +303,58 @@ def check_html_css_classes(compositions_dir: str) -> dict:
     return {"ok": len(issues) == 0, "issues": issues, "info": info}
 
 
+def check_ghost_elements(compositions_dir: str) -> dict:
+    """检查 opacity:0.01 元素是否有对应的 GSAP 动画将其变为可见"""
+    import re as _re_gh
+    issues = []
+    info = {"total_scenes": 0, "total_ghosts": 0, "unanimated_ghosts": 0}
+
+    if not os.path.isdir(compositions_dir):
+        return {"ok": True, "issues": [], "info": info}
+
+    for fname in sorted(os.listdir(compositions_dir)):
+        if not fname.endswith('.html'):
+            continue
+        info["total_scenes"] += 1
+        fpath = os.path.join(compositions_dir, fname)
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                html = f.read()
+        except Exception:
+            continue
+
+        # 找到所有 opacity:0.01 的元素及其 class/id
+        ghost_els = _re_gh.findall(r'<(?:div|span|h\d|p)\b[^>]*?(?:class="([^"]+)"|id="([^"]+)")?[^>]*opacity\s*:\s*0\.01[^>]*>', html)
+        if not ghost_els:
+            continue
+        # ghost_els is list of tuples (class, id) from alternating groups
+        ghost_selectors = set()
+        for cls, eid in ghost_els:
+            if cls:
+                for c in cls.split():
+                    ghost_selectors.add(f".{c}")
+            if eid:
+                ghost_selectors.add(f"#{eid}")
+
+        info["total_ghosts"] += len(ghost_els)
+
+        # 检查 GSAP 脚本是否引用了这些选择器
+        script_match = _re_gh.search(r'<script>(.*?)</script>', html, _re_gh.DOTALL)
+        script = script_match.group(1) if script_match else ""
+
+        unanimated = 0
+        for sel in ghost_selectors:
+            if sel not in script:
+                unanimated += 1
+
+        if unanimated > 0:
+            info["unanimated_ghosts"] += unanimated
+            issues.append(f"{fname}: {unanimated}个opacity:0.01元素缺少GSAP动画")
+
+    ok = info["unanimated_ghosts"] < max(5, info["total_ghosts"] * 0.05)
+    return {"ok": ok, "issues": issues, "info": info}
+
+
 def run_full_check(video_path: str, srt_path: str = None) -> dict:
     """运行完整质量检查（OpenMontage 风格多点自检）"""
     print(f"\n{'='*60}")
@@ -362,13 +414,22 @@ def run_full_check(video_path: str, srt_path: str = None) -> dict:
         print(f"\n  [5/5] 字幕时间轴: 跳过 (无SRT)")
 
     # 6. HTML 场景质量（CSS class 使用检查）
-    print(f"\n  [6/6] HTML 场景质量...")
+    print(f"\n  [6/7] HTML 场景质量...")
     compositions_dir = OUTPUT_DIR.parent / "hf_render_project" / "compositions"
     results["html_quality"] = check_html_css_classes(str(compositions_dir))
     hq = results["html_quality"]
     status = "✅" if hq["ok"] else "⚠️"
     print(f"    {status} class-only元素: {hq['info']['class_only_count']}/{hq['info']['total_scenes']} 场景有问题")
-    for issue in hq["issues"][:3]:  # 最多显示3个
+    for issue in hq["issues"][:3]:
+        print(f"      ⚠️ {issue}")
+
+    # 7. Ghost 元素验证（opacity:0.01 无 GSAP 动画的元素）
+    print(f"\n  [7/7] Ghost 元素验证...")
+    results["ghost_check"] = check_ghost_elements(str(compositions_dir))
+    gc = results["ghost_check"]
+    status = "✅" if gc["ok"] else "⚠️"
+    print(f"    {status} 未动画Ghost: {gc['info']['unanimated_ghosts']}/{gc['info']['total_ghosts']}")
+    for issue in gc["issues"][:3]:
         print(f"      ⚠️ {issue}")
 
     # 汇总
@@ -380,6 +441,8 @@ def run_full_check(video_path: str, srt_path: str = None) -> dict:
         all_ok = all_ok and results["subtitle_coverage"]["ok"]
     if "html_quality" in results:
         all_ok = all_ok and results["html_quality"]["ok"]
+    if "ghost_check" in results:
+        all_ok = all_ok and results["ghost_check"]["ok"]
 
     total_issues = sum(len(r.get("issues", [])) for r in results.values())
     print(f"\n{'='*60}")
