@@ -362,21 +362,21 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
     if not storyboard:
         print("  ⚠️ [storyboard] 使用fallback生成...")
         storyboard = []
-        # 视觉类型轮换，避免重复
-        type_cycle = ["data_impact", "quote_hero", "dashboard", "compare", "hud", "flow", "list_alert", "quote_hero"]
-        # 动画动词轮换
+        # storyboard_lyric 专用于 edu_music：教学场景用白板/卡片风格
+        is_edu = True
+        type_cycle = ["explain_card", "example_showcase", "compare", "keyword_highlight", "step_reveal", "quote_hero", "summary_grid", "practice_prompt"]
         title_verbs = ["SLAMS", "CRASHES", "BURSTS", "PUNCHES", "STAMPS", "SHATTERS"]
         content_verbs = ["FLOATS", "MORPHS", "COUNTS UP", "FADES IN", "DRIFTS", "TYPES ON"]
-        # depth_layers 变体
         depth_variants = [
+            {"bg": "light warm gradient #F5F0E8 + soft grid", "mg": "whiteboard cards", "fg": "accent highlights + subtle glow"},
+            {"bg": "cream gradient #EDE8DC + 80px grid", "mg": "knowledge cards stack", "fg": "colored accent bars"},
+            {"bg": "warm white #F5F0E8 + ghost text watermark", "mg": "explain panels", "fg": "step indicators"},
+            {"bg": "light beige #E8E2D5 + dot pattern", "mg": "comparison cards", "fg": "VS divider + highlights"},
+        ] if is_edu else [
             {"bg": "dark fill + radial glow", "mg": "content cards", "fg": "accent lines + grain"},
             {"bg": "gradient mesh + particles", "mg": "floating panels", "fg": "scan lines + noise"},
             {"bg": "circuit pattern + pulse", "mg": "data cards stack", "fg": "glow edges + dust"},
             {"bg": "grid wireframe + nebula", "mg": "metric panels", "fg": "laser lines + sparks"},
-            {"bg": "matrix rain + void", "mg": "glass cards", "fg": "hologram flicker"},
-            {"bg": "hex grid + aurora", "mg": "info blocks", "fg": "particle stream"},
-            {"bg": "dot matrix + glow orbs", "mg": "stacked modules", "fg": "energy ribbons"},
-            {"bg": "noise texture + gradient", "mg": "quote panel", "fg": "accent strokes"},
         ]
 
         for i, section in enumerate(sections):
@@ -409,7 +409,7 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
             storyboard.append({
                 "scene_id": i + 1,
                 "concept": talking_point or content[:80],
-                "mood": "专业、有冲击力、现代感",
+                "mood": "清晰、耐心、鼓励学习",
                 "visual_type": visual_type,
                 "choreography": {
                     "title": f"{title_verbs[i % len(title_verbs)]} in from left",
