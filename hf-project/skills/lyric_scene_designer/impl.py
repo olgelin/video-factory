@@ -113,7 +113,7 @@ def run(context: dict) -> dict:
 
     print(f"  [lyric-scene-designer] 为 {len(lyrics_lines)} 行歌词设计视觉概念...")
 
-    response = call_llm(prompt, system_prompt, max_tokens=16000, temperature=0.3)
+    response = call_llm(prompt, system_prompt, max_tokens=16000)
 
     # 解析
     concepts = []
