@@ -324,7 +324,7 @@ def check_ghost_elements(compositions_dir: str) -> dict:
             continue
 
         # 找到所有 opacity:0.01 的元素及其 class/id
-        ghost_els = _re_gh.findall(r'<(?:div|span|h\d|p)\b[^>]*?(?:class="([^"]+)"|id="([^"]+)")?[^>]*opacity\s*:\s*0\.01[^>]*>', html)
+        ghost_els = _re_gh.findall(r'<(?:div|span|h\d|p)\b[^>]*?(?:class="([^"]+)"[^>]*|id="([^"]+)"[^>]*)opacity\s*:\s*0\.01[^>]*>', html)
         if not ghost_els:
             continue
         # ghost_els is list of tuples (class, id) from alternating groups
