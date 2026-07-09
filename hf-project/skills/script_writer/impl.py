@@ -439,9 +439,13 @@ def run(context: dict) -> dict:
     # LLM 可能被旧 context 污染，生成完全不相关的话题
     script_topic = script.get("topic", "")
     if selected_topic and script_topic:
-        # 提取关键词做模糊匹配
-        input_keywords = set(selected_topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
-        script_keywords = set(script_topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
+        # 提取关键词做模糊匹配（处理中文破折号、英文横线等分隔符）
+        import re as _re_kw
+        def _extract_kw(text):
+            text = text.replace("：", " ").replace("，", " ").replace("、", " ").replace("——", " ").replace("—", " ").replace("-", " ").replace("|", " ")
+            return set(_re_kw.sub(r'\s+', ' ', text).split())
+        input_keywords = _extract_kw(selected_topic)
+        script_keywords = _extract_kw(script_topic)
         overlap = input_keywords & script_keywords
         # edu_music topics contain grade/lesson context that LLM naturally paraphrases;
         # 1 shared keyword (e.g. "被动语态") is sufficient to confirm relevance
