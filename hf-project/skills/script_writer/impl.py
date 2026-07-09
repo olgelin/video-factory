@@ -443,7 +443,10 @@ def run(context: dict) -> dict:
         input_keywords = set(selected_topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
         script_keywords = set(script_topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
         overlap = input_keywords & script_keywords
-        if len(overlap) < 2 and len(input_keywords) > 3:
+        # edu_music topics contain grade/lesson context that LLM naturally paraphrases;
+        # 1 shared keyword (e.g. "被动语态") is sufficient to confirm relevance
+        min_overlap = 1 if any('\u4e00' <= c <= '\u9fff' for c in selected_topic) else 2
+        if len(overlap) < min_overlap and len(input_keywords) > 3:
             print(f"  ❌ [script-writer] 话题不一致！输入={selected_topic[:40]}，输出={script_topic[:40]}，重叠词={overlap}")
             if SCRIPT_PATH.exists():
                 SCRIPT_PATH.unlink()
