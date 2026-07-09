@@ -1397,6 +1397,17 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
 
     # 校验同色系碰撞：fg color 与 bg 同色系 → 替换为高对比色
     _hue_fixes = 0
+    def _parse_rgb(color_str):
+        color_str = color_str.strip()
+        if color_str.startswith('#'):
+            h = color_str[1:]
+            if len(h) == 3: h = h[0]*2 + h[1]*2 + h[2]*2
+            if len(h) == 6:
+                return (int(h[0:2],16), int(h[2:4],16), int(h[4:6],16))
+        nums = [int(x) for x in _re_sg.findall(r'\d+', color_str)]
+        if len(nums) >= 3:
+            return (nums[0], nums[1], nums[2])
+        return None
     def _fix_hue_collision(m):
         nonlocal _hue_fixes
         tag = m.group(0)
@@ -1406,11 +1417,11 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
         bg = _re_sg.search(r'background:\s*(rgba?\([^)]+\)|#[0-9a-fA-F]+)', style)
         if not c or not bg:
             return tag
-        # 提取RGB数值
-        fg_nums = [int(x) for x in _re_sg.findall(r'\d+', c.group(1))[:3]]
-        bg_nums = [int(x) for x in _re_sg.findall(r'\d+', bg.group(1))[:3]]
-        if len(fg_nums) < 3 or len(bg_nums) < 3:
+        fg_rgb = _parse_rgb(c.group(1))
+        bg_rgb = _parse_rgb(bg.group(1))
+        if not fg_rgb or not bg_rgb:
             return tag
+        dist = abs(fg_rgb[0]-bg_rgb[0]) + abs(fg_rgb[1]-bg_rgb[1]) + abs(fg_rgb[2]-bg_rgb[2])
         dist = abs(fg_nums[0]-bg_nums[0]) + abs(fg_nums[1]-bg_nums[1]) + abs(fg_nums[2]-bg_nums[2])
         if dist < 80 and bg_nums[0]+bg_nums[1]+bg_nums[2] > 30:
             # 同色系碰撞 — 替换文字颜色为纯白
