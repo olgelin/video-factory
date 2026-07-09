@@ -20,21 +20,28 @@ OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def _repair_truncated_json(json_str: str) -> str:
-    """修复被截断的JSON数组：补上缺失的 } ] 等闭合符号"""
+    """修复被截断的JSON数组：移除尾部不完整对象，补上缺失的闭合符号"""
     # 计算未闭合的括号
     open_braces = json_str.count('{') - json_str.count('}')
     open_brackets = json_str.count('[') - json_str.count(']')
-    if open_braces > 0 or open_brackets > 0:
-        # 移除最后一个可能不完整的对象
-        last_brace = json_str.rfind('{')
-        last_comma = json_str.rfind(',')
-        if last_brace > last_comma:
-            # 最后一个是未完成的对象，截掉它
-            cut = json_str.rfind(',', 0, last_brace)
-            if cut > 0:
-                json_str = json_str[:cut]
-        # 补闭合
-        json_str += '}' * open_braces + ']' * open_brackets
+
+    if open_braces <= 0 and open_brackets <= 0:
+        return json_str
+
+    # 如果有未闭合的 {，说明最后一个对象不完整 → 移除它
+    if open_braces > 0:
+        last_open_brace = json_str.rfind('{')
+        # 找到它之前的逗号（即前一个完整对象的结束位置）
+        cut = json_str.rfind(',', 0, last_open_brace)
+        if cut > 0:
+            json_str = json_str[:cut]
+            # 重新计算
+            open_braces = json_str.count('{') - json_str.count('}')
+            open_brackets = json_str.count('[') - json_str.count(']')
+
+    # 补闭合：去尾部逗号 + 补括号
+    json_str = json_str.rstrip().rstrip(',')
+    json_str += '}' * max(0, open_braces) + ']' * max(0, open_brackets)
     return json_str
 
 
