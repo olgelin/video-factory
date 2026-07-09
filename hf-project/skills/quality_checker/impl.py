@@ -258,6 +258,51 @@ def _parse_srt_time(t: str) -> float:
     return int(h) * 3600 + int(m) * 60 + float(s)
 
 
+def check_html_css_classes(compositions_dir: str) -> dict:
+    """检查 HTML 场景中 CSS class 无内联样式的问题"""
+    import re as _re_css
+    issues = []
+    info = {"total_scenes": 0, "class_only_count": 0, "problem_scenes": []}
+    
+    if not os.path.isdir(compositions_dir):
+        return {"ok": True, "issues": [], "info": info}
+    
+    html_files = sorted([f for f in os.listdir(compositions_dir) if f.endswith('.html')])
+    info["total_scenes"] = len(html_files)
+    
+    for fname in html_files:
+        fpath = os.path.join(compositions_dir, fname)
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                html = f.read()
+        except Exception:
+            continue
+        
+        # 有 <style> 块 → class 可能有效，跳过
+        if '<style' in html.lower():
+            continue
+        
+        # 找出所有含 class 属性的元素
+        class_tags = _re_css.findall(r'<\w+\b[^>]*\bclass="[^"]+"[^>]*>', html)
+        if not class_tags:
+            continue
+        
+        # 检查哪些元素缺少内联 style
+        no_style = [t for t in class_tags if 'style="' not in t and "style='" not in t]
+        if no_style:
+            info["class_only_count"] += 1
+            ratio = len(no_style) / len(class_tags)
+            issues.append(f"{fname}: {len(no_style)}/{len(class_tags)} class元素无内联style ({ratio:.0%})")
+            info["problem_scenes"].append({
+                "file": fname,
+                "class_total": len(class_tags),
+                "no_style_count": len(no_style),
+                "ratio": round(ratio, 2)
+            })
+    
+    return {"ok": len(issues) == 0, "issues": issues, "info": info}
+
+
 def run_full_check(video_path: str, srt_path: str = None) -> dict:
     """运行完整质量检查（OpenMontage 风格多点自检）"""
     print(f"\n{'='*60}")
@@ -316,6 +361,16 @@ def run_full_check(video_path: str, srt_path: str = None) -> dict:
         print(f"\n  [4/5] 字幕检查: 跳过 (无SRT)")
         print(f"\n  [5/5] 字幕时间轴: 跳过 (无SRT)")
 
+    # 6. HTML 场景质量（CSS class 使用检查）
+    print(f"\n  [6/6] HTML 场景质量...")
+    compositions_dir = OUTPUT_DIR.parent / "hf_render_project" / "compositions"
+    results["html_quality"] = check_html_css_classes(str(compositions_dir))
+    hq = results["html_quality"]
+    status = "✅" if hq["ok"] else "⚠️"
+    print(f"    {status} class-only元素: {hq['info']['class_only_count']}/{hq['info']['total_scenes']} 场景有问题")
+    for issue in hq["issues"][:3]:  # 最多显示3个
+        print(f"      ⚠️ {issue}")
+
     # 汇总
     all_ok = all(
         r.get("ok", True)
@@ -323,6 +378,8 @@ def run_full_check(video_path: str, srt_path: str = None) -> dict:
     )
     if "subtitle_coverage" in results:
         all_ok = all_ok and results["subtitle_coverage"]["ok"]
+    if "html_quality" in results:
+        all_ok = all_ok and results["html_quality"]["ok"]
 
     total_issues = sum(len(r.get("issues", [])) for r in results.values())
     print(f"\n{'='*60}")

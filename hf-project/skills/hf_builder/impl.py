@@ -1374,6 +1374,27 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
         return tag
     body = _re_sg.sub(r'<div[^>]*class=["\']scene["\'][^>]*>', _fix_scene_wh, body)
 
+    # 校验 CSS class 使用：无 <style> 块时，class-only 元素需注入 style 兜底
+    if '<style' not in body.lower():
+        class_elements = _re_sg.findall(r'<\w+\b[^>]*\bclass="[^"]+"[^>]*>', body)
+        no_style_count = 0
+        for tag in class_elements:
+            if 'style="' not in tag and "style='" not in tag:
+                no_style_count += 1
+        if no_style_count > 0:
+            total_class_elems = len(class_elements)
+            print(f"    ⚠️ [Scene {sid}] {no_style_count}/{total_class_elems} 个 class 元素无内联 style (无 <style> 块)，注入 position:absolute 兜底")
+            def _inject_fallback_style(m):
+                tag = m.group(0)
+                if 'style="' in tag or "style='" in tag:
+                    return tag
+                return _re_sg.sub(r'(class="[^"]+")', r'\1 style="position:absolute"', tag, count=1)
+            body = _re_sg.sub(r'<\w+\b[^>]*\bclass="[^"]+"[^>]*>', _inject_fallback_style, body)
+        else:
+            total_class_elems = len(class_elements)
+            if total_class_elems > 0:
+                print(f"    ✅ [Scene {sid}] {total_class_elems} 个 class 元素均有内联 style，安全")
+
     # 确保 GSAP timeline 注册和 tl.play() 存在
     if 'window.__timelines' not in body:
         timeline_code = f'window.__timelines = window.__timelines || {{}};\n  window.__timelines["{composition_id}"] = tl;\n  tl.play();'

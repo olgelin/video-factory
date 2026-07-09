@@ -46,9 +46,23 @@
 
 与 edu 场景相同：scene div + GSAP script。script 规范：var tl 第一行、tl.play() 最后一行、每句 ; 结尾。
 
+## 输出格式 · 硬性规则
+
+**⚠️ CSS 规则（违反会导致画面崩溃）：**
+- **绝对禁止 CSS class 选择器**：不允许 `class="xxx"` 搭配 `<style>` 块定义样式。所有样式必须写在元素的 `style=""` 属性里。
+- class 属性**只能用于 GSAP 的选择器目标**（如 `class="card"` 用于 `tl.to('.card', ...)`），**不能**用于承载视觉样式。
+- 每个有 class 的元素**必须同时有** `style=""` 内联样式（至少包含 `position:absolute`）。
+- 例外：`class="scene"` 是唯一允许依赖外部 CSS 的类（由框架注入）。
+- **绝对禁止 `<style>` 块、`<link>` 标签**。
+
+**元素安全清单：**
+- 每个 `<div>` 必须写 `style="..."` 定位（`position:absolute` + `top/left/width/height` 或 `inset` 或 flex 布局）。
+- `opacity:0.01` (不是0) 作为 GSAP 入场前初始值。
+- 所有颜色值用具体色号 (#xxxxxx, rgba)，不用 CSS 变量。
+
 ## 禁止
 
-- `<style>` 块、`<br>`、`<img>`、外部资源
+- `<style>` 块、`<br>`、`<img>`、外部资源、CSS class 承载样式
 - opacity:0 作为初始状态
 - 粒子雨、扫光线、数字冲击（lyric_display 场景）
 - 教学场景禁止歌词大字

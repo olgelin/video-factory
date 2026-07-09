@@ -19,6 +19,25 @@ _PROMPTS_DIR = Path(__file__).parent / "prompts"
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
+def _repair_truncated_json(json_str: str) -> str:
+    """修复被截断的JSON数组：补上缺失的 } ] 等闭合符号"""
+    # 计算未闭合的括号
+    open_braces = json_str.count('{') - json_str.count('}')
+    open_brackets = json_str.count('[') - json_str.count(']')
+    if open_braces > 0 or open_brackets > 0:
+        # 移除最后一个可能不完整的对象
+        last_brace = json_str.rfind('{')
+        last_comma = json_str.rfind(',')
+        if last_brace > last_comma:
+            # 最后一个是未完成的对象，截掉它
+            cut = json_str.rfind(',', 0, last_brace)
+            if cut > 0:
+                json_str = json_str[:cut]
+        # 补闭合
+        json_str += '}' * open_braces + ']' * open_brackets
+    return json_str
+
+
 def _load_prompt(name: str) -> str:
     p = _PROMPTS_DIR / f"{name}.md"
     if not p.exists():
@@ -82,19 +101,21 @@ def run(context: dict) -> dict:
 - visual_type 从可用类型中选择
 - 每个概念必须包含教学相关的视觉元素 + 歌词文字
 - 输出恰好 20 个概念的 JSON 数组
-- 只输出 JSON，不要 markdown 代码块"""
+- **只输出 JSON 数组，不要任何解释、思考过程或 markdown 代码块**
+- **第一条必须是 "[",最后一个字符必须是 "]"**"""
 
     print(f"  [lyric-scene-designer] 为 {len(lyrics_lines)} 行歌词设计视觉概念...")
 
-    response = call_llm(prompt, system_prompt, max_tokens=4000)
+    response = call_llm(prompt, system_prompt, max_tokens=16000, temperature=0.3)
 
     # 解析
     concepts = []
     if response:
-        # DEBUG: 保存 raw 返回用于诊断
+        # DEBUG: 保存 raw 返回用于诊断（截断到 20KB）
         debug_path = OUTPUT_DIR / "lyric_scene_debug.txt"
-        debug_path.write_text(response, encoding="utf-8")
-        print(f"  [lyric-scene-designer] LLM 返回 {len(response)} 字符 → {debug_path}")
+        debug_path.write_text(response[:20000], encoding="utf-8")
+        has_more = len(response) > 20000
+        print(f"  [lyric-scene-designer] LLM 返回 {len(response)} 字符 → {debug_path}{' (截断)' if has_more else ''}")
 
         try:
             # 策略1: 直接找最外层 [...]（最可靠）
@@ -102,6 +123,8 @@ def run(context: dict) -> dict:
             end = response.rfind(']')
             if start >= 0 and end > start:
                 json_str = response[start:end+1]
+                # 尝试修复截断的JSON（补上缺失的闭合括号）
+                json_str = _repair_truncated_json(json_str)
                 concepts = json.loads(json_str)
         except json.JSONDecodeError as e:
             print(f"  [lyric-scene-designer] 策略1失败: {e}")
@@ -112,6 +135,23 @@ def run(context: dict) -> dict:
                     concepts = json.loads(m.group(1))
             except json.JSONDecodeError as e2:
                 print(f"  [lyric-scene-designer] 策略2失败: {e2}")
+                try:
+                    # 策略3: 在响应中逐行找JSON片段（处理thinking-model输出）
+                    # 找最后一个完整的JSON对象数组片段
+                    parts = response.split('\n')
+                    json_start = -1
+                    for i, line in enumerate(parts):
+                        if line.strip().startswith('[') and ('"visual_type"' in line or i > len(parts)*0.3):
+                            json_start = i
+                            break
+                    if json_start >= 0:
+                        fragment = '\n'.join(parts[json_start:])
+                        end2 = fragment.rfind(']')
+                        if end2 > 0:
+                            fragment = _repair_truncated_json(fragment[:end2+1])
+                            concepts = json.loads(fragment)
+                except json.JSONDecodeError as e3:
+                    print(f"  [lyric-scene-designer] 策略3失败: {e3}")
 
     if concepts:
         out_path = OUTPUT_DIR / "lyric_scenes.json"

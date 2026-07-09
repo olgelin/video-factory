@@ -640,15 +640,27 @@ def run(context: dict) -> dict:
                     lyric_concepts = json.load(f)
                 print(f"  [storyboard_lyric] 加载 {len(lyric_concepts)} 个歌词视觉概念")
             else:
-                # 兜底：内置 6 种视觉概念，避免退化到纯大字报
-                print(f"  ⚠️ [storyboard_lyric] lyric_scenes.json 不存在！使用内置兜底概念池")
+                # 兜底：内置视觉概念 + 教学数据注入，避免退化到纯大字报
+                print(f"  ⚠️ [storyboard_lyric] lyric_scenes.json 不存在！使用内置兜底概念池（含教学数据）")
+                # 从教学段提取关键知识点注入BGM场景
+                teaching_data = []
+                for section in script_data.get("voiceover_sections", []):
+                    tp = section.get("talking_point", "")[:60]
+                    if tp:
+                        teaching_data.append({"type": "tag", "text": tp})
+                # 提取核心句式/公式作为数据卡片
+                topic = script_data.get("topic", "")
+                core_data = [{"type": "title", "text": topic[:40]}]
+                if teaching_data:
+                    core_data = core_data + teaching_data[:4]
+                
                 lyric_concepts = [
-                    {"visual_type": "quote_hero", "concept": "知识点金句大字 + 发光背景", "mood": "激励、向上", "key_elements": [{"type": "title", "text": "核心知识点"}], "density_target": 6},
-                    {"visual_type": "explain_card", "concept": "概念卡片 + 图解", "mood": "专注、理解", "key_elements": [{"type": "card", "text": "概念拆解"}], "density_target": 7},
-                    {"visual_type": "compare", "concept": "对比展示", "mood": "思辨、对比", "key_elements": [{"type": "compare", "text": "对比"}], "density_target": 7},
-                    {"visual_type": "flow", "concept": "流程/步骤展示", "mood": "流畅、推进", "key_elements": [{"type": "flow", "text": "步骤"}], "density_target": 6},
-                    {"visual_type": "keyword_highlight", "concept": "关键词高亮 + 释义词条", "mood": "聚焦、记忆", "key_elements": [{"type": "keyword", "text": "关键词"}], "density_target": 7},
-                    {"visual_type": "data_impact", "concept": "数字冲击 + 意义阐释", "mood": "震撼、认知", "key_elements": [{"type": "number", "text": "数据"}], "density_target": 6},
+                    {"visual_type": "quote_hero", "concept": "知识点金句大字 + 发光背景", "mood": "激励、向上", "key_elements": [{"type": "title", "text": topic[:40]}, {"type": "tag", "text": "核心知识点"}], "density_target": 6},
+                    {"visual_type": "explain_card", "concept": "概念卡片 + 图解", "mood": "专注、理解", "key_elements": core_data[:3] + [{"type": "card", "text": "概念拆解"}], "density_target": 7},
+                    {"visual_type": "compare", "concept": "对比展示", "mood": "思辨、对比", "key_elements": [{"type": "compare", "text": "主动 vs 被动"}, {"type": "tag", "text": topic[:30]}], "density_target": 7},
+                    {"visual_type": "flow", "concept": "流程/步骤展示", "mood": "流畅、推进", "key_elements": core_data[:2] + [{"type": "flow", "text": "步骤"}], "density_target": 6},
+                    {"visual_type": "keyword_highlight", "concept": "关键词高亮 + 释义词条", "mood": "聚焦、记忆", "key_elements": [{"type": "keyword", "text": "be + done"}, {"type": "tag", "text": "被动语态"}], "density_target": 7},
+                    {"visual_type": "data_impact", "concept": "数字冲击 + 意义阐释", "mood": "震撼、认知", "key_elements": core_data[:3] + [{"type": "number", "text": "+40%"}], "density_target": 6},
                 ]
             
             t = voice_end
