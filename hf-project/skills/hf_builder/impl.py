@@ -1422,8 +1422,7 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
         if not fg_rgb or not bg_rgb:
             return tag
         dist = abs(fg_rgb[0]-bg_rgb[0]) + abs(fg_rgb[1]-bg_rgb[1]) + abs(fg_rgb[2]-bg_rgb[2])
-        dist = abs(fg_nums[0]-bg_nums[0]) + abs(fg_nums[1]-bg_nums[1]) + abs(fg_nums[2]-bg_nums[2])
-        if dist < 80 and bg_nums[0]+bg_nums[1]+bg_nums[2] > 30:
+        if dist < 80 and bg_rgb[0]+bg_rgb[1]+bg_rgb[2] > 30:
             # 同色系碰撞 — 替换文字颜色为纯白
             tag = _re_sg.sub(r'color:\s*[^;"]+', 'color:#ffffff', tag, count=1)
             _hue_fixes += 1
