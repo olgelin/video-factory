@@ -45,11 +45,13 @@ _INTERMEDIATE_FILES = [
     "storyboard.json",
     "design.md",
     "design_specs.json",
+    "design_system.json",
     "lyrics.txt",
     "pipeline_context.json",
     "cost_log.json",
     "quality_check.json",
     "quality_scores.json",
+    "visual_check.json",
 ]
 
 # 数据文件 → 话题字段映射（用于一致性检查）
@@ -269,10 +271,12 @@ def run_pipeline(
     pipeline_name: str = "short_video",
     topic: str = None,
     script: str = None,
+    speech: str = None,
     steps: str = "1-13",
     skip_voice: bool = False,
     skip_bgm: bool = False,
     vertical: bool = False,
+    supersample: bool = False,
     no_feedback: bool = False,
     cost_tracker=None,
     clean: bool = False,
@@ -343,6 +347,7 @@ def run_pipeline(
         "video_width": video_width,
         "video_height": video_height,
         "video_style": manifest.get("video_style", "news"),  # V6: edu/news 样式标记
+        "supersample": supersample,  # V6: 2x 超采样渲染
     }
 
     # 加载已保存的 context（V5.5: 话题不匹配时仅加载结构字段）
@@ -378,6 +383,18 @@ def run_pipeline(
                 with open(topic_file, encoding="utf-8") as f:
                     td = json.load(f)
                 context["topic"] = td.get("selected_topic") or td.get("topic", "")
+            except Exception:
+                pass
+    # speech 模式下从 step03_script.json 补全 topic
+    if speech and (not context.get("topic") or context.get("topic") == "测试"):
+        script_file = OUTPUT_DIR / "step03_script.json"
+        if script_file.exists():
+            try:
+                with open(script_file, encoding="utf-8") as f:
+                    sd = json.load(f)
+                script_topic = sd.get("topic", "")
+                if script_topic:
+                    context["topic"] = script_topic
             except Exception:
                 pass
 
@@ -437,6 +454,15 @@ def run_pipeline(
             json.dumps(script_data, ensure_ascii=False, indent=2)
         )
 
+    # 处理 --speech（口语转视频：自动切换 pipeline + 写入口语文本）
+    if speech:
+        # 保存原始口语
+        speech_file = OUTPUT_DIR / "speech_input.txt"
+        speech_file.write_text(speech, encoding="utf-8")
+        # 注入 context 供 speech_processor 使用
+        context["speech_text"] = speech
+        print(f"  🎙️ 口语模式: 已保存原始输入 ({len(speech)} 字)")
+
     # 按 phase 分组
     stages = manifest.get("stages", [])
     phase_groups: dict[str, list[dict]] = {}
@@ -448,6 +474,8 @@ def run_pipeline(
         if topic and stage["name"] in ("topic_scout", "topic_selector"):
             continue
         if script and stage["name"] in ("topic_scout", "topic_selector", "script_writer"):
+            continue
+        if speech and stage["name"] in ("topic_scout", "topic_selector", "script_writer"):
             continue
         if skip_voice and stage["name"] == "voice_gen":
             continue

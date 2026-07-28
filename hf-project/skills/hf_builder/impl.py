@@ -65,6 +65,14 @@ def load_design_specs(project_root: Path) -> dict:
         specs = json.load(f)
     return {s.get("scene_id", i+1): s for i, s in enumerate(specs)}
 
+def load_design_system_json(project_root: Path) -> dict:
+    """V6: 加载结构化设计系统 design_system.json"""
+    p = project_root / "output" / "design_system.json"
+    if not p.exists():
+        return {}
+    with open(p, encoding="utf-8") as f:
+        return json.load(f)
+
 
 # ============================================================
 # 场景 HTML 生成 — LLM 原创构建
@@ -171,6 +179,18 @@ gsap.to("#main-number", {{
 - 8-12+ 个可见元素: 标题(80-120px+发光)、数据卡片(圆角+边框+大字号数字)、进度条、标签pill、装饰层、趋势箭头
 - 每个场景至少2-3个装饰层: grid网格线、发光光晕、ghost text水印(3-8%透明度)、扫描线
 - 颜色用 design.md 配色方案
+
+## ⚠️ V6 动画铁律（10条，违反=渲染失败）
+1. **禁止线性过渡 (No linear transitions)**: 所有动画必须使用弹性缓动曲线。入场用 `back.out(1.7)` 或 `power3.out`，出场用 `power4.in`，呼吸用 `sine.inOut`。禁止 `linear`、`none`、`power1`。
+2. **三属性入场 (3 property changes)**: 每个元素的入场动画必须同时改变至少3个CSS属性（如 position + scale + opacity），禁止只有opacity的单属性淡入。示例: `tl.from(el, {{opacity:0, y:60, scale:0.8, duration:0.8, ease:"back.out(1.7)"}})`
+3. **交错子元素 (Stagger children 3-6 frames)**: 同一场景内的子元素必须交错入场，间隔0.05-0.10s（约3-6帧@60fps）。用GSAP `stagger: 0.08` 属性。
+4. **快出慢入 (Exit faster than entrance)**: 出场动画必须比入场快。入场0.6-1.0s，出场0.2-0.4s。禁止入场和出场速度相同。
+5. **五层视觉栈 (5-layer visual stack)**: 每个场景必须有5层结构：背景渐变(z:0)→素材/图片(z:1)→图形/卡片(z:2)→色彩分级叠加(z:3)→胶片颗粒(z:4)。禁止少于3层。
+6. **呼吸动画 (Subtle breathing on static elements)**: 所有静态元素必须添加 subtle breathing animation: `scale 1.0→1.015→1.0, duration 3-4s, repeat:-1, yoyo:true, ease:"sine.inOut"`。
+7. **肯伯恩斯效果 (Ken Burns effect on static images)**: 所有静态图片/背景必须使用 Ken Burns 效果——缓慢缩放+平移: `tl.from(img, {{scale:1.0, x:0, duration:DURATION, ease:"none"}}); gsap.to(img, {{scale:1.08, x:-15, duration:DURATION, ease:"none"}})`
+8. **逐词/逐字文本出现 (Word-by-word or char-by-char text reveal)**: 标题和正文文字必须逐词或逐字出现，使用GSAP SplitText或手动span+stagger。禁止整行同时出现。
+9. **柔和场景转场 (Wipe or crossfade, never hard cut)**: 场景之间必须使用 擦除(wipe) 或 交叉淡入淡出(crossfade 0.3-0.5s)，禁止生硬切换(hard cut)。第一个场景的入场和最后一个场景的出场除外。
+10. **遵循设计系统配色 (Colors follow design system)**: 所有颜色必须来自 design.md 中定义的配色方案。禁止在CSS中使用硬编码颜色（如 `#ff0000`、`blue`、`green`）。核心数据用主色/强调色，标签用次要文字色。
 
 ## 动态数据具象化（每个场景必须包含以下至少3种）
 - **数字冲击动画**: 核心数据出现时必须有"冲击效果"——数字从远处飞入(scale:2→1)+发光脉动(text-shadow强度0→50px→30px)+周围粒子扩散
@@ -532,6 +552,11 @@ def _auto_fix_taste(html: str, accent: str = "#C1121F") -> str:
         r'(style="[^"]*)opacity:\s*0\s*;?\s*', r'\\1', html
     )
     html = re.sub(r'style="\s*"', '', html)
+
+    # 5. CSS 语法错误自动修复（LLM 常见 typo）
+    html = re.sub(r';\s*([a-z-]+)-(\d)', r'; \1:\2', html)  # left-82% → left:82%
+    html = re.sub(r';\s*([a-z-]+)>(-?\d)', r'; \1:\2', html)  # top>-42% → top:-42%
+    html = re.sub(r'"\s+style="', '" style="', html)  # 双 style 属性
 
     return html
 
@@ -1612,13 +1637,8 @@ def _inject_film_overlay(html: str, color_grade: dict, W: int, H: int) -> str:
     film_html = _build_film_overlay(W, H, color_grade)
     if not film_html:
         return html
-    # 在 </div> 之前（场景容器末尾）注入
-    # 找 scene div 的闭合标签前
-    marker = 'overflow:hidden;">'
-    if marker in html:
-        # 在场景div的开标签后、body_html之前有 content，在场景div的闭合前注入
-        # 简单策略：在 </body> 前注入
-        html = html.replace("</body>", film_html + "</body>")
+    # 在 </body> 前注入覆盖层
+    html = html.replace("</body>", film_html + "</body>")
     return html
 
 
@@ -1727,9 +1747,10 @@ def build_intro_html(topic: str) -> str:
 </html>'''
 
 
-def build_outro_html() -> str:
+def build_outro_html(topic: str = "") -> str:
     """构建片尾HTML — V15 风格：3D透视网格 + 粒子雨 + 扫光 + 地平线辉光 + 中文水印"""
-    return r'''<!DOCTYPE html>
+    topic_short = topic[:10] if topic else "本期话题"
+    html = r'''<!DOCTYPE html>
 <html data-composition-id="beat-outro" data-width="1920" data-height="1080" style="background:#060618;">
 <head>
 <meta charset="UTF-8">
@@ -1803,6 +1824,9 @@ def build_outro_html() -> str:
 </script>
 </body>
 </html>'''
+    # 注入实际话题名替换硬编码占位
+    html = html.replace("文化边界", topic_short)
+    return html
 
 
 def build_index_html(scenes: list, topic: str = "") -> str:
@@ -1877,9 +1901,11 @@ def run(context: dict) -> dict:
 
     design_md = load_design_system(project_root)
     design_specs = load_design_specs(project_root)
+    design_system_json = load_design_system_json(project_root)  # V6
     context["_design_md"] = design_md
     context["_design_specs"] = design_specs
-    print(f"[hf_builder] design.md: {len(design_md)} chars | specs: {len(design_specs)} scenes")
+    context["_design_system"] = design_system_json  # V6
+    print(f"[hf_builder] design.md: {len(design_md)} chars | specs: {len(design_specs)} scenes | design_system.json: {'loaded' if design_system_json else 'N/A'}")
 
     # V5.8: 加载电影级设计JSON
     cg_path = context.get("color_grade_path") or str(output_dir / "color_grade.json")
@@ -2050,7 +2076,7 @@ def run(context: dict) -> dict:
 
     # 生成片尾HTML（没有片头）
     compositions_dir.mkdir(parents=True, exist_ok=True)  # 确保目录存在
-    outro_html = build_outro_html()
+    outro_html = build_outro_html(topic)
     with open(compositions_dir / "beat-outro.html", "w", encoding="utf-8") as f:
         f.write(outro_html)
     print(f"[hf_builder] 片尾已生成")

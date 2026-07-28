@@ -220,7 +220,7 @@ def run(context: dict) -> dict:
         "palette": palette_key,
         "palette_name": palette["name"],
         "post": {
-            "letterbox": True, "letterbox_height": "10vh",
+            "letterbox": True, "letterbox_height": "5vh",
             "grain_enabled": True, "grain_opacity": palette["grain_intensity"],
             "vignette_enabled": True, "scanlines": palette["scanlines"],
         },

@@ -501,8 +501,57 @@ def run(context):
         json.dump(specs, f, ensure_ascii=False, indent=2)
     print(f"  [design-system] 已保存specs: {specs_path} ({len(specs)}个场景)")
 
+    # === V6: 生成 design_system.json（hf_builder 直接消费的结构化设计系统）===
+    atmosphere = style.get("atmosphere", [])
+    donts = style.get("donts", [])
+    design_system = {
+        "palette": {
+            "background": c["background"],
+            "primary": c["primary"],
+            "accent": c["accent"],
+            "data": c.get("data", c["accent"]),
+            "text": c["text"],
+            "text_secondary": c["text_secondary"],
+        },
+        "fonts": {
+            "headline": {
+                "family": t["headline"]["fontFamily"],
+                "size": t["headline"]["fontSize"],
+                "weight": t["headline"]["fontWeight"],
+            },
+            "body": {
+                "family": t["body"]["fontFamily"],
+                "size": t["body"]["fontSize"],
+                "weight": t["body"]["fontWeight"],
+            },
+            "data": {
+                "family": t["data"]["fontFamily"],
+                "size": t["data"]["fontSize"],
+                "weight": t["data"]["fontWeight"],
+            },
+        },
+        "animation_style": {
+            "energy": m["energy"],
+            "entry_easing": m["entry_easing"],
+            "exit_easing": m["exit_easing"],
+            "atmosphere": atmosphere,
+        },
+        "tone": {
+            "mood": style["mood"],
+            "best_for": style["best_for"],
+            "donts": donts,
+        },
+        "style_key": used,
+        "style_name": style["name"],
+    }
+    ds_path = OUTPUT_DIR / "design_system.json"
+    with open(ds_path, "w", encoding="utf-8") as f:
+        json.dump(design_system, f, ensure_ascii=False, indent=2)
+    print(f"  [design-system] 已保存 design_system.json: {ds_path}")
+
     context["design_md_path"] = str(DESIGN_PATH)
     context["design_specs_path"] = str(specs_path)
+    context["design_system_path"] = str(ds_path)
     context["design_style"] = style["name"]
     context["design_style_key"] = used
     return context

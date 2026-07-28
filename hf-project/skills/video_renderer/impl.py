@@ -83,14 +83,15 @@ def _simplify_composition_gsap(project_dir: str, clip_src: str) -> bool:
     return False
 
 
-def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
-    """运行HyperFrames渲染（分段渲染+拼接，避免Set maximum size exceeded）"""
+def run_hyperframes_render(project_dir: str, output_path: str, supersample: bool = False) -> bool:
+    """运行HyperFrames渲染（分段渲染+拼接，避免Set maximum size exceeded）
+    V6: supersample=True 时渲染2x分辨率后缩放到1080p"""
     import re
     import json
     import tempfile
     import shutil
     
-    print(f"  [video-renderer] 渲染: {project_dir}")
+    print(f"  [video-renderer] 渲染: {project_dir}" + (" (2x supersample)" if supersample else ""))
     
     # 读取index.html解析所有composition clips
     index_path = Path(project_dir) / "index.html"
@@ -136,8 +137,9 @@ def run_hyperframes_render(project_dir: str, output_path: str) -> bool:
             continue
         shutil.copy2(comp_src_path, standalone_dir / "index.html")
         
-        # 使用 standalone 目录渲染
-        cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --gpu'
+        # V6: Supersample — 添加 --scale 2 渲染2x分辨率
+        scale_flag = " --scale 2" if supersample else ""
+        cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --gpu{scale_flag}'
         
         try:
             result = subprocess.run(
@@ -307,7 +309,8 @@ def run(context: dict) -> dict:
     _validate_html_structure(project_dir)
 
     # 渲染
-    success = run_hyperframes_render(project_dir, str(VIDEO_PATH))
+    supersample = context.get("supersample", False)
+    success = run_hyperframes_render(project_dir, str(VIDEO_PATH), supersample=supersample)
 
     if success:
         # 获取视频信息

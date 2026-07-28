@@ -1,114 +1,88 @@
-# 🎬 Video Factory v5
+# Video Factory
 
-AI 驱动的短视频自动化生产流水线 — 从热点采集到成品视频，13 步全自动。
+输入一个话题（或一段口述），自动生成一条完整的短视频（文案 → 配音 → BGM → 画面 → 渲染成品）。
 
-## 🚀 快速开始
+## 它能做什么
 
-### 环境要求
-- Python 3.11+ / FFmpeg / Node.js 22+ (HyperFrames)
-- 火山引擎 Ark API Key（LLM 调用）
+Video Factory 是一条全自动视频生产线。支持多种管道：
 
-### 运行
+| 管道 | 触发方式 | 用途 |
+|------|---------|------|
+| **short_video**（默认） | `python run.py --topic "话题"` | 新闻资讯短视频，自动选题→脚本→画面→成品 |
+| **speech_to_video** | `python run.py --speech "口述文本"` | 口语转视频，深度理解口述内容后生成脚本+画面 |
+| **edu_video** | `python run.py --pipeline edu_video --topic "话题"` | 教育短视频，白板风格+知识点卡片 |
+| **edu_music** | `python run.py --pipeline edu_music --topic "话题"` | 音乐学习视频，教学+歌词展示双模式 |
+
+## 最近更新（2026-07-28）
+
+### 🎮 Three.js 真 3D 渲染
+- 所有管道的画面生成支持 Three.js/WebGL 真 3D 元素
+- news 管道：5 种 3D 技法（3D 几何背景、GPU 粒子、3D 柱状图、发光环、GLSL Bloom 辉光后期）
+- edu 管道：STEM 内容可选 3D 分子/几何模型辅助演示
+- edu_music 管道：歌词场景可选 3D 音乐可视化（频谱粒子/光环）
+- 通过 HyperFrames（Puppeteer+Chromium）确定性渲染，帧精确无闪烁
+- 3D 元素与 CSS 标题/卡片分层叠加，互不干扰
+
+### 🔧 Bug 修复
+- letterbox 宽银幕黑边从 108px 缩小到 54px，不再遮挡标题
+- film overlay（暗角/颗粒/黑边）注入逻辑修复，不再静默跳过部分场景
+- CSS typo 自动修复（`translatex→translateX` 等）
+- 片尾话题名传递修复，不再显示"测试"
+- speech_processor 升级：从表面清洗升级为深度语义理解+数据补全+情绪拆解
+
+## 安装
 
 ```bash
 cd video-factory
+pip install -r requirements.txt
 
-# 完整跑一条（自动选题→成品视频）
-python run.py
+# 外部工具（需要单独安装）
+# - Node.js 22+（HyperFrames 渲染）
+# - FFmpeg（音视频处理）
+```
 
-# 指定话题
-python run.py --topic "你的话题"
+## 运行
 
-# 只跑渲染（前面步骤已有产出）
-python run.py --topic "你的话题" --steps 10-12
+```bash
+# 新闻短视频（自动选题）
+python run.py --topic "话题"
 
-# 竖屏模式
-python run.py --topic "你的话题" --vertical
+# 口语转视频
+python run.py --speech "你的口述内容..."
 
-# 列出可用 pipeline
+# 教育视频
+python run.py --pipeline edu_video --topic "知识点"
+
+# 只跑渲染步骤（前面产物已有）
+python run.py --topic "话题" --steps 10-13
+
+# 列出所有可用管道
 python run.py --list
 ```
 
-## 📁 项目结构
+## 你会得到什么
+
+在 `hf-project/output/` 目录下：
+
+- `step11_final.mp4` — 最终成品视频（带配音、BGM、字幕、画面）
+- `step10_video.mp4` — 纯画面（无字幕版本）
+- `step05_voice.wav` — AI 配音音频
+- `bgm.wav` — 背景音乐
+- `captions.srt` — 字幕文件
+- `pipeline_context.json` — 完整管线上下文
+- `cost_log.json` — API 费用明细
+
+## 项目结构
 
 ```
 video-factory/
-├── run.py                          ← 新入口（推荐）
-├── pipeline_loader.py              ← YAML 驱动执行引擎
-├── pipeline_defs/
-│   └── short_video.yaml            ← Pipeline 定义（改流程改这里）
+├── run.py                 ← 入口
+├── pipeline_loader.py     ← YAML 驱动执行引擎
+├── pipeline_defs/         ← 管道 YAML 定义（4 套）
 ├── hf-project/
-│   ├── provider.py                 ← LLM Provider 抽象（自动发现+智能路由）
-│   ├── cost_tracker.py             ← API 费用追踪
-│   ├── llm_utils.py                ← 向后兼容层
-│   ├── skills/                     ← 13 个独立 skill
-│   │   ├── topic_scout/            ← 热点采集
-│   │   ├── topic_selector/         ← 选题评估
-│   │   ├── script_writer/          ← 口播脚本
-│   │   ├── lyrics_writer/          ← 歌词创作
-│   │   ├── voice_gen/              ← VoxCPM2 配音
-│   │   ├── transcriber/            ← FunASR 转录+字幕
-│   │   ├── bgm_generator/          ← ACE-Step BGM
-│   │   ├── design_system/          ← 视觉设计系统
-│   │   ├── storyboard/             ← 分镜设计
-│   │   ├── hf_builder/             ← HTML 场景生成
-│   │   ├── video_renderer/         ← HyperFrames 渲染
-│   │   ├── audio_mixer/            ← FFmpeg 音视频混合
-│   │   └── video_upscaler/         ← Video2X 高清修复
-│   └── output/                     ← 产物目录
-├── tools/                          ← 本地工具（各自独立 venv）
-│   ├── voxcpm/                     ← VoxCPM2 配音引擎
-│   ├── acestep/                    ← ACE-Step 1.5 BGM 引擎
-│   ├── transcriber/                ← FunASR 转录引擎
-│   └── video2x/                    ← Video2X 高清修复
-├── core/                           ← 基础设施
-├── docs/                           ← 文档
-└── main_full.py                    ← 旧入口（保留兼容）
+│   ├── prompts/           ← LLM 提示词（news/edu/edu_music）
+│   ├── skills/            ← 独立模块
+│   └── output/            ← 所有产物
+├── tools/                 ← 本地工具
+└── skills/                ← 自定义 skill（speech_processor 等）
 ```
-
-## 🎯 核心特性
-
-- **13 步全自动** — 热点采集→选题→脚本→配音→BGM→设计→分镜→渲染→混音
-- **YAML 驱动** — 改流程只需编辑 `pipeline_defs/short_video.yaml`
-- **智能 LLM 路由** — 5 个模型自动发现，按任务类型选最优
-- **工具隔离** — ACE-Step/VoxCPM/Transcriber 各自独立 venv，升级互不影响
-- **费用追踪** — 每次调用自动记录，输出 `cost_log.json`
-- **429 保护** — 令牌桶限流 + 自动重试
-
-## 🔧 日常维护
-
-### 换模型
-编辑 `E:\Hermes-Agent\config.yaml`：
-```yaml
-model:
-  default: deepseek-v4-pro,deepseek-v4-flash,glm-5.2,minimax-m3
-```
-
-### 加新步骤
-在 `pipeline_defs/short_video.yaml` 加一段 YAML，然后在 `hf-project/skills/` 下写 `impl.py`。
-
-### 升级本地工具
-```bash
-cd tools/acestep
-.venv/Scripts/pip install --upgrade ace-step
-.venv/Scripts/python cli.py --help  # 测试
-```
-
-## 📖 文档
-
-- [架构设计](docs/ARCHITECTURE_V5.md) — V5 架构详解
-- [维护指南](docs/MAINTENANCE.md) — 日常维护操作手册
-- [视觉提升路线图](docs/VISUAL_ROADMAP.md) — 画面质量提升计划
-
-## 📄 版本历史
-
-| 版本 | 日期 | 主要变化 |
-|------|------|----------|
-| v5.0 | 2026-06 | YAML 驱动 + Provider 抽象 + 费用追踪 |
-| v4.3 | 2026-06 | 工具隔离（独立 venv）+ 质量修复 |
-| v4.0 | 2026-05 | 14 步 pipeline + HyperFrames 引擎 |
-| v3.0 | 2026-04 | 15 skill 模块化 |
-
-## 📄 License
-
-MIT

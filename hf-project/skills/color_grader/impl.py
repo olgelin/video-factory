@@ -126,7 +126,7 @@ PALETTES = {
 # 通用电影后期参数
 FILM_POST = {
     "letterbox": True,          # 宽银幕上下黑边
-    "letterbox_height": "10vh", # 黑边高度
+    "letterbox_height": "5vh",  # 黑边高度（54px，对齐内容安全区）
     "grain_enabled": True,      # 胶片颗粒
     "grain_opacity": 0.04,      # 颗粒不透明度（会被方案覆盖）
     "vignette_enabled": True,   # 暗角

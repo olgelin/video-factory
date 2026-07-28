@@ -103,6 +103,52 @@ BGM 完整播放时的歌词画面。必须与教学场景在视觉上完全区�
 - 光点粒子：8-12 个小光点缓慢上浮
 - 禁止网格线、禁止 ghost text 水印、禁止数据卡片
 
+### Three.js 音乐可视化（可选，替代 CSS 波形条）
+
+CSS 波形条较简陋，可选用以下 3D 替代方案提升沉浸感：
+
+**频谱粒子场**（1000+ 粒子随 BGM 节奏脉动）：
+```html
+<canvas id="viz3d" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from "three";
+const c=document.getElementById("viz3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true});
+r.setSize(1920,1080,false); r.setPixelRatio(1);
+const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(55,1920/1080,0.1,50);
+cam.position.z=8;
+const COUNT=1500, pos=new Float32Array(COUNT*3);
+for(let i=0;i<COUNT;i++){pos[i*3]=(Math.random()-0.5)*14;pos[i*3+1]=(Math.random()-0.5)*10;pos[i*3+2]=(Math.random()-0.5)*4;}
+const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(pos,3));
+const pts=new THREE.Points(g,new THREE.PointsMaterial({size:0.03,color:0xF39C12,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:0.6}));
+s.add(pts);
+function renderAt(t){pts.rotation.y=t*0.1;pts.scale.setScalar(1+Math.sin(t*3)*0.15);r.render(s,cam);}
+window.addEventListener("hf-seek",e=>renderAt(e.detail.time));
+renderAt(window.__hfThreeTime||0);
+</script>
+```
+
+**频谱光环**（多层圆环随节奏扩展/收缩）：
+```html
+<canvas id="rings3d" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
+<script type="module">
+import * as THREE from "three";
+const c=document.getElementById("rings3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+r.setSize(1920,1080,false); r.setPixelRatio(1);
+const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(45,1920/1080,0.1,30);
+cam.position.set(0,0,10);
+const rings=[];
+for(let i=0;i<4;i++){const torus=new THREE.Mesh(new THREE.TorusGeometry(1.5+i*0.8,0.03,16,100),new THREE.MeshBasicMaterial({color:0xF39C12,transparent:true,opacity:0.5-i*0.1}));s.add(torus);rings.push(torus);}
+function renderAt(t){rings.forEach((r,i)=>{r.rotation.z=t*0.4+i*0.5;r.scale.setScalar(1+Math.sin(t*2+i)*0.1);});r.render(s,cam);}
+window.addEventListener("hf-seek",e=>renderAt(e.detail.time));
+renderAt(window.__hfThreeTime||0);
+</script>
+```
+
+⚠️ 3D 可视化放 z-index 低层，歌词文字仍然在高层用 CSS+GSAP 动画，互不干扰。
+
 ### 歌词排版
 
 - 当前行：80-96px，加粗，主色 + text-shadow 发光 (#F39C12 或 #3498DB)

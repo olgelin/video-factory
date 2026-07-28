@@ -76,10 +76,12 @@ def main():
     parser.add_argument("--pipeline", default="short_video", help="Pipeline 名称")
     parser.add_argument("--topic", help="视频话题")
     parser.add_argument("--script", help="直接提供文案（文件路径或内联文本）")
+    parser.add_argument("--speech", help="口语转视频：直接说一段话，引擎帮你整理成脚本并做成视频")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音")
     parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM")
     parser.add_argument("--steps", default="1-13", help="步骤范围")
     parser.add_argument("--vertical", action="store_true", help="竖屏模式")
+    parser.add_argument("--supersample", action="store_true", help="V6: 2x 超采样渲染（渲染4K→缩放到1080p）")
     parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
     parser.add_argument("--no-cost", action="store_true", help="禁用成本追踪")
     parser.add_argument("--clean", action="store_true", help="清理 output/ 中间文件后运行")
@@ -104,15 +106,21 @@ def main():
         )
         print(f"💰 成本追踪已启用 (预算: $2.00)")
 
+    # --speech 自动切换到 speech_to_video 管道
+    if args.speech:
+        args.pipeline = "speech_to_video"
+
     # 执行 pipeline
     run_pipeline(
         pipeline_name=args.pipeline,
         topic=args.topic,
         script=args.script,
+        speech=args.speech,
         steps=args.steps,
         skip_voice=args.skip_voice,
         skip_bgm=args.skip_bgm,
         vertical=args.vertical,
+        supersample=args.supersample,
         no_feedback=args.no_feedback,
         cost_tracker=cost_tracker,
         clean=args.clean,

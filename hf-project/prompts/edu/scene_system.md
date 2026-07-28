@@ -85,6 +85,41 @@ JSON 对象，字段说明：
 - 关键词爆炸：核心词汇居中放大 + 释义 + 用法气泡
 - 总结网格：2×2 或 3×2 卡片网格
 
+## 🎮 3D 辅助演示（STEM 内容可选，非必须）
+
+数学、物理、化学等 STEM 内容可以用简单的 3D 模型辅助理解。以下 2 个模式温和不抢戏，放在卡片后面做背景。
+
+⚠️ 仅用于 explain_card / step_reveal 类型；example_showcase / practice_prompt 不需要。
+
+### 分子/几何模型
+```html
+<canvas id="model3d" style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.6;"></canvas>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from "three";
+const c=document.getElementById("model3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+r.setSize(1920,1080,false); r.setPixelRatio(1);
+const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(40,1920/1080,0.1,30);
+cam.position.set(0,0.5,6);
+// 示例：正十二面体（数学课用），化学课可换成球+棍分子模型
+const geo=new THREE.DodecahedronGeometry(1.2,0);
+const mat=new THREE.MeshStandardMaterial({color:0x2980B9,roughness:0.5,metalness:0.05});
+const mesh=new THREE.Mesh(geo,mat); s.add(mesh);
+s.add(new THREE.AmbientLight(0xffffff,1.8));
+s.add(new THREE.DirectionalLight(0xffffff,2).translateY(3).translateX(1));
+function renderAt(t){mesh.rotation.y=t*0.25;mesh.rotation.x=Math.sin(t*0.3)*0.1;r.render(s,cam);}
+window.addEventListener("hf-seek",e=>renderAt(e.detail.time));
+renderAt(window.__hfThreeTime||0);
+</script>
+```
+
+### 柔和 3D 标签（带文字的 3D 示意图）
+给几何体加 CSS 标注线（用 div 画线+文字），3D 物体在背景缓慢旋转，标注固定在卡片层上方。CSS 标注和 3D 模型用 z-index 分层即可。
+
+⚠️ 3D 仅作背景辅助，知识点卡片仍然在高层独立展示。所有动效缓慢（rotation 速度 ≤0.3），配色用教育暖色系。
+
 ## 动效（教育场景：缓慢、清晰、不炫技）
 
 - 入场动画：tl.from/tl.fromTo，stagger 0.2-0.3s（比新闻慢一倍）

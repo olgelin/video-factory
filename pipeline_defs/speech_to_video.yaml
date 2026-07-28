@@ -1,27 +1,36 @@
-# video-factory Pipeline Definition — 短视频资讯全自动生产线 V6
-# 15步流程：选题 → 剧本 → 配音(先行) → 歌词+设计 → 转录+BGM → 分镜 → 视觉设计 → 场景 → 渲染 → 高清 → 混音 → 视觉校验
+# video-factory Pipeline Definition — 口语转视频 V1
+# 与 short_video 完全同构，唯一区别在 Phase 1：
+#   topic_scout → topic_selector → script_writer
+#   替换为
+#   speech_processor（口语清洗→纠错→提炼→结构化脚本）
 #
-# V6 执行策略：
-#   Phase 1 (串行): topic_scout → topic_selector → script_writer
-#   Phase 1.5 (串行): voice_gen (先行配音获取精确时长)
+# Phase 1.5 起完全复用 short_video 的配音/分镜/渲染/混音管线
+#
+# V1 执行策略：
+#   Phase 1 (串行): speech_processor（口语→脚本）
+#   Phase 1.5 (串行): voice_gen（先行配音获取精确时长）
 #   Phase 2 (并行): lyrics_writer + design_system
 #   Phase 3 (并行): transcriber + bgm_generator
-#   Phase 3.5 (串行): storyboard (依赖配音精确时长)
+#   Phase 3.5 (串行): storyboard（依赖配音精确时长）
 #   Phase 3.6 (串行): color_grader → layout_composer → motion_director → depth_composer
-#   Phase 4 (串行): hf_builder → quality_scorer → video_renderer (支持2x超采样) → video_upscaler → audio_mixer → quality_checker
-#   Phase 4.5 (串行): visual_checker (LLM vision 帧校验)
+#   Phase 4 (串行): hf_builder → quality_scorer → video_renderer → video_upscaler → audio_mixer → quality_checker
+#   Phase 4.5 (串行): visual_checker
 
-name: short-video-news
-version: "6.0"
+name: speech-to-video
+version: "1.0"
 description: >
-  短视频资讯全自动生产线。从热点采集到成品视频，全流程自动化。
-  基于 HyperFrames 渲染引擎，产出 1080p 横屏或竖屏资讯短视频。
-category: news-short
-stability: production
+  口语转视频。你把想说的话说出来（哪怕是碎片、啰嗦、有错词），
+  引擎帮你清洗整理、纠正错误、理清逻辑，然后自动配音+动画+渲染成成品视频。
+  基于 HyperFrames 渲染引擎，产出 1080p 横屏或竖屏短视频。
+category: speech-short
+stability: beta
+
+# 视频样式标记
+video_style: news
 
 # 渲染引擎
 render_runtime: hyperframes
-renderer_family: news-explain
+renderer_family: speech-explain
 
 # 视频规格
 output:
@@ -39,9 +48,9 @@ budget:
   total_usd: 2.00
   reserve_pct: 0.10
 
-# 关键步骤：失败时必须产出文件，否则终止 pipeline
+# 关键步骤
 critical_checks:
-  script_writer: "output/step03_script.json"
+  speech_processor: "output/step03_script.json"
   voice_gen: "output/step05_voice.wav"
   hf_builder: "hf_render_project/compositions/beat-*.html"
   video_renderer: "output/step10_video.mp4"
@@ -51,46 +60,14 @@ critical_checks:
 # Pipeline 阶段定义
 # ============================================================
 stages:
-  # ── Phase 1: 串行 ──
-  - name: topic_scout
+  # ── Phase 1: 口语处理（替代 topic_scout + topic_selector + script_writer）──
+  - name: speech_processor
     step: 1
-    skill: topic_scout
+    skill: speech_processor
     phase: 1
     parallel_group: null
-    description: "多平台热点采集、去重、交叉验证"
+    description: "口语清洗 → 纠错 → 提炼核心观点 → 结构化脚本"
     input: []
-    produces:
-      - output/topic_research.json
-    provider: llm
-    provider_task: research
-    checkpoint_required: false
-    timeout: 300
-    retry: 2
-
-  - name: topic_selector
-    step: 2
-    skill: topic_selector
-    phase: 1
-    parallel_group: null
-    description: "多维度评估热点，选出最佳选题"
-    input:
-      - output/topic_research.json
-    produces:
-      - output/topic_selected.json
-    provider: llm
-    provider_task: selection
-    checkpoint_required: false
-    timeout: 300
-    retry: 2
-
-  - name: script_writer
-    step: 3
-    skill: script_writer
-    phase: 1
-    parallel_group: null
-    description: "根据选题生成口播脚本"
-    input:
-      - output/topic_selected.json
     produces:
       - output/step03_script.json
     provider: llm
@@ -100,7 +77,7 @@ stages:
     retry: 2
     critical: true
 
-  # ── Phase 1.5: 配音先行（V6 reorder: voice before design/storyboard for accurate durations）──
+  # ── Phase 1.5: 配音先行 ──
   - name: voice_gen
     step: 5
     skill: voice_gen
@@ -128,7 +105,6 @@ stages:
     description: "根据口播稿创作歌词"
     input:
       - output/step03_script.json
-      - output/topic_selected.json
     produces:
       - output/lyrics.txt
     provider: llm
@@ -145,7 +121,6 @@ stages:
     description: "生成视觉设计系统（配色/字体/风格）"
     input:
       - output/step03_script.json
-      - output/topic_selected.json
       - output/voice_scene_durations.json
     produces:
       - output/design.md
@@ -191,7 +166,7 @@ stages:
     timeout: 600
     retry: 1
 
-  # ── Phase 3.5: 串行（依赖 Phase 3 产出）──
+  # ── Phase 3.5: 串行 ──
   - name: storyboard
     step: 9
     skill: storyboard
@@ -212,13 +187,13 @@ stages:
     timeout: 300
     retry: 2
 
-# ── Phase 3.6: 电影级视觉设计（串行，依赖 storyboard + design_system）──
+  # ── Phase 3.6: 电影级视觉设计 ──
   - name: color_grader
     step: 9.1
     skill: color_grader
     phase: 3.6
     parallel_group: null
-    description: "电影级色彩分级 — 选配色方案 + LUT/暗角/颗粒/宽银幕"
+    description: "电影级色彩分级"
     input:
       - output/storyboard.json
       - output/design.md
@@ -235,7 +210,7 @@ stages:
     skill: layout_composer
     phase: 3.6
     parallel_group: null
-    description: "布局骨架选择 + 构图网格 + 景深分层"
+    description: "布局骨架选择 + 构图网格"
     input:
       - output/storyboard.json
       - output/color_grade.json
@@ -252,7 +227,7 @@ stages:
     skill: motion_director
     phase: 3.6
     parallel_group: null
-    description: "镜头运动 + 文字动画时间线 + ease曲线"
+    description: "镜头运动 + 文字动画时间线"
     input:
       - output/storyboard.json
       - output/layout_plan.json
@@ -270,7 +245,7 @@ stages:
     skill: depth_composer
     phase: 3.6
     parallel_group: null
-    description: "z-index层级分配 + 视差倍率 + 装饰元素"
+    description: "z-index层级分配 + 视差"
     input:
       - output/storyboard.json
       - output/layout_plan.json
@@ -290,7 +265,7 @@ stages:
     skill: hf_builder
     phase: 4
     parallel_group: null
-    description: "HyperFrames 场景 HTML 生成（V6: 消费电影级设计JSON + 设计系统JSON + 模板直出）"
+    description: "HyperFrames 场景 HTML 生成"
     input:
       - output/step03_script.json
       - output/design.md
@@ -319,7 +294,7 @@ stages:
     skill: quality_scorer
     phase: 4
     parallel_group: null
-    description: "V5.3: 逐场景质量评分 + 汇总报告"
+    description: "逐场景质量评分"
     input:
       - hf_render_project/compositions/beat-*.html
       - output/storyboard.json
@@ -366,25 +341,6 @@ stages:
     retry: 0
     optional: true
 
-  # ── Phase 4.5: 渲染后视觉校验（V6）──
-  - name: visual_checker
-    step: 13.5
-    skill: visual_checker
-    phase: 4.5
-    parallel_group: null
-    description: "V6: 提取最终视频帧，LLM vision 检查是否匹配话题意图"
-    input:
-      - output/step11_final.mp4
-      - output/step13_upscaled.mp4
-    produces:
-      - output/visual_check.json
-    provider: llm
-    provider_task: analysis
-    checkpoint_required: false
-    timeout: 300
-    retry: 1
-    optional: true
-
   - name: audio_mixer
     step: 12
     skill: audio_mixer
@@ -410,7 +366,7 @@ stages:
     skill: quality_checker
     phase: 4
     parallel_group: null
-    description: "多点质量自检（ffprobe+帧采样+音频+字幕）"
+    description: "多点质量自检"
     input:
       - output/step11_final.mp4
       - output/captions.srt
@@ -421,4 +377,23 @@ stages:
     checkpoint_required: false
     timeout: 120
     retry: 0
+    optional: true
+
+  # ── Phase 4.5: 视觉校验 ──
+  - name: visual_checker
+    step: 13.5
+    skill: visual_checker
+    phase: 4.5
+    parallel_group: null
+    description: "提取最终视频帧，LLM vision 检查是否匹配意图"
+    input:
+      - output/step11_final.mp4
+      - output/step13_upscaled.mp4
+    produces:
+      - output/visual_check.json
+    provider: llm
+    provider_task: analysis
+    checkpoint_required: false
+    timeout: 300
+    retry: 1
     optional: true
