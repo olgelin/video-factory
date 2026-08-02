@@ -75,11 +75,11 @@ TASK_MODEL_MAP = {
     },
 }
 
-# V7: hf_builder 并行模型 — flash 主力（快+高RPM），pro 兜底
+# V7: hf_builder 并行模型 — pro-only（flash 有 thinking 污染，禁用）
 HF_PARALLEL_MODELS = [
-    "deepseek-v4-flash",
-    "deepseek-v4-flash",
-    "deepseek-v4-flash",
+    "deepseek-v4-pro",
+    "deepseek-v4-pro",
+    "deepseek-v4-pro",
 ]
 
 

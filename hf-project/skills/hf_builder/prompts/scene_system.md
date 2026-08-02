@@ -82,6 +82,8 @@ JSON 对象，字段说明：
 
 ## 数据可视化（每场景 2-3 种，丰富画面）
 
+🔴 **铁律：每场景 1-3 个数据元素，硬要求。** quote_hero/timeline_event/compare 最容易漏——但必须有 KPI 卡片/进度条/趋势数字。
+
 - 数字冲击：scale:2.5→1 + textShadow 脉冲
 - 进度条：width:0%→目标值，主色渐变
 - 柱状图：5-7 根，GSAP scaleY:0→1

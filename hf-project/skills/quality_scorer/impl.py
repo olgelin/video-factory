@@ -188,7 +188,7 @@ def _llm_review_html(call_llm_fn, review_prompt: str, html: str, scene_id: int) 
         html_snippet = html[:6000]
     full_prompt = f"{review_prompt}\n\n## 场景 {scene_id}\n```html\n{html_snippet}\n```"
     
-    raw = call_llm_fn(full_prompt, system_prompt="", max_tokens=1500)
+    raw = call_llm_fn(full_prompt, system_prompt="你是JSON输出机。只输出合法JSON，不要任何解释、前言、后缀、markdown标记。", max_tokens=3000)
     # V13 fix: 鲁棒 JSON 提取 — 找最外层花括号块
     result = _extract_json(raw)
     if result:

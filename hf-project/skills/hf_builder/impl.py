@@ -1298,7 +1298,8 @@ def validate_scene_html(html: str, scene: dict) -> bool:
 
 def _load_scene_prompts() -> tuple[str, str]:
     """V7: 从 prompts/{style}/ 加载 scene_system.md (system) 和 scene_user.md (user)。
-    example: prompts/news/scene_system.md + scene_user.md"""
+    V16: 自动拼接子 prompt 文件 (scene_animation.md + scene_threejs.md) 到 system prompt。
+    example: prompts/news/scene_system.md + scene_animation.md + scene_threejs.md + scene_user.md"""
     # V7: 统一 prompts 目录
     prompts_root = Path(__file__).parent.parent.parent / "prompts"
     style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music", "edu_music") else "news"
@@ -1309,7 +1310,16 @@ def _load_scene_prompts() -> tuple[str, str]:
         raise FileNotFoundError(f"Prompt missing: {system_path} (video_style={_VIDEO_STYLE})")
     if not user_path.exists():
         raise FileNotFoundError(f"scene_user.md missing")
-    return system_path.read_text(encoding="utf-8"), user_path.read_text(encoding="utf-8")
+    
+    system_text = system_path.read_text(encoding="utf-8")
+    
+    # V16: 拼接子 prompt 文件（如果存在）
+    for sub_file in ("scene_animation.md", "scene_threejs.md"):
+        sub_path = prompts_root / style_dir / sub_file
+        if sub_path.exists():
+            system_text += "\n\n" + sub_path.read_text(encoding="utf-8")
+    
+    return system_text, user_path.read_text(encoding="utf-8")
 
 def _fix_repeat_infinite(html: str, duration: float) -> str:
     """将 repeat:-1 替换为有限次数，限制最大循环数防渲染超时"""
@@ -1328,14 +1338,79 @@ def _fix_repeat_infinite(html: str, duration: float) -> str:
             return f"repeat:{MAX_REPEAT}"
         return m.group(0)
     html = _re_rpt.sub(r'repeat:-1', _replace_repeat, html)
-    html = _re_rpt.sub(r'repeat:(\d+)', _cap_repeat, html)
+    html = _re_rpt.sub(r'repeat:(\\d+)', _cap_repeat, html)
+    return html
+
+
+def _validate_post_gen(html: str, composition_id: str) -> str:
+    """V16: 生成后自动校验+修复常见 LLM 错误。
+
+    1. 独立 gsap.to()/gsap.from() → 替换为 tl.to()/tl.from()（确保在 HyperFrames 时间线内）
+    2. repeat:-1 → repeat:3（防无限循环）
+    3. 绝对定位元素有 top 缺 left → 注入 left:50%
+    """
+    import re as _re_vpg
+    fixes = []
+
+    # 1. 独立 gsap.to()/gsap.from()（不在 tl. 前缀下）
+    #    匹配独立的 gsap.to( / gsap.from( / gsap.fromTo(
+    standalone_gsap = _re_vpg.findall(
+        r'(?<!\btl\.)(?<!\w)gsap\.(to|from|fromTo)\s*\(',
+        html
+    )
+    if standalone_gsap:
+        # 替换独立 gsap.xxx( 为 tl.xxx(（但保留已有的 tl.xxx( 不变）
+        html = _re_vpg.sub(
+            r'(?<!\btl\.)(?<!\w)gsap\.(to|from|fromTo)\s*\(',
+            r'tl.\1(',
+            html
+        )
+        fixes.append(f"独立 gsap.{'/'.join(set(standalone_gsap))}()×{len(standalone_gsap)}→tl")
+
+    # 2. repeat:-1 残留（_fix_repeat_infinite 之后仍可能残留复杂表达式如 repeat:-1,）
+    repeat_inf_count = html.count('repeat:-1')
+    if repeat_inf_count > 0:
+        html = _re_vpg.sub(r'repeat:-1', 'repeat:3', html)
+        fixes.append(f"repeat:-1×{repeat_inf_count}→repeat:3")
+
+    # 3. 绝对定位元素有 top/bottom 但缺 left/right
+    #    找形如 style="...position:absolute...top:...（无 left/right）..." 的元素
+    missing_pos = 0
+    def _check_missing_pos(m):
+        nonlocal missing_pos
+        tag = m.group(0)
+        style = m.group(1)
+        has_abs = 'position:absolute' in style or 'position: absolute' in style
+        has_top = 'top:' in style
+        has_bottom = 'bottom:' in style
+        has_left = 'left:' in style
+        has_right = 'right:' in style
+        has_transform_x = 'translateX' in style
+        # 有 top/bottom 但没有 left/right 且没有 translateX(-50%) 居中
+        if has_abs and (has_top or has_bottom) and not has_left and not has_right and not has_transform_x:
+            missing_pos += 1
+            # 注入 left:50%;transform:translateX(-50%)（最常见的居中意图）
+            new_style = style.rstrip(';') + ';left:50%;transform:translateX(-50%);'
+            return tag.replace(style, new_style)
+        return tag
+    html = _re_vpg.sub(
+        r'(<[^>]*style="([^"]*(?:position\s*:\s*absolute)[^"]*(?:top|bottom)\s*:[^"]*)"[^>]*>)',
+        _check_missing_pos,
+        html
+    )
+    if missing_pos > 0:
+        fixes.append(f"缺left定位×{missing_pos}→left:50%")
+
+    if fixes:
+        print(f"    🔧 [Post-Gen] {', '.join(fixes)}")
+    
     return html
 
 def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     """单 LLM 调用：JSON → 完整场景 HTML（含 GSAP）。
 
     LLM 输出完整 body 内容（HTML + <script> 含 GSAP 动画）。
-    Python 只做：DOCTYPE包裹、.scene兜底、repeat:-1修复。
+    Python 只做：DOCTYPE包裹、.scene兜底、repeat:-1修复、独立gsap修复、定位修复。
     """
     import re as _re_sg
     import json as _json_sg
@@ -1459,16 +1534,22 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     # 确保 GSAP timeline 注册和 tl.play() 存在
     if 'window.__timelines' not in body:
         timeline_code = f'window.__timelines = window.__timelines || {{}};\n  window.__timelines["{composition_id}"] = tl;\n  tl.play();'
-        # 找到最后一个 </script> 之前插入
-        last_script = body.rfind('</script>')
-        if last_script > 0:
-            body = body[:last_script] + '\n  ' + timeline_code + '\n' + body[last_script:]
-            print(f"    🔧 [Scene {sid}] 注入 __timelines + tl.play()")
+        # 找到 IIFE 闭合 })(); 之前插入（保证 tl 在作用域内）
+        iife_close = body.rfind('})();')
+        if iife_close > 0:
+            body = body[:iife_close] + '\n  ' + timeline_code + '\n  ' + body[iife_close:]
+            print(f"    🔧 [Scene {sid}] 注入 __timelines + tl.play() (IIFE内)")
         else:
-            # 没找到 </script> → LLM 输出截断，先移除残留的 <script> 开头再注入干净脚本
-            body = _re_sg.sub(r'<script>.*$', '', body, flags=_re_sg.DOTALL)
-            body += f'\n<script>\n(function(){{\n  var tl = gsap.timeline({{paused:true}});\n  {timeline_code}\n}})();\n</script>'
-            print(f"    ⚠️ [Scene {sid}] LLM脚本截断，已清理+注入保底")
+            # 找不到 })(); → 降级到 </script> 前插入
+            last_script = body.rfind('</script>')
+            if last_script > 0:
+                body = body[:last_script] + '\n  ' + timeline_code + '\n' + body[last_script:]
+                print(f"    🔧 [Scene {sid}] 注入 __timelines + tl.play() (</script>前)")
+            else:
+                # 都没找到 → LLM 输出截断，注入干净脚本
+                body = _re_sg.sub(r'<script>.*$', '', body, flags=_re_sg.DOTALL)
+                body += f'\n<script>\n(function(){{\n  var tl = gsap.timeline({{paused:true}});\n  {timeline_code}\n}})();\n</script>'
+                print(f"    ⚠️ [Scene {sid}] LLM脚本截断，已清理+注入保底")
 
     # 确保 var tl 声明存在
     if 'var tl =' not in body and 'var tl=' not in body and 'let tl =' not in body:
@@ -1493,6 +1574,7 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
 </html>'''
 
     final_html = _fix_repeat_infinite(final_html, duration)
+    final_html = _validate_post_gen(final_html, composition_id)
 
     gsap_count = len(_re_sg.findall(r'(?:tl|gsap)\.(?:from|fromTo|to)\s*\(', final_html))
     div_count = final_html.count('<div')
@@ -1812,11 +1894,11 @@ def build_outro_html(topic: str = "") -> str:
   tl.from("#data-card-2", {opacity:0, x:40, duration:0.5, ease:"power2.out"}, 0.6);
   tl.to("#cta-btn", {scale:1.06, duration:1.8, yoyo:true, repeat:1, ease:"sine.inOut"}, 1.0);
   tl.to("#light-scan", {x:2200, duration:2.5, repeat:1, ease:"none"}, 0);
-  gsap.to(".particles-near div", {y:600, opacity:0.1, duration:3, repeat:0, ease:"none"});
-  gsap.to(".particles-mid div", {y:500, opacity:0.08, duration:4, repeat:0, ease:"none"});
-  gsap.to(".particles-far div", {y:350, opacity:0.05, duration:5, repeat:0, ease:"none"});
-  gsap.to(".radial-glow-blue", {opacity:0.4, duration:2, yoyo:true, repeat:1, ease:"sine.inOut"});
-  gsap.to(".radial-glow-purple", {opacity:0.5, duration:2.5, yoyo:true, repeat:0, ease:"sine.inOut"});
+  tl.to(".particles-near div", {y:600, opacity:0.1, duration:3, repeat:0, ease:"none"}, 0);
+  tl.to(".particles-mid div", {y:500, opacity:0.08, duration:4, repeat:0, ease:"none"}, 0);
+  tl.to(".particles-far div", {y:350, opacity:0.05, duration:5, repeat:0, ease:"none"}, 0);
+  tl.to(".radial-glow-blue", {opacity:0.4, duration:2, yoyo:true, repeat:1, ease:"sine.inOut"}, 0);
+  tl.to(".radial-glow-purple", {opacity:0.5, duration:2.5, yoyo:true, repeat:0, ease:"sine.inOut"}, 0);
   window.__timelines = window.__timelines || {};
   window.__timelines["beat-outro"] = tl;
   tl.play();
@@ -1941,7 +2023,7 @@ def run(context: dict) -> dict:
     topic_keywords = set(topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
     # Common off-topic keywords to detect content pollution
     # 排除当前话题的关键词（避免误判）
-    off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "世界杯", "乌龙球"]
+    off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "乌龙球"]
     off_topic_patterns = [kw for kw in off_topic_patterns if kw not in topic_keywords]
 
     compositions_dir = hf_dir / "compositions"
@@ -2018,7 +2100,7 @@ def run(context: dict) -> dict:
 
                     # Content validation
                     polluted = [kw for kw in off_topic_patterns if kw in html]
-                    if polluted:
+                    if len(polluted) >= 2:
                         print(f"  ⚠️  [{sid_out}/{total}] 检测到旧话题内容: {polluted}，使用fallback", flush=True)
                         fallback_html = _generate_fallback_html(scene_map[sid_out], context)
                         with write_lock:
@@ -2065,7 +2147,7 @@ def run(context: dict) -> dict:
                     print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
 
                     polluted = [kw for kw in off_topic_patterns if kw in html]
-                    if polluted:
+                    if len(polluted) >= 2:
                         print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
                         fallback_html = _generate_fallback_html(scene_map[sid], context)
                         with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
