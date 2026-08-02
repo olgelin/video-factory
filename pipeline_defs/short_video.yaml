@@ -47,6 +47,10 @@ critical_checks:
   video_renderer: "output/step10_video.mp4"
   audio_mixer: "output/step11_final.mp4"
 
+# V8: 全管道默认启用的 context 值
+context_defaults:
+  supersample: true  # 2x 超采样渲染（HyperFrames --scale 2）
+
 # ============================================================
 # Pipeline 阶段定义
 # ============================================================
@@ -318,8 +322,8 @@ stages:
     step: 10.5
     skill: quality_scorer
     phase: 4
-    parallel_group: null
-    description: "V5.3: 逐场景质量评分 + 汇总报告"
+    parallel_group: group_render
+    description: "V5.3: 逐场景质量评分 + 汇总报告（与渲染并行，只读HTML不阻塞）"
     input:
       - hf_render_project/compositions/beat-*.html
       - output/storyboard.json
@@ -328,7 +332,7 @@ stages:
     provider: local
     provider_task: validate
     checkpoint_required: false
-    timeout: 60
+    timeout: 1200
     retry: 0
     optional: true
 
@@ -336,8 +340,8 @@ stages:
     step: 11
     skill: video_renderer
     phase: 4
-    parallel_group: null
-    description: "HyperFrames CLI 渲染 HTML → MP4"
+    parallel_group: group_render
+    description: "HyperFrames CLI 渲染 HTML → MP4 (2x 超采样)"
     input:
       - hf_render_project/compositions/beat-*.html
     produces:
@@ -345,9 +349,10 @@ stages:
     provider: local
     provider_task: render
     checkpoint_required: false
-    timeout: 1200
+    timeout: 1800
     retry: 1
     critical: true
+    supersample: true
 
   - name: video_upscaler
     step: 13
