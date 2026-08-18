@@ -22,8 +22,8 @@ def generate_layered_html(scene, scene_id, design_md, spec, composition_id, W, H
 - 关键数据: {elems_text}
 
 ## 输出要求
-1. <!DOCTYPE html>，html 标签含 data-composition-id="{composition_id}" data-width="{W}" data-height="{H}"
-2. 引入 GSAP CDN: <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+1. <!DOCTYPE html>，body 内最外层 div 含 data-composition-id="{composition_id}" data-width="{W}" data-height="{H}"（⚠️ 不要写在 <html> 标签上）
+2. 不要引入 GSAP CDN（渲染器会本地内联 GSAP），直接用 gsap.timeline 即可
 3. 创建空动画骨架（后续填充）:
    var tl = gsap.timeline({{paused:true}});
    window.__timelines = window.__timelines || {{}};

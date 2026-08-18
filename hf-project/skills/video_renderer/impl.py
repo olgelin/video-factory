@@ -178,6 +178,13 @@ def run_hyperframes_render(project_dir: str, output_path: str, supersample: bool
         scale_flag = " --scale 2" if supersample else ""
         cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --gpu{scale_flag}'
 
+        # 🔴 清理残留 chrome-headless-shell：反复启动会累积僵尸进程，导致后续 beat 渲染卡住（node 在跑但 headless-shell 不启动）
+        try:
+            subprocess.run('taskkill /F /IM chrome-headless-shell.exe', shell=True,
+                           capture_output=True, timeout=10)
+        except Exception:
+            pass
+
         try:
             result = subprocess.run(
                 cmd, shell=True, cwd=str(standalone_dir), capture_output=True,

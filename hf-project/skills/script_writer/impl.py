@@ -205,7 +205,7 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
         key_points_text=key_points_text,
     )
 
-    llm_response = call_llm(prompt, system_prompt, max_tokens=4000)
+    llm_response = call_llm(prompt, system_prompt, max_tokens=8000)
 
     if not llm_response:
         print("  ❌ [script-writer] LLM返回为空")
@@ -219,7 +219,7 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
     # 第一次失败，重试一次（更严格的prompt）
     print("  ⚠️ [script-writer] JSON解析失败，重试...")
     strict_prompt = prompt + "\n\n重要：只输出纯JSON，不要任何markdown代码块，不要任何解释文字。"
-    llm_response = call_llm(strict_prompt, system_prompt, max_tokens=4000)
+    llm_response = call_llm(strict_prompt, system_prompt, max_tokens=8000)
     
     if llm_response:
         result = _parse_json_response(llm_response)

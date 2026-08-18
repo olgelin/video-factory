@@ -46,9 +46,9 @@ TASK_MODEL_MAP = {
         "max_tokens": 4000,
     },
     "creative": {
-        "description": "脚本创作、设计系统、分镜",
-        "primary": "deepseek-v4-pro",
-        "fallback": ["deepseek-v4-flash"],
+        "description": "脚本创作、设计系统、分镜（V8: flash主力——v4-pro 推理前奏污染 JSON，flash 更快更稳）",
+        "primary": "deepseek-v4-flash",
+        "fallback": ["deepseek-v4-pro"],
         "max_tokens": 12000,
         "timeout": 600,
     },

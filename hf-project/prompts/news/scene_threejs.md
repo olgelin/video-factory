@@ -1,6 +1,8 @@
 ## 🎮 Three.js 3D 技法（每场景必选 1 个）
 
-HyperFrames 通过 Puppeteer+Chromium 渲染，原生支持 WebGL/Three.js。以下模式经过验证，直接复制骨架即可。Three.js 代码放在场景 div 内。每个 HTML 只能有一个 `<script type="importmap">`，多技法合并。
+HyperFrames 通过 Puppeteer+Chromium 渲染，原生支持 WebGL/Three.js。以下模式经过验证，直接复制骨架即可。Three.js 代码放在场景 div 内。
+
+🔴 **Three.js 加载铁律（违反=渲染卡死）**：框架已内联 `three.min.js`（全局 `THREE` 对象）。**禁止写 `<script type="importmap">`、禁止 `<script type="module">`、禁止 `import * as THREE from "three"`**——module 异步执行，HyperFrames 截图时 WebGL 还没跑完，会导致渲染卡死。直接写普通 `<script>`，用全局 `THREE` 即可。
 
 ### 1. GPU 粒子场 — 氛围首选
 
@@ -8,8 +10,7 @@ HyperFrames 通过 Puppeteer+Chromium 渲染，原生支持 WebGL/Three.js。以
 
 ```html
 <canvas id="particles3d" style="position:absolute;inset:0;z-index:1;pointer-events:none;"></canvas>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("particles3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(60,1920/1080,0.1,50);
@@ -26,31 +27,20 @@ renderAt(window.__hfThreeTime||0);
 </script>
 ```
 
-### 2. UnrealBloomPass 辉光后期 ⭐
+### 2. 发光粒子（辉光替代）⭐
 
-给粒子加电影级辉光。需要 importmap 扩展：
+本地渲染**不支持 Bloom addons**（EffectComposer 需要 module import，会卡死渲染）。用「大 size + AdditiveBlending + 多层叠加」模拟电影级辉光：
 
 ```html
-<script type="importmap">
-{ "imports": {
-  "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/"
-} }
-</script>
-<script type="module">
-import * as THREE from "three";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+<canvas id="bg3d" style="position:absolute;inset:0;z-index:1;pointer-events:none;"></canvas>
+<script>
 const c=document.getElementById("bg3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(35,1920/1080,0.1,100);
 cam.position.set(0,0,8);
-// ...粒子/星空/代码雨代码（同#1，但 size 加大到 0.06-0.08）...
-const composer=new EffectComposer(r);
-composer.addPass(new RenderPass(s,cam));
-composer.addPass(new UnrealBloomPass(new THREE.Vector2(1920,1080),0.6,0.4,0.15));
-function renderAt(t){ /* 粒子旋转 */ composer.render(); }
+// 三层粒子模拟辉光：外层大光晕(size 0.5 低opacity) + 中层(size 0.15) + 核心层(size 0.05 高opacity)
+// ...粒子代码（同#1，用 2-3 个 Points 叠加模拟 bloom 光晕）...
+function renderAt(t){ /* 粒子旋转 */ r.render(s,cam); }
 window.addEventListener("hf-seek",e=>renderAt(e.detail.time));
 renderAt(window.__hfThreeTime||0);
 </script>
@@ -62,8 +52,7 @@ renderAt(window.__hfThreeTime||0);
 
 ```html
 <canvas id="coderain" style="position:absolute;inset:0;z-index:1;pointer-events:none;"></canvas>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("coderain"), r=new THREE.WebGLRenderer({canvas:c,alpha:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(50,1920/1080,0.1,30);
@@ -95,8 +84,7 @@ renderAt(window.__hfThreeTime||0);
 
 ```html
 <canvas id="stars" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("stars"), r=new THREE.WebGLRenderer({canvas:c,alpha:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(45,1920/1080,0.1,50);
@@ -118,8 +106,7 @@ renderAt(window.__hfThreeTime||0);
 
 ```html
 <canvas id="galaxy" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("galaxy"), r=new THREE.WebGLRenderer({canvas:c,alpha:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(45,1920/1080,0.1,50);

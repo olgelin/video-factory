@@ -112,11 +112,7 @@ CSS 波形条较简陋，可选用以下 3D 替代方案提升沉浸感：
 **频谱粒子场**（1000+ 粒子随 BGM 节奏脉动）：
 ```html
 <canvas id="viz3d" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js" } }
-</script>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("viz3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(55,1920/1080,0.1,50);
@@ -135,8 +131,7 @@ renderAt(window.__hfThreeTime||0);
 **频谱光环**（多层圆环随节奏扩展/收缩）：
 ```html
 <canvas id="rings3d" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("rings3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(45,1920/1080,0.1,30);

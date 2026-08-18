@@ -131,7 +131,7 @@ quote_hero、compare、timeline_event 最容易漏——但它们也需要 KPI �
 - 静态场景 — 至少 Ken Burns + 2 个呼吸动画
 - opacity:0 初始状态 — 内容元素默认可见(opacity≥0.3)，入场用 GSAP from()/fromTo()
 - CSS 语法错误(key:value 格式)、口播原文>15字、ghost text 用英文、粒子用圆形光点
-- Three.js 必须 `<script type="importmap">` 引入，禁止 CDN script 标签
+- Three.js 用全局 `THREE`（框架已内联 three.min.js），禁止 `<script type="importmap">`、禁止 `<script type="module">`、禁止 `import ... from "three"`（module 异步导致渲染卡死）
 - 🔴 所有动画必须用 `tl.to()`/`tl.from()`/`tl.fromTo()` — 禁止独立 `gsap.to()`/`gsap.from()` 在 tl 时间线外
 - 🔴 禁止 `repeat:-1`（无限循环）— 所有 repeat 必须是正整数 ≤5
 - 🔴 **背景色铁律：所有场景背景必须是深色蓝紫渐变（#0A0A1A→#1A0A2E 方向）**。不管话题是危机/恐慌/暴跌还是希望/乐观，背景不准变。情绪用霓虹亮色点缀来表达——绿色=数据增长，红色=警告数字，金色=关键洞察，不是用背景色。

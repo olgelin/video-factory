@@ -82,6 +82,23 @@ def load_design_system_json(project_root: Path) -> dict:
 _VIDEO_W = 1920
 _VIDEO_H = 1080
 _VIDEO_STYLE = "news"  # V6: edu/news 样式标记，_load_scene_prompts() 据此选提示词
+_ASSETS_DIR = Path(__file__).parent / "assets"  # 本地内联资源（gsap.min.js 等）
+
+
+def _load_gsap_inline() -> str:
+    """读取本地 gsap.min.js 内容用于内联（headless Chromium 无法访问 CDN）"""
+    p = _ASSETS_DIR / "gsap.min.js"
+    if p.exists():
+        return p.read_text(encoding="utf-8", errors="replace")
+    return ""
+
+
+def _load_three_inline() -> str:
+    """读取本地 three.min.js（UMD 全局 THREE）用于内联（module/importmap 异步导致渲染卡死）"""
+    p = _ASSETS_DIR / "three.min.js"
+    if p.exists():
+        return p.read_text(encoding="utf-8", errors="replace")
+    return ""
 
 SCENE_PROMPT = """你是 HyperFrames 视频合成专家。为以下场景编写完整 HTML。
 
@@ -114,8 +131,8 @@ SCENE_PROMPT = """你是 HyperFrames 视频合成专家。为以下场景编写�
 - zoom_in: tl.from("#main-content", {{scale:0.8, duration:0.6, ease:"back.out(1.4)"}}, 0)
 
 ## 硬性规则（违反=渲染失败）
-1. 输出完整 <!DOCTYPE html>，html标签: data-composition-id="{composition_id}" data-width="1920" data-height="1080"
-2. 引入 GSAP CDN，创建 gsap.timeline({{paused:true}}) 注册到 window.__timelines["{composition_id}"]
+1. 输出完整 <!DOCTYPE html>，body 内最外层 div 携带: data-composition-id="{composition_id}" data-width="1920" data-height="1080"（⚠️ 绝不能写在 <html> 标签上，新版 HyperFrames 只认 body 内元素的 data-composition-id，写在 html 标签上会渲染失败）
+2. 不要引入 GSAP CDN（渲染器会本地内联），直接创建 gsap.timeline({{paused:true}}) 注册到 window.__timelines["{composition_id}"]
 3. 所有内容在 class="scene" div 中
 4. **⚠️ 绝对禁止在CSS/inline style中设置opacity:0！** 这会导致渲染器看不到内容。所有元素CSS中必须opacity:1（或不写opacity）。入场动画用GSAP的tl.from({{opacity:0}})即可，不要在HTML标签的style属性里写opacity:0。
 5. 不要出场动画，不要 repeat:-1（呼吸动画除外），不要 Math.random()
@@ -507,7 +524,7 @@ def _fill_template(scene: dict, spec: dict, composition_id: str,
                 elif trend == "down":
                     data_change = f"↓{data_value}" if data_value else ""
 
-    return tpl.format(
+    _filled = tpl.format(
         COMPOSITION_ID=composition_id,
         W=str(W), H=str(H),
         BG=bg,
@@ -528,6 +545,7 @@ def _fill_template(scene: dict, spec: dict, composition_id: str,
         QUOTE=headline[:40],
         DURATION=str(scene.get("duration", 8.0)),
     )
+    return _filled.replace("__GSAP_INLINE__", _load_gsap_inline())
 
 
 def _auto_fix_taste(html: str, accent: str = "#C1121F") -> str:
@@ -699,7 +717,7 @@ def _fix_truncated_html(html: str, composition_id: str) -> str:
     # 2. 确保有 __timelines 注册
     if '__timelines' not in html:
         html += f'''
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>{_load_gsap_inline()}</script>
 <script>
   window.__timelines = window.__timelines || {{}};
   window.__timelines["{composition_id}"] = gsap.timeline({{paused:true}});
@@ -717,18 +735,47 @@ def _fix_truncated_html(html: str, composition_id: str) -> str:
 def _auto_fix_html(html: str, composition_id: str) -> str:
     """自动修复 LLM 生成的 HTML 中的常见问题"""
 
-    # 1. 修复 html 标签 — 添加 data 属性
-    if 'data-composition-id' not in html:
-        html = re.sub(
-            r'<html[^>]*>',
-            f'<html data-composition-id="{composition_id}" data-width="{_VIDEO_W}" data-height="{_VIDEO_H}">',
-            html, count=1
-        )
+    # 1. 修复 data-composition-id 位置 — 新版 HyperFrames 要求 body 内元素携带
+    #    （写在 <html> 标签上是旧写法，pre-flight 会拒绝渲染）
+    #    第一步：剥离 <html> 标签上的 data-composition-id/data-width/data-height
+    html = re.sub(
+        r'<html\b[^>]*?>',
+        lambda m: re.sub(r'\s+data-(?:composition-id|width|height)=["\'][^"\']*["\']', '', m.group(0)),
+        html, count=1
+    )
+    #    第二步：若 body 内没有任何 data-composition-id，给最外层 div 补上
+    if 'data-composition-id=' not in html:
+        attrs = f'data-composition-id="{composition_id}" data-width="{_VIDEO_W}" data-height="{_VIDEO_H}"'
+        if re.search(r'<div[^>]*class="[^"]*scene[^"]*"[^>]*>', html):
+            html = re.sub(r'(<div[^>]*class="[^"]*scene[^"]*")', f'\\1 {attrs}', html, count=1)
+        elif re.search(r'<body[^>]*>\s*<div\b', html):
+            html = re.sub(r'(<body[^>]*>\s*<div\b)', f'\\1 {attrs}', html, count=1)
+        else:
+            html = html.replace('<body', f'<body>\n<div {attrs} style="position:relative;width:{_VIDEO_W}px;height:{_VIDEO_H}px;">', 1)
+            html = html.replace('</body>', '</div>\n</body>', 1)
 
-    # 2. 添加 GSAP CDN（如果缺少）
+    # 2. GSAP 本地内联（移除任何 CDN 引用，统一内联本地 gsap.min.js——headless Chromium 无法访问外网）
+    #    先移除 LLM 可能写的 CDN <script src=...gsap...>
+    html = re.sub(r'<script[^>]*src=["\'][^"\']*gsap[^"\']*["\'][^>]*>\s*</script>', '', html, flags=re.IGNORECASE)
+    html = re.sub(r'<script[^>]*src=["\'][^"\']*gsap[^"\']*["\'][^>]*/?>', '', html, flags=re.IGNORECASE)
+    #    再内联本地 gsap.min.js（若 body 内没有内联版）
     if 'gsap.min.js' not in html:
+        _gsap_js = _load_gsap_inline()
         html = html.replace('</head>',
-            '<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>\n</head>')
+            f'<script>{_gsap_js}</script>\n</head>')
+
+    # 2b. Three.js 本地内联（移除 importmap + module import，改全局 THREE——module 异步导致渲染卡死）
+    # 移除 importmap 块
+    html = re.sub(r'<script[^>]*type=["\']importmap["\'][^>]*>.*?</script>', '', html, flags=re.DOTALL | re.IGNORECASE)
+    # module script → 普通 script
+    html = re.sub(r'<script([^>]*?)type=["\']module["\']([^>]*)>', r'<script\1\2>', html, flags=re.IGNORECASE)
+    # 移除 import 行（THREE 全局已可用）
+    html = re.sub(r'import\s+\*\s+as\s+THREE\s+from\s+["\'][^"\']*["\']\s*;?', '', html)
+    html = re.sub(r'import\s*\{[^}]*\}\s*from\s*["\'][^"\']*["\']\s*;?', '', html)
+    # 若代码用了 THREE 但没内联 three.min.js，则内联
+    if re.search(r'\bTHREE\s*\.', html) and 'three.min.js' not in html and 'three.module' not in html:
+        _three_js = _load_three_inline()
+        html = html.replace('</head>', f'<script>{_three_js}</script>\n</head>')
 
     # 3. 如果完全没有 gsap.timeline，注入完整动画
     if 'gsap.timeline' not in html:
@@ -1144,12 +1191,12 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 
     return f'''<!DOCTYPE html>
 <!-- vf-v5.3 -->
-<html data-composition-id="{composition_id}" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>{_load_gsap_inline()}</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:#0a0a0a;font-family:'Inter','Noto Sans SC',sans-serif;">
-<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
+<div class="scene" data-composition-id="{composition_id}" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
 
   <!-- Layer 0: Grid pattern -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(6,182,212,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.03) 1px,transparent 1px);background-size:60px 60px;opacity:0.5;"></div>
@@ -1560,16 +1607,24 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
             print(f"    🔧 [Scene {sid}] 注入 var tl 声明")
 
     # 包裹 DOCTYPE 骨架
+    # 🔴 THREE 内联：body 用了 THREE 但没内联 three.min.js → 内联（否则 ReferenceError: THREE is not defined）
+    three_script = ""
+    if re.search(r'\bTHREE\s*\.', body) and 'three.min.js' not in body and 'three.module' not in body:
+        three_script = f'<script>{_load_three_inline()}</script>'
+    # 🔴 data-duration：缺了 HyperFrames 推断不出时长（zero duration → 渲染失败）
     final_html = f'''<!DOCTYPE html>
-<html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" data-duration="{duration:.1f}" lang="zh-CN">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>{composition_id}</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>{_load_gsap_inline()}</script>
+{three_script}
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:#060618;width:{W}px;height:{H}px;">
+<div data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" data-duration="{duration}" style="position:relative;width:{W}px;height:{H}px;overflow:hidden;">
 {body}
+</div>
 </body>
 </html>'''
 
@@ -1659,15 +1714,20 @@ def _wrap_html(body_html: str, composition_id: str, W: int = 1920, H: int = 1080
     film_overlay = _build_film_overlay(W, H, color_grade) if color_grade else ""
     
     bg = color_grade.get("palette", {}).get("background", "#1a1a2e") if color_grade else "#1a1a2e"
+    # 🔴 THREE 内联：body 用了 THREE 但没内联 three.min.js → 内联（否则 ReferenceError: THREE is not defined）
+    three_script = ""
+    if re.search(r'\bTHREE\s*\.', body_html) and 'three.min.js' not in body_html and 'three.module' not in body_html:
+        three_script = f'<script>{_load_three_inline()}</script>'
     
     return f'''<!DOCTYPE html>
-<html data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" style="background:{bg};">
+<html>
 <head>
 <meta charset="UTF-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>{_load_gsap_inline()}</script>
+{three_script}
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{bg};">
-<div style="position:relative;width:{W}px;height:{H}px;background:{bg};overflow:hidden;">
+<div data-composition-id="{composition_id}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{bg};overflow:hidden;">
 {body_html}
 {film_overlay}
 </div>
@@ -1804,13 +1864,13 @@ def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
 def build_intro_html(topic: str) -> str:
     """构建片头HTML - 简单封面，晃一下就行"""
     return f'''<!DOCTYPE html>
-<html data-composition-id="beat-intro" data-width="1920" data-height="1080" style="background:#1a1a2e;">
+<html>
 <head>
 <meta charset="UTF-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>{_load_gsap_inline()}</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;background:#1a1a2e;">
-<div style="position:relative;width:1920px;height:1080px;background:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+<div data-composition-id="beat-intro" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;">
     <!-- 品牌名 -->
     <div style="font-size:80px;font-weight:900;color:#FFFFFF;text-shadow:0 0 40px rgba(0,212,255,0.6);letter-spacing:15px;">不闻AI</div>
     <!-- 话题 -->
@@ -1833,13 +1893,13 @@ def build_outro_html(topic: str = "") -> str:
     """构建片尾HTML — V15 风格：3D透视网格 + 粒子雨 + 扫光 + 地平线辉光 + 中文水印"""
     topic_short = topic[:10] if topic else "本期话题"
     html = r'''<!DOCTYPE html>
-<html data-composition-id="beat-outro" data-width="1920" data-height="1080" style="background:#060618;">
+<html>
 <head>
 <meta charset="UTF-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:#060618;width:1920px;height:1080px;">
-<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
+<div id="scene" class="scene" data-composition-id="beat-outro" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
   <div class="bg-stage" style="position:absolute;top:0;left:0;width:100%;height:100%;perspective:1000px;">
     <div class="grid-floor" style="position:absolute;top:42%;left:0;width:100%;height:58%;background:linear-gradient(180deg,rgba(108,140,255,0.06),rgba(108,140,255,0.02));transform:rotateX(60deg);transform-origin:top;"></div>
   </div>
@@ -1908,6 +1968,7 @@ def build_outro_html(topic: str = "") -> str:
 </html>'''
     # 注入实际话题名替换硬编码占位
     html = html.replace("文化边界", topic_short)
+    html = html.replace("__GSAP_INLINE__", _load_gsap_inline())
     return html
 
 
@@ -1953,7 +2014,7 @@ def build_index_html(scenes: list, topic: str = "") -> str:
        data-duration="{t}" data-width="1920" data-height="1080">
 {beats}
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>{_load_gsap_inline()}</script>
   <script>
     const mainTl = gsap.timeline({{ paused: true }});
     window.__timelines = window.__timelines || {{}};

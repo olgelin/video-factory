@@ -86,7 +86,8 @@ def call_voxcpm(input_path: str, output_path: str, speed: float = 1.0,
             "--cfg", str(cfg), "--steps", str(steps)]
     if ref_audio:
         args += ["--ref-audio", ref_audio]
-    return call_tool("voxcpm", args, timeout=600)
+    # 🔴 voxcpm 生成多段配音实际需 10-20 分钟（每段约 45-60s），600s 超时太短
+    return call_tool("voxcpm", args, timeout=1800)
 
 
 def call_acestep(lyrics_path: str, output_path: str, duration: float = 120,

@@ -129,6 +129,30 @@ Video2X 是独立 exe，去 [GitHub Releases](https://github.com/k4yt3x/video2x/
 
 ## 故障排查
 
+### ⚠️ HyperFrames 升级后必查的三坑（2026-08-18 全管道测试发现）
+
+这 3 个 bug 在 HyperFrames 0.7.84 → 0.7.109 升级后暴露，**四个管道（short_video / edu_video / edu_music / speech_to_video）全中**。升级引擎后如果渲染崩、卡住、黑屏，按这个顺序排查：
+
+1. **配音超时** — `tool_runner.py` 里 voxcpm 的 timeout 原为 600s，但 14+ 段配音要 15~20 分钟。已改为 `timeout=1800`。症状：`❌ [tool-runner] voxcpm 超时` 或 `步骤 voice_gen 失败`。
+
+2. **THREE 未内联** — `hf-project/skills/hf_builder/impl.py` 的 `_single_llm_generate`（约 1610 行 `final_html`）原来只内联 GSAP、**不内联 three.min.js**。症状：渲染日志报 `ReferenceError: THREE is not defined` + lint 提示 `missing_three_script`，浏览器崩溃。修法：final_html 的 `<head>` 里 GSAP 脚本后加 `{three_script}`（检测 body 含 `THREE.` 就内联 `_load_three_inline()`）。
+
+3. **缺 data-duration** — 场景根 `<div data-composition-id>` 原来没写时长，HyperFrames 推断不出时长，报 `Composition has zero duration` 渲染失败。修法：根 div 加 `data-duration="{duration}"`。
+
+> 关键教训：THREE 内联逻辑在旧路径 `_auto_fix_html`（约 776 行）里有，但新路径 `_single_llm_generate` 走的是自己包裹的 `final_html`，两处不一致。改的时候要确认**实际被调用的那个函数**，别改错。
+
+### 语音转写：faster-whisper 没装不是 bug
+
+转写阶段主路想用 faster-whisper（听音频识别文字），但 `tools/transcriber` 的 venv 里没装 `faster_whisper`，所以每次都失败 → 自动走 fallback。
+
+**fallback 不是"换个转写模型"，而是直接用配音脚本原文 + 配音真实时长生成字幕**（`impl.py` 的 `_fallback_from_voice_durations`）。因为配音是 VoxCPM TTS 念的脚本原文，照抄原文 = 字幕 100% 准确，**比转写还准**（转写反而可能把同音字猜错）。
+
+结论：**对 TTS 配音，faster-whisper 这条主路是多余的，fallback 是更优解，不用修。** 只有将来接入真人录音素材时才需要装 faster-whisper 做真转写。
+
+### Video2X 高清放大失败（exit=3221225477）
+
+`realesr-animevideov3` 模型在 RTX 4060 Ti 上偶发内存访问冲突崩溃。vf 有 fallback：**跳过高清修复、直接用原始视频**，成品不受影响。这不是 vf 的问题，是 Video2X 的 GPU 兼容性。若长期不需要 2x 放大，可跳过该步骤。
+
 ### "No module named 'yaml'"
 
 ```bash

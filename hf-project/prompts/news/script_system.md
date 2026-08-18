@@ -70,4 +70,4 @@
   "total_chars": 575
 }}
 
-只输出JSON，不要其他内容。不要输出visual_hint或scene相关的内容。
+只输出一个合法的JSON对象（按上面的格式），不要任何思考过程、编号列表、markdown代码块以外的解释文字。voiceover_sections 数组每段必须包含 visual_hint、rhythm_hint、emotion_intensity、transition_hint 字段。

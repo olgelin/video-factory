@@ -24,12 +24,12 @@ scene_templates.py — 9 种 visual_type 专属骨架模板（V5.6）
 # ══════════════════════════════════════════════════════════
 DATA_IMPACT = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 背景：径向光晕 -->
   <div id="bg-glow" style="position:absolute;top:50%;left:50%;width:900px;height:900px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 70%);border-radius:50%;"></div>
@@ -87,12 +87,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 COMPARE = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 左侧大栏 —— 70% 宽度 -->
   <div id="left-col" style="position:absolute;top:100px;left:60px;width:55%;bottom:100px;border-right:1px solid rgba(255,255,255,0.1);padding-right:60px;display:flex;flex-direction:column;justify-content:center;z-index:5;">
@@ -129,12 +129,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 FLOW = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <div id="title" style="position:absolute;top:80px;left:100px;font-size:42px;font-weight:700;color:#fff;font-family:'Outfit','PingFang SC',sans-serif;">{HEADLINE}</div>
 
@@ -187,12 +187,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 HUD = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- HUD 网格背景 -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:80px 80px;"></div>
@@ -247,12 +247,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 LIST_ALERT = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 顶部红色警示条 -->
   <div id="alert-bar" style="position:absolute;top:0;left:0;right:0;height:4px;background:{ACCENT};box-shadow:0 0 30px {ACCENT_GLOW};z-index:10;"></div>
@@ -306,12 +306,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 QUOTE_HERO = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 径向光晕 -->
   <div id="glow" style="position:absolute;top:50%;left:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 60%);border-radius:50%;z-index:0;"></div>
@@ -342,12 +342,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 TIMELINE = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <div id="title" style="position:absolute;top:80px;left:100px;font-size:42px;font-weight:700;color:#fff;font-family:'Outfit','PingFang SC',sans-serif;">{HEADLINE}</div>
 
@@ -403,12 +403,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 RANKING = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <div id="title" style="position:absolute;top:80px;left:100px;font-size:42px;font-weight:700;color:#fff;font-family:'Outfit','PingFang SC',sans-serif;">{HEADLINE}</div>
 
@@ -457,12 +457,12 @@ window.__timelines["{COMPOSITION_ID}"]=tl;
 # ══════════════════════════════════════════════════════════
 OPENING = r'''<!DOCTYPE html>
 <!-- vf-v5.6 -->
-<html data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="background:{BG};">
+<html>
 <head><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>__GSAP_INLINE__</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:{BG};">
-<div class="scene" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
+<div class="scene" data-composition-id="{COMPOSITION_ID}" data-width="{W}" data-height="{H}" style="position:relative;width:{W}px;height:{H}px;background:{BG};overflow:hidden;">
 
   <!-- 微弱径向光晕 -->
   <div id="glow" style="position:absolute;top:50%;left:50%;width:1000px;height:1000px;transform:translate(-50%,-50%);background:radial-gradient(circle,{ACCENT_GLOW},transparent 70%);border-radius:50%;"></div>

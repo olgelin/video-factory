@@ -96,11 +96,7 @@ JSON 对象，字段说明：
 ### 分子/几何模型
 ```html
 <canvas id="model3d" style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.6;"></canvas>
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js" } }
-</script>
-<script type="module">
-import * as THREE from "three";
+<script>
 const c=document.getElementById("model3d"), r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
 r.setSize(1920,1080,false); r.setPixelRatio(1);
 const s=new THREE.Scene(), cam=new THREE.PerspectiveCamera(40,1920/1080,0.1,30);

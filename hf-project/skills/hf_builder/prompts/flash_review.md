@@ -14,8 +14,8 @@ E. 截断检查: 没有 'te 这样的破碎文字？
    PASS条件: 页面内没有孤立引号/逗号/句号作为文字内容
 F. 数据可视化: 有数字卡片或进度条或图表？
    PASS条件: 至少1个可视化元素（数字/进度条/柱状图/趋势箭头）
-G. 结构完整性: data-composition-id 属性存在 且 __timelines 注册了？
-   PASS条件: html 标签有 data-composition-id + window.__timelines["{composition_id}"]
+G. 结构完整性: data-composition-id 属性在 body 内元素上 且 __timelines 注册了？
+   PASS条件: body 内元素（div）有 data-composition-id + window.__timelines["{composition_id}"]
 H. 🔴 内容相关性: 画面文字是否与场景主题相关？（最重要！）
    PASS条件: 标题/数据卡片中的文字与主题关键词有关联
    场景关键词: {keywords_preview}
