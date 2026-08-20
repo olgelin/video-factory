@@ -131,7 +131,7 @@ SCENE_PROMPT = """你是 HyperFrames 视频合成专家。为以下场景编写�
 - zoom_in: tl.from("#main-content", {{scale:0.8, duration:0.6, ease:"back.out(1.4)"}}, 0)
 
 ## 硬性规则（违反=渲染失败）
-1. 输出完整 <!DOCTYPE html>，body 内最外层 div 携带: data-composition-id="{composition_id}" data-width="1920" data-height="1080"（⚠️ 绝不能写在 <html> 标签上，新版 HyperFrames 只认 body 内元素的 data-composition-id，写在 html 标签上会渲染失败）
+1. 输出完整 <!DOCTYPE html>，body 内最外层 div 携带: data-composition-id="{composition_id}" data-width="{W}" data-height="{H}"（⚠️ 绝不能写在 <html> 标签上，新版 HyperFrames 只认 body 内元素的 data-composition-id，写在 html 标签上会渲染失败）
 2. 不要引入 GSAP CDN（渲染器会本地内联），直接创建 gsap.timeline({{paused:true}}) 注册到 window.__timelines["{composition_id}"]
 3. 所有内容在 class="scene" div 中
 4. **⚠️ 绝对禁止在CSS/inline style中设置opacity:0！** 这会导致渲染器看不到内容。所有元素CSS中必须opacity:1（或不写opacity）。入场动画用GSAP的tl.from({{opacity:0}})即可，不要在HTML标签的style属性里写opacity:0。
@@ -919,7 +919,7 @@ def _auto_fix_html(html: str, composition_id: str) -> str:
                 html = html.replace('<div class="scene"', '<div class="scene" style="background:#1a1a2e;"', 1)
     # 11b. 如果没有 class="scene" 的 div，在 body 后第一个 div 上添加
     if 'class="scene"' not in html and "class='scene'" not in html and 'class=scene' not in html:
-        html = re.sub(r'(<body[^>]*>)', r'\1<div class="scene" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">', html, count=1)
+        html = re.sub(r'(<body[^>]*>)', rf'\1<div class="scene" style="position:relative;width:{_VIDEO_W}px;height:{_VIDEO_H}px;background:#1a1a2e;overflow:hidden;">', html, count=1)
         html = re.sub(r'(</body>)', r'</div>\1', html, count=1)
 
     # 12. 确保 html 和 body 也有背景色（防止画面下半部分白色）
@@ -1196,7 +1196,7 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 <script>{_load_gsap_inline()}</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;background:#0a0a0a;font-family:'Inter','Noto Sans SC',sans-serif;">
-<div class="scene" data-composition-id="{composition_id}" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;overflow:hidden;">
+<div class="scene" data-composition-id="{composition_id}" data-width="{_VIDEO_W}" data-height="{_VIDEO_H}" style="position:relative;width:{_VIDEO_W}px;height:{_VIDEO_H}px;background:#1a1a2e;overflow:hidden;">
 
   <!-- Layer 0: Grid pattern -->
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(6,182,212,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.03) 1px,transparent 1px);background-size:60px 60px;opacity:0.5;"></div>
@@ -1463,7 +1463,7 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     import json as _json_sg
 
     composition_id = f"beat-{sid}"
-    W, H = 1920, 1080
+    W, H = _VIDEO_W, _VIDEO_H
     duration = scene.get("duration", 8.0)
 
     system_prompt, user_tmpl = _load_scene_prompts()
@@ -1507,17 +1507,17 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
                 body, count=1
             )
         else:
-            body = f'<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;">\n{body}\n</div>'
+            body = f'<div id="scene" class="scene" style="position:relative;width:{W}px;height:{H}px;overflow:hidden;">\n{body}\n</div>'
         print(f"    🔧 [Scene {sid}] 注入 .scene div")
 
     # 校验 .scene div 宽高（LLM 有时写 1280×720 / 100% / 100vw 等错误值）
     def _fix_scene_wh(m):
         """替换 scene div 里的 width/height 为正确值"""
         tag = m.group(0)
-        # 替换 width（任何非 1920px 的值）
-        tag = _re_sg.sub(r'width\s*:\s*(?!1920px)[^;\"]+', 'width:1920px', tag)
-        # 替换 height（任何非 1080px 的值）
-        tag = _re_sg.sub(r'height\s*:\s*(?!1080px)[^;\"]+', 'height:1080px', tag)
+        # 替换 width（任何非正确值）
+        tag = _re_sg.sub(r'width\s*:\s*(?!' + str(W) + r'px)[^;\"]+', f'width:{W}px', tag)
+        # 替换 height（任何非正确值）
+        tag = _re_sg.sub(r'height\s*:\s*(?!' + str(H) + r'px)[^;\"]+', f'height:{H}px', tag)
         return tag
     body = _re_sg.sub(r'<div[^>]*class=["\']scene["\'][^>]*>', _fix_scene_wh, body)
 
@@ -1870,7 +1870,7 @@ def build_intro_html(topic: str) -> str:
 <script>{_load_gsap_inline()}</script>
 </head>
 <body style="margin:0;padding:0;overflow:hidden;font-family:'Inter','Noto Sans SC',sans-serif;background:#1a1a2e;">
-<div data-composition-id="beat-intro" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;background:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+<div data-composition-id="beat-intro" data-width="{_VIDEO_W}" data-height="{_VIDEO_H}" style="position:relative;width:{_VIDEO_W}px;height:{_VIDEO_H}px;background:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;">
     <!-- 品牌名 -->
     <div style="font-size:80px;font-weight:900;color:#FFFFFF;text-shadow:0 0 40px rgba(0,212,255,0.6);letter-spacing:15px;">不闻AI</div>
     <!-- 话题 -->
@@ -1969,6 +1969,9 @@ def build_outro_html(topic: str = "") -> str:
     # 注入实际话题名替换硬编码占位
     html = html.replace("文化边界", topic_short)
     html = html.replace("__GSAP_INLINE__", _load_gsap_inline())
+    # 竖屏支持：替换硬编码的 1920x1080 为实际分辨率
+    html = html.replace('width:1920px;height:1080px', f'width:{_VIDEO_W}px;height:{_VIDEO_H}px')
+    html = html.replace('data-width="1920" data-height="1080"', f'data-width="{_VIDEO_W}" data-height="{_VIDEO_H}"')
     return html
 
 
@@ -1988,8 +1991,8 @@ def build_index_html(scenes: list, topic: str = "") -> str:
            data-start="{t}"
            data-duration="{dur}"
            data-track-index="0"
-           data-width="1920"
-           data-height="1080">
+           data-width="{_VIDEO_W}"
+           data-height="{_VIDEO_H}">
       </div>'''
         t += dur
     
@@ -2002,8 +2005,8 @@ def build_index_html(scenes: list, topic: str = "") -> str:
            data-start="{t}"
            data-duration="{outro_dur}"
            data-track-index="0"
-           data-width="1920"
-           data-height="1080">
+           data-width="{_VIDEO_W}"
+           data-height="{_VIDEO_H}">
       </div>'''
     t += outro_dur
 
@@ -2011,7 +2014,7 @@ def build_index_html(scenes: list, topic: str = "") -> str:
 <html>
 <body>
   <div id="root" data-composition-id="main" data-start="0"
-       data-duration="{t}" data-width="1920" data-height="1080">
+       data-duration="{t}" data-width="{_VIDEO_W}" data-height="{_VIDEO_H}">
 {beats}
   </div>
   <script>{_load_gsap_inline()}</script>

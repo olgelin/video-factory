@@ -1,3 +1,24 @@
+# V18 — 竖屏渲染修复（--vertical 失效）
+
+## 变更日期
+2026-08-20
+
+## 问题背景
+`--vertical` 竖屏模式失效：配置正确传入了 video_width=1080/video_height=1920，但渲染层仍输出 1920×1080 横屏。
+
+根因：`hf_builder/impl.py` 生成 HTML 的多处硬编码了 `1920×1080`（SCENE_PROMPT 硬性规则、_single_llm_generate 的 W/H 与 _fix_scene_wh、fallback 模板、intro/outro 模板、index.html），未参数化，把竖屏配置覆盖回横屏。
+
+## 变更内容
+- `SCENE_PROMPT` 硬性规则 `data-width="1920" data-height="1080"` → `data-width="{W}" data-height="{H}"`（format 已传 W/H）
+- `_single_llm_generate`：`W, H = 1920, 1080` → `W, H = _VIDEO_W, _VIDEO_H`；`_fix_scene_wh` 与注入 .scene 用 W/H 变量
+- `fallback_scene_html`、`_auto_fix`、`build_intro_html`、`build_outro_html`、`build_index_html` 的硬编码 1920/1080 → `{_VIDEO_W}`/`{_VIDEO_H}` 或 replace 替换
+- 横屏模式（默认）零影响：W/H=1920/1080 时行为与之前完全一致
+
+## 已知遗留（后续完善）
+- `prompts/news/scene_system.md` 等 few-shot 示例 + Three.js setSize 仍按横屏设计，竖屏下 LLM 布局可能仍偏横屏，需单独重新设计竖屏 few-shot
+
+---
+
 # V16 — 系统性质量修复
 
 ## 变更日期
