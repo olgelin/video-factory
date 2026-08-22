@@ -47,6 +47,7 @@
 - 入场：tl.from/tl.fromTo，stagger 0.12-0.15s，层次感
 - 缓动：内容 power3.out/back.out(1.7) | 呼吸 sine.inOut | 粒子/扫光 none
 - 呼吸动画 2-3 个：tl.to repeat:3 yoyo:true
+- 🔴 关键信息落定后 hold ≥1s：主标题/大数字/核心内容入场落定后，先静止至少 1 秒（不呼吸、不抖动、不缩放），让观众看清，之后才开始呼吸微动。呼吸动画起始时间 = 入场结束 + 1s（如入场 0.8s 结束，呼吸从 1.8s 才开始）。氛围元素（粒子雨/扫光/光晕）不受此限，可从入场后持续动。
 - 粒子雨：
   `tl.to('.p-near',{y:1200,opacity:0.3,duration:4,repeat:3,ease:'none'}, 0);`
   `tl.to('.p-mid',{y:1000,opacity:0.25,duration:7,repeat:1,ease:'none'}, 0);`
