@@ -1350,6 +1350,11 @@ def _load_scene_prompts() -> tuple[str, str]:
     # V7: 统一 prompts 目录
     prompts_root = Path(__file__).parent.parent.parent / "prompts"
     style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music", "edu_music") else "news"
+    # V20: 竖屏（video_height > video_width）优先加载 {style}_vertical 目录（若存在），横屏目录不受影响
+    if _VIDEO_H > _VIDEO_W:
+        _vdir = f"{style_dir}_vertical"
+        if (prompts_root / _vdir / "scene_system.md").exists():
+            style_dir = _vdir
     system_path = prompts_root / style_dir / "scene_system.md"
     # scene_user.md 各类型共用（只有 {scene_json} 占位符）
     user_path = Path(__file__).parent / "prompts" / "scene_user.md"

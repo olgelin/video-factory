@@ -1,3 +1,22 @@
+# V20 — 竖屏 prompt 布局（news_vertical 隔离目录）
+
+## 变更日期
+2026-08-22
+
+## 问题背景
+渲染层已参数化（V18），但 prompt 层 few-shot / 安全区 / Three.js setSize 仍是横屏 1920×1080，竖屏下 LLM 布局偏横屏。
+
+## 变更内容
+- 新增 `prompts/news_vertical/` 目录（从 news 复制活跃文件，横屏 `news/` 一字不动，物理隔离）
+- `news_vertical/scene_system.md`：few-shot div 1080×1920、安全区左右 54px / 上下 96px
+- `news_vertical/scene_threejs.md`：5 处 `setSize(1080,1920)` + `PerspectiveCamera` aspect `1080/1920`
+- `impl.py _load_scene_prompts()`：竖屏（`_VIDEO_H > _VIDEO_W`）优先加载 `{style}_vertical` 目录，不存在则 fallback 原目录（不报错）
+
+## 验证
+- 单元测试 3 项：竖屏正确加载 news_vertical（无横屏残留）、横屏回归正常（未被污染）、edu 无竖屏目录安全 fallback
+
+---
+
 # V19 — hold≥1s 呼吸（关键信息落定后静止）
 
 ## 变更日期
