@@ -42,21 +42,9 @@ def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
     # 转义路径中的特殊字符（ffmpeg subtitles滤镜需要）
     srt_escaped = srt_path.replace("\\", "/").replace(":", "\\:")
 
-    # 字幕字号自适应：4K(3840宽)字号×2，否则默认20（ASS字号相对画面高度，4K下20会太小）
-    font_size = 20
-    try:
-        _w = subprocess.run(
-            f'ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "{video_path}"',
-            shell=True, capture_output=True, text=True, timeout=30,
-        ).stdout.strip()
-        if _w:
-            font_size = max(20, round(20 * int(_w) / 1920))
-    except Exception:
-        pass
+    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize=20,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2\'" -c:a copy "{output_path}"'
 
-    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize={font_size},FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2\'" -c:a copy "{output_path}"'
-
-    print(f"  [audio-mixer] 烧录字幕 (FontSize={font_size})...")
+    print(f"  [audio-mixer] 烧录字幕...")
     return run_ffmpeg(cmd, timeout=600)
 
 
@@ -172,7 +160,32 @@ def run(context: dict) -> dict:
             print(f"  [audio-mixer] ✅ 字幕烧录完成")
         else:
             print(f"  ⚠️ [audio-mixer] 字幕烧录失败，使用无字幕版本")
-    
+
+    # 输出双版本：4K 成品额外缩一个 1080p 版本（跟 video-clip-pro 一致）
+    try:
+        _w = subprocess.run(
+            f'ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "{MIXED_PATH}"',
+            shell=True, capture_output=True, text=True, timeout=30,
+        ).stdout.strip()
+        final_w = int(_w) if _w else 0
+    except Exception:
+        final_w = 0
+
+    if final_w > 1920:
+        import shutil as _sh
+        p4k = OUTPUT_DIR / "step11_final_2x.mp4"
+        _sh.move(str(MIXED_PATH), str(p4k))
+        cmd = f'ffmpeg -y -i "{p4k}" -vf scale=1920:1080 -c:v libx264 -preset medium -crf 20 -c:a copy "{MIXED_PATH}"'
+        if run_ffmpeg(cmd, timeout=600):
+            context["mixed_path_4k"] = str(p4k)
+            context["mixed_path"] = str(MIXED_PATH)
+            print(f"  [audio-mixer] ✅ 输出双版本: {p4k.name}(4K) + {MIXED_PATH.name}(1080p)")
+        else:
+            _sh.move(str(p4k), str(MIXED_PATH))
+            print(f"  ⚠️ [audio-mixer] 缩 1080p 失败，仅保留 4K")
+    else:
+        print(f"  [audio-mixer] 1080p 成品（无 4K 版本）")
+
     return context
 
 
