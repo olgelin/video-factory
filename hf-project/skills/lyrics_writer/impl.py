@@ -29,6 +29,15 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from llm_utils import call_llm
 
+# === Prompt 加载 ===
+_PROMPTS_DIR = Path(__file__).parent / "prompts"
+
+def _load_prompt(name: str) -> str:
+    p = _PROMPTS_DIR / f"{name}.md"
+    if not p.exists():
+        raise FileNotFoundError(f"Prompt missing: {p}")
+    return p.read_text(encoding="utf-8")
+
 # 输出路径
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 SCRIPT_PATH = OUTPUT_DIR / "step03_script.json"
@@ -90,101 +99,16 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
 - 情绪弧线：{rhythm.get('emotional_arc', '低→高→升华')}
 """
     
-    system_prompt = """你是一个顶级的歌词创作者，擅长「映射哲学」——通过具体事件映射到人性、情感、社会的深层真理。
+    system_prompt = _load_prompt("lyrics_system")
 
-## 核心理念：双层歌词结构
-
-### 表层（观众能理解）
-- 具体事件、技术、新闻
-- 真实的数据、时间、人物
-- 让观众知道"在讲什么"
-
-### 深层（观众能共鸣）
-- 人性、情感、社会、存在
-- 普遍的真理、永恒的困惑
-- 让观众感受到"这跟我有关"
-
-### 映射技巧
-1. **比喻**：把抽象概念具象化
-   - "信任" → "锚点"、"灯塔"、"基石"
-   - "虚假" → "面具"、"幻影"、"迷雾"
-   - "真实" → "光"、"根"、"骨"
-
-2. **象征**：用具体事物代表抽象概念
-   - 身份证 → 信任的证明
-   - 水印 → 不可磨灭的真相
-   - 镜子 → 自我认知
-
-3. **类比**：把技术问题映射到人生问题
-   - AI造假 → 人与人之间的欺骗
-   - 信息过载 → 意义的迷失
-   - 技术狂奔 → 人性的滞后
-
-4. **悖论**：揭示表面与本质的矛盾
-   - 越智能越不信任
-   - 越连接越孤独
-   - 越自由越迷茫
-
-## 歌词结构（副歌开头，像徐良/汪苏泷风格）
-
-### 结构模板（副歌开头）
-[Chorus] - 副歌开头！一上来就抓住听众，最核心最抓人的部分
-[Verse 1] - 主歌1，表层展开（具体事件/技术/数据）
-[Chorus] - 副歌重复，强化记忆点
-[Verse 2] - 主歌2，深层映射（人性/情感/社会）
-[Chorus] - 副歌第三次，情绪最高点
-[Bridge] - 桥段，哲学升华（悖论/真理/顿悟）
-[Chorus] - 副歌收尾，最后一次强化
-[Outro] - 尾声，余韵收束
-
-### 关键原则
-1. **副歌必须开头**：第一段就是副歌！像流行歌曲一上来就抓住听众
-2. **副歌要重复**：至少出现3-4次，强化记忆
-3. **副歌要抓人**：朗朗上口，能记住，能跟着唱
-4. **每段要饱满**：不要凑字数，要有实质内容和情感
-5. **不限长度**：根据内容自然展开，该长就长
-
-### 情绪弧线
-- Chorus（开头）：冲击+核心（高）
-- Verse 1：讲述+分析（中）
-- Chorus（重复）：强化（高）
-- Verse 2：映射+共鸣（中→高）
-- Chorus（高潮）：情绪最高点（最高）
-- Bridge：升华+顿悟（高→低→高）
-- Chorus（收尾）：收束+记忆（最高）
-- Outro：余韵（渐弱）
-
-## 创作要求
-
-1. **表层要具体**：有真实的数据、事件、人物
-2. **深层要普世**：能引发情感共鸣、哲学思考
-3. **映射要自然**：不能生硬，要像水到渠成
-4. **语言要诗意**：但不要太文艺，要口语化
-5. **副歌要抓人**：朗朗上口，能记住，能跟着唱
-6. **长度不限**：根据内容自然展开，不要凑字数也不要刻意精简
-
-## 输出格式
-直接输出歌词文本，不要其他内容。用方括号标注结构。"""
-
-    prompt = f"""口播稿主题: {topic}
-口播稿情绪: {mood}
-{topic_info}
-{style_guide}
-口播稿内容摘要:
-{chr(10).join(section_summaries[:6])}
-
-口播稿全文:
-{full_text[:2000]}
-
-请用「映射哲学」创作歌词：
-1. 表层：讲清楚这个事件/技术是什么
-2. 深层：映射到人性/情感/社会的深层真理
-3. 用比喻、象征、类比把具体升华为普遍
-4. 副歌开头！一上来就是最抓人的副歌（像徐良/汪苏泷的流行歌曲风格）
-5. 副歌至少重复3-4次，强化记忆
-6. 长度不限，根据内容自然展开
-
-直接输出歌词，不要其他内容。"""
+    prompt = _load_prompt("lyrics_user").format(
+        topic=topic,
+        mood=mood,
+        topic_info=topic_info,
+        style_guide=style_guide,
+        section_summaries=chr(10).join(section_summaries[:6]),
+        full_text=full_text[:2000],
+    )
 
     response = call_llm(prompt, system_prompt, max_tokens=4000)
     
