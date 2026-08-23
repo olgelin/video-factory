@@ -1611,6 +1611,24 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
             body = body[:insert_pos] + '  var tl = gsap.timeline({paused:true});\n' + body[insert_pos:]
             print(f"    🔧 [Scene {sid}] 注入 var tl 声明")
 
+    # 🔴 修复跨 script timeline 作用域断裂：
+    # LLM 偶发把 GSAP timeline 定义(var tl)和 __timelines 注册拆到不同 <script>，
+    # 导致注册处 tl 跨 script 拿不到(undefined) → HF 认为没注册 → 渲染静态空白帧。
+    # 解法：把 tl 暴露到全局 window.__tl，注册处统一用 window.__tl 引用（跨 script 也能拿到）。
+    _body, _n_expose = _re_sg.subn(
+        r'((?:var|let|const)\s+tl\s*=\s*gsap\.timeline\([^)]*\)\s*;)',
+        r'\1\n  window.__tl = tl;',
+        body,
+    )
+    _body, _n_global = _re_sg.subn(
+        r'(window\.__timelines\["[^"]+"\]\s*=\s*)tl\s*;',
+        r'\1window.__tl;',
+        _body,
+    )
+    body = _body
+    if _n_expose or _n_global:
+        print(f"    🔧 [Scene {sid}] 修复跨script timeline作用域: 暴露tl×{_n_expose}, 注册改全局×{_n_global}")
+
     # 包裹 DOCTYPE 骨架
     # 🔴 THREE 内联：body 用了 THREE 但没内联 three.min.js → 内联（否则 ReferenceError: THREE is not defined）
     three_script = ""

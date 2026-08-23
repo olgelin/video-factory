@@ -1,3 +1,23 @@
+# V21 — 修复跨 script timeline 作用域断裂（偶发空白帧根因）
+
+## 变更日期
+2026-08-23
+
+## 问题背景
+用户反馈 short_video 完整管道偶发"空白帧"（某场景画面无内容）。深挖定位真正根因：LLM 偶发把 GSAP timeline 定义(var tl)和 __timelines 注册拆到不同 <script> 块，导致注册处 tl 跨 script 作用域断裂（undefined），HyperFrames 等 45s 认为 timeline 未注册 → 渲染出静态空白帧（sub_timeline_readiness_timeout 警告）。
+
+排查排除的误判：密度爆表（坏场景密度正常仍空白）、tl.play 重复（带不带 tl.play 都空白）、JS 语法错误（node --check 通过）。
+
+## 变更内容
+- `hf_builder/impl.py _single_llm_generate`：新增跨 script timeline 作用域修复——timeline 定义后暴露到全局 `window.__tl`，`__timelines` 注册处统一用 `window.__tl` 引用。无论 LLM 拆几个 script，注册都能拿到真正的 timeline 对象（正常场景同样适用，window.__tl === tl 无害）。
+
+## 验证
+- 活坏场景 beat-2 手动修复：动画 1.31%→3.29%、亮彩 0.60%→3.22%，渲染 99.6s→33.6s，无 readiness 警告。
+- test_scenes.py（AI 话题 2 场景）：均触发修复，动画 12.12%/10.16%、亮彩 6.09%/4.19%，正常。
+- 多话题交叉验证（科普 + 消费 2 场景）：动画 8.02%/10.49%、亮彩 3.47%/3.56%，正常。
+
+---
+
 # V20 — 竖屏 prompt 布局（news_vertical 隔离目录）
 
 ## 变更日期
