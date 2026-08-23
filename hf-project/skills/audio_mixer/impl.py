@@ -41,11 +41,23 @@ def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
     
     # 转义路径中的特殊字符（ffmpeg subtitles滤镜需要）
     srt_escaped = srt_path.replace("\\", "/").replace(":", "\\:")
-    
-    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize=20,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2\'" -c:a copy "{output_path}"'
-    
-    print(f"  [audio-mixer] 烧录字幕...")
-    return run_ffmpeg(cmd, timeout=180)
+
+    # 字幕字号自适应：4K(3840宽)字号×2，否则默认20（ASS字号相对画面高度，4K下20会太小）
+    font_size = 20
+    try:
+        _w = subprocess.run(
+            f'ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "{video_path}"',
+            shell=True, capture_output=True, text=True, timeout=30,
+        ).stdout.strip()
+        if _w:
+            font_size = max(20, round(20 * int(_w) / 1920))
+    except Exception:
+        pass
+
+    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize={font_size},FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2\'" -c:a copy "{output_path}"'
+
+    print(f"  [audio-mixer] 烧录字幕 (FontSize={font_size})...")
+    return run_ffmpeg(cmd, timeout=600)
 
 
 CRITICAL_CHECKS = {

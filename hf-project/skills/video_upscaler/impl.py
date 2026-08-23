@@ -25,6 +25,53 @@ def _find_video2x() -> str:
     return "video2x"
 
 
+def _check_upscale_valid(output_path: Path, input_path: str, scale: int):
+    """检查超分输出是否有效：时长完整(≥95%) + 分辨率达到 scale 倍。
+    返回 (有效, 输出宽, 输出高)。video2x 常在完成超分后退出才崩(returncode≠0)，
+    但文件已完整产出，此时应按文件有效性判定成功。"""
+    import json as _json
+    ffprobe = "ffprobe"
+
+    def _probe(path):
+        try:
+            r = subprocess.run(
+                [ffprobe, "-v", "error", "-show_entries",
+                 "format=duration:stream=codec_type,width,height",
+                 "-of", "json", str(path)],
+                capture_output=True, text=True, timeout=60,
+            )
+            if r.returncode != 0:
+                return None
+            return _json.loads(r.stdout)
+        except Exception:
+            return None
+
+    out = _probe(output_path)
+    inp = _probe(input_path)
+    if not out or not inp:
+        return False, 0, 0
+    try:
+        out_dur = float(out.get("format", {}).get("duration", 0))
+        in_dur = float(inp.get("format", {}).get("duration", 0))
+    except Exception:
+        return False, 0, 0
+    # 时长完整（≥95%）
+    if in_dur > 0 and out_dur < in_dur * 0.95:
+        return False, 0, 0
+    # 分辨率
+    def _res(info):
+        for s in info.get("streams", []):
+            if s.get("codec_type") == "video":
+                return s.get("width", 0), s.get("height", 0)
+        return 0, 0
+    in_w, _ = _res(inp)
+    out_w, out_h = _res(out)
+    # 分辨率达到 scale 倍（容错 10%）
+    if in_w > 0 and out_w >= in_w * scale * 0.9:
+        return True, out_w, out_h
+    return False, out_w, out_h
+
+
 def run(context: dict) -> dict:
     """主入口：Video2X高清修复"""
 
@@ -67,10 +114,14 @@ def run(context: dict) -> dict:
             timeout=1800,  # 30分钟
         )
 
-        if result.returncode == 0 and output_path.exists():
-            # 获取输出文件大小
+        # video2x 常在完成超分后退出才崩(returncode≠0)，但文件已完整产出。
+        # 用"输出文件有效性"判定成功，而不是死磕 returncode。
+        valid, out_w, out_h = _check_upscale_valid(output_path, video_path, scale)
+        if valid:
             size_mb = output_path.stat().st_size / 1024 / 1024
-            print(f"  [upscaler] ✅ 高清修复完成: {output_path} ({size_mb:.1f}MB)")
+            print(f"  [upscaler] ✅ 高清修复完成: {output_path} ({size_mb:.1f}MB, {out_w}x{out_h})")
+            if result.returncode != 0:
+                print(f"  [upscaler] ⚠️ video2x 退出异常(exit={result.returncode})但文件完整，已采用")
             context["video_path"] = str(output_path)
             context["upscaled"] = True
         else:

@@ -1,3 +1,23 @@
+# V34 — 修复 video2x 4K 成品被误丢弃 + 字幕字号自适应
+
+## 变更日期
+2026-08-23
+
+## 问题背景
+video2x 完成 2x 超分后、进程退出时崩溃（exit 3221225477，ncnn-vulkan 访问冲突），但 4K 文件已完整产出（step10_upscaled.mp4，3840×2160，106.6s）。旧判定 `returncode==0 才算成功` 误判失败，管线退回 1080p，4K 成品被白白丢弃。
+
+## 变更内容
+- `video_upscaler/impl.py`：成功判定从 `returncode==0` 改为"输出文件有效性"——新增 `_check_upscale_valid()`，检查时长完整(≥95%)+分辨率达到 scale 倍。video2x 完成超分后退出才崩，文件完整即采用 4K；真中途崩（文件不完整）仍 fallback 1080p。
+- `audio_mixer/impl.py burn_subtitles`：字幕字号自适应（4K 宽 3840 → FontSize=40，1080p 保持 20），timeout 180s→600s（4K 烧字幕重编码更慢）。
+
+## 验证
+- 单测 `_check_upscale_valid`：4K 文件 valid=True(3840x2160)，不存在文件 valid=False
+- 4K + 音轨合成：3840×2160 + aac，链路通
+- 4K 烧字幕：路径转义后 FontSize 20/40 均成功，保留 4K
+- 端到端：手动用 4K 输入跑 audio_mixer，成品 step11_final.mp4 = 3840×2160 + 声音 + 字幕，全部通过
+
+---
+
 # V21 — 修复跨 script timeline 作用域断裂（偶发空白帧根因）
 
 ## 变更日期
