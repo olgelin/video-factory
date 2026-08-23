@@ -142,38 +142,31 @@ def _generate_fallback_lyrics(topic: str, sections: list) -> str:
     if not key_sentences:
         key_sentences = [topic]
     
-    # 带映射的fallback
+    # 通用fallback（LLM失败时兜底，避免AI腔，用轻意象）
     lyrics = f"""[Chorus]
 {key_sentences[0] if key_sentences else topic}
-真相与谎言之间，只隔着一层看不见的线
-我们都在寻找，那道能穿透迷雾的光
+有些话像风，一吹就散
+有些人像光，一碰就远
 {key_sentences[0] if key_sentences else topic}
-信任不是天生的，是需要被证明的信仰
 
 [Verse 1]
-{key_sentences[1] if len(key_sentences) > 1 else '时代的浪潮滚滚向前'}
-数据在流动，信息在爆炸
-我们站在十字路口，不知该相信谁
-每一个选择都关乎未来
-每一天都有新的发现
+{key_sentences[1] if len(key_sentences) > 1 else '日子像水一样流走'}
+有些事，当时看不清
+回过头，才发现是一场空
 
 [Verse 2]
-面具戴久了，会忘记真实的自己
-幻影看多了，会迷失在虚幻里
-我们渴望真实，却又害怕被看穿
-这是人性的悖论，也是时代的困境
+{key_sentences[2] if len(key_sentences) > 2 else '人总想抓住点什么'}
+抓得越紧，越留不住
+这就是日子教给我们的道理
 
 [Bridge]
-{key_sentences[2] if len(key_sentences) > 2 else '不要害怕改变'}
-当技术狂奔，人性却在原地踏步
-我们需要的不是更快的AI
-而是更真的心
+若早知道是这样
+你会不会换个选择
+可惜这世上，没有回头路
 
 [Outro]
-记住，信任不是天生的
-是需要被证明的信仰
-在这个真假难辨的世界
-做那个敢于摘下面具的人
+记住走过的路
+别让同样的错，再犯一次
 """
     return lyrics
 
