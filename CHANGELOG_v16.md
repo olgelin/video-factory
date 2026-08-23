@@ -1,3 +1,25 @@
+# V38 — deepseek 视觉模型接入（替代火山引擎 vision 过期的洞）
+
+## 变更日期
+2026-08-23
+
+## 问题背景
+1. Hermes 的 vision_analyze 用火山引擎 glm-5.2，订阅过期不可用；看视频帧只能 ffmpeg 抽帧 + PIL 像素分析（粗活）。
+2. video-factory 的 visual_checker 调 registry.call_vision()，但 provider.py 根本没这个方法 → 一直 fallback 到 vision_model_not_available。
+
+## 变更内容
+1. **Hermes config.yaml**（auxiliary.vision）：火山引擎 glm-5.2 → deepseek-v4-flash-vision-exp + api.deepseek.com + deepseek 官方 key
+2. **provider.py**：
+   - 注册 deepseek-v4-flash-vision-exp 模型
+   - 新增 call_vision() 方法（图片 base64 + image_url 格式）
+   - 🔴 关键坑：vision-exp 是 reasoning 模型，reasoning_content 会先占 3000+ tokens，max_tokens 太小会导致 content（真答案）被截断。修复：max_tokens 强制 ≥2000 + 不 fallback 到 reasoning_content
+
+## 验证
+- 独立测试：call_vision 正确识别画面（"深色科技风数据展示界面...'每一分省下的钱都是割下的肉'"）
+- visual_checker 端到端：5/5 帧全部识别成功，置信度 0.93（修复前 2/5、0.38）
+
+---
+
 # V36 — 歌词 prompt 修复（事件→情绪创作逻辑 + 补丢失约束 + 抽独立 .md）
 
 ## 变更日期

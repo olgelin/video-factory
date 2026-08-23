@@ -189,8 +189,8 @@ class ProviderRegistry:
         if not self._api_key:
             return
 
-        # V5.4: 硬注册 pro 和 flash（确保始终可用，不依赖 config.yaml）
-        for model_name in ["deepseek-v4-pro", "deepseek-v4-flash"]:
+        # V5.4: 硬注册 pro/flash/vision（确保始终可用，不依赖 config.yaml）
+        for model_name in ["deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp"]:
             if model_name not in self._providers:
                 self._providers[model_name] = {
                     "model": model_name,
@@ -201,7 +201,7 @@ class ProviderRegistry:
         # V5.4: 只保留 DeepSeek 模型，过滤掉 config.yaml/环境变量泄漏的其他模型
         self._providers = {
             k: v for k, v in self._providers.items()
-            if k in ("deepseek-v4-pro", "deepseek-v4-flash")
+            if k in ("deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp")
         }
 
     def call_with_model(
@@ -300,6 +300,64 @@ class ProviderRegistry:
             print(f"  [Provider] {model} 失败，尝试下一个...")
 
         raise RuntimeError(f"所有模型均调用失败 (task={task})")
+
+    def call_vision(
+        self,
+        prompt: str,
+        image_path: str = None,
+        max_tokens: int = 800,
+        timeout: int = 60,
+    ) -> Optional[str]:
+        """调用 deepseek-v4-flash-vision-exp 视觉模型（支持图片输入）"""
+        import base64 as _b64
+
+        # reasoning 模型：reasoning_content 会先占 3000+ tokens，需给足空间让 content 输出
+        max_tokens = max(max_tokens, 2000)
+
+        model = "deepseek-v4-flash-vision-exp"
+        provider = self._providers.get(model)
+        if not provider:
+            provider = {
+                "model": model,
+                "url": self._base_url.rstrip("/") + "/chat/completions",
+                "api_key": self._api_key,
+            }
+
+        # 构建 content（文本 + 图片）
+        content = [{"type": "text", "text": prompt}]
+        if image_path and os.path.exists(image_path):
+            with open(image_path, "rb") as f:
+                img_b64 = _b64.b64encode(f.read()).decode()
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{img_b64}"},
+            })
+
+        messages = [{"role": "user", "content": content}]
+        headers = {
+            "Authorization": f"Bearer {provider['api_key']}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": provider["model"],
+            "messages": messages,
+            "max_tokens": max_tokens,
+        }
+
+        try:
+            resp = requests.post(provider["url"], headers=headers, json=payload, timeout=timeout)
+            if resp.status_code == 200:
+                data = resp.json()
+                msg = data.get("choices", [{}])[0].get("message", {})
+                content_text = msg.get("content", "").strip()
+                if content_text:
+                    return content_text
+                # content 为空说明被截断（reasoning 占了全部 token），不返回 reasoning（那是思考过程不是答案）
+                return None
+            print(f"  [Provider] vision {model} HTTP {resp.status_code}: {resp.text[:150]}")
+        except Exception as e:
+            print(f"  [Provider] vision {model} 错误: {e}")
+        return None
 
     def _call_single(
         self,
