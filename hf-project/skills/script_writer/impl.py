@@ -216,17 +216,17 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
     if result:
         return result
     
-    # 第一次失败，重试一次（更严格的prompt）
-    print("  ⚠️ [script-writer] JSON解析失败，重试...")
-    strict_prompt = prompt + "\n\n重要：只输出纯JSON，不要任何markdown代码块，不要任何解释文字。"
-    llm_response = call_llm(strict_prompt, system_prompt, max_tokens=8000)
+    # V39: 重试多次（deepseek-v4-flash reasoning 随机暴走导致 content 为空）
+    for attempt in range(3):
+        print(f"  ⚠️ [script-writer] JSON解析失败，重试 {attempt+1}/3...")
+        strict_prompt = prompt + "\n\n重要：只输出纯JSON，不要任何markdown代码块，不要任何解释文字。"
+        llm_response = call_llm(strict_prompt, system_prompt, max_tokens=8000)
+        if llm_response:
+            result = _parse_json_response(llm_response)
+            if result:
+                return result
     
-    if llm_response:
-        result = _parse_json_response(llm_response)
-        if result:
-            return result
-    
-    print("  ❌ [script-writer] JSON解析失败")
+    print("  ❌ [script-writer] JSON解析失败（重试3次）")
     return None
 
 
@@ -442,8 +442,13 @@ def run(context: dict) -> dict:
         # 提取关键词做模糊匹配（处理中文破折号、英文横线等分隔符）
         import re as _re_kw
         def _extract_kw(text):
-            text = text.replace("：", " ").replace("，", " ").replace("、", " ").replace("——", " ").replace("—", " ").replace("-", " ").replace("|", " ")
-            return set(_re_kw.sub(r'\s+', ' ', text).split())
+            # 非中文/字母/数字（标点、括号等）→ 空格
+            text = _re_kw.sub(r'[^\w\u4e00-\u9fff]+', ' ', text)
+            # 中英文边界、数字边界插入空格（让 "OpenAI下一代模型GPT-6" → "OpenAI 下一代模型 GPT-6"）
+            text = _re_kw.sub(r'(?<=[\u4e00-\u9fff])(?=[A-Za-z0-9])', ' ', text)
+            text = _re_kw.sub(r'(?<=[A-Za-z0-9])(?=[\u4e00-\u9fff])', ' ', text)
+            # 过滤过短 token（单字符如 "的""是" 不算关键词）
+            return set(w for w in _re_kw.sub(r'\s+', ' ', text).split() if len(w) > 1)
         input_keywords = _extract_kw(selected_topic)
         script_keywords = _extract_kw(script_topic)
         overlap = input_keywords & script_keywords

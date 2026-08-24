@@ -377,14 +377,17 @@ class ProviderRegistry:
             "Authorization": f"Bearer {provider['api_key']}",
             "Content-Type": "application/json",
         }
+        model = provider["model"]
+        # V39: reasoning 模型（flash/pro）reasoning_content 会随机暴走占大量 tokens，
+        # 强制给 content 留足空间（否则 content 被挤空，JSON 解析失败）
+        if any(k in model for k in ("flash", "reasoner", "pro")):
+            max_tokens = max(max_tokens, 16000)
         payload = {
-            "model": provider["model"],
+            "model": model,
             "messages": messages,
             "temperature": 0.7,
             "max_tokens": max_tokens,
         }
-
-        model = provider["model"]
 
         for retry in range(3):
             try:
@@ -413,11 +416,9 @@ class ProviderRegistry:
                     if content:
                         return content
 
-                    reasoning = msg.get("reasoning_content", "").strip()
-                    if reasoning:
-                        return reasoning
-
-                    return content
+                    # V39: reasoning_content 是思考过程不是答案，绝不 fallback（否则 JSON 解析必失败）
+                    # content 为空说明 max_tokens 被 reasoning 吃光，应返回 None 让上层重试/加大 max_tokens
+                    return None
 
                 # 402 Insufficient Balance 等致命错误不重试
                 if resp.status_code == 402:
