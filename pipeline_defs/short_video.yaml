@@ -427,3 +427,21 @@ stages:
     timeout: 120
     retry: 0
     optional: true
+
+  - name: publish_meta
+    step: 15
+    skill: publish_meta
+    phase: 5
+    parallel_group: null
+    description: "生成发布元数据（标题≤16字/描述≤40字/4个标签）"
+    input:
+      - output/step03_script.json
+      - output/topic_selected.json
+    produces:
+      - output/publish_meta.json
+    provider: llm
+    provider_task: creative
+    checkpoint_required: false
+    timeout: 120
+    retry: 1
+    optional: true

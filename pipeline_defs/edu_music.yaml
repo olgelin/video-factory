@@ -19,7 +19,6 @@ renderer_family: edu-music
 
 context_defaults:
   bgm_captions: "ambient piano, calm, 60 BPM, focus, gentle strings, meditative, soft"
-  bgm_duration: 180
 
 output:
   default_format: mp4

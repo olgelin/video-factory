@@ -8,12 +8,17 @@
 5. **差异化** (uniqueness): 是否能做出独特角度，而不是千篇一律的报道
 6. **情绪价值** (emotional_value): 是否能引发共鸣/争议/好奇/惊讶
 7. **视频化潜力** (video_potential): 是否有天然子话题、具体数据、视觉元素。有数字/对比/流程的选题→高分；开放式问题→低分
+8. **分享欲** (share_motivation): 看完想不想转发/艾特人/争论/站队。有争议性、共鸣点、社交货币的选题→高分
+9. **前3秒钩子** (hook_strength): 第一句能不能让人停下来。有反差/悬念/数字冲击/挑战常识的开头→高分
+10. **完播率预判** (completion_potential): 有没有"后面有反转/答案/真相"的悬念结构，让人看到最后→高分
 
 【选题方向】
 - 不要选太宏大的话题（如"国际局势"），要选具体的切入点
 - 优先选有"冲突感"、"反差感"、"实用价值"的角度
 - 优先选交叉验证的热点（多个平台都有，信息更可靠）
 - 要能用一句话说清楚"这个视频讲什么"
+- 🔥 优先选"预判热点"：正在发酵、还没被大号做烂的话题（比追热搜快一步）。热搜榜第一的往往已过峰值，流量已被抢走
+- 🔥 优先选"强情绪"选题：能让观众愤怒/共鸣/好奇/想站队，而不是中立的资讯罗列
 
 【来源追踪要求】
 - 每个关键点必须标注信息来源
@@ -33,7 +38,10 @@
     "uniqueness": 0-10,
     "emotional_value": 0-10,
     "video_potential": 0-10,
-    "total": 0-70
+    "share_motivation": 0-10,
+    "hook_strength": 0-10,
+    "completion_potential": 0-10,
+    "total": 0-100
   },
   "reason": "选择这个话题的理由（2-3句话）",
   "target_audience": "目标观众画像（年龄、兴趣、痛点）",
@@ -61,7 +69,7 @@
     }
   ],
   "alternative_topics": [
-    {"topic": "备选话题1", "angle": "切入角度", "total_score": 0-60}
+    {"topic": "备选话题1", "angle": "切入角度", "total_score": 0-100}
   ],
   "video_potential": {
     "visual_style": "data_visualization|emotional_narrative|comparison_impact|timeline_story|quote_driven",
