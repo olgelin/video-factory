@@ -22,7 +22,6 @@ renderer_family: edu-explain
 # 上下文默认值（注入到 pipeline context）
 context_defaults:
   bgm_captions: "ambient piano, calm, 60 BPM, focus, gentle strings, meditative, soft"
-  bgm_duration: 180
 
 # 视频规格
 output:
