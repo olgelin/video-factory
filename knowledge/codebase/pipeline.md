@@ -1,5 +1,5 @@
 # Pipeline 文档
-> 自动生成于 2026-07-09 06:37
+> 自动生成于 2026-08-25 20:02
 
 ## edu-music-video (`edu_music.yaml`)
 
@@ -63,8 +63,34 @@
 | 1 | topic_scout | topic_scout |
 | 2 | topic_selector | topic_selector |
 | 3 | script_writer | script_writer |
-| 4 | lyrics_writer | lyrics_writer |
 | 5 | voice_gen | voice_gen |
+| 4 | lyrics_writer | lyrics_writer |
+| 8 | design_system | design_system |
+| 6 | transcriber | transcriber |
+| 7 | bgm_generator | bgm_generator |
+| 9 | storyboard | storyboard |
+| 9.1 | color_grader | color_grader |
+| 9.2 | layout_composer | layout_composer |
+| 9.3 | motion_director | motion_director |
+| 9.4 | depth_composer | depth_composer |
+| 10 | hf_builder | hf_builder |
+| 10.5 | quality_scorer | quality_scorer |
+| 11 | video_renderer | video_renderer |
+| 13 | video_upscaler | video_upscaler |
+| 13.5 | visual_checker | visual_checker |
+| 12 | audio_mixer | audio_mixer |
+| 14 | quality_checker | quality_checker |
+| 15 | publish_meta | publish_meta |
+
+## speech-to-video (`speech_to_video.yaml`)
+
+口语转视频。你把想说的话说出来（哪怕是碎片、啰嗦、有错词），
+
+| 步骤 | 名称 | Skill |
+|------|------|-------|
+| 1 | speech_processor | speech_processor |
+| 5 | voice_gen | voice_gen |
+| 4 | lyrics_writer | lyrics_writer |
 | 8 | design_system | design_system |
 | 6 | transcriber | transcriber |
 | 7 | bgm_generator | bgm_generator |
@@ -79,3 +105,4 @@
 | 13 | video_upscaler | video_upscaler |
 | 12 | audio_mixer | audio_mixer |
 | 14 | quality_checker | quality_checker |
+| 13.5 | visual_checker | visual_checker |
