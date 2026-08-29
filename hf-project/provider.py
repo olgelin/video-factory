@@ -84,6 +84,52 @@ HF_PARALLEL_MODELS = [
 
 
 # ============================================================
+# V55: LLM 统一配置 — 换模型/供应商只改 llm_config.yaml，不改代码
+# ============================================================
+
+def _load_llm_config() -> dict:
+    """加载统一配置 E:/Hermes-Agent/workspace/xiaoshan/llm_config.yaml。
+
+    找不到文件时返回 {}，完全走下方硬编码默认（向后兼容）。
+    """
+    config_path = os.environ.get(
+        "VF_LLM_CONFIG",
+        str(Path(__file__).resolve().parent.parent.parent / "llm_config.yaml"),
+    )
+    if not Path(config_path).exists():
+        return {}
+    try:
+        with open(config_path) as f:
+            return yaml.safe_load(f) or {}
+    except Exception:
+        return {}
+
+
+_LLM_CONFIG = _load_llm_config()
+
+# model_override：把任务映射里的模型名做替换（换模型改 llm_config.yaml，不改代码）
+_OVERRIDE = _LLM_CONFIG.get("model_override", {})
+
+
+def _apply_override(model: str) -> str:
+    return _OVERRIDE.get(model, model)
+
+
+# 把 TASK_MODEL_MAP 里的 primary/fallback 做 override
+for _cfg in TASK_MODEL_MAP.values():
+    if "primary" in _cfg:
+        _cfg["primary"] = _apply_override(_cfg["primary"])
+    if "fallback" in _cfg:
+        _cfg["fallback"] = [_apply_override(m) for m in _cfg["fallback"]]
+
+# 并行模型 override
+HF_PARALLEL_MODELS = [_apply_override(m) for m in HF_PARALLEL_MODELS]
+
+# 视觉模型（看图任务）
+VISION_MODEL = _apply_override(_LLM_CONFIG.get("vision_model", "deepseek-v4-flash-vision-exp"))
+
+
+# ============================================================
 # 账号级限流器
 # ============================================================
 
@@ -186,6 +232,25 @@ class ProviderRegistry:
         )
 
     def _discover(self):
+        # V55: 用 llm_config.yaml 的 providers 注册所有模型（支持多供应商）
+        providers_cfg = _LLM_CONFIG.get("providers", {})
+        if providers_cfg:
+            for _name, pcfg in providers_cfg.items():
+                env_name = pcfg.get("api_key_env", "")
+                # api_key：环境变量优先；仅 deepseek 供应商在环境变量空时 fallback 到 self._api_key（config.yaml 读到的）
+                api_key = os.environ.get(env_name, "")
+                if not api_key and env_name == "DEEPSEEK_API_KEY":
+                    api_key = self._api_key
+                base_url = pcfg.get("base_url", self._base_url)
+                for model in pcfg.get("models", []):
+                    self._providers[model] = {
+                        "model": model,
+                        "url": base_url.rstrip("/") + "/chat/completions",
+                        "api_key": api_key,
+                    }
+            return
+
+        # 向后兼容：无 llm_config.yaml 时，走原 deepseek 硬注册逻辑
         if not self._api_key:
             return
 
@@ -314,7 +379,7 @@ class ProviderRegistry:
         # reasoning 模型：reasoning_content 会先占 3000+ tokens，需给足空间让 content 输出
         max_tokens = max(max_tokens, 2000)
 
-        model = "deepseek-v4-flash-vision-exp"
+        model = VISION_MODEL
         provider = self._providers.get(model)
         if not provider:
             provider = {
