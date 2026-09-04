@@ -90,7 +90,7 @@ def generate_bgm(handler, lyrics, output_path, duration=120, captions="electroni
     attempts = [
         {"use_tiled_decode": False, "audio_duration": duration},
         {"use_tiled_decode": True, "audio_duration": duration},
-        {"use_tiled_decode": False, "audio_duration": duration},  # 🔴 -1(随机时长)改显式duration：BGM时长固定不随机
+        {"use_tiled_decode": False, "audio_duration": -1},
     ]
 
     for i, params in enumerate(attempts):
