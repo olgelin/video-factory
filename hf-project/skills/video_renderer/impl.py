@@ -175,7 +175,7 @@ def run_hyperframes_render(project_dir: str, output_path: str, supersample: bool
         src_content = _safe_read_html(comp_src_path)
         _safe_write_html(standalone_dir / "index.html", src_content)
 
-        scale_flag = " --scale 2" if supersample else ""
+        scale_flag = " --resolution 4k" if supersample else ""
         cmd = f'hyperframes render . --output "{clip_path}" --quality high --workers 1 --gpu{scale_flag}'
 
         # 🔴 清理残留 chrome-headless-shell：反复启动会累积僵尸进程，导致后续 beat 渲染卡住（node 在跑但 headless-shell 不启动）
