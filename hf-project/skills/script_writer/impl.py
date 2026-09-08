@@ -187,6 +187,10 @@ def generate_script(topic_selected: dict, style_profile: dict = None, research_d
     system_path = prompts_root / style_dir / "script_system.md"
     if system_path.exists():
         system_prompt = system_path.read_text(encoding="utf-8").format(style_guide=style_guide)
+        # 拼接口播文案质量标尺范例（news 等资讯类才有；edu 类无此文件则跳过）
+        examples_path = prompts_root / style_dir / "script_examples.md"
+        if examples_path.exists():
+            system_prompt += "\n\n" + examples_path.read_text(encoding="utf-8")
         print(f"  [script-writer] 使用提示词: prompts/{style_dir}/script_system.md")
     else:
         # 兼容旧位置
@@ -448,7 +452,13 @@ def run(context: dict) -> dict:
             text = _re_kw.sub(r'(?<=[\u4e00-\u9fff])(?=[A-Za-z0-9])', ' ', text)
             text = _re_kw.sub(r'(?<=[A-Za-z0-9])(?=[\u4e00-\u9fff])', ' ', text)
             # 过滤过短 token（单字符如 "的""是" 不算关键词）
-            return set(w for w in _re_kw.sub(r'\s+', ' ', text).split() if len(w) > 1)
+            tokens = set(w for w in _re_kw.sub(r'\s+', ' ', text).split() if len(w) > 1)
+            # 中文无空格分词，整句会变成一个 token，导致与 LLM 改写后的标题零重叠。
+            # 补充 CJK 字符 bigram 作为关键词，让 "江西省长叶建春" 与 "江西两任省长" 能匹配到 "江西""省长"。
+            cjk_only = _re_kw.sub(r'[^\u4e00-\u9fff]', '', text)
+            for i in range(len(cjk_only) - 1):
+                tokens.add(cjk_only[i:i + 2])
+            return tokens
         input_keywords = _extract_kw(selected_topic)
         script_keywords = _extract_kw(script_topic)
         overlap = input_keywords & script_keywords
