@@ -58,3 +58,4 @@ screenshots/
 # Project archives (generated per-run)
 projects/
 *.bak*
+.cron_topic_*.txt
