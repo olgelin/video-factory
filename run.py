@@ -76,15 +76,26 @@ def _archive_to_feishu(topic: str = "") -> bool:
         from feishu_archive import archive_task
         output_dir = WORKSPACE / "hf-project" / "output"
         meta_path = output_dir / "publish_meta.json"
-        video_path = output_dir / "step11_final.mp4"
-        if not meta_path.exists() or not video_path.exists():
+        if not meta_path.exists():
             return False
         meta = json.loads(meta_path.read_text(encoding='utf-8'))
+        # 高清版优先（4K step11_final_2x.mp4），缺失降级 1080p
+        video_path = output_dir / "step11_final_2x.mp4"
+        if not video_path.exists():
+            video_path = output_dir / "step11_final.mp4"
+        if not video_path.exists():
+            return False
+        bgm_path = output_dir / "bgm.wav"
+        lyrics_path = output_dir / "lyrics.txt"
         return archive_task({
             'topic': meta.get('topic', topic or ''),
             'mode': 'video-factory',
             'title': meta.get('title', topic or ''),
+            'description': meta.get('description', ''),
+            'tags': meta.get('tags', []),
             'video': str(video_path),
+            'bgm': str(bgm_path) if bgm_path.exists() else None,
+            'lyrics': str(lyrics_path) if lyrics_path.exists() else None,
             'status': '完成',
         })
     except Exception as e:
