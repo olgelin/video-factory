@@ -69,6 +69,29 @@ except ImportError:
     COST_TRACKER_AVAILABLE = False
 
 
+def _archive_to_feishu(topic: str = "") -> bool:
+    """pipeline 跑完归档到飞书「AI 输出」台账 + 输出区。失败静默降级（不影响成品）。"""
+    try:
+        import json
+        from feishu_archive import archive_task
+        output_dir = WORKSPACE / "hf-project" / "output"
+        meta_path = output_dir / "publish_meta.json"
+        video_path = output_dir / "step11_final.mp4"
+        if not meta_path.exists() or not video_path.exists():
+            return False
+        meta = json.loads(meta_path.read_text(encoding='utf-8'))
+        return archive_task({
+            'topic': meta.get('topic', topic or ''),
+            'mode': 'video-factory',
+            'title': meta.get('title', topic or ''),
+            'video': str(video_path),
+            'status': '完成',
+        })
+    except Exception as e:
+        print(f"  [feishu] 归档失败（不影响成品）: {e}")
+        return False
+
+
 def main():
     import argparse
 
@@ -125,6 +148,9 @@ def main():
         cost_tracker=cost_tracker,
         clean=args.clean,
     )
+
+    # 🔴 飞书归档：pipeline 跑完自动备份到「AI 输出」台账 + 输出区（失败静默降级，不影响成品）
+    _archive_to_feishu(args.topic)
 
     # 打印费用摘要
     if cost_tracker:
