@@ -76,23 +76,43 @@ def _archive_to_feishu(topic: str = "") -> bool:
         from feishu_archive import archive_task
         output_dir = WORKSPACE / "hf-project" / "output"
         meta_path = output_dir / "publish_meta.json"
-        if not meta_path.exists():
-            return False
-        meta = json.loads(meta_path.read_text(encoding='utf-8'))
+
         # 高清版优先（4K step11_final_2x.mp4），缺失降级 1080p
         video_path = output_dir / "step11_final_2x.mp4"
         if not video_path.exists():
             video_path = output_dir / "step11_final.mp4"
         if not video_path.exists():
             return False
+
+        title = topic or ""
+        description = ""
+        tags = []
+        if meta_path.exists():
+            meta = json.loads(meta_path.read_text(encoding='utf-8'))
+            title = meta.get('title', title)
+            description = meta.get('description', '')
+            tags = meta.get('tags', [])
+        else:
+            # 🔴 publish_meta 是 optional 步骤（可能被跳过），兜底从必产出文件提取元数据
+            #    （定时任务跳过 publish_meta 时，视频仍应归档，不能静默丢同步）
+            script_path = output_dir / "step03_script.json"
+            if script_path.exists():
+                script = json.loads(script_path.read_text(encoding='utf-8'))
+                _t = (script.get('topic', '') or topic or '').strip()
+                title = _t[:20] if len(_t) > 20 else _t
+                topic = title
+            # tags 从标题兜底提取（2-4 字关键词粗提取，非关键）
+            if title:
+                tags = [w for w in title.replace('：', ' ').replace(':', ' ').split() if 2 <= len(w) <= 8][:4]
+
         bgm_path = output_dir / "bgm.wav"
         lyrics_path = output_dir / "lyrics.txt"
         return archive_task({
-            'topic': meta.get('topic', topic or ''),
+            'topic': topic or title,
             'mode': 'video-factory',
-            'title': meta.get('title', topic or ''),
-            'description': meta.get('description', ''),
-            'tags': meta.get('tags', []),
+            'title': title or topic,
+            'description': description,
+            'tags': tags,
             'video': str(video_path),
             'bgm': str(bgm_path) if bgm_path.exists() else None,
             'lyrics': str(lyrics_path) if lyrics_path.exists() else None,
