@@ -89,9 +89,17 @@ def _archive_to_feishu(topic: str = "") -> bool:
         tags = []
         if meta_path.exists():
             meta = json.loads(meta_path.read_text(encoding='utf-8'))
-            title = meta.get('title', title)
-            description = meta.get('description', '')
-            tags = meta.get('tags', [])
+            meta_topic = (meta.get('topic') or '').strip()
+            # 🔴 publish_meta 可能是上一次跑的旧数据（publish_meta 步骤被跳过时）。
+            #    若 meta 的 topic 和本次 topic 对不上，说明是旧残留，用 topic 参数兜底，别让旧标题污染本次归档。
+            if topic and meta_topic and topic.strip() != meta_topic:
+                title = topic[:20] if len(topic) > 20 else topic
+                description = ''
+                tags = []
+            else:
+                title = meta.get('title', title)
+                description = meta.get('description', '')
+                tags = meta.get('tags', [])
         else:
             # 🔴 publish_meta 是 optional 步骤（可能被跳过），兜底从必产出文件提取元数据
             #    （定时任务跳过 publish_meta 时，视频仍应归档，不能静默丢同步）
@@ -133,7 +141,7 @@ def main():
     parser.add_argument("--speech", help="口语转视频：直接说一段话，引擎帮你整理成脚本并做成视频")
     parser.add_argument("--skip-voice", action="store_true", help="跳过配音")
     parser.add_argument("--skip-bgm", action="store_true", help="跳过BGM")
-    parser.add_argument("--steps", default="1-13", help="步骤范围")
+    parser.add_argument("--steps", default="1-15", help="步骤范围（默认 1-15 含 publish_meta，避免归档拿旧元数据）")
     parser.add_argument("--vertical", action="store_true", help="竖屏模式")
     parser.add_argument("--supersample", action="store_true", help="V6: 2x 超采样渲染（渲染4K→缩放到1080p）")
     parser.add_argument("--no-feedback", action="store_true", help="禁用反馈系统")
