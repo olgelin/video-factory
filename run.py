@@ -11,6 +11,7 @@ run.py — video-factory 新入口（YAML 驱动 + Provider 抽象 + 成本追�
 
 import os
 import sys
+import time
 from pathlib import Path
 
 # 清除 PYTHONPATH 防止 hermes-agent venv 覆盖 core venv
@@ -87,31 +88,39 @@ def _archive_to_feishu(topic: str = "") -> bool:
         title = topic or ""
         description = ""
         tags = []
+
+        # 🔴 判断 publish_meta.json 是否本轮生成：用 mtime 新鲜度，不用 topic 字符串一致。
+        #    根因：args.topic（短话题，如"贵州独山县"）和 meta.topic（LLM 完整标题，如
+        #    "贵州独山县：一个脱贫县的四百亿债务…"）本来就不同，用字符串一致判断几乎必误判
+        #    "旧残留"，导致标题被硬截 20 字 + 描述/标签全丢。
+        meta_fresh = False
         if meta_path.exists():
+            age = time.time() - meta_path.stat().st_mtime
+            meta_fresh = age < 7200  # 2 小时内 = 本轮（pipeline 跑完立即归档）
+        if meta_fresh:
             meta = json.loads(meta_path.read_text(encoding='utf-8'))
-            meta_topic = (meta.get('topic') or '').strip()
-            # 🔴 publish_meta 可能是上一次跑的旧数据（publish_meta 步骤被跳过时）。
-            #    若 meta 的 topic 和本次 topic 对不上，说明是旧残留，用 topic 参数兜底，别让旧标题污染本次归档。
-            if topic and meta_topic and topic.strip() != meta_topic:
-                title = topic[:20] if len(topic) > 20 else topic
-                description = ''
-                tags = []
-            else:
-                title = meta.get('title', title)
-                description = meta.get('description', '')
-                tags = meta.get('tags', [])
+            if meta.get('title'):
+                title = meta['title']
+            if meta.get('topic'):
+                topic = meta['topic']
+            description = meta.get('description', '')
+            tags = meta.get('tags', [])
         else:
-            # 🔴 publish_meta 是 optional 步骤（可能被跳过），兜底从必产出文件提取元数据
-            #    （定时任务跳过 publish_meta 时，视频仍应归档，不能静默丢同步）
+            # publish_meta 缺失或旧残留 → 从 step03_script.json 兜底（完整提取，不硬截 20 字）
             script_path = output_dir / "step03_script.json"
             if script_path.exists():
                 script = json.loads(script_path.read_text(encoding='utf-8'))
-                _t = (script.get('topic', '') or topic or '').strip()
-                title = _t[:20] if len(_t) > 20 else _t
-                topic = title
-            # tags 从标题兜底提取（2-4 字关键词粗提取，非关键）
-            if title:
-                tags = [w for w in title.replace('：', ' ').replace(':', ' ').split() if 2 <= len(w) <= 8][:4]
+                _t = (script.get('topic') or topic or '').strip()
+                if _t:
+                    topic = _t
+                    title = _t if len(_t) <= 40 else _t[:40]  # 完整标题，超长才截 40 字
+                # 描述：从第一段配音内容兜底（截 40 字，对齐 publish_meta 的 ≤40 字约定）
+                sections = script.get('voiceover_sections', [])
+                if not description and sections and sections[0].get('content'):
+                    description = str(sections[0]['content']).strip()[:40]
+                # 标签：从标题粗提取关键词（2-8 字词，非关键，兜底用）
+                if not tags and title:
+                    tags = [w for w in title.replace('：', ' ').replace(':', ' ').replace('，', ' ').split() if 2 <= len(w) <= 8][:4]
 
         bgm_path = output_dir / "bgm.wav"
         lyrics_path = output_dir / "lyrics.txt"
