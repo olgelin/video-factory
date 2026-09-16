@@ -42,7 +42,7 @@ def burn_subtitles(video_path: str, srt_path: str, output_path: str) -> bool:
     # 转义路径中的特殊字符（ffmpeg subtitles滤镜需要）
     srt_escaped = srt_path.replace("\\", "/").replace(":", "\\:")
 
-    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize=20,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=5,Alignment=2\'" -c:a copy "{output_path}"'
+    cmd = f'ffmpeg -y -i "{video_path}" -vf "subtitles=\'{srt_escaped}\':force_style=\'FontSize=20,FontName=Microsoft YaHei,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2,Shadow=1,MarginV=35,Alignment=2\'" -c:a copy "{output_path}"'
 
     print(f"  [audio-mixer] 烧录字幕...")
     return run_ffmpeg(cmd, timeout=600)
