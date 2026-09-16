@@ -1090,6 +1090,21 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
     narration = scene.get("narration", "")
     # 提取口播金句作为标题（取前15字）
     title = re.sub(r'[，。！？、；：\s]', '', narration)[:15] or "场景"
+    key_elements = scene.get("key_elements", [])
+    concept = scene.get("concept", "")[:100]
+
+    # 🔴 V-fix：标题优先用 key_elements 里的 type=title（提炼标题），不用口播原文整句
+    for elem in key_elements:
+        if isinstance(elem, dict) and elem.get("type") == "title":
+            _t = str(elem.get("text", "")).strip()
+            if _t:
+                title = _t[:20]  # 提炼标题，限制20字，不再显示口播原文前15字
+                break
+    # 若 key_elements 无 title，用 concept 提炼（仍非口播原文）
+    if title == re.sub(r'[，。！？、；：\s]', '', narration)[:15]:
+        _c = re.sub(r'[，。！？、；：\s]', '', concept)[:12]
+        if _c:
+            title = _c
     # 从口播中提取关键词标签（4-8字短词，最多5个），不显示原文
     narration_tags = []
     if narration:
@@ -1103,8 +1118,6 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
                     break
             if len(narration_tags) >= 5:
                 break
-    key_elements = scene.get("key_elements", [])
-    concept = scene.get("concept", "")[:100]
 
     # 从口播内容中提取有意义的短句（按句号/逗号分割，取4-15字的短句）
     narration_phrases = []
@@ -1128,24 +1141,31 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
 
     # 合并：口播短句 + key_elements 作为卡片内容来源
     card_items = []
-    # 优先用口播中的数据点
-    for val, unit in data_points[:2]:
-        card_items.append({"num": val, "label": f"({unit})"})
+    # 🔴 V-fix：优先用 key_elements 结构化数据（data/compare），不用正则硬提取的数字
+    for elem in key_elements:
+        if not isinstance(elem, dict):
+            continue
+        t = elem.get("type")
+        if t == "data":
+            card_items.append({"num": str(elem.get("value", "")), "label": str(elem.get("label", ""))[:12]})
+        elif t == "compare":
+            left = elem.get("left", {}); right = elem.get("right", {})
+            if isinstance(left, dict):
+                card_items.append({"num": str(left.get("value", "")), "label": str(left.get("label", ""))[:12]})
+            if isinstance(right, dict):
+                card_items.append({"num": str(right.get("value", "")), "label": str(right.get("label", ""))[:12]})
+        if len(card_items) >= 4:
+            break
+    # 兜底：key_elements 无数据时，用口播中的数据点
+    if len(card_items) < 2:
+        for val, unit in data_points[:2]:
+            card_items.append({"num": val, "label": f"({unit})"})
     # 再用口播短句填充
     for phrase in narration_phrases:
         if len(card_items) >= 4:
             break
         # 提取短句中的关键词作为标签
         card_items.append({"num": phrase[:6], "label": phrase[6:18] if len(phrase) > 6 else ""})
-    # 如果还不够，用 key_elements 补充
-    for elem in key_elements:
-        if len(card_items) >= 4:
-            break
-        elem_str = str(elem)
-        m = re.search(r'([\d,.]+)\s*(万|亿|%|倍)?', elem_str)
-        num = m.group(0) if m else elem_str[:8]
-        label = re.sub(r'[\d,.]+[万亿%倍]?[+~]?\s*', '', elem_str).strip()[:12] or ""
-        card_items.append({"num": num, "label": label})
 
     # 数据卡片（玻璃拟态风格）
     cards = ""
@@ -1208,8 +1228,8 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
   <!-- Layer 2: Ghost text watermark -->
   <div class="ghost-text" style="position:absolute;font-size:240px;font-weight:900;color:{primary}05;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'JetBrains Mono',monospace;">{title[:4]}</div>
 
-  <!-- Layer 3: Scan line -->
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,{primary}60,transparent);animation:scan 4s linear infinite;pointer-events:none;z-index:10;"></div>
+  <!-- 扫光线（GSAP 驱动，不用 CSS animation）-->
+  <div class="scan-line" style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,{primary}60,transparent);pointer-events:none;z-index:10;"></div>
 
   <!-- Content -->
   <div style="position:relative;z-index:5;padding:80px 100px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:28px;">
@@ -1234,9 +1254,6 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
   </div>
 </div>
 
-<style>
-@keyframes scan {{ from{{top:0}} to{{top:100%}} }}
-</style>
 <script>
 (function() {{
   var cid = "{composition_id}";
@@ -1247,7 +1264,9 @@ def fallback_scene_html(scene: dict, scene_id: int, design_md: str, composition_
   tl.from("[data-composition-id=" + cid + "] .card", {{y:40, opacity:0, scale:0.9, duration:0.5, stagger:0.1, ease:"back.out(1.5)"}}, 0.5);
   // 数字冲击效果：第一个数字从2.5倍放大→缩小
   tl.from("[data-composition-id=" + cid + "] .stat", {{scale:2.5, opacity:0, duration:0.6, ease:"back.out(1.7)"}}, 0.6);
-  gsap.to("[data-composition-id=" + cid + "] .card", {{scale:1.02, duration:2.5, repeat:-1, yoyo:true, ease:"sine.inOut", stagger:0.3}});
+  // 扫光线：GSAP 驱动（不用 CSS animation，repeat 有限次数）
+  tl.to("[data-composition-id=" + cid + "] .scan-line", {{top:"100%", duration:4, repeat:2, ease:"none"}}, 0);
+  tl.to("[data-composition-id=" + cid + "] .card", {{scale:1.02, duration:2.5, repeat:2, yoyo:true, ease:"sine.inOut", stagger:0.3}});
   tl.from("[data-composition-id=" + cid + "] .bar", {{width:0, duration:0.8, ease:"power2.inOut"}}, 0.8);
   tl.from("[data-composition-id=" + cid + "] .tag", {{y:20, opacity:0, scale:0.8, duration:0.3, stagger:0.05, ease:"power2.out"}}, 1.0);
   window.__timelines = window.__timelines || {{}};
@@ -1480,7 +1499,7 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     response = call_llm_for_html(
         user_prompt,
         system_prompt=system_prompt,
-        max_tokens=24000,
+        max_tokens=40000,
         model=model
     )
 
@@ -2152,7 +2171,7 @@ def run(context: dict) -> dict:
     parallel_mode = len(scenes_to_build) >= 3  # 3+ 场景才启用并行
     if parallel_mode:
         # V5.3.2: 继续降并发 — 最多 2 个 worker，6s 错峰启动防 429
-        max_workers = min(len(scenes_to_build), 3)  # V15: 3 workers
+        max_workers = min(len(scenes_to_build), 2)  # V15: 2 workers（降并发防大token请求超时/截断）
         print(f"[hf_builder] ⚡ 并行模式: {len(scenes_to_build)} 场景, {max_workers} workers", flush=True)
     else:
         print(f"[hf_builder] LLM 生成中 (串行模式, 需生成{len(scenes_to_build)}个场景)...", flush=True)
@@ -2172,8 +2191,8 @@ def run(context: dict) -> dict:
             def _build_scene(i, scene):
                 sid = i + 1
                 model = parallel_models[i % len(parallel_models)]
-                # V5.3.2: 错峰启动 — 每个 worker 启动间隔 6s，防瞬时并发 429
-                time.sleep(i * 6)
+                # V5.3.2: 错峰启动 — 每个 worker 启动间隔 8s，防瞬时并发 429/超时
+                time.sleep(i * 8)
                 print(f"  🚀 [Scene {sid}] 启动 ({model})", flush=True)
                 try:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
