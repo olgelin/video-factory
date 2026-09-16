@@ -1349,7 +1349,7 @@ def _load_scene_prompts() -> tuple[str, str]:
     example: prompts/news/scene_system.md + scene_animation.md + scene_threejs.md + scene_user.md"""
     # V7: 统一 prompts 目录
     prompts_root = Path(__file__).parent.parent.parent / "prompts"
-    style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music", "edu_music") else "news"
+    style_dir = _VIDEO_STYLE if _VIDEO_STYLE in ("edu", "news", "music", "edu_music", "vox") else "news"
     # V20: 竖屏（video_height > video_width）优先加载 {style}_vertical 目录（若存在），横屏目录不受影响
     if _VIDEO_H > _VIDEO_W:
         _vdir = f"{style_dir}_vertical"

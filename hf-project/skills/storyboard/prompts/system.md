@@ -4,6 +4,8 @@
 1. **concept** (string): 这个场景的创意概念，2-3句话描述观众的体验
 2. **mood** (string): 情绪方向，用文化/设计参考描述（不是hex值）
 3. **visual_type** (string): 视觉类型，从以下选择：
+   - hero_typography: 大字砸屏（超粗体大字逐个砸入+高亮扫过下划线，视觉锚点）
+   - annotated_map: 标注地图（去标签地图推近+区域填充+标注线依次弹出）
    - data_impact: 数据冲击（大数字+进度条+趋势箭头）
    - dashboard: 仪表盘（多指标并列展示）
    - compare: 对比（A vs B的数据对比）
