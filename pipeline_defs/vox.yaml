@@ -1,0 +1,422 @@
+# video-factory Pipeline Definition — Vox 风格解释性视频 V1
+#
+# 与 short_video 同构，唯一区别在 Phase 1：
+#   topic_scout → topic_selector → script_writer（自动选题）
+#   替换为
+#   script_writer（用户 --topic 直接给话题，run.py 已构造 topic_selected.json）
+#
+# 定位：话题 → 脚本 → 配音 → 图形动画（纯图形，无人物出镜）
+#   借鉴 Vox 方法论（锚点-桥接叙事 + 视觉锚点 + 数据回答旁白），保留科技风。
+#
+# V1 执行策略（阶段1骨架，先跑通最小闭环，阶段2加锚点-桥接prompt，阶段3加新场景类型）：
+#   Phase 1 (串行): script_writer（话题→脚本）
+#   Phase 1.5 (串行): voice_gen（先行配音获取精确时长）
+#   Phase 2 (并行): lyrics_writer + design_system
+#   Phase 3 (并行): transcriber + bgm_generator
+#   Phase 3.5 (串行): storyboard（依赖配音精确时长）
+#   Phase 3.6 (串行): color_grader → layout_composer → motion_director → depth_composer
+#   Phase 4 (串行): hf_builder → quality_scorer → video_renderer → video_upscaler → audio_mixer → quality_checker
+#   Phase 4.5 (串行): visual_checker
+#   Phase 5 (串行): publish_meta
+
+name: vox
+version: "1.0"
+description: >
+  Vox 风格解释性视频。你给一个话题/问题（如"为什么城市会困住热量"），
+  引擎写一份锚点-桥接叙事的解释脚本，配音+图形动画渲染成成品视频。
+  纯图形、无人物出镜，数据可视化+旁白驱动，保留科技风。
+category: vox-explain
+stability: beta
+
+# 视频样式标记
+video_style: vox
+
+# 渲染引擎
+render_runtime: hyperframes
+renderer_family: vox-explain
+
+# 视频规格
+output:
+  default_format: mp4
+  default_codec: libx264
+  default_audio_codec: aac
+  default_resolution: "1920x1080"
+  vertical_resolution: "1080x1920"
+  default_fps: 30
+  default_crf: 23
+
+# 预算
+budget:
+  mode: warn
+  total_usd: 2.00
+  reserve_pct: 0.10
+
+# 关键步骤：失败时必须产出文件，否则终止 pipeline
+critical_checks:
+  script_writer: "output/step03_script.json"
+  voice_gen: "output/step05_voice.wav"
+  hf_builder: "hf_render_project/compositions/beat-*.html"
+  video_renderer: "output/step10_video.mp4"
+  audio_mixer: "output/step11_final.mp4"
+
+# ============================================================
+# Pipeline 阶段定义
+# ============================================================
+stages:
+  # ── Phase 1: 脚本（用户 --topic 直接给话题）──
+  - name: script_writer
+    step: 3
+    skill: script_writer
+    phase: 1
+    parallel_group: null
+    description: "根据话题生成锚点-桥接解释脚本"
+    input:
+      - output/topic_selected.json
+    produces:
+      - output/step03_script.json
+    provider: llm
+    provider_task: creative
+    checkpoint_required: false
+    timeout: 300
+    retry: 2
+    critical: true
+
+  # ── Phase 1.5: 配音先行（拿精确时长约束分镜）──
+  - name: voice_gen
+    step: 5
+    skill: voice_gen
+    phase: 1.5
+    parallel_group: null
+    description: "VoxCPM2 配音生成 — 先跑配音获取精确时长，再约束后续分镜"
+    input:
+      - output/step03_script.json
+    produces:
+      - output/step05_voice.wav
+      - output/voice_scene_durations.json
+    provider: local
+    provider_task: tts
+    checkpoint_required: false
+    timeout: 1800
+    retry: 1
+    critical: true
+
+  # ── Phase 2: 并行 ──
+  - name: lyrics_writer
+    step: 4
+    skill: lyrics_writer
+    phase: 2
+    parallel_group: group_a
+    description: "根据口播稿创作歌词"
+    input:
+      - output/step03_script.json
+    produces:
+      - output/lyrics.txt
+    provider: llm
+    provider_task: creative_light
+    checkpoint_required: false
+    timeout: 300
+    retry: 2
+
+  - name: design_system
+    step: 8
+    skill: design_system
+    phase: 2
+    parallel_group: group_a
+    description: "生成视觉设计系统（配色/字体/风格）"
+    input:
+      - output/step03_script.json
+      - output/voice_scene_durations.json
+    produces:
+      - output/design.md
+      - output/design_specs.json
+      - output/design_system.json
+    provider: llm
+    provider_task: creative_light
+    checkpoint_required: false
+    timeout: 300
+    retry: 2
+
+  # ── Phase 3: 并行 ──
+  - name: transcriber
+    step: 6
+    skill: transcriber
+    phase: 3
+    parallel_group: group_b
+    description: "FunASR 语音转录 + 字幕生成"
+    input:
+      - output/step05_voice.wav
+    produces:
+      - output/whisperx_transcript.json
+      - output/captions.srt
+    provider: local
+    provider_task: stt
+    checkpoint_required: false
+    timeout: 300
+    retry: 1
+
+  - name: bgm_generator
+    step: 7
+    skill: bgm_generator
+    phase: 3
+    parallel_group: group_b
+    description: "ACE-Step BGM 生成"
+    input:
+      - output/lyrics.txt
+    produces:
+      - output/bgm.wav
+    provider: local
+    provider_task: music
+    checkpoint_required: false
+    timeout: 600
+    retry: 1
+
+  # ── Phase 3.5: 串行 ──
+  - name: storyboard
+    step: 9
+    skill: storyboard
+    phase: 3.5
+    parallel_group: null
+    description: "分镜设计（依赖配音精确时长 + 转录时间戳 + 设计系统）"
+    input:
+      - output/step03_script.json
+      - output/voice_scene_durations.json
+      - output/design.md
+      - output/design_specs.json
+      - output/whisperx_transcript.json
+    produces:
+      - output/storyboard.json
+    provider: llm
+    provider_task: creative
+    checkpoint_required: false
+    timeout: 300
+    retry: 2
+
+  # ── Phase 3.6: 电影级视觉设计 ──
+  - name: color_grader
+    step: 9.1
+    skill: color_grader
+    phase: 3.6
+    parallel_group: null
+    description: "电影级色彩分级"
+    input:
+      - output/storyboard.json
+      - output/design.md
+    produces:
+      - output/color_grade.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  - name: layout_composer
+    step: 9.2
+    skill: layout_composer
+    phase: 3.6
+    parallel_group: null
+    description: "布局骨架选择 + 构图网格"
+    input:
+      - output/storyboard.json
+      - output/color_grade.json
+    produces:
+      - output/layout_plan.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  - name: motion_director
+    step: 9.3
+    skill: motion_director
+    phase: 3.6
+    parallel_group: null
+    description: "镜头运动 + 文字动画时间线"
+    input:
+      - output/storyboard.json
+      - output/layout_plan.json
+      - output/color_grade.json
+    produces:
+      - output/motion_plan.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  - name: depth_composer
+    step: 9.4
+    skill: depth_composer
+    phase: 3.6
+    parallel_group: null
+    description: "z-index层级分配 + 视差"
+    input:
+      - output/storyboard.json
+      - output/layout_plan.json
+      - output/motion_plan.json
+      - output/color_grade.json
+    produces:
+      - output/depth_plan.json
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 30
+    retry: 1
+
+  # ── Phase 4: 串行 ──
+  - name: hf_builder
+    step: 10
+    skill: hf_builder
+    phase: 4
+    parallel_group: null
+    description: "HyperFrames 场景 HTML 生成"
+    input:
+      - output/step03_script.json
+      - output/design.md
+      - output/design_specs.json
+      - output/design_system.json
+      - output/storyboard.json
+      - output/whisperx_transcript.json
+      - output/color_grade.json
+      - output/layout_plan.json
+      - output/motion_plan.json
+      - output/depth_plan.json
+    produces:
+      - hf_render_project/compositions/beat-*.html
+    provider: llm
+    provider_task: creative_html
+    checkpoint_required: false
+    timeout: 1800
+    retry: 2
+    critical: true
+    rate_limit:
+      delay_between_calls: 0.5
+      max_concurrent: 5
+
+  - name: quality_scorer
+    step: 10.5
+    skill: quality_scorer
+    phase: 4
+    parallel_group: null
+    description: "逐场景质量评分"
+    input:
+      - hf_render_project/compositions/beat-*.html
+      - output/storyboard.json
+    produces:
+      - output/quality_scores.json
+    provider: local
+    provider_task: validate
+    checkpoint_required: false
+    timeout: 60
+    retry: 0
+    optional: true
+
+  - name: video_renderer
+    step: 11
+    skill: video_renderer
+    phase: 4
+    parallel_group: null
+    description: "HyperFrames CLI 渲染 HTML → MP4 (2x 超采样)"
+    input:
+      - hf_render_project/compositions/beat-*.html
+    produces:
+      - output/step10_video.mp4
+    provider: local
+    provider_task: render
+    checkpoint_required: false
+    timeout: 1800
+    retry: 1
+    critical: true
+    supersample: true
+
+  - name: video_upscaler
+    step: 13
+    skill: video_upscaler
+    phase: 4
+    parallel_group: null
+    description: "Video2X 高清修复（可选）"
+    input:
+      - output/step10_video.mp4
+    produces:
+      - output/step13_upscaled.mp4
+    provider: local
+    provider_task: enhance
+    checkpoint_required: false
+    timeout: 1800
+    retry: 0
+    optional: true
+
+  - name: audio_mixer
+    step: 12
+    skill: audio_mixer
+    phase: 4
+    parallel_group: null
+    description: "FFmpeg 音视频混合 + 字幕烧录"
+    input:
+      - output/step10_video.mp4
+      - output/step05_voice.wav
+      - output/bgm.wav
+      - output/captions.srt
+    produces:
+      - output/step11_final.mp4
+    provider: local
+    provider_task: compose
+    checkpoint_required: false
+    timeout: 300
+    retry: 1
+    critical: true
+
+  - name: quality_checker
+    step: 14
+    skill: quality_checker
+    phase: 4
+    parallel_group: null
+    description: "多点质量自检"
+    input:
+      - output/step11_final.mp4
+      - output/captions.srt
+    produces:
+      - output/quality_check.json
+    provider: local
+    provider_task: validate
+    checkpoint_required: false
+    timeout: 120
+    retry: 0
+    optional: true
+
+  # ── Phase 4.5: 视觉校验 ──
+  - name: visual_checker
+    step: 13.5
+    skill: visual_checker
+    phase: 4.5
+    parallel_group: null
+    description: "提取最终视频帧，LLM vision 检查是否匹配意图"
+    input:
+      - output/step11_final.mp4
+      - output/step13_upscaled.mp4
+    produces:
+      - output/visual_check.json
+    provider: llm
+    provider_task: analysis
+    checkpoint_required: false
+    timeout: 300
+    retry: 1
+    optional: true
+
+  # ── Phase 5: 发布元数据 ──
+  - name: publish_meta
+    step: 15
+    skill: publish_meta
+    phase: 5
+    parallel_group: null
+    description: "生成发布元数据（标题≤16字/描述≤40字/4个标签）"
+    input:
+      - output/step03_script.json
+    produces:
+      - output/publish_meta.json
+    provider: llm
+    provider_task: creative
+    checkpoint_required: false
+    timeout: 120
+    retry: 1
+    optional: true
