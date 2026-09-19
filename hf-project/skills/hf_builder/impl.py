@@ -1602,6 +1602,26 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
     if _hue_fixes > 0:
         print(f"    🔧 [Scene {sid}] 修复 {_hue_fixes} 处同色系碰撞 → color:#ffffff")
 
+    # 🔴 底部字幕安全区兜底：LLM 偶发把图例/标签放到 bottom<130px，会与烧录字幕重叠
+    # 判断标准：bottom<130px 且带 font-size（文字元素）→ 上移到 130px。纯边框/装饰(无font-size)不动。
+    _subtitle_fixes = 0
+    def _lift_bottom_content(m):
+        nonlocal _subtitle_fixes
+        tag = m.group(0)
+        if 'font-size' not in tag:
+            return tag  # 无 font-size = 装饰元素（取景框/边框），不动
+        bm = _re_sg.search(r'(?<![a-z-])bottom:\s*(\d+(?:\.\d+)?)px', tag)
+        if not bm:
+            return tag
+        if float(bm.group(1)) >= 130:
+            return tag  # 已在安全区外
+        tag = _re_sg.sub(r'(?<![a-z-])bottom:\s*\d+(?:\.\d+)?px', 'bottom:130px', tag, count=1)
+        _subtitle_fixes += 1
+        return tag
+    body = _re_sg.sub(r'<[^>]*(?<![a-z-])bottom:\s*\d+(?:\.\d+)?px[^>]*>', _lift_bottom_content, body)
+    if _subtitle_fixes > 0:
+        print(f"    🔧 [Scene {sid}] 上移 {_subtitle_fixes} 个底部文字元素至字幕安全区外(130px)")
+
     # 确保 GSAP timeline 注册和 tl.play() 存在
     if 'window.__timelines' not in body:
         timeline_code = f'window.__timelines = window.__timelines || {{}};\n  window.__timelines["{composition_id}"] = tl;\n  tl.play();'
