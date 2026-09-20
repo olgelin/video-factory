@@ -2249,8 +2249,8 @@ def run(context: dict) -> dict:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # VOX 专属：注入氛围图背景（只在 vox style + atmosphere_available，其他 style 完全不进此分支）
-                    if _VIDEO_STYLE == "vox" and context.get("atmosphere_available"):
+                    # 注入氛围图背景（atmosphere_available 由 atmosphere_gen 阶段设置，是唯一开关）
+                    if context.get("atmosphere_available"):
                         html = _inject_atmosphere(html, sid_out, context.get("atmosphere_dir", ""))
                     with write_lock:
                         with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
@@ -2300,8 +2300,8 @@ def run(context: dict) -> dict:
                     sid, html = generate_and_build(scene, sid, total, context)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # VOX 专属：注入氛围图背景
-                    if _VIDEO_STYLE == "vox" and context.get("atmosphere_available"):
+                    # 注入氛围图背景
+                    if context.get("atmosphere_available"):
                         html = _inject_atmosphere(html, sid, context.get("atmosphere_dir", ""))
                     results[sid] = html
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:

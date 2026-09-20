@@ -196,6 +196,24 @@ stages:
     timeout: 30
     retry: 1
 
+  # ── Phase 3.7: 氛围图生成（ComfyUI 降级兜底）──
+  - name: atmosphere_gen
+    step: 9.5
+    skill: atmosphere_gen
+    phase: 3.7
+    parallel_group: null
+    description: "ComfyUI(SDXL) 生成科技风氛围底图，服务不可用则降级回退纯 CSS 背景"
+    input:
+      - output/storyboard.json
+    produces:
+      - output/atmosphere/beat-*.png
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 1800
+    retry: 1
+    optional: true
+
   # ── Phase 4: 串行 ──
   - name: hf_builder
     step: 10
