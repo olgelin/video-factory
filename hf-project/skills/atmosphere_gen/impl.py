@@ -58,6 +58,25 @@ SDXL_WORKFLOW = {
     },
 }
 
+# Flux fp8 文生图 workflow（16:9 画幅，质量更高，需 4 个模型文件）
+FLUX_WORKFLOW = {
+    "6": {"class_type": "CLIPTextEncode", "inputs": {"text": "", "clip": ["11", 0]}},
+    "8": {"class_type": "VAEDecode", "inputs": {"samples": ["13", 0], "vae": ["10", 0]}},
+    "9": {"class_type": "SaveImage", "inputs": {"filename_prefix": "atmo", "images": ["8", 0]}},
+    "10": {"class_type": "VAELoader", "inputs": {"vae_name": "ae.safetensors"}},
+    "11": {"class_type": "DualCLIPLoader", "inputs": {"clip_name1": "t5xxl_fp8_e4m3fn.safetensors", "clip_name2": "clip_l.safetensors", "type": "flux"}},
+    "12": {"class_type": "UNETLoader", "inputs": {"unet_name": "flux1-dev-fp8.safetensors", "weight_dtype": "default"}},
+    "13": {"class_type": "SamplerCustomAdvanced", "inputs": {"noise": ["25", 0], "guider": ["22", 0], "sampler": ["16", 0], "sigmas": ["17", 0], "latent_image": ["27", 0]}},
+    "16": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": "euler"}},
+    "17": {"class_type": "BasicScheduler", "inputs": {"scheduler": "simple", "steps": 20, "denoise": 1.0, "model": ["12", 0]}},
+    "22": {"class_type": "BasicGuider", "inputs": {"model": ["12", 0], "conditioning": ["6", 0]}},
+    "25": {"class_type": "RandomNoise", "inputs": {"noise_seed": 42}},
+    "27": {"class_type": "EmptySD3LatentImage", "inputs": {"width": 1024, "height": 576, "batch_size": 1}},
+}
+
+# ComfyUI 模型目录（unet 可能在 checkpoints 或 diffusion_models）
+_COMFY_MODELS = Path("E:/comfyui/models")
+
 # LLM 生成提示词的 system prompt（批量：一次生成所有场景）
 _PROMPT_SYSTEM = """你是 Vox 风格解释视频的氛围底图提示词专家。
 给每个场景生成一句英文 ComfyUI(SDXL) 提示词，用于生成科技风氛围背景图。
@@ -181,12 +200,29 @@ def _fallback_prompt(scene: dict) -> str:
     return f"{base}, abstract background, cinematic, high detail, no text"
 
 
+def _flux_ready() -> bool:
+    """检测 Flux 的 4 个模型文件是否全部就绪"""
+    unet = (_COMFY_MODELS / "checkpoints" / "flux1-dev-fp8.safetensors").exists() or \
+           (_COMFY_MODELS / "diffusion_models" / "flux1-dev-fp8.safetensors").exists()
+    clip_l = (_COMFY_MODELS / "text_encoders" / "clip_l.safetensors").exists()
+    t5xxl = (_COMFY_MODELS / "text_encoders" / "t5xxl_fp8_e4m3fn.safetensors").exists()
+    vae = (_COMFY_MODELS / "vae" / "ae.safetensors").exists()
+    return all([unet, clip_l, t5xxl, vae])
+
+
+def _select_workflow() -> tuple:
+    """选择出图模型：Flux 就绪则用 Flux（质量更高），否则降级 SDXL。返回 (workflow, seed_key)"""
+    if _flux_ready():
+        return FLUX_WORKFLOW, "25"  # Flux 的噪声种子在节点 25
+    return SDXL_WORKFLOW, "3"       # SDXL 的种子在节点 3
+
+
 def _generate_image(prompt: str, save_path: str) -> bool:
     """调 ComfyUI 出图并保存到 save_path"""
-    import shutil
-    wf = json.loads(json.dumps(SDXL_WORKFLOW))  # deep copy
+    wf, seed_key = _select_workflow()
+    wf = json.loads(json.dumps(wf))  # deep copy
     wf["6"]["inputs"]["text"] = prompt
-    wf["3"]["inputs"]["seed"] = uuid.uuid4().int % 100000
+    wf[seed_key]["inputs"]["seed" if seed_key == "3" else "noise_seed"] = uuid.uuid4().int % 100000
     try:
         payload = {"prompt": wf, "client_id": str(uuid.uuid4())}
         req = urllib.request.Request(
@@ -200,7 +236,7 @@ def _generate_image(prompt: str, save_path: str) -> bool:
         if not prompt_id:
             return False
         # 轮询等待生成完成
-        return _wait_and_fetch(prompt_id, save_path)
+        return _wait_and_fetch(prompt_id, save_path, timeout=300 if _flux_ready() else 180)
     except Exception as e:
         print(f"  [atmosphere-gen] ComfyUI 调用失败: {e}")
         return False
