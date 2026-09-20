@@ -1475,6 +1475,36 @@ def _validate_post_gen(html: str, composition_id: str) -> str:
     if fixes:
         print(f"    🔧 [Post-Gen] {', '.join(fixes)}")
     
+    # 4. 清理裸露 CSS 声明文本（LLM 偶发把 CSS 写到标签外，显示为裸文字）
+    html = _clean_bare_css(html)
+    
+    return html
+
+
+def _clean_bare_css(html: str) -> str:
+    """清理 LLM 偶发写到标签外的裸 CSS 声明文本。
+
+    症状：画面出现 left:50%;transform:translateX(-50%) 这类文字（CSS 声明裸露在标签间）。
+    判断：标签间文本无中文 且 含「CSS属性名:值」特征 → 判定为裸 CSS，删除。
+    """
+    import re as _re_css
+    css_kw = r'(?:left|top|right|bottom|transform|position|width|height|z-index|opacity|color|background|font-size|display|margin|padding|border|letter-spacing|font-weight|line-height|pointer-events|text-align|text-shadow|box-shadow|filter|transition|animation|gap|flex|align|justify|overflow|border-radius)'
+    # 遍历所有 >...< 之间的文本节点
+    pattern = r'>([^<>]*?)<'
+    cleaned = 0
+    def _strip(m):
+        nonlocal cleaned
+        txt = m.group(1)
+        if not txt or not txt.strip():
+            return m.group(0)
+        # 无中文 且 含 CSS 声明特征 → 裸 CSS，删除
+        if not _re_css.search(r'[\u4e00-\u9fff]', txt) and _re_css.search(css_kw + r'\s*:', txt):
+            cleaned += 1
+            return '><'
+        return m.group(0)
+    html = _re_css.sub(pattern, _strip, html)
+    if cleaned:
+        print(f"    🔧 [Post-Gen] 清理 {cleaned} 处裸露 CSS 文本")
     return html
 
 def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
@@ -1867,9 +1897,11 @@ def _inject_atmosphere(html: str, scene_id: int, atmosphere_dir: str) -> str:
         f'<img class="atmosphere-bg" src="data:image/png;base64,{b64}" '
         f'style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">'
     )
+    # 径向遮罩：中心文字区稍暗保证可读，四周保留氛围图质感（替代原全局 0.55 一刀切）
     dim_layer = (
         '<div class="atmosphere-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
-        'background:rgba(0,0,10,0.55);z-index:1;pointer-events:none;"></div>'
+        'background:radial-gradient(ellipse at center, rgba(0,0,12,0.5) 0%, rgba(0,0,12,0.35) 55%, rgba(0,0,12,0.18) 100%);'
+        'z-index:1;pointer-events:none;"></div>'
     )
     m = re.search(r'(<div[^>]*class="scene"[^>]*>)', html)
     if m:
