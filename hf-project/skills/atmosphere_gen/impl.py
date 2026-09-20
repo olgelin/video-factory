@@ -74,6 +74,23 @@ FLUX_WORKFLOW = {
     "27": {"class_type": "EmptySD3LatentImage", "inputs": {"width": 1024, "height": 576, "batch_size": 1}},
 }
 
+# Krea-2 Turbo 文生图 workflow（16:9 画幅，8步出图，审美好，可商用<100万美元营收）
+# 结构：UNETLoader + CLIPLoader(Qwen3-VL) + VAELoader + KSampler(8步/CFG1.0)
+KREA2_WORKFLOW = {
+    "3": {"class_type": "KSampler", "inputs": {"seed": 0, "steps": 8, "cfg": 1.0,
+            "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0,
+            "model": ["10", 0], "positive": ["6", 0], "negative": ["7", 0],
+            "latent_image": ["5", 0]}},
+    "5": {"class_type": "EmptyLatentImage", "inputs": {"width": 1024, "height": 576, "batch_size": 1}},
+    "6": {"class_type": "CLIPTextEncode", "inputs": {"text": "", "clip": ["11", 0]}},
+    "7": {"class_type": "CLIPTextEncode", "inputs": {"text": "", "clip": ["11", 0]}},
+    "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["12", 0]}},
+    "9": {"class_type": "SaveImage", "inputs": {"filename_prefix": "atmo", "images": ["8", 0]}},
+    "10": {"class_type": "UNETLoader", "inputs": {"unet_name": "krea2_turbo_fp8_scaled.safetensors", "weight_dtype": "default"}},
+    "11": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_4b_fp8_scaled.safetensors", "type": "krea2"}},
+    "12": {"class_type": "VAELoader", "inputs": {"vae_name": "qwen_image_vae.safetensors"}},
+}
+
 # ComfyUI 模型目录（unet 可能在 checkpoints 或 diffusion_models）
 _COMFY_MODELS = Path("E:/comfyui/models")
 
@@ -200,6 +217,14 @@ def _fallback_prompt(scene: dict) -> str:
     return f"{base}, abstract background, cinematic, high detail, no text"
 
 
+def _krea2_ready() -> bool:
+    """检测 Krea-2 Turbo 的 3 个模型文件是否全部就绪"""
+    unet = (_COMFY_MODELS / "diffusion_models" / "krea2_turbo_fp8_scaled.safetensors").exists()
+    clip = (_COMFY_MODELS / "text_encoders" / "qwen3vl_4b_fp8_scaled.safetensors").exists()
+    vae = (_COMFY_MODELS / "vae" / "qwen_image_vae.safetensors").exists()
+    return all([unet, clip, vae])
+
+
 def _flux_ready() -> bool:
     """检测 Flux 的 4 个模型文件是否全部就绪"""
     unet = (_COMFY_MODELS / "checkpoints" / "flux1-dev-fp8.safetensors").exists() or \
@@ -211,10 +236,12 @@ def _flux_ready() -> bool:
 
 
 def _select_workflow() -> tuple:
-    """选择出图模型：Flux 就绪则用 Flux（质量更高），否则降级 SDXL。返回 (workflow, seed_key)"""
+    """选择出图模型（优先级：Krea-2 > Flux > SDXL）。返回 (workflow, seed_key)"""
+    if _krea2_ready():
+        return KREA2_WORKFLOW, "3"   # Krea-2 的种子在节点 3（KSampler）
     if _flux_ready():
-        return FLUX_WORKFLOW, "25"  # Flux 的噪声种子在节点 25
-    return SDXL_WORKFLOW, "3"       # SDXL 的种子在节点 3
+        return FLUX_WORKFLOW, "25"   # Flux 的噪声种子在节点 25
+    return SDXL_WORKFLOW, "3"        # SDXL 的种子在节点 3
 
 
 def _generate_image(prompt: str, save_path: str) -> bool:
