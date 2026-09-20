@@ -1846,6 +1846,37 @@ def _inject_film_overlay(html: str, color_grade: dict, W: int, H: int) -> str:
     return html
 
 
+def _inject_atmosphere(html: str, scene_id: int, atmosphere_dir: str) -> str:
+    """VOX 专属：往场景 HTML 注入氛围图背景层（base64 内嵌）+ 暗化遮罩。
+
+    只在 video_style == vox 且氛围图存在时调用。base64 内嵌保证渲染时自包含
+    （video_renderer 会把 HTML 拷到独立目录，相对路径会断）。
+    """
+    if not atmosphere_dir or not html:
+        return html
+    import base64 as _b64
+    img_path = Path(atmosphere_dir) / f"beat-{scene_id}.png"
+    if not img_path.exists():
+        return html
+    try:
+        b64 = _b64.b64encode(img_path.read_bytes()).decode("ascii")
+    except Exception:
+        return html
+    # 背景层（z-index 0，铺满）+ 暗化遮罩（z-index 1，保证文字可读）
+    bg_layer = (
+        f'<img class="atmosphere-bg" src="data:image/png;base64,{b64}" '
+        f'style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">'
+    )
+    dim_layer = (
+        '<div class="atmosphere-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
+        'background:rgba(0,0,10,0.55);z-index:1;pointer-events:none;"></div>'
+    )
+    m = re.search(r'(<div[^>]*class="scene"[^>]*>)', html)
+    if m:
+        html = html[:m.end()] + bg_layer + dim_layer + html[m.end():]
+    return html
+
+
 def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
     """根据storyboard的animation verbs生成scene-specific GSAP动画"""
     animations = {}
@@ -2218,6 +2249,9 @@ def run(context: dict) -> dict:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
+                    # VOX 专属：注入氛围图背景（只在 vox style + atmosphere_available，其他 style 完全不进此分支）
+                    if _VIDEO_STYLE == "vox" and context.get("atmosphere_available"):
+                        html = _inject_atmosphere(html, sid_out, context.get("atmosphere_dir", ""))
                     with write_lock:
                         with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
                             f.write(html)
@@ -2266,6 +2300,9 @@ def run(context: dict) -> dict:
                     sid, html = generate_and_build(scene, sid, total, context)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
+                    # VOX 专属：注入氛围图背景
+                    if _VIDEO_STYLE == "vox" and context.get("atmosphere_available"):
+                        html = _inject_atmosphere(html, sid, context.get("atmosphere_dir", ""))
                     results[sid] = html
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
                         f.write(html)
