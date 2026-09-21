@@ -141,8 +141,9 @@ def run(context: dict) -> dict:
     if _cleaned:
         print(f"  [atmosphere-gen] 清理旧氛围图 ×{_cleaned}")
 
-    # 3. LLM 批量生成英文提示词
-    prompts = _generate_prompts(scenes)
+    # 3. LLM 批量生成英文提示词（传入 video_style，让背景图匹配视频类型基调）
+    video_style = str(context.get("video_style", "news"))
+    prompts = _generate_prompts(scenes, video_style)
 
     # 4. 逐个调 ComfyUI 出图
     atmosphere_dir.mkdir(parents=True, exist_ok=True)
@@ -236,7 +237,7 @@ def _load_scenes(sb_path: str) -> list:
     return sb.get("scenes", [])
 
 
-def _generate_prompts(scenes: list) -> dict:
+def _generate_prompts(scenes: list, video_style: str = "news") -> dict:
     """LLM 批量生成每个场景的英文提示词。失败则返回空 dict（走 fallback）。"""
     try:
         from llm_utils import call_llm
@@ -249,7 +250,7 @@ def _generate_prompts(scenes: list) -> dict:
             }
             for i, s in enumerate(scenes)
         ]
-        user_prompt = "场景列表：\n" + json.dumps(scene_info, ensure_ascii=False, indent=2)
+        user_prompt = f"video_style: {video_style}\n场景列表：\n" + json.dumps(scene_info, ensure_ascii=False, indent=2)
         resp = call_llm(user_prompt, _PROMPT_SYSTEM, max_tokens=2000)
         # 剥 markdown 代码块
         resp = resp.strip()
