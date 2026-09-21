@@ -150,7 +150,7 @@ def run(context: dict) -> dict:
     generated = 0
     for scene in scenes:
         sid = scene.get("scene_id", 1)
-        prompt = prompts.get(sid) or _fallback_prompt(scene)
+        prompt = prompts.get(sid) or _fallback_prompt(scene, video_style)
         img_path = atmosphere_dir / f"beat-{sid}.png"
         if img_path.exists():
             generated += 1
@@ -263,17 +263,24 @@ def _generate_prompts(scenes: list, video_style: str = "news") -> dict:
         return {}
 
 
-def _fallback_prompt(scene: dict) -> str:
-    """无 LLM 时的固定科技风提示词兜底（按 visual_type 简单区分构图，不硬编码 mood 词表）"""
+def _fallback_prompt(scene: dict, video_style: str = "news") -> str:
+    """无 LLM 时的固定提示词兜底（按 video_style 决定基调 + visual_type 微调构图）"""
     vt = str(scene.get("visual_type", "")).lower()
-    base = "dark blue purple tech atmosphere, glowing cyan neon lines, particle stars, futuristic"
+    # 按 video_style 决定基调（不是统一科技风）
+    base_map = {
+        "news": "dark blue purple tech atmosphere, glowing cyan neon lines, particle stars, futuristic",
+        "edu": "soft warm learning atmosphere, light blue and cream tones, gentle glow, paper texture, no neon",
+        "edu_music": "soft educational atmosphere, musical notes and sound wave motifs, gentle pastel tones",
+        "vox": "clean minimal atmosphere, restrained blue purple, geometric shapes, lots of negative space",
+    }
+    base = base_map.get(video_style, base_map["news"])
     # 按 visual_type 微调构图（确定性映射，非词表）
     vt_style = {
-        "quote_hero": "minimal dark backdrop, soft radial glow, empty center for large text",
+        "quote_hero": "minimal backdrop, soft radial glow, empty center for large text",
         "data_impact": "rising data streams, glowing grid lines, analytics atmosphere",
         "compare": "split lighting left and right, dual tone atmosphere",
         "flow": "flowing light trails, directional particle stream",
-        "list_alert": "dark ominous atmosphere, red warning glow accents",
+        "list_alert": "dark ominous atmosphere, warning glow accents",
         "timeline_event": "horizontal light band, side-scrolling glow",
         "hud": "grid overlay, scan lines, corner frame glow",
     }.get(vt, "")
