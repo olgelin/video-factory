@@ -1601,6 +1601,8 @@ def _single_llm_generate(scene: dict, sid: int, model=None) -> str:
 
     # 剥离 LLM 可能输出的外层 HTML 标签（防双层嵌套 → 左上角）
     body = _strip_outer_html(body)
+    # 清理 </script> 之后的裸文字（LLM 常多输出"视觉解析/优化建议"等 Markdown 说明）
+    body = _clean_bare_text_after_script(body)
 
     # 确保被 .scene 包裹
     if 'class="scene"' not in body and "class='scene'" not in body:
