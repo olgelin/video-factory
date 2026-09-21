@@ -160,6 +160,9 @@ def _generate_srt_from_segments_v2(segments: list, output_path: str, max_chars: 
                 buf = c
         if buf:
             merged.append(buf)
+        # 清理句末的句中标点（，；、）：字幕以逗号/顿号结尾会显得"话没说完"，视觉突兀
+        merged = [re.sub(r'[，；、]+$', '', m) for m in merged]
+        merged = [m for m in merged if m]
         
         # 分配时间
         total_chars = sum(len(c) for c in merged)
