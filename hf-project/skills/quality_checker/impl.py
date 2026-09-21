@@ -164,10 +164,16 @@ def check_audio_levels(video_path: str) -> dict:
     return {"ok": len(issues) == 0, "issues": issues, "info": info}
 
 
-def check_subtitle_coverage(srt_path: str, video_duration: float) -> dict:
-    """字幕覆盖率检查"""
+def check_subtitle_coverage(srt_path: str, video_duration: float, voice_duration: float = 0.0) -> dict:
+    """字幕覆盖率检查。
+
+    voice_duration（配音时长）>0 时用它做分母——字幕覆盖的是配音，不是整个视频。
+    edu_music 视频含歌词/BGM 段（无口播字幕），用视频总时长做分母会误报。
+    """
     issues = []
     info = {"total_entries": 0, "coverage_end": 0, "coverage_pct": 0}
+    # 分母：优先配音时长，缺失回退视频总时长
+    denom = voice_duration if voice_duration > 0 else video_duration
 
     if not os.path.exists(srt_path):
         return {"ok": False, "issues": ["SRT 文件不存在"], "info": info}
@@ -186,10 +192,10 @@ def check_subtitle_coverage(srt_path: str, video_duration: float) -> dict:
             h, m, s = last_end_str.split(":")
             last_end = int(h) * 3600 + int(m) * 60 + float(s)
             info["coverage_end"] = last_end
-            info["coverage_pct"] = (last_end / video_duration * 100) if video_duration > 0 else 0
+            info["coverage_pct"] = (last_end / denom * 100) if denom > 0 else 0
 
             if info["coverage_pct"] < 80:
-                issues.append(f"字幕覆盖率不足: {info['coverage_pct']:.0f}% (最后一条在 {last_end:.1f}s, 视频 {video_duration:.1f}s)")
+                issues.append(f"字幕覆盖率不足: {info['coverage_pct']:.0f}% (最后一条在 {last_end:.1f}s, 配音/视频 {denom:.1f}s)")
         else:
             issues.append("SRT 中没有有效字幕条目")
 
@@ -385,7 +391,7 @@ def check_ghost_elements(compositions_dir: str) -> dict:
     return {"ok": ok, "issues": issues, "info": info}
 
 
-def run_full_check(video_path: str, srt_path: str = None) -> dict:
+def run_full_check(video_path: str, srt_path: str = None, voice_duration: float = 0.0) -> dict:
     """运行完整质量检查（OpenMontage 风格多点自检）"""
     print(f"\n{'='*60}")
     print(f"  🔍 质量自检 (V5.2)")
@@ -424,7 +430,7 @@ def run_full_check(video_path: str, srt_path: str = None) -> dict:
     if srt_path and os.path.exists(srt_path):
         duration = results["basics"]["info"].get("duration", 0)
         print(f"\n  [4/5] 字幕覆盖率...")
-        results["subtitle_coverage"] = check_subtitle_coverage(srt_path, duration)
+        results["subtitle_coverage"] = check_subtitle_coverage(srt_path, duration, voice_duration)
         status = "✅" if results["subtitle_coverage"]["ok"] else "⚠️"
         sc = results["subtitle_coverage"]["info"]
         print(f"    {status} {sc['total_entries']} 条字幕, 覆盖 {sc['coverage_pct']:.0f}% ({sc['coverage_end']:.1f}s/{duration:.1f}s)")
@@ -500,7 +506,20 @@ def run(context: dict) -> dict:
 
     srt_path = context.get("srt_path") or str(OUTPUT_DIR / "captions.srt")
 
-    results = run_full_check(video_path, srt_path)
+    # 读配音时长（voice_scene_durations.json），作为字幕覆盖率的分母。
+    # 字幕覆盖的是配音（口播），不是整个视频——edu_music 视频含歌词/BGM 段（无口播字幕），
+    # 用视频总时长做分母会误报"字幕覆盖率不足"。
+    voice_duration = 0.0
+    try:
+        vd_path = OUTPUT_DIR / "voice_scene_durations.json"
+        if vd_path.exists():
+            vd = json.load(open(vd_path, encoding="utf-8"))
+            if isinstance(vd, list):
+                voice_duration = sum(float(x.get("duration", 0)) for x in vd)
+    except Exception:
+        voice_duration = 0.0
+
+    results = run_full_check(video_path, srt_path, voice_duration=voice_duration)
 
     # 保存结果
     qc_path = OUTPUT_DIR / "quality_check.json"

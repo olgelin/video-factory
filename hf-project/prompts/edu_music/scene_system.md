@@ -212,3 +212,4 @@ renderAt(window.__hfThreeTime||0);
 - opacity:0 作为初始状态（用 opacity:0.01）
 - 教学场景：粒子雨、扫光线、数字冲击、歌词大字
 - 歌词场景：卡片/白板/网格、教学元素
+- **🔴 英文装饰标签**：UI 标签/角标/水印/状态栏/栏目名（如 "FUTURE TREND"、"SYSTEM ALERT"、"KEYWORD"、"REC 00:10:14"）必须中文。**允许的英文仅限音乐术语教学内容**：音名（C D E F G A B）、调式（MAJOR/MINOR）、音程/和弦（SCALE/CHORD/THIRD/INTERVAL）等乐理术语，且必须配中文对照。
