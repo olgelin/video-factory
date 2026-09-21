@@ -269,7 +269,7 @@ stages:
     skill: atmosphere_gen
     phase: 3.7
     parallel_group: null
-    description: "ComfyUI(Krea-2) 生成科技风氛围底图，服务不可用则降级回退纯 CSS 背景"
+    description: "ComfyUI(Krea-2) 按 video_style 生成氛围底图(干净高级风)，服务不可用则降级回退纯 CSS 背景"
     input:
       - output/storyboard.json
     produces:
