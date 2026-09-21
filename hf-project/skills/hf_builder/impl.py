@@ -1490,9 +1490,17 @@ def _clean_bare_css(html: str) -> str:
 
     症状：画面出现 left:50%;transform:translateX(-50%) 这类文字（CSS 声明裸露在标签间）。
     判断：标签间文本无中文 且 含「CSS属性名:值」特征 → 判定为裸 CSS，删除。
+    注意：跳过 <script>/<style> 内容（JS 对象字面量 {opacity:0} 会被误判成 CSS）。
     """
     import re as _re_css
     css_kw = r'(?:left|top|right|bottom|transform|position|width|height|z-index|opacity|color|background|font-size|display|margin|padding|border|letter-spacing|font-weight|line-height|pointer-events|text-align|text-shadow|box-shadow|filter|transition|animation|gap|flex|align|justify|overflow|border-radius)'
+    # 先保护 <script>/<style> 内容（替换成占位符，避免误删 JS/CSS）
+    protected = []
+    def _protect(m):
+        protected.append(m.group(0))
+        return f"<!--__PROTECTED_{len(protected)-1}__-->"
+    html = _re_css.sub(r'<(script|style)\b[^>]*>.*?</\1>', _protect, html, flags=_re_css.DOTALL | _re_css.IGNORECASE)
+
     # 遍历所有 >...< 之间的文本节点
     pattern = r'>([^<>]*?)<'
     cleaned = 0
@@ -1507,6 +1515,11 @@ def _clean_bare_css(html: str) -> str:
             return '><'
         return m.group(0)
     html = _re_css.sub(pattern, _strip, html)
+
+    # 恢复 <script>/<style> 内容
+    for i, content in enumerate(protected):
+        html = html.replace(f"<!--__PROTECTED_{i}__-->", content)
+
     if cleaned:
         print(f"    🔧 [Post-Gen] 清理 {cleaned} 处裸露 CSS 文本")
     return html
