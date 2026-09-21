@@ -167,6 +167,9 @@ def run(context: dict) -> dict:
     context["atmosphere_dir"] = str(atmosphere_dir)
     context["atmosphere_count"] = generated
     print(f"  [atmosphere-gen] 完成：{generated}/{len(scenes)} 张氛围图")
+
+    # 生图完成后释放 ComfyUI 显存（否则模型缓存占 5-6GB，挤占后续 voxcpm/其他环节显存）
+    _free_comfy_vram()
     return context
 
 
@@ -210,6 +213,20 @@ def _start_comfy():
         )
     except Exception as e:
         print(f"  [atmosphere-gen] ⚠️ 拉起 ComfyUI 失败: {e}")
+
+
+def _free_comfy_vram():
+    """生图完成后释放 ComfyUI 缓存的模型显存（/free 端点），避免挤占后续环节显存"""
+    try:
+        req = urllib.request.Request(
+            f"{COMFY_URL}/free",
+            data=json.dumps({"unload_models": True, "free_memory": True}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        urllib.request.urlopen(req, timeout=10)
+        print("  [atmosphere-gen] ♻️ 已释放 ComfyUI 显存")
+    except Exception as e:
+        print(f"  [atmosphere-gen] ⚠️ 释放 ComfyUI 显存失败: {e}")
 
 
 def _load_scenes(sb_path: str) -> list:
