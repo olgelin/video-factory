@@ -96,7 +96,7 @@ _COMFY_MODELS = Path("E:/comfyui/models")
 
 # LLM 生成提示词的 system prompt（批量：一次生成所有场景）
 _PROMPT_SYSTEM = """你是 Vox 风格解释视频的氛围底图提示词专家。
-给每个场景生成一句英文 ComfyUI(SDXL) 提示词，用于生成科技风氛围背景图。
+给每个场景生成一句英文 ComfyUI 提示词，用于生成科技风氛围背景图。
 
 铁律：
 1. 只描述"氛围/光效/纹理/粒子"等抽象背景，不描述具体物体主体（主体由 HTML 内容承担）
@@ -132,6 +132,15 @@ def run(context: dict) -> dict:
         return context
 
     print(f"  [atmosphere-gen] 为 {len(scenes)} 个场景生成氛围图...")
+
+    # 清空本目录旧氛围图（氛围图是"本视频专属"，不同话题必须重新出图，防止复用旧图串味）
+    atmosphere_dir.mkdir(parents=True, exist_ok=True)
+    _cleaned = 0
+    for old in atmosphere_dir.glob("beat-*.png"):
+        old.unlink()
+        _cleaned += 1
+    if _cleaned:
+        print(f"  [atmosphere-gen] 清理旧氛围图 ×{_cleaned}")
 
     # 3. LLM 批量生成英文提示词
     prompts = _generate_prompts(scenes)
