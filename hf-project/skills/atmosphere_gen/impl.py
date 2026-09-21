@@ -94,18 +94,17 @@ KREA2_WORKFLOW = {
 # ComfyUI 模型目录（unet 可能在 checkpoints 或 diffusion_models）
 _COMFY_MODELS = Path("E:/comfyui/models")
 
-# LLM 生成提示词的 system prompt（批量：一次生成所有场景）
-_PROMPT_SYSTEM = """你是 Vox 风格解释视频的氛围底图提示词专家。
-给每个场景生成一句英文 ComfyUI 提示词，用于生成科技风氛围背景图。
+# LLM 生成提示词的 system prompt（从 prompts/atmosphere_system.md 读取，不硬编码）
+def _load_prompt_system() -> str:
+    prompt_file = Path(__file__).parent / "prompts" / "atmosphere_system.md"
+    try:
+        return prompt_file.read_text(encoding="utf-8")
+    except Exception:
+        # 兜底（.md 缺失时）
+        return "你是科技风氛围底图提示词专家。给每个场景生成英文 ComfyUI 提示词，暗色抽象背景，无文字无主体，结尾加 ', abstract background, cinematic, high detail, no text'。输出 JSON 数组。"
 
-铁律：
-1. 只描述"氛围/光效/纹理/粒子"等抽象背景，不描述具体物体主体（主体由 HTML 内容承担）
-2. 保持科技风基调：dark + 霓虹青蓝 cyan/blue/purple，或贴合场景情绪的色调
-3. 结尾固定加 ", abstract background, cinematic, high detail, no text"
-4. 每句 15-30 个英文单词，简洁
-5. 输出 JSON 数组：[{"scene_id": 1, "prompt": "..."}, ...]
 
-只输出 JSON，不要任何解释。"""
+_PROMPT_SYSTEM = _load_prompt_system()
 
 
 def run(context: dict) -> dict:
@@ -244,6 +243,7 @@ def _generate_prompts(scenes: list) -> dict:
         scene_info = [
             {
                 "scene_id": s.get("scene_id", i + 1),
+                "visual_type": str(s.get("visual_type", "")),
                 "concept": str(s.get("concept", ""))[:120],
                 "mood": str(s.get("mood", ""))[:80],
             }
@@ -263,13 +263,21 @@ def _generate_prompts(scenes: list) -> dict:
 
 
 def _fallback_prompt(scene: dict) -> str:
-    """无 LLM 时的固定科技风提示词兜底"""
-    mood = str(scene.get("mood", "")).lower()
+    """无 LLM 时的固定科技风提示词兜底（按 visual_type 简单区分构图，不硬编码 mood 词表）"""
+    vt = str(scene.get("visual_type", "")).lower()
     base = "dark blue purple tech atmosphere, glowing cyan neon lines, particle stars, futuristic"
-    if any(w in mood for w in ["海", "ocean", "水", "wave", "深"]):
-        base = "deep dark blue ocean atmosphere, subtle underwater light rays, floating particles, mysterious deep sea glow"
-    elif any(w in mood for w in ["数据", "data", "科技", "tech"]):
-        base = "dark blue purple data visualization atmosphere, glowing cyan grid lines, rising data streams, futuristic analytics"
+    # 按 visual_type 微调构图（确定性映射，非词表）
+    vt_style = {
+        "quote_hero": "minimal dark backdrop, soft radial glow, empty center for large text",
+        "data_impact": "rising data streams, glowing grid lines, analytics atmosphere",
+        "compare": "split lighting left and right, dual tone atmosphere",
+        "flow": "flowing light trails, directional particle stream",
+        "list_alert": "dark ominous atmosphere, red warning glow accents",
+        "timeline_event": "horizontal light band, side-scrolling glow",
+        "hud": "grid overlay, scan lines, corner frame glow",
+    }.get(vt, "")
+    if vt_style:
+        base = f"{base}, {vt_style}"
     return f"{base}, abstract background, cinematic, high detail, no text"
 
 
