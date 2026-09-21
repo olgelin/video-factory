@@ -123,7 +123,7 @@ gsap.to('.p-far',  {y:800, opacity:0.15, duration:11, repeat:1, ease:'none'});
 ## 禁止
 
 - `<style>` 块、`<br>`、`<img>`、外部资源
-- **🔴 opacity:0 作为初始状态** — 所有内容元素默认必须可见（opacity≥0.3）。入场动画只能用 GSAP from()/fromTo()，禁止静态 opacity:0
+- **🔴 初始隐藏元素必须有动画** — 任何初始隐藏（opacity<0.3、`scale:0`、`display:none`）的元素，必须紧跟对应的 GSAP 动画让它显示/播放（`tl.to` 到可见、`tl.fromTo`、循环）；不需要动画就不要设为隐藏态（直接可见）。opacity:0/0.01 作为内联初始值必须配动画，否则元素永远不可见
 - 纯色/白底/浅底、元素贴边
 - 口播原文超过 15 字连续出现
 - 内容元素用 linear 缓动

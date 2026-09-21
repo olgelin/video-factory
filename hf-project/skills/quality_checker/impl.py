@@ -304,7 +304,10 @@ def check_html_css_classes(compositions_dir: str) -> dict:
 
 
 def check_ghost_elements(compositions_dir: str) -> dict:
-    """检查 opacity:0.01 元素是否有对应的 GSAP 动画将其变为可见"""
+    """检查初始隐藏（opacity<0.3/scale:0/display:none）的装饰元素是否有 GSAP 动画显示它。
+
+    排除合法 ghost text 水印（大字体 140-200px + opacity 0.03-0.06）。
+    """
     import re as _re_gh
     issues = []
     info = {"total_scenes": 0, "total_ghosts": 0, "unanimated_ghosts": 0}
@@ -323,33 +326,60 @@ def check_ghost_elements(compositions_dir: str) -> dict:
         except Exception:
             continue
 
-        # 找到所有 opacity:0.01 的元素及其 class/id
-        ghost_els = _re_gh.findall(r'<(?:div|span|h\d|p)\b[^>]*?(?:class="([^"]+)"[^>]*|id="([^"]+)"[^>]*)opacity\s*:\s*0\.01[^>]*>', html)
-        if not ghost_els:
+        # 提取 body（排除 script 里 GSAP 动画的起始值）
+        body = _re_gh.sub(r'<script>.*?</script>', '', html, flags=_re_gh.DOTALL)
+
+        # 找到所有初始隐藏的装饰元素
+        ghost_selectors = []
+        for m in _re_gh.finditer(r'<(div|span|h\d|p)\b[^>]*style="([^"]*)"[^>]*>', body):
+            tag, style = m.group(1), m.group(2)
+            hidden = False
+            om = _re_gh.search(r'opacity\s*:\s*([\d.]+)', style)
+            if om:
+                op = float(om.group(1))
+                if op < 0.3:
+                    # 排除合法 ghost text 水印：大字体 140-200px + opacity 0.03-0.06
+                    fm = _re_gh.search(r'font-size\s*:\s*([\d.]+)px', style)
+                    fs = float(fm.group(1)) if fm else 0
+                    if not (140 <= fs <= 200 and 0.03 <= op <= 0.06):
+                        hidden = True
+            if _re_gh.search(r'transform\s*:[^;]*scale\s*\(\s*0\s*\)', style):
+                hidden = True
+            if _re_gh.search(r'display\s*:\s*none', style):
+                hidden = True
+
+            if not hidden:
+                continue
+            idm = _re_gh.search(r'id="([^"]+)"', m.group(0))
+            clm = _re_gh.search(r'class="([^"]+)"', m.group(0))
+            if idm:
+                ghost_selectors.append(f"#{idm.group(1)}")
+            elif clm:
+                ghost_selectors.append("." + clm.group(1).split()[0])
+
+        if not ghost_selectors:
             continue
-        # ghost_els is list of tuples (class, id) from alternating groups
-        ghost_selectors = set()
-        for cls, eid in ghost_els:
-            if cls:
-                for c in cls.split():
-                    ghost_selectors.add(f".{c}")
-            if eid:
-                ghost_selectors.add(f"#{eid}")
 
-        info["total_ghosts"] += len(ghost_els)
+        info["total_ghosts"] += len(ghost_selectors)
 
-        # 检查 GSAP 脚本是否引用了这些选择器
-        script_match = _re_gh.search(r'<script>(.*?)</script>', html, _re_gh.DOTALL)
-        script = script_match.group(1) if script_match else ""
+        # 检查 GSAP 脚本是否引用了这些选择器（精确匹配，避免 three.js 库的 console.warn 等误匹配）
+        # 注意：HTML 有多个 <script> 块（GSAP库/three.js库/时间线代码），必须合并所有块再匹配
+        script_blocks = _re_gh.findall(r'<script>(.*?)</script>', html, _re_gh.DOTALL)
+        script = "\n".join(script_blocks) if script_blocks else ""
 
         unanimated = 0
         for sel in ghost_selectors:
-            if sel not in script:
+            name = sel[1:]
+            if sel.startswith('#'):
+                patterns = [f'#{name}', f'"{name}"', f"'{name}'"]
+            else:
+                patterns = [f'.{name}', f'"{name}"', f"'{name}'"]
+            if not any(p in script for p in patterns):
                 unanimated += 1
 
         if unanimated > 0:
             info["unanimated_ghosts"] += unanimated
-            issues.append(f"{fname}: {unanimated}个opacity:0.01元素缺少GSAP动画")
+            issues.append(f"{fname}: {unanimated}个初始隐藏元素缺少GSAP动画")
 
     ok = info["unanimated_ghosts"] < max(5, info["total_ghosts"] * 0.05)
     return {"ok": ok, "issues": issues, "info": info}
