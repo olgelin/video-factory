@@ -45,6 +45,7 @@ def call_tool(tool_name: str, cli_args: list, timeout: int = 600) -> dict:
             text=True,
             timeout=timeout,
             cwd=str(TOOLS_DIR.parent),  # video-factory根目录
+            env={**os.environ, 'PYTHONPATH': ''},  # 清除主环境PYTHONPATH，避免site-packages污染
         )
 
         if result.returncode != 0:
