@@ -109,6 +109,12 @@ def _clean_intermediate_files() -> int:
         for f in comps_dir.glob("beat-*.html"):
             f.unlink()
             cleaned += 1
+    # V5.7: 清理氛围图缓存（否则 atmosphere_gen 幂等复用旧视频的氛围图，不同话题串味）
+    atmosphere_dir = OUTPUT_DIR / "atmosphere"
+    if atmosphere_dir.exists():
+        for f in atmosphere_dir.glob("beat-*.png"):
+            f.unlink()
+            cleaned += 1
     return cleaned
 
 
