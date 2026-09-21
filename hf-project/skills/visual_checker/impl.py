@@ -55,6 +55,16 @@ def _extract_frames(video_path: str, temp_dir: str, num_frames: int = 5) -> list
     return frames
 
 
+def _load_vision_prompt(topic: str) -> str:
+    """从 prompts/vision_check.md 读取 vision 检查 prompt（模板化 topic）"""
+    prompt_file = Path(__file__).parent / "prompts" / "vision_check.md"
+    try:
+        tpl = prompt_file.read_text(encoding="utf-8")
+        return tpl.replace("{topic}", topic)
+    except Exception:
+        return f'Analyze this video frame. Does it relate to "{topic}"? Respond JSON: {{"description":"...","matches_topic":true,"confidence":0.0,"issues":[]}}'
+
+
 def _check_frame_with_vision(frame_path: str, topic: str) -> dict:
     """用 LLM vision 检查单帧是否匹配话题"""
     # 使用内部 vision 能力 — 将图片编码为 base64 并通过 provider 调用
@@ -70,14 +80,7 @@ def _check_frame_with_vision(frame_path: str, topic: str) -> dict:
 
     registry = get_registry()
 
-    prompt = f"""Analyze this video frame and answer:
-1. What is shown in this frame? (3-5 word description)
-2. Does it visually relate to the topic: "{topic}"? (YES/NO)
-3. Confidence: 0.0-1.0
-4. Issues: list any visual problems (blank frame, off-topic, text errors, poor composition)
-
-Respond in JSON:
-{{"description":"...","matches_topic":true/false,"confidence":0.0,"issues":["..."]}}"""
+    prompt = _load_vision_prompt(topic)
 
     try:
         # Try vision-capable model first, fall back to text-only with image description
