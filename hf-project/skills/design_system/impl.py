@@ -309,12 +309,19 @@ def generate_scene_variants_fallback(topic, style):
 def generate_scene_variants(topic, style):
     colors = style["colors"]
     sys_p = "你是专业的视频视觉设计师。生成5个场景变体设计指导。输出纯文本markdown。"
-    p = f"""话题: {topic}
-风格: {style["name"]} ({style["mood"]})
-配色: 背景{colors["background"]}, 主色{colors["primary"]}, 强调{colors["accent"]}
-
-生成5个场景变体：opening/data/comparison/quote/closing
-每个需要背景层、中景层（填满60-80%）、前景层、动画、密度（8-10元素）"""
+    # 从 .md 模板读取 user prompt（不硬编码）
+    tpl_path = Path(__file__).parent / "prompts" / "scene_variants.md"
+    try:
+        tpl = tpl_path.read_text(encoding="utf-8")
+        p = (tpl
+             .replace("{topic}", topic)
+             .replace("{style_name}", style["name"])
+             .replace("{style_mood}", style["mood"])
+             .replace("{bg}", colors["background"])
+             .replace("{primary}", colors["primary"])
+             .replace("{accent}", colors["accent"]))
+    except Exception:
+        p = f"""话题: {topic}\n风格: {style["name"]} ({style["mood"]})\n配色: 背景{colors["background"]}, 主色{colors["primary"]}, 强调{colors["accent"]}\n\n生成5个场景变体：opening/data/comparison/quote/closing\n每个需要背景层、中景层（填满60-80%）、前景层、动画、密度（8-10元素）"""
     result = call_llm(p, sys_p, max_tokens=4000)
     if not result or len(result) < 100:
         print("  [design-system] LLM场景变体生成失败，使用fallback")
