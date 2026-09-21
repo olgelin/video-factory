@@ -699,8 +699,28 @@ def _validate_html(html: str, composition_id: str) -> bool:
     return True
 
 
+def _clean_bare_text_after_script(html: str) -> str:
+    """清理最后一个 </script> 之后的裸文字（LLM 多输出的 Markdown 说明/优化建议等）。
+
+    只保留 HTML 标签 <...> 和注释 <!--...-->，删除其余裸文字。
+    正常 HTML 的 </script> 之后只有装饰性空标签（遮罩/svg噪点/黑边）和后处理注入的
+    </body></html>，不应有任何内容文字，所以这里删除裸文字是安全的。
+    """
+    last_script = html.rfind('</script>')
+    if last_script < 0:
+        return html
+    before = html[:last_script + len('</script>')]
+    after = html[last_script + len('</script>'):]
+    # 保留所有 HTML 注释和标签，丢弃裸文字
+    parts = re.findall(r'<!--.*?-->|<[^>]*>', after, flags=re.DOTALL)
+    return before + ''.join(parts)
+
+
 def _fix_truncated_html(html: str, composition_id: str) -> str:
     """修复被截断的 HTML（LLM 输出超长被 max_tokens 截断）"""
+    # 无论是否完整，都清理 </script> 之后的裸文字（LLM 常多输出 Markdown 说明）
+    html = _clean_bare_text_after_script(html)
+
     if html.strip().endswith('</html>'):
         return html  # 完整，不需要修复
 
