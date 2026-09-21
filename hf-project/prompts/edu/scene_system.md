@@ -146,6 +146,7 @@ renderAt(window.__hfThreeTime||0);
 - 元素贴边、画面塞满
 - 口播原文大段出现在画面中
 - 多色霓虹灯效果
+- **🔴 英文装饰标签**：UI 标签/角标/水印/KPI 名称/状态栏（如 "KEYWORD"、"SYSTEM ALERT"、"SLEEP = PUBLIC HEALTH"、"REC 00:10:14"）必须中文。英文只允许出现在「英文例句教学」场景（example_showcase/语法例句），且必须配中文翻译。
 - CS5 class、Google Fonts、Math.random()
 - 输出 DOCTYPE/html/head/body
 
