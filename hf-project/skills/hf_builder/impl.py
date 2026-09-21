@@ -1791,9 +1791,15 @@ def generate_and_build(scene, sid, total, ctx=None, model=None):
 def _inject_safety_gsap(html: str, composition_id: str) -> str:
     """保底GSAP：如果HTML没有可用的timeline，注入一个简单淡入"""
     import re as _re_sg2
-    if 'window.__timelines' in html and 'tl.play()' in html:
-        return html  # 已有GSAP，不覆盖
-    # 找最后一个</script>前注入
+    # 已有 window.__timelines 注册 → 只补 tl.play()（如果缺），不注入整段 safety（避免重复定义）
+    if 'window.__timelines' in html:
+        if 'tl.play()' in html:
+            return html
+        last_script = html.rfind('</script>')
+        if last_script > 0:
+            html = html[:last_script] + '\n  tl.play();\n' + html[last_script:]
+        return html
+    # 完全没有 timeline → 注入完整 safety
     safety = f'''window.__timelines = window.__timelines || {{}};
   if (typeof tl === 'undefined') var tl = gsap.timeline({{paused:true}});
   tl.from('.scene > div:not([class*="bg-"]):not([class*="particle"]):not([class*="ghost"]):not([class*="radial"]):not([class*="horizon"]):not(#light-scan)', {{opacity:0, y:20, duration:0.5, stagger:0.1, ease:'power2.out'}});
