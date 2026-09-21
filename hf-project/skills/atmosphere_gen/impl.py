@@ -164,13 +164,43 @@ def run(context: dict) -> dict:
 # ── 内部函数 ──
 
 def _comfy_available() -> bool:
-    """探测 ComfyUI 服务是否在运行"""
+    """探测 ComfyUI 服务是否在运行；掉线则自动拉起并等待启动（自愈）"""
+    if _ping_comfy():
+        return True
+    # 掉线 → 自动拉起
+    print("  [atmosphere-gen] ⚠️ ComfyUI 服务未运行，自动拉起...")
+    _start_comfy()
+    # 等待启动（最多 90 秒，每 5 秒探测一次）
+    for _ in range(18):
+        time.sleep(5)
+        if _ping_comfy():
+            print("  [atmosphere-gen] ✅ ComfyUI 已拉起")
+            return True
+    print("  [atmosphere-gen] ❌ ComfyUI 拉起失败，降级兜底")
+    return False
+
+
+def _ping_comfy() -> bool:
+    """单次探测 ComfyUI 是否在线"""
     try:
         req = urllib.request.Request(f"{COMFY_URL}/system_stats")
         urllib.request.urlopen(req, timeout=COMFY_TIMEOUT)
         return True
     except Exception:
         return False
+
+
+def _start_comfy():
+    """后台拉起 ComfyUI 服务（不阻塞）"""
+    import subprocess
+    try:
+        subprocess.Popen(
+            ["comfy", "--skip-prompt", "--workspace", "E:/comfyui", "launch", "--background"],
+            shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            cwd="E:/comfyui",
+        )
+    except Exception as e:
+        print(f"  [atmosphere-gen] ⚠️ 拉起 ComfyUI 失败: {e}")
 
 
 def _load_scenes(sb_path: str) -> list:
