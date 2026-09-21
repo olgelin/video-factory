@@ -1397,23 +1397,31 @@ def _load_scene_prompts() -> tuple[str, str]:
     return system_text, user_path.read_text(encoding="utf-8")
 
 def _fix_repeat_infinite(html: str, duration: float) -> str:
-    """将 repeat:-1 替换为有限次数，限制最大循环数防渲染超时"""
+    """限次"非呼吸动画"的 repeat:-1；呼吸动画（yoyo:true）保留无限循环。
+
+    呼吸动画（scale 1.0→1.015→1.0, yoyo:true）是卡片"呼吸感"的核心（scene_system.md
+    明确要求），必须 repeat:-1 持续循环；只有非呼吸动画（无限旋转/移动等）才限次防渲染超时。
+    """
     import re as _re_rpt
     MAX_REPEAT = 5  # 单场景最多 5 次循环，防渲染超时
     def _replace_repeat(m):
         full = m.group(0)
+        # 呼吸动画（yoyo:true）保留 repeat:-1（呼吸感需要无限循环）
+        if 'yoyo' in full:
+            return full
         dur_match = _re_rpt.search(r'duration\s*:\s*([\d.]+)', full[:200])
         anim_dur = float(dur_match.group(1)) if dur_match else 5.0
         cycles = min(max(1, int(duration / anim_dur)), MAX_REPEAT)
         return full.replace("repeat:-1", f"repeat:{cycles}")
+    # 匹配完整动画语句（含 repeat:-1），保留呼吸动画
+    html = _re_rpt.sub(r'(?:tl|gsap)\.(?:to|from|fromTo)\([^)]*repeat:\s*-1[^)]*\)', _replace_repeat, html)
     # 也限制显式 repeat 次数
     def _cap_repeat(m):
         n = int(m.group(1))
         if n > MAX_REPEAT:
             return f"repeat:{MAX_REPEAT}"
         return m.group(0)
-    html = _re_rpt.sub(r'repeat:-1', _replace_repeat, html)
-    html = _re_rpt.sub(r'repeat:(\\d+)', _cap_repeat, html)
+    html = _re_rpt.sub(r'repeat:(\d+)', _cap_repeat, html)
     return html
 
 
@@ -1443,10 +1451,16 @@ def _validate_post_gen(html: str, composition_id: str) -> str:
         fixes.append(f"独立 gsap.{'/'.join(set(standalone_gsap))}()×{len(standalone_gsap)}→tl")
 
     # 2. repeat:-1 残留（_fix_repeat_infinite 之后仍可能残留复杂表达式如 repeat:-1,）
+    #    但呼吸动画（yoyo:true）保留无限循环
+    def _replace_residual(m):
+        full = m.group(0)
+        if 'yoyo' in full:
+            return full
+        return full.replace("repeat:-1", "repeat:3")
     repeat_inf_count = html.count('repeat:-1')
     if repeat_inf_count > 0:
-        html = _re_vpg.sub(r'repeat:-1', 'repeat:3', html)
-        fixes.append(f"repeat:-1×{repeat_inf_count}→repeat:3")
+        html = _re_vpg.sub(r'(?:tl|gsap)\.(?:to|from|fromTo)\([^)]*repeat:\s*-1[^)]*\)', _replace_residual, html)
+        fixes.append(f"repeat:-1×{repeat_inf_count}→限次(保留呼吸动画)")
 
     # 3. 绝对定位元素有 top/bottom 但缺 left/right
     #    找形如 style="...position:absolute...top:...（无 left/right）..." 的元素
