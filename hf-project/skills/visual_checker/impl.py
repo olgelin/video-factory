@@ -81,12 +81,24 @@ Respond in JSON:
 
     try:
         # Try vision-capable model first, fall back to text-only with image description
-        result = registry.call_vision(
-            prompt=prompt,
-            image_path=frame_path,
-            max_tokens=500,
-            timeout=60,
-        )
+        import time as _time
+        result = None
+        for _attempt in range(3):
+            try:
+                result = registry.call_vision(
+                    prompt=prompt,
+                    image_path=frame_path,
+                    max_tokens=500,
+                    timeout=60,
+                )
+                if result:
+                    break
+            except Exception as e:
+                if _attempt < 2:
+                    print(f"    ⚠️ [visual-check] vision 第{_attempt+1}次失败({e})，重试...")
+                    _time.sleep(2)
+                else:
+                    raise
         if result:
             import re
             json_match = re.search(r'\{.*\}', result, re.DOTALL)
