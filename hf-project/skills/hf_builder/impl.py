@@ -291,6 +291,10 @@ def generate_scene_html_llm(scene: dict, scene_id: int, design_md: str,
             ok_len = len(base_html) > 1200
             if valid and ok_len:
                 if _check_diversity(base_html, scene_id, scene.get("visual_type", "")):
+                    # 模板直出也要走 post-gen 修复（repeat:-1 限次、裸CSS清理、缺left定位等）
+                    _dur = scene.get("duration", 8.0)
+                    base_html = _fix_repeat_infinite(base_html, _dur)
+                    base_html = _validate_post_gen(base_html, composition_id)
                     print(f"    ✅ [Scene {scene_id}] 模板直出 ({vt}) {len(base_html)} chars", flush=True)
                     return base_html
                 else:
