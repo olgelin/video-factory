@@ -103,7 +103,7 @@ JSON 对象，字段说明：
 
 ## 动效
 
-- 入场动画：tl.from/tl.fromTo，stagger 0.12-0.15s，入场顺序要有层次感
+- 入场动画：tl.from/tl.fromTo，stagger 0.12-0.15s，入场顺序要有层次感。**scale 起始 ≤1.5、rotation/rotationX 起始 |值|≤45**（避免 scale:1.8+rotationX:-90 这类激进动画让字符在中间帧放大重叠）
 - 缓动：内容用 power3.out/back.out(1.7) | 呼吸用 sine.inOut | 粒子/扫光用 none
 - 呼吸动画 2-3 个：gsap.to repeat:-1 yoyo:true
 - 粒子：每层 1 个 gsap.to，近景快/远景慢，repeat=floor(duration/周期)
@@ -131,7 +131,7 @@ gsap.to('.p-far',  {y:800, opacity:0.15, duration:11, repeat:1, ease:'none'});
 - 口播原文超过 15 字连续出现
 - 内容元素用 linear 缓动
 - ghost text 用英文、粒子用圆形光点
-- **内容文字用英文**（如 "SYSTEM ALERT" "WARNING" 这类英文标签/标题/KPI）——所有内容文字必须中文，只允许技术缩写（AI/CPU/5G/GDP 等）
+- **任何英文**（"SYSTEM ALERT" "COMMODITIZE YOUR COMPLEMENT" "REC 00:10:14" "LAYER-PROFILE SCAN" "RANKING RESET" 这类英文标签/标题/KPI/UI装饰/术语原文）——**所有画面文字必须中文**，只允许技术缩写（AI/CPU/5G/GDP/API 等）。科技感靠中文标签+发光+扫描线营造，不靠英文装点
 - 所有元素同大小、核心数据灰色
 - 输出 DOCTYPE/html/head/body/[VISUAL]/[GSAP]
 
