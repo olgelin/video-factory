@@ -1,6 +1,6 @@
 口播稿主题: {topic}
 口播稿情绪: {mood}
-目标歌曲时长: {target_duration} 秒
+目标歌曲时长: {target_duration} 秒（目标区间 210-320 秒，由完整结构 + 副歌重复 + 器乐段落自然撑出，不是靠凑字数）
 {topic_info}
 {style_guide}
 口播稿内容摘要:
@@ -17,7 +17,7 @@
 5. 表层事件简短带过，深层真相重点展开（占大部分篇幅）
 6. 留白：情绪藏在意象背后，让听者自己体会，不直白喊出来
 7. 用遗憾美学（若是/可有/不问/别/如果/本该）翻出遗憾感
-8. 副歌开头唱核心意象+主题，至少重复3-4次，每次含义更深一层
-9. 按目标时长 {target_duration} 秒反推歌词长度：约 2.5 字/秒，**必须写到 {target_chars} 字左右（不能少于 525 字）**，这是硬要求不是建议。靠「前奏+主歌×2+副歌×3-4+桥段+尾声」经典歌曲结构自然撑出时长——主歌、副歌、桥段每段都要写足，副歌重复3-4次（每次含义更深），不凑字数、不拖沓
+8. 副歌唱核心意象 + 主题，**重复 3-4 次**，每次含义更深一层（这是撑起时长的核心手段，也是强化记忆点）
+9. 用完整歌曲结构自然撑出 210-320 秒：[Intro]→[Verse 1]→[Pre-Chorus]→[Chorus]→[Verse 2]→[Chorus]→[Instrumental]→[Bridge]→[Chorus]→[Final Chorus]→[Outro]。主歌叙事、副歌重复、桥段升华、前奏间奏尾奏器乐，每段写实写满，歌词自然写到 400-600 字（是自然结果，不是硬凑字数——硬凑会堆砌空洞，宁短勿滥）
 
-先输出歌词，再输出 `===CAPTION===` 分隔符，然后输出三段式音乐风格 caption（Global Metadata / Vocal Details / Arrangement），caption 风格和情感映射一致。
+先输出歌词，再输出 `===CAPTION===` 分隔符，然后输出三段式音乐风格 caption（Global Metadata / Vocal Details / Arrangement，采用官方 Structured Caption 细粒度结构），caption 风格和情感映射一致。

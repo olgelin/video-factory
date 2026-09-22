@@ -5,33 +5,10 @@ bgm_generator/impl.py — ACE-Step BGM生成 V4（工具隔离版）
 
 import os
 import json
-import random
-import re
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 BGM_PATH = OUTPUT_DIR / "bgm.wav"
-
-# V41: 音乐时长按歌词长度微调（210-280秒区间，不再锁死固定值）
-_MIN_DURATION = 210  # 3分30秒
-_MAX_DURATION = 280  # 4分40秒
-
-
-def _calc_duration_by_lyrics(lyrics_text: str) -> float:
-    """根据歌词长度在 210-280 秒区间内推算时长 + 随机抖动"""
-    # 去掉结构标记 [Chorus] 等 + 非中文字符，统计有效字数
-    clean = re.sub(r'\[.*?\]', '', lyrics_text)
-    clean = re.sub(r'[^\u4e00-\u9fff]', '', clean)
-    char_count = len(clean)
-
-    # 线性映射：200字→210s，500字→280s，中间线性插值
-    base = _MIN_DURATION + (char_count - 200) / (500 - 200) * (_MAX_DURATION - _MIN_DURATION)
-    base = max(_MIN_DURATION, min(_MAX_DURATION, base))
-
-    # 随机抖动 ±8 秒（让每首歌时长有变化，不锁死）
-    jitter = random.uniform(-8, 8)
-    duration = base + jitter
-    return round(max(_MIN_DURATION, min(_MAX_DURATION, duration)), 1)
 
 
 def run(context: dict) -> dict:
@@ -46,10 +23,10 @@ def run(context: dict) -> dict:
     with open(lyrics_path, "r", encoding="utf-8") as f:
         lyrics_text = f.read().strip()
 
-    # 目标时长（完整歌曲 210-320 秒，由歌词长度决定，与视频时长无关）
-    target_duration = float(context.get("target_duration", 270))
+    # 目标时长（max_duration 上限设 300s，让模型自由发挥；实际时长由歌词结构+内容量+副歌重复决定）
+    target_duration = float(context.get("target_duration", 300))
 
-    # 读音乐风格 caption（lyrics_writer 产出，三段式；无则兜底纯音乐）
+    # 读音乐风格 caption（lyrics_writer 产出，三段式；无则兜底完整歌曲）
     caption = context.get("music_caption", "")
     if not caption:
         caption_path = context.get("music_caption_path") or str(OUTPUT_DIR / "music_caption.txt")
@@ -57,13 +34,12 @@ def run(context: dict) -> dict:
             with open(caption_path, "r", encoding="utf-8") as f:
                 caption = f.read().strip()
     if not caption:
-        caption = ("Global Metadata: instrumental background music, cinematic, calm to inspiring, "
-                   "mid tempo, clean modern production.\n\n"
-                   "Vocal Details: purely instrumental, no vocals.\n\n"
-                   "Arrangement: soft pad intro, piano, gentle percussion, warm resolve.")
+        caption = ("Global Metadata: Mandopop ballad, warm and emotional, mid tempo, clean modern production.\n\n"
+                   "Vocal Details: warm male or female lead vocal, expressive delivery, soft harmonies in chorus.\n\n"
+                   "Arrangement: piano intro, verses with gentle accompaniment, full band in chorus, bridge, warm resolve.")
 
     print(f"  [bgm-gen] 歌词: {lyrics_path}")
-    print(f"  [bgm-gen] 目标时长: {target_duration}s（Music3 实际时长由歌词密度决定）")
+    print(f"  [bgm-gen] 目标时长上限: {target_duration}s（实际时长由歌词结构+内容量+副歌重复决定）")
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

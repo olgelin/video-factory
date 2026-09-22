@@ -59,3 +59,4 @@ screenshots/
 projects/
 *.bak*
 .cron_topic_*.txt
+_minimax_ref/

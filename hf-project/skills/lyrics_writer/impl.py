@@ -58,7 +58,6 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
     
     topic = script_data.get("topic", "")
     mood = script_data.get("mood", "")
-    target_chars = int(target_duration * 2.5)  # 约 2.5 字/秒（实测 449字→174s）
     
     # 提取口播稿全文（兼容新旧格式）
     sections = script_data.get("voiceover_sections", [])
@@ -109,7 +108,6 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
         topic=topic,
         mood=mood,
         target_duration=target_duration,
-        target_chars=target_chars,
         topic_info=topic_info,
         style_guide=style_guide,
         section_summaries=chr(10).join(section_summaries[:6]),
@@ -134,20 +132,24 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
         if len(lines) > 4:
             lyrics = f"[Chorus]\n{lines[0]}\n{lines[1]}\n\n[Verse 1]\n" + '\n'.join(lines[2:])
     
-    # 字数检查：歌词太短（时长不够），重试一次写更长
-    min_chars = int(target_duration * 2.0)  # 210秒下沿 ≈ 420字，保守取 2.0字/秒
+    # 结构检查：副歌重复不够（< 3 次）或歌词内容量明显不足（< 300 字），重试一次
+    chorus_count = len(re.findall(r'\[(?:Final\s*)?Chorus\]', lyrics, re.IGNORECASE))
     char_count = _count_lyrics_chars(lyrics)
-    if char_count < min_chars and char_count > 0:
-        print(f"  [lyrics-writer] 歌词偏短（{char_count}字 < {min_chars}字），重试写更长...")
-        retry_prompt = prompt + (f"\n\n（注意：上次歌词只有 {char_count} 字，太短了。"
-                                 f"请写满 {min_chars} 字以上，主歌/副歌/桥段每段都要写足、写实，"
-                                 f"副歌重复 3-4 次，不要为了凑数而重复，要靠完整结构撑满。）")
+    if (chorus_count < 3 or char_count < 300) and char_count > 0:
+        print(f"  [lyrics-writer] 结构不足（副歌{chorus_count}次、{char_count}字），重试写更完整...")
+        retry_prompt = prompt + (f"\n\n（注意：上次歌词副歌只重复了 {chorus_count} 次、共 {char_count} 字，"
+                                 f"结构不够撑起 210-320 秒的完整歌曲。请用完整结构 "
+                                 f"[Intro]→[Verse 1]→[Pre-Chorus]→[Chorus]→[Verse 2]→[Chorus]→[Instrumental]→[Bridge]→[Chorus]→[Final Chorus]→[Outro]，"
+                                 f"副歌重复 3-4 次、每段写实写满，让歌曲自然落在 210-320 秒；"
+                                 f"但不要为了凑数硬堆字数，每句都要有意义。）")
         response2 = call_llm(retry_prompt, system_prompt, max_tokens=6000)
         if response2:
             lyrics2, caption2 = _split_lyrics_caption(response2)
             lyrics2 = re.sub(r'^```\w*\s*', '', lyrics2)
             lyrics2 = re.sub(r'```\s*$', '', lyrics2).strip()
-            if _count_lyrics_chars(lyrics2) > char_count:
+            chorus2 = len(re.findall(r'\[(?:Final\s*)?Chorus\]', lyrics2, re.IGNORECASE))
+            # 接受新歌词：副歌更多 或 字数更多
+            if chorus2 > chorus_count or _count_lyrics_chars(lyrics2) > char_count:
                 lyrics, caption = lyrics2, caption2
     
     return lyrics, caption
