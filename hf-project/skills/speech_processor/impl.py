@@ -92,6 +92,9 @@ def run(context: dict) -> dict:
     context["script_data"] = script
     context["section_count"] = len(sections)
     context["total_chars"] = total_chars
+    # V2: 把 topic 写回 context（否则下游 visual_checker/publish_meta 拿到的 topic 是 None）
+    if script.get("topic"):
+        context["topic"] = script["topic"]
 
     return context
 

@@ -26,7 +26,9 @@ category: speech-short
 stability: beta
 
 # 视频样式标记
-video_style: news
+# V2: 口语转视频是"个人观点输出"，对齐 Vox 解释性视频风格（干净克制蓝紫），
+#     而非 news 的科技霓虹。原 video_style: news 导致教育/观点话题误用霓虹科技风。
+video_style: vox
 
 # 渲染引擎
 render_runtime: hyperframes
@@ -265,7 +267,7 @@ stages:
     skill: atmosphere_gen
     phase: 3.7
     parallel_group: null
-    description: "ComfyUI(Krea-2) 按 video_style 生成氛围底图(科技风(霓虹青蓝))，服务不可用则降级回退纯 CSS 背景"
+    description: "ComfyUI(Krea-2) 按 video_style 三层匹配生成氛围底图(news科技霓虹/edu柔和/edu_music音乐/vox干净克制)，服务不可用则降级回退纯 CSS 背景"
     input:
       - output/storyboard.json
     produces:

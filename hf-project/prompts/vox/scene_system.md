@@ -135,6 +135,7 @@ quote_hero、compare、timeline_event 最容易漏——但它们也需要 KPI �
 - 静态场景 — 至少 Ken Burns + 2 个呼吸动画
 - opacity:0 初始状态 — 内容元素默认可见(opacity≥0.3)，入场用 GSAP from()/fromTo()
 - CSS 语法错误(key:value 格式)、口播原文>15字、ghost text 用英文、粒子用圆形光点
+- 🔴 **英文装饰标签**：UI 标签/角标/水印/KPI 名称/状态栏（如 "KEYWORD"、"SYSTEM ALERT"、"REC 00:10:14"、"MONITOR"、"METRIC"、"THE CINEMA EFFECT"、"AUDIENCE"、"SACRIFICED"）必须中文。英文只允许 AI/CPU/5G/GDP/API/NASA 等通用缩写。
 - Three.js 用全局 `THREE`（框架已内联 three.min.js），禁止 `<script type="importmap">`、禁止 `<script type="module">`、禁止 `import ... from "three"`（module 异步导致渲染卡死）
 - 🔴 所有动画必须用 `tl.to()`/`tl.from()`/`tl.fromTo()` — 禁止独立 `gsap.to()`/`gsap.from()` 在 tl 时间线外
 - 🔴 禁止 `repeat:-1`（无限循环）— 所有 repeat 必须是正整数 ≤5
