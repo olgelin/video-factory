@@ -158,7 +158,19 @@ def _parse_tags(tags_raw) -> list:
 
 
 def archive_task(meta: dict) -> bool:
-    """归档一次任务：上传成品 + 加台账记录（传媒公司精细化字段）。返回是否成功。"""
+    """归档一次任务：上传成品 + 加台账记录（公司级统一产出总账字段）。返回是否成功。
+
+    meta 字段：
+      topic       主字段（一句话主题）
+      output_type 产出类型（视频/采集热点/技术雷达/模型调研/经验沉淀/分析报告/学习笔记）
+      mode        项目/管道（video-factory/truth-engine/...）
+      title       标题
+      description 描述
+      tags        标签 list
+      status      状态
+      video/bgm/lyrics  视频类产出的本地文件路径（可选）
+      link        非视频产出的链接（Obsidian/飞书文件，可选）
+    """
     topic = meta.get('topic', '')
     print(f"  [feishu] 归档任务「{topic}」...")
 
@@ -171,10 +183,11 @@ def archive_task(meta: dict) -> bool:
     fields = {
         '任务/主题': topic,                        # 主字段（飞书强制，不可删）
         '标题': meta.get('title', '') or topic,     # 成片标题
-        '描述': meta.get('description', ''),         # 视频简介
-        '管道': meta.get('mode', ''),               # 哪个管道
+        '描述': meta.get('description', ''),         # 简介/描述
+        '管道': meta.get('mode', ''),               # 哪个项目/管道
         '状态': meta.get('status', '完成'),
         '日期': int(time.time() * 1000),            # 毫秒时间戳
+        '产出类型': meta.get('output_type', '视频'),  # 统一总账的核心分类字段
     }
     if tags:
         fields['标签'] = tags                       # 多选字段，传 list
@@ -182,6 +195,11 @@ def archive_task(meta: dict) -> bool:
         fields['视频'] = {'text': '看视频', 'link': video_url}
     if bgm_url:
         fields['音乐'] = {'text': '背景音乐', 'link': bgm_url}
+
+    # 非视频产出：附一个跳转链接（Obsidian/飞书文件），否则这条记录"看不了东西"
+    link = meta.get('link') or video_url
+    if link and not video_url:
+        fields['视频'] = {'text': '查看', 'link': link}
 
     # 输出结果 = 交付物清单
     parts = []
@@ -191,7 +209,9 @@ def archive_task(meta: dict) -> bool:
         parts.append('BGM')
     if lyrics_url:
         parts.append('歌词')
-    fields['输出结果'] = ' + '.join(parts) if parts else '完成'
+    if not parts:
+        parts.append(meta.get('output_type', '完成'))
+    fields['输出结果'] = ' + '.join(parts)
 
     ok = add_record(fields)
     if ok:
