@@ -496,7 +496,17 @@ def run_full_check(video_path: str, srt_path: str = None, voice_duration: float 
 
 def run(context: dict) -> dict:
     """主入口：运行质量检查"""
-    video_path = context.get("mixed_path") or context.get("video_path")
+    # 优先级：mixed_path（audio_mixer 已跑）→ step11_final.mp4（存在就检查，含音频）
+    #        → video_path（step10 渲染层，无音频，仅兜底）。
+    # 原逻辑 context.get("mixed_path") or context.get("video_path") 会误用 step10
+    # （无音频）导致重跑后半段时误报"缺少音频流"。
+    video_path = context.get("mixed_path")
+    if not video_path:
+        final_path = OUTPUT_DIR / "step11_final.mp4"
+        if final_path.exists():
+            video_path = str(final_path)
+        else:
+            video_path = context.get("video_path")
     if not video_path:
         video_path = str(OUTPUT_DIR / "step11_final.mp4")
 
