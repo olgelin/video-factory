@@ -105,3 +105,90 @@ def call_transcriber(input_path: str, output_path: str, srt_path: str = None) ->
     if srt_path:
         args += ["--srt-output", srt_path]
     return call_tool("transcriber", args, timeout=300)
+
+
+# ============================================================
+# MiniMax Music3（通过 ComfyUI HTTP API 生成音乐，替换 ACEStep）
+# ============================================================
+import uuid
+import time
+import urllib.request
+
+COMFY_URL = "http://127.0.0.1:8188"
+MINIMAX_UNET = "minimax_music3_dit_int8_convrot.safetensors"
+MINIMAX_CLIP = "minimax_music3_text_encoder_pruned_int8_convrot.safetensors"
+MINIMAX_VAE = "minimax_music3_dav.safetensors"
+
+
+def call_minimax_music3(caption: str, lyrics: str, output_path: str,
+                        duration: float = 90, seed: int = None) -> dict:
+    """通过 ComfyUI 调用 MiniMax Music3 生成音乐（BGM/完整歌曲）
+
+    caption: 三段式音乐风格描述（Global Metadata / Vocal Details / Arrangement）
+    lyrics: 歌词（带结构标签）；纯音乐可为空或 [Instrumental]
+    duration: 目标时长上限（秒）。Music3 实际时长由歌词内容密度决定——
+              有真实歌词接近目标时长，纯器乐会缩水（这是模型特性）
+    """
+    import random
+    if seed is None:
+        seed = random.randint(0, 1000000)
+
+    workflow = {
+        "1": {"class_type": "UNETLoader", "inputs": {"unet_name": MINIMAX_UNET, "weight_dtype": "default"}},
+        "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": MINIMAX_CLIP, "type": "minimax", "device": "default"}},
+        "3": {"class_type": "VAELoader", "inputs": {"vae_name": MINIMAX_VAE}},
+        "4": {"class_type": "MiniMaxMusic3TextEncode", "inputs": {
+            "clip": ["2", 0], "caption": caption, "lyrics": lyrics,
+            "seed": seed, "max_duration": float(duration), "cfg_scale": 1.7, "top_k": 50,
+        }},
+        "5": {"class_type": "ConditioningZeroOut", "inputs": {"conditioning": ["4", 0]}},
+        "6": {"class_type": "EmptyMiniMaxMusic3LatentAudio", "inputs": {"seconds": ["4", 1], "batch_size": 1}},
+        "7": {"class_type": "KSampler", "inputs": {
+            "model": ["1", 0], "seed": seed, "steps": 30, "cfg": 1.7,
+            "sampler_name": "euler", "scheduler": "simple",
+            "positive": ["4", 0], "negative": ["5", 0], "latent_image": ["6", 0], "denoise": 1.0,
+        }},
+        "8": {"class_type": "VAEDecodeAudio", "inputs": {"samples": ["7", 0], "vae": ["3", 0]}},
+        "9": {"class_type": "SaveAudio", "inputs": {"audio": ["8", 0], "filename_prefix": "bgm_minimax"}},
+    }
+
+    try:
+        payload = json.dumps({"prompt": workflow, "client_id": str(uuid.uuid4())}).encode("utf-8")
+        req = urllib.request.Request(f"{COMFY_URL}/prompt", data=payload,
+                                     headers={"Content-Type": "application/json"})
+        resp = urllib.request.urlopen(req, timeout=60)
+        r = json.loads(resp.read().decode())
+        prompt_id = r.get("prompt_id")
+        if not prompt_id:
+            return {"error": f"ComfyUI 提交失败: {json.dumps(r.get('node_errors', {}))[:200]}"}
+
+        # 轮询（Music3 生成时长取决于 max_duration，上限 10 分钟）
+        start = time.time()
+        timeout = max(600, int(duration * 4))
+        while time.time() - start < timeout:
+            time.sleep(5)
+            try:
+                hreq = urllib.request.Request(f"{COMFY_URL}/history/{prompt_id}")
+                h = json.loads(urllib.request.urlopen(hreq, timeout=15).read().decode())
+            except Exception:
+                continue
+            entry = h.get(prompt_id, {})
+            status = entry.get("status", {}).get("status_str", "")
+            if status == "success":
+                for node_out in entry.get("outputs", {}).values():
+                    for audio in node_out.get("audio", []):
+                        filename = audio.get("filename")
+                        subfolder = audio.get("subfolder", "")
+                        ftype = audio.get("type", "output")
+                        url = f"{COMFY_URL}/view?filename={filename}&subfolder={subfolder}&type={ftype}"
+                        data = urllib.request.urlopen(urllib.request.Request(url), timeout=120).read()
+                        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+                        with open(output_path, "wb") as f:
+                            f.write(data)
+                        return {"success": True, "path": output_path, "duration": duration, "seed": seed}
+                return {"error": "生成成功但无 audio 输出"}
+            elif status in ("error", "failed"):
+                return {"error": f"ComfyUI 生成失败: {json.dumps(entry.get('status', {}))[:300]}"}
+        return {"error": f"ComfyUI 超时 ({timeout}s)"}
+    except Exception as e:
+        return {"error": f"MiniMax Music3 调用异常: {e}"}

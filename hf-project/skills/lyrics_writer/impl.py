@@ -50,11 +50,15 @@ LYRICS_PATH = OUTPUT_DIR / "lyrics.txt"
 
 
 def generate_lyrics(script_data: dict, topic_selected: dict = None, 
-                   style_profile: dict = None) -> str:
-    """根据口播稿+选题+风格，生成有深度映射的歌词"""
+                   style_profile: dict = None, target_duration: float = 90) -> tuple:
+    """根据口播稿+选题+风格，生成有深度映射的歌词 + 音乐风格 caption
+
+    返回 (lyrics, caption)
+    """
     
     topic = script_data.get("topic", "")
     mood = script_data.get("mood", "")
+    target_chars = int(target_duration * 1.5)  # 约 1.5 字/秒
     
     # 提取口播稿全文（兼容新旧格式）
     sections = script_data.get("voiceover_sections", [])
@@ -104,19 +108,23 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
     prompt = _load_prompt("lyrics_user").format(
         topic=topic,
         mood=mood,
+        target_duration=target_duration,
+        target_chars=target_chars,
         topic_info=topic_info,
         style_guide=style_guide,
         section_summaries=chr(10).join(section_summaries[:6]),
         full_text=full_text[:2000],
     )
 
-    response = call_llm(prompt, system_prompt, max_tokens=4000)
+    response = call_llm(prompt, system_prompt, max_tokens=5000)
     
     if not response:
-        return _generate_fallback_lyrics(topic, sections)
+        return _generate_fallback_lyrics(topic, sections), ""
     
-    # 清理响应
-    lyrics = response.strip()
+    # 分离歌词 + caption
+    lyrics, caption = _split_lyrics_caption(response)
+    
+    # 清理歌词
     lyrics = re.sub(r'^```\w*\s*', '', lyrics)
     lyrics = re.sub(r'```\s*$', '', lyrics).strip()
     
@@ -126,7 +134,23 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
         if len(lines) > 4:
             lyrics = f"[Chorus]\n{lines[0]}\n{lines[1]}\n\n[Verse 1]\n" + '\n'.join(lines[2:])
     
-    return lyrics
+    return lyrics, caption
+
+
+def _split_lyrics_caption(response: str) -> tuple:
+    """把 LLM 输出分离成 (歌词, caption)"""
+    marker = "===CAPTION==="
+    if marker in response:
+        parts = response.split(marker, 1)
+        lyrics = parts[0].strip()
+        caption = parts[1].strip()
+        # 清理 caption 里的代码块标记
+        caption = re.sub(r'^```\w*\s*', '', caption)
+        caption = re.sub(r'```\s*$', '', caption).strip()
+    else:
+        lyrics = response.strip()
+        caption = ""
+    return lyrics, caption
 
 
 def _generate_fallback_lyrics(topic: str, sections: list) -> str:
@@ -207,13 +231,27 @@ def run(context: dict) -> dict:
             style_profile = json.load(f)
         print(f"  [lyrics-writer] 风格: {style_profile.get('style_name', 'N/A')}")
     
-    # 生成歌词
-    lyrics = generate_lyrics(script_data, topic_selected, style_profile)
+    # 目标时长（BGM 正常音乐时长，与视频时长无关，长了切短了循环）
+    target_duration = float(context.get("target_duration", 90))
+
+    # 生成歌词 + 音乐风格 caption
+    lyrics, caption = generate_lyrics(script_data, topic_selected, style_profile, target_duration)
     
-    # 保存
+    # 保存歌词
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(LYRICS_PATH, "w", encoding="utf-8") as f:
         f.write(lyrics)
+    
+    # 保存 caption（供 bgm_generator 使用）
+    if caption:
+        caption_path = OUTPUT_DIR / "music_caption.txt"
+        with open(caption_path, "w", encoding="utf-8") as f:
+            f.write(caption)
+        context["music_caption"] = caption
+        context["music_caption_path"] = str(caption_path)
+        print(f"  [lyrics-writer] ✅ 音乐风格 caption 已生成")
+    else:
+        print(f"  [lyrics-writer] ⚠️ 无 caption（LLM 未输出分隔符）")
     
     # 统计
     lines = [l for l in lyrics.split('\n') if l.strip() and not l.strip().startswith('[')]
