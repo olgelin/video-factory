@@ -50,7 +50,7 @@ LYRICS_PATH = OUTPUT_DIR / "lyrics.txt"
 
 
 def generate_lyrics(script_data: dict, topic_selected: dict = None, 
-                   style_profile: dict = None, target_duration: float = 90) -> tuple:
+                   style_profile: dict = None, target_duration: float = 270) -> tuple:
     """根据口播稿+选题+风格，生成有深度映射的歌词 + 音乐风格 caption
 
     返回 (lyrics, caption)
@@ -58,7 +58,7 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
     
     topic = script_data.get("topic", "")
     mood = script_data.get("mood", "")
-    target_chars = int(target_duration * 1.5)  # 约 1.5 字/秒
+    target_chars = int(target_duration * 2.5)  # 约 2.5 字/秒（实测 449字→174s）
     
     # 提取口播稿全文（兼容新旧格式）
     sections = script_data.get("voiceover_sections", [])
@@ -134,7 +134,30 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
         if len(lines) > 4:
             lyrics = f"[Chorus]\n{lines[0]}\n{lines[1]}\n\n[Verse 1]\n" + '\n'.join(lines[2:])
     
+    # 字数检查：歌词太短（时长不够），重试一次写更长
+    min_chars = int(target_duration * 2.0)  # 210秒下沿 ≈ 420字，保守取 2.0字/秒
+    char_count = _count_lyrics_chars(lyrics)
+    if char_count < min_chars and char_count > 0:
+        print(f"  [lyrics-writer] 歌词偏短（{char_count}字 < {min_chars}字），重试写更长...")
+        retry_prompt = prompt + (f"\n\n（注意：上次歌词只有 {char_count} 字，太短了。"
+                                 f"请写满 {min_chars} 字以上，主歌/副歌/桥段每段都要写足、写实，"
+                                 f"副歌重复 3-4 次，不要为了凑数而重复，要靠完整结构撑满。）")
+        response2 = call_llm(retry_prompt, system_prompt, max_tokens=6000)
+        if response2:
+            lyrics2, caption2 = _split_lyrics_caption(response2)
+            lyrics2 = re.sub(r'^```\w*\s*', '', lyrics2)
+            lyrics2 = re.sub(r'```\s*$', '', lyrics2).strip()
+            if _count_lyrics_chars(lyrics2) > char_count:
+                lyrics, caption = lyrics2, caption2
+    
     return lyrics, caption
+
+
+def _count_lyrics_chars(lyrics: str) -> int:
+    """统计歌词有效字数（去掉结构标签和空白）"""
+    clean = re.sub(r'\[.*?\]', '', lyrics)
+    clean = re.sub(r'\s+', '', clean)
+    return len(clean)
 
 
 def _split_lyrics_caption(response: str) -> tuple:
@@ -231,8 +254,8 @@ def run(context: dict) -> dict:
             style_profile = json.load(f)
         print(f"  [lyrics-writer] 风格: {style_profile.get('style_name', 'N/A')}")
     
-    # 目标时长（BGM 正常音乐时长，与视频时长无关，长了切短了循环）
-    target_duration = float(context.get("target_duration", 90))
+    # 目标时长（完整歌曲 210-320 秒，由歌词长度决定，与视频时长无关）
+    target_duration = float(context.get("target_duration", 270))
 
     # 生成歌词 + 音乐风格 caption
     lyrics, caption = generate_lyrics(script_data, topic_selected, style_profile, target_duration)

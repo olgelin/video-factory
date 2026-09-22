@@ -130,7 +130,7 @@ stages:
     description: "ACE-Step BGM（放松学习型）"
     provider: local
     provider_task: music
-    timeout: 600
+    timeout: 1200
     retry: 1
 
   - name: lyric_scene_designer

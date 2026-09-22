@@ -46,8 +46,8 @@ def run(context: dict) -> dict:
     with open(lyrics_path, "r", encoding="utf-8") as f:
         lyrics_text = f.read().strip()
 
-    # 目标时长（正常音乐时长，与视频时长无关，混音时长了切短了循环）
-    target_duration = float(context.get("target_duration", 90))
+    # 目标时长（完整歌曲 210-320 秒，由歌词长度决定，与视频时长无关）
+    target_duration = float(context.get("target_duration", 270))
 
     # 读音乐风格 caption（lyrics_writer 产出，三段式；无则兜底纯音乐）
     caption = context.get("music_caption", "")

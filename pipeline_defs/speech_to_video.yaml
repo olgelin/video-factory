@@ -165,7 +165,7 @@ stages:
     provider: local
     provider_task: music
     checkpoint_required: false
-    timeout: 600
+    timeout: 1200
     retry: 1
 
   # ── Phase 3.5: 串行 ──
