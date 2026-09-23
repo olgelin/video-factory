@@ -84,7 +84,7 @@ def run(context: dict) -> dict:
         print(f"  ⚠️ [audio-mixer] BGM不存在，只用配音")
 
         # 合并视频+配音
-        cmd = f'ffmpeg -y -i "{video_path}" -i "{voice_path}" -c:v copy -c:a aac -b:a 128k -map 0:v:0 -map 1:a:0 "{MIXED_PATH}"'
+        cmd = f'ffmpeg -y -i "{video_path}" -i "{voice_path}" -c:v copy -c:a aac -b:a 256k -map 0:v:0 -map 1:a:0 "{MIXED_PATH}"'
 
         if run_ffmpeg(cmd):
             context["mixed_path"] = str(MIXED_PATH)
@@ -141,7 +141,7 @@ def run(context: dict) -> dict:
             return context
 
         # 再合并视频+混合音频
-        cmd = f'ffmpeg -y -i "{video_path}" -i "{mixed_audio}" -c:v copy -c:a aac -b:a 128k -map 0:v:0 -map 1:a:0 "{MIXED_PATH}"'
+        cmd = f'ffmpeg -y -i "{video_path}" -i "{mixed_audio}" -c:v copy -c:a aac -b:a 256k -map 0:v:0 -map 1:a:0 "{MIXED_PATH}"'
 
         if run_ffmpeg(cmd):
             context["mixed_path"] = str(MIXED_PATH)
