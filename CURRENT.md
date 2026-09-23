@@ -4,7 +4,7 @@
 
 ## 定位
 
-视频工厂：一条命令自动生成短视频。4 条管线同级 —— short_video（新闻解说）/ edu_video（教育科普）/ edu_music（教学+歌词）/ speech_to_video（口述转视频）。
+视频工厂：一条命令自动生成短视频。5 条管线同级 —— short_video（新闻解说）/ edu_video（教育科普）/ edu_music（教学+歌词）/ speech_to_video（口述转视频）/ vox（Vox 解释性）。
 
 ## 当前版本
 
