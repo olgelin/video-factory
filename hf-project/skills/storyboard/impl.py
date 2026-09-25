@@ -241,7 +241,7 @@ def _load_real_data() -> str:
     
     return "\n".join(lines) if lines else ""
 
-def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict = None, total_duration: float = 0) -> list:
+def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict = None, total_duration: float = 0, video_style: str = "news") -> list:
     """生成storyboard（根据口播内容决定视觉设计）"""
 
     # 读取口播段落（兼容新旧格式）
@@ -277,8 +277,16 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
     if visual_hints:
         visual_hint_guidance = "\n\n📖 script_writer建议的视觉类型：\n" + "\n".join(visual_hints) + "\n请优先考虑这些建议，但可以根据内容调整。"
 
-    # 构建system prompt
-    system_prompt = _load_prompt("system")
+    # 构建system prompt（vox 用专属导演分镜 prompt，含隐喻+镜头语言；其余管线用共享 system.md）
+    if video_style == "vox":
+        vox_path = Path(__file__).parent.parent.parent / "prompts" / "vox" / "storyboard_system.md"
+        if vox_path.exists():
+            system_prompt = vox_path.read_text(encoding="utf-8")
+            print("  [storyboard] 使用 VOX 导演分镜提示词（隐喻+镜头语言）")
+        else:
+            system_prompt = _load_prompt("system")
+    else:
+        system_prompt = _load_prompt("system")
 
     # 匹配时间戳（仅在没有voice_scene_durations时使用估算）
     matched_timestamps = []
@@ -327,7 +335,12 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
             timing_summary += "\n  段落" + str(i+1) + ": " + str(round(ts.get("start", 0), 1)) + "s - " + str(round(ts.get("end", 0), 1)) + "s"
 
     num_sections = len(sections)
-    prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落（共" + str(num_sections) + "个，你必须输出恰好" + str(num_sections) + "个场景，不多不少）:\n" + sections_summary + timing_summary + scene_guidance + "\n\n请为每个段落设计视觉方案。输出JSON数组，**必须恰好" + str(num_sections) + "个元素**，每个元素包含以下全部9个字段：scene_id, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组)。**不要省略任何字段，不要合并或拆分段落**。"
+    # 字段列表（vox 加隐喻+镜头语言字段）
+    if video_style == "vox":
+        fields_desc = "scene_id, metaphor(视觉隐喻对象), shot_size, camera_angle, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组), chart_type, camera_motion"
+    else:
+        fields_desc = "scene_id, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组)"
+    prompt = "Topic: " + topic + "\n\n设计系统:\n" + design_summary + "\n\n口播段落（共" + str(num_sections) + "个，你必须输出恰好" + str(num_sections) + "个场景，不多不少）:\n" + sections_summary + timing_summary + scene_guidance + "\n\n请为每个段落设计视觉方案。输出JSON数组，**必须恰好" + str(num_sections) + "个元素**，每个元素包含以下全部字段：" + fields_desc + "。**不要省略任何字段，不要合并或拆分段落**。"
     
     # 添加visual_hint指导
     if visual_hint_guidance:
@@ -491,7 +504,7 @@ def run(context: dict) -> dict:
         print(f"  [storyboard] 配音总时长: {total_duration:.1f}s")
 
     # 生成storyboard
-    storyboard = generate_storyboard(script_data, design_md, transcript_data, total_duration)
+    storyboard = generate_storyboard(script_data, design_md, transcript_data, total_duration, video_style=context.get("video_style", "news"))
     
     # 转换字段名，匹配hf-builder期望的格式
     for scene in storyboard:

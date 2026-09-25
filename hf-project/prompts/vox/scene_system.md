@@ -38,6 +38,9 @@
 
 | 字段 | 用途 |
 |---|---|
+| `metaphor` | 视觉隐喻（已由上游生图生成背景图，见下方说明）|
+| `shot_size` | 景别（已用于生图构图，HTML 无需处理）|
+| `camera_angle` | 角度（已用于生图构图，HTML 无需处理）|
 | `visual_type` | hero_typography / annotated_map / data_impact / compare / flow / list_alert / timeline_event / hud / quote_hero |
 | `concept` | 核心概念 |
 | `mood` | 氛围，决定色调和粒子密度 |
@@ -45,6 +48,16 @@
 | `narration` | 口播。画面不出现 >15 字连续原文 |
 | `key_elements` | 必现元素 type=title/tag/card/number/progress |
 | `chart_type` | bar_chart / line_chart / pie_chart / kpi_grid / null |
+
+## 🎬 视觉隐喻背景（已由生图实现，你专注信息卡）
+
+scene_json 的 `metaphor` 字段，已经由上游生图（Qwen）生成了一幅具象隐喻图，作为场景背景层（class="metaphor-bg"）嵌入了。**不要再自己画隐喻**——背景图里已经有公章、骨牌、网这些具象物件了，你再画就是重复抢戏。
+
+你的职责是：把关键信息做成清晰的信息卡（标题/数据/图表/标签），叠在隐喻图背景上。
+
+- 信息卡用半透明深色底，保证在隐喻图上可读
+- 信息卡克制，别铺满整屏，给隐喻图焦点留出空间
+- 隐喻图是画面主体，信息卡是信息辅助——信息卡是「解读」，隐喻图是「故事」
 
 ## 输出格式
 
@@ -66,16 +79,11 @@
 
 ## 背景规范
 
-- 深色渐变底：#060618 → #0A0C26 → #0C1030（允许根据 mood 微调色相）
-- 🔴 Three.js canvas + ghost text 水印（中文关键词 2-4 字，140-200px，opacity 0.03-0.06）为必选项
-- 🔴 ghost text 铁律：它是**静态背景水印**，不是内容。初始 opacity 就写死 0.03-0.06（永不高于 0.06），**禁止给 ghost text 加任何 GSAP 动画**（不加呼吸、不加 from/to、不闪不跳）。它要像墙上的暗纹一样永远安静待在背景，绝不能"闪一下"或"从明显变淡"。禁止把口播原文整句塞进 ghost text——只能是 2-4 字的核心关键词。
-- 以下至少选 3 项，按场景情绪搭配：
-  - CSS 3D 透视网格：perspective(800-1200px) + rotateX(55-65deg)，消失点 42%
-  - 地平线辉光带：蓝紫渐变，top:40-45%
-  - 粒子雨：≥15 细长坠线（linear-gradient），三层景深(p-near/p-mid/p-far)，仅上半区。禁止圆形光点
-  - 扫光：`id="light-scan"`，方向可多样化
-  - 径向光晕：蓝+紫两处，mix-blend-mode:screen
-- 原则：空场景（压抑/留白情绪）用少元素制造空旷感，满场景（冲击/数据）用多元素制造层次
+⚠️ VOX 用生图（Qwen）为每个场景生成具象隐喻图作背景层（class="metaphor-bg"），**你不需要画复杂的科技背景**（网格/粒子雨/扫光/ghost text/Three.js canvas）——隐喻图已经是背景了，再画这些会被盖住（白画）或叠乱。
+
+- 背景只需一个深色渐变兜底（#060618 → #0A0C26 → #0C1030），隐喻图加载失败时用
+- 专注信息卡：标题/数据/图表/标签，用半透明深色底（rgba 0.6-0.85）叠在隐喻图上，保证可读
+- 信息卡克制，别铺满整屏，给隐喻图焦点留空间
 
 ## 排版规范
 
@@ -85,6 +93,7 @@
 - 核心数据：100-140px，JetBrains Mono，#6C8CFF/#A855F7/#FFD700
 - 副标题：36-48px | 标签：20-28px | 辅助：16-20px #888-#999
 - 字体：中文 PingFang SC/Microsoft YaHei | 数字 JetBrains Mono
+- 🔴 避免竖排小字标签（writing-mode:vertical-rl + 字号<24px + 低对比度色）：Chromium 渲染下字迹错位模糊、像乱码（实测「经济体温」竖排被读成乱码）。装饰性竖排标注要么加大字号+高对比度，要么改用横排。
 
 ## 配色与情绪关联
 

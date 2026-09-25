@@ -281,6 +281,24 @@ stages:
     retry: 1
     optional: true
 
+  # ── Phase 3.8: 视觉隐喻静帧生成（VOX 专属，Qwen 2.1 B-roll，降级兜底）──
+  - name: qwen_metaphor_gen
+    step: 9.6
+    skill: qwen_metaphor_gen
+    phase: 3.8
+    parallel_group: null
+    description: "Qwen 2.1 按 storyboard 的 metaphor 生成具象隐喻静帧(16:9 B-roll)，服务不可用则降级回退氛围图"
+    input:
+      - output/storyboard.json
+    produces:
+      - output/metaphor/beat-*.png
+    provider: local
+    provider_task: design
+    checkpoint_required: false
+    timeout: 1800
+    retry: 1
+    optional: true
+
   # ── Phase 4: 串行 ──
   - name: hf_builder
     step: 10

@@ -1614,6 +1614,64 @@ def _inject_atmosphere(html: str, scene_id: int, atmosphere_dir: str) -> str:
     return html
 
 
+def _ken_burns_anim(camera_motion: dict = None) -> str:
+    """根据 camera_motion 生成隐喻图的 ken burns 动画语句（合并进现有 timeline）。
+
+    让背景隐喻图跟着镜头运动，而不是死静态——这是"背景镜头缓慢推拉摇移"的电影感。
+    """
+    if not isinstance(camera_motion, dict):
+        return ""
+    ctype = str(camera_motion.get("type", "")).lower()
+    kb_map = {
+        "dolly_in": 'tl.from(".metaphor-bg", {scale:1.15, duration:8, ease:"none"}, 0)',
+        "dolly_out": 'tl.from(".metaphor-bg", {scale:0.88, duration:8, ease:"none"}, 0)',
+        "zoom_in": 'tl.from(".metaphor-bg", {scale:0.85, duration:6, ease:"power1.out"}, 0)',
+        "zoom_out": 'tl.from(".metaphor-bg", {scale:1.18, duration:6, ease:"power1.out"}, 0)',
+        "pan_left": 'tl.from(".metaphor-bg", {x:-70, duration:8, ease:"none"}, 0)',
+        "pan_right": 'tl.from(".metaphor-bg", {x:70, duration:8, ease:"none"}, 0)',
+        "tilt_up": 'tl.from(".metaphor-bg", {y:-50, duration:8, ease:"none"}, 0)',
+        "tilt_down": 'tl.from(".metaphor-bg", {y:50, duration:8, ease:"none"}, 0)',
+    }
+    return kb_map.get(ctype, "")
+
+
+def _inject_metaphor(html: str, scene_id: int, metaphor_dir: str, camera_motion: dict = None) -> str:
+    """VOX 专属：往场景注入具象隐喻静帧（base64 内嵌）+ 轻暗化遮罩 + ken burns 运镜。
+
+    隐喻图是具象画面（公章/传送带/骨牌），是画面主体（B-roll 背景层），
+    HTML 信息卡叠在上面。轻暗化（比氛围图轻）保证卡片可读，又不糊掉具象内容。
+    ken burns：按 camera_motion 让隐喻图背景缓慢推拉摇移，避免死静态。
+    """
+    if not metaphor_dir or not html:
+        return html
+    import base64 as _b64
+    img_path = Path(metaphor_dir) / f"beat-{scene_id}.png"
+    if not img_path.exists():
+        return html
+    try:
+        b64 = _b64.b64encode(img_path.read_bytes()).decode("ascii")
+    except Exception:
+        return html
+    bg_layer = (
+        f'<img class="metaphor-bg" src="data:image/png;base64,{b64}" '
+        f'style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">'
+    )
+    # 轻暗化：保留隐喻图具象内容，同时保证叠在上面的 HTML 卡片可读
+    dim_layer = (
+        '<div class="metaphor-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
+        'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
+        'z-index:1;pointer-events:none;"></div>'
+    )
+    m = re.search(r'(<div[^>]*class="scene"[^>]*>)', html)
+    if m:
+        html = html[:m.end()] + bg_layer + dim_layer + html[m.end():]
+    # ken burns：把隐喻图镜头运动合并进现有 timeline（在 tl.play() 前注入）
+    ken = _ken_burns_anim(camera_motion)
+    if ken and "tl.play()" in html:
+        html = html.replace("tl.play()", "  " + ken + "\n  tl.play()", 1)
+    return html
+
+
 def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
     """根据storyboard的animation verbs生成scene-specific GSAP动画"""
     animations = {}
@@ -1985,8 +2043,10 @@ def run(context: dict) -> dict:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # 注入氛围图背景（atmosphere_available 由 atmosphere_gen 阶段设置，是唯一开关）
-                    if context.get("atmosphere_available"):
+                    # 隐喻静帧优先（B-roll 主体，轻暗化+ken burns 运镜），否则氛围图（暗化）
+                    if context.get("metaphor_available") and sid_out in set(context.get("metaphor_scenes", [])):
+                        html = _inject_metaphor(html, sid_out, context.get("metaphor_dir", ""), scene.get("camera_motion"))
+                    elif context.get("atmosphere_available"):
                         html = _inject_atmosphere(html, sid_out, context.get("atmosphere_dir", ""))
                     with write_lock:
                         with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
@@ -2036,8 +2096,10 @@ def run(context: dict) -> dict:
                     sid, html = generate_and_build(scene, sid, total, context)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # 注入氛围图背景
-                    if context.get("atmosphere_available"):
+                    # 隐喻静帧优先（B-roll 主体，轻暗化+ken burns 运镜），否则氛围图（暗化）
+                    if context.get("metaphor_available") and sid in set(context.get("metaphor_scenes", [])):
+                        html = _inject_metaphor(html, sid, context.get("metaphor_dir", ""), scene.get("camera_motion"))
+                    elif context.get("atmosphere_available"):
                         html = _inject_atmosphere(html, sid, context.get("atmosphere_dir", ""))
                     results[sid] = html
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
