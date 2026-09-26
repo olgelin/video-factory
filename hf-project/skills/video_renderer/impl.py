@@ -7,6 +7,7 @@ video_renderer/skill.py — HyperFrames渲染
 """
 
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -174,6 +175,13 @@ def run_hyperframes_render(project_dir: str, output_path: str, supersample: bool
         # 安全拷贝 + 编码规范化
         src_content = _safe_read_html(comp_src_path)
         _safe_write_html(standalone_dir / "index.html", src_content)
+
+        # 拷贝动态 B-roll 视频到 standalone（video src 相对路径 broll/beat-{sid}.mp4）
+        broll_file = OUTPUT_DIR / "broll" / f"{comp_id}.mp4"
+        if broll_file.exists():
+            broll_standalone = standalone_dir / "broll"
+            broll_standalone.mkdir(exist_ok=True)
+            shutil.copy2(broll_file, broll_standalone / broll_file.name)
 
         scale_flag = " --resolution 4k" if supersample else ""
         hf_bin = os.environ.get("HYPERFRAMES_BIN", "hyperframes")

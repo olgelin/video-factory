@@ -1672,6 +1672,34 @@ def _inject_metaphor(html: str, scene_id: int, metaphor_dir: str, camera_motion:
     return html
 
 
+def _inject_broll(html: str, scene_id: int, broll_dir: str) -> str:
+    """VOX 专属：往场景注入动态 B-roll 视频（<video> 背景层）+ 轻暗化遮罩。
+
+    动态 B-roll 是 H3 生成的真正镜头运动视频，作为背景层（z-index:0），HTML 信息卡叠上面。
+    视频自带运镜，无需再 ken burns。video 用相对路径 broll/beat-{sid}.mp4（渲染时由 video_renderer 拷贝到 standalone）。
+    """
+    if not broll_dir or not html:
+        return html
+    video_path = Path(broll_dir) / f"beat-{scene_id}.mp4"
+    if not video_path.exists():
+        return html
+    video_layer = (
+        f'<video class="broll-bg" src="broll/beat-{scene_id}.mp4" muted playsinline '
+        f'style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">'
+        f'</video>'
+    )
+    # 轻暗化：保留动态画面，同时保证叠在上面的 HTML 卡片可读
+    dim_layer = (
+        '<div class="broll-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
+        'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
+        'z-index:1;pointer-events:none;"></div>'
+    )
+    m = re.search(r'(<div[^>]*class="scene"[^>]*>)', html)
+    if m:
+        html = html[:m.end()] + video_layer + dim_layer + html[m.end():]
+    return html
+
+
 def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
     """根据storyboard的animation verbs生成scene-specific GSAP动画"""
     animations = {}
@@ -2043,8 +2071,10 @@ def run(context: dict) -> dict:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # 隐喻静帧优先（B-roll 主体，轻暗化+ken burns 运镜），否则氛围图（暗化）
-                    if context.get("metaphor_available") and sid_out in set(context.get("metaphor_scenes", [])):
+                    # 动态 B-roll 视频优先（H3 镜头运动）> 隐喻静帧（轻暗化+ken burns）> 氛围图（暗化）
+                    if context.get("broll_available") and sid_out in set(context.get("broll_scenes", [])):
+                        html = _inject_broll(html, sid_out, context.get("broll_dir", ""))
+                    elif context.get("metaphor_available") and sid_out in set(context.get("metaphor_scenes", [])):
                         html = _inject_metaphor(html, sid_out, context.get("metaphor_dir", ""), scene.get("camera_motion"))
                     elif context.get("atmosphere_available"):
                         html = _inject_atmosphere(html, sid_out, context.get("atmosphere_dir", ""))
@@ -2096,8 +2126,10 @@ def run(context: dict) -> dict:
                     sid, html = generate_and_build(scene, sid, total, context)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # 隐喻静帧优先（B-roll 主体，轻暗化+ken burns 运镜），否则氛围图（暗化）
-                    if context.get("metaphor_available") and sid in set(context.get("metaphor_scenes", [])):
+                    # 动态 B-roll 视频优先（H3 镜头运动）> 隐喻静帧（轻暗化+ken burns）> 氛围图（暗化）
+                    if context.get("broll_available") and sid in set(context.get("broll_scenes", [])):
+                        html = _inject_broll(html, sid, context.get("broll_dir", ""))
+                    elif context.get("metaphor_available") and sid in set(context.get("metaphor_scenes", [])):
                         html = _inject_metaphor(html, sid, context.get("metaphor_dir", ""), scene.get("camera_motion"))
                     elif context.get("atmosphere_available"):
                         html = _inject_atmosphere(html, sid, context.get("atmosphere_dir", ""))

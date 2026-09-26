@@ -54,7 +54,10 @@ METAPHOR_PROMPT_TEMPLATE = (
     "Style: clean modern tech editorial, deep blue and purple gradient palette, neon cyan accent lighting, "
     "one strong focal point, cinematic lighting, photographic realism blended with flat graphic design, "
     "high-end magazine quality, lots of negative space around the focal point. "
-    "Absolutely no text, no words, no letters, no numbers, no watermark, no logo"
+    "Absolutely no text, no words, no letters, no numbers, no watermark, no logo, "
+    "no signage, no shop signs, no storefront names, no banners, no posters, no labels, "
+    "no plaques, no lettering, no typography — any storefront/sign/badge should be rendered as "
+    "blank, featureless, abstract colored shapes with no writing on them"
 )
 
 # 景别 → 英文镜头描述（让生图听导演的景别设计）
@@ -74,7 +77,8 @@ CAMERA_ANGLE_MAP = {
 # 负面提示词：压制文字/乱码/低质
 METAPHOR_NEGATIVE_PROMPT = (
     "text, subtitle, watermark, logo, gibberish, random letters, extra words, "
-    "caption, signature, label, numbers, low quality, blurry, multiple subjects, cluttered"
+    "caption, signature, label, numbers, signage, shop sign, storefront sign, brand name, "
+    "lettering, typography, poster, banner, plaque, low quality, blurry, multiple subjects, cluttered"
 )
 
 _COMFY_MODELS = Path("E:/comfyui/models")
