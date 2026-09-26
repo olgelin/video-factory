@@ -299,24 +299,6 @@ stages:
     retry: 1
     optional: true
 
-  - name: h3_director
-    step: 9.7
-    skill: h3_director
-    phase: 3.9
-    parallel_group: null
-    description: "MiniMax H3 导演台把隐喻静帧变动态 B-roll(镜头运动)，服务不可用则降级回退静态隐喻图+ken burns"
-    input:
-      - output/storyboard.json
-      - output/metaphor/beat-*.png
-    produces:
-      - output/broll/beat-*.mp4
-    provider: local
-    provider_task: design
-    checkpoint_required: false
-    timeout: 3600
-    retry: 1
-    optional: true
-
   # ── Phase 4: 串行 ──
   - name: hf_builder
     step: 10
