@@ -1700,6 +1700,34 @@ def _inject_broll(html: str, scene_id: int, broll_dir: str) -> str:
     return html
 
 
+def _inject_background(html: str, sid: int, scene: dict, context: dict) -> str:
+    """背景注入优先级链：动态 B-roll(视频) > 隐喻静帧 > 氛围图。
+
+    每一层视频/图真实存在才生效，否则 fallback 到下一层。修复残留状态坑：
+    回退 H3 后 pipeline_context.json 残留 broll_available=True/broll_scenes=[1,2]，
+    若走旧 if/elif 逻辑，视频已删时 _inject_broll 空返回、直接跳过隐喻注入
+    （曾致 beat-1/2 漏注入隐喻图）。这里按"是否真的注入成功"判断，而非仅靠开关。
+    """
+    broll_scenes = set(context.get("broll_scenes", []))
+    metaphor_scenes = set(context.get("metaphor_scenes", []))
+
+    if context.get("broll_available") and sid in broll_scenes:
+        out = _inject_broll(html, sid, context.get("broll_dir", ""))
+        if 'broll-bg' in out:
+            return out
+        html = out  # 视频缺失，继续 fallback
+
+    if context.get("metaphor_available") and sid in metaphor_scenes:
+        out = _inject_metaphor(html, sid, context.get("metaphor_dir", ""), scene.get("camera_motion"))
+        if 'data:image/png;base64' in out:
+            return out
+        html = out
+
+    if context.get("atmosphere_available"):
+        return _inject_atmosphere(html, sid, context.get("atmosphere_dir", ""))
+    return html
+
+
 def _generate_scene_gsap(composition_id: str, scene: dict = None) -> str:
     """根据storyboard的animation verbs生成scene-specific GSAP动画"""
     animations = {}
@@ -2071,13 +2099,8 @@ def run(context: dict) -> dict:
                     sid_out, html = generate_and_build(scene, sid, total, context, model=model)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # 动态 B-roll 视频优先（H3 镜头运动）> 隐喻静帧（轻暗化+ken burns）> 氛围图（暗化）
-                    if context.get("broll_available") and sid_out in set(context.get("broll_scenes", [])):
-                        html = _inject_broll(html, sid_out, context.get("broll_dir", ""))
-                    elif context.get("metaphor_available") and sid_out in set(context.get("metaphor_scenes", [])):
-                        html = _inject_metaphor(html, sid_out, context.get("metaphor_dir", ""), scene.get("camera_motion"))
-                    elif context.get("atmosphere_available"):
-                        html = _inject_atmosphere(html, sid_out, context.get("atmosphere_dir", ""))
+                    # 背景注入优先级链：broll > metaphor > atmosphere（fallback 链，视频/图缺失自动降级）
+                    html = _inject_background(html, sid_out, scene, context)
                     with write_lock:
                         with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
                             f.write(html)
@@ -2126,13 +2149,8 @@ def run(context: dict) -> dict:
                     sid, html = generate_and_build(scene, sid, total, context)
                     # V5.8: 注入电影覆盖层
                     html = _inject_film_overlay(html, context.get("_color_grade", {}), W, H)
-                    # 动态 B-roll 视频优先（H3 镜头运动）> 隐喻静帧（轻暗化+ken burns）> 氛围图（暗化）
-                    if context.get("broll_available") and sid in set(context.get("broll_scenes", [])):
-                        html = _inject_broll(html, sid, context.get("broll_dir", ""))
-                    elif context.get("metaphor_available") and sid in set(context.get("metaphor_scenes", [])):
-                        html = _inject_metaphor(html, sid, context.get("metaphor_dir", ""), scene.get("camera_motion"))
-                    elif context.get("atmosphere_available"):
-                        html = _inject_atmosphere(html, sid, context.get("atmosphere_dir", ""))
+                    # 背景注入优先级链：broll > metaphor > atmosphere（fallback 链，视频/图缺失自动降级）
+                    html = _inject_background(html, sid, scene, context)
                     results[sid] = html
                     with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
                         f.write(html)
