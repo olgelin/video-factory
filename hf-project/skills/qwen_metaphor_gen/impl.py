@@ -120,7 +120,15 @@ def run(context: dict) -> dict:
     for old in metaphor_dir.glob("beat-*.png"):
         old.unlink()
 
-    # 5. 逐个场景生成隐喻静帧
+    # 5. 按横竖屏设定隐喻图尺寸（竖屏 9:16 → 768×1344，横屏 16:9 → 1344×768）
+    video_width = context.get("video_width", 1920)
+    video_height = context.get("video_height", 1080)
+    if video_height > video_width:
+        img_width, img_height = 768, 1344
+    else:
+        img_width, img_height = 1344, 768
+
+    # 6. 逐个场景生成隐喻静帧
     generated = 0
     for scene in metaphor_scenes:
         sid = scene.get("scene_id", 1)
@@ -136,7 +144,7 @@ def run(context: dict) -> dict:
             shot_desc=shot_desc, angle_desc=angle_desc,
         )
         img_path = metaphor_dir / f"beat-{sid}.png"
-        ok = _generate_image(prompt, str(img_path))
+        ok = _generate_image(prompt, str(img_path), width=img_width, height=img_height)
         if ok:
             generated += 1
             print(f"  [qwen-metaphor-gen] ✅ beat-{sid}.png「{core[:30]}」")
@@ -237,13 +245,15 @@ def _qwen_ready() -> bool:
     return all([unet, clip, vae])
 
 
-def _generate_image(prompt: str, save_path: str) -> bool:
+def _generate_image(prompt: str, save_path: str, width: int = 1344, height: int = 768) -> bool:
     if not _qwen_ready():
         print("  [qwen-metaphor-gen] ⚠️ Qwen 模型文件缺失")
         return False
     wf = json.loads(json.dumps(QWEN_WORKFLOW))  # deep copy
     wf["4"]["inputs"]["prompt"] = prompt
     wf["4"]["inputs"]["negative_prompt"] = METAPHOR_NEGATIVE_PROMPT
+    wf["8"]["inputs"]["width"] = width
+    wf["8"]["inputs"]["height"] = height
     wf["5"]["inputs"]["seed"] = uuid.uuid4().int % 100000
     try:
         payload = {"prompt": wf, "client_id": str(uuid.uuid4())}
