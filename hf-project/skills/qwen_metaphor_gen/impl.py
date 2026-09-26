@@ -6,7 +6,7 @@ qwen_metaphor_gen/impl.py — VOX 视觉隐喻静帧生成器（B-roll）
 
 这是「B-roll 静帧」：隐喻画面作为场景的视觉主体（背景层），HTML 信息卡叠在上面。
 - 与 atmosphere_gen（无文字抽象氛围底图）的关系：隐喻图是主力（具象），氛围图降为兜底
-- 只在 vox 管线被调用
+- 用于 vox / speech_to_video / short_video 三条管线（storyboard 输出 metaphor 字段的管线）
 - ComfyUI 不可用则降级兜底（跳过不报错，hf_builder 回退 atmosphere_gen 氛围图）
 
 输入：output/storyboard.json
