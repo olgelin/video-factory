@@ -1,5 +1,7 @@
 # h3_director — 隐喻静帧 → 动态 B-roll
 
+> ⚠️ **状态（2026-09-27）：已回退，暂不启用。** 端到端验证结论——动态 B-roll 增量价值有限：①信息卡必须叠在背景上→压暗遮罩会模糊画面→"镜头运动"这个唯一卖点看不清；②Three.js bg3d 背景(z-index:1)会盖住 video(z-index:0)，只有无 bg3d 的场景才显示；③文字漂移（招牌类隐喻无法完全无文字）。对比"静态隐喻图+ken burns"（清晰、稳定、秒级），动态 B-roll 不划算。**技术已全部验证跑通并存证于此，以后图生视频模型更快/更好时，把 vox.yaml 的 h3_director stage 加回即可启用。** 启用前需解决：video z-index 提高到 bg3d 之上、减轻暗化、从源头无文字。
+
 用 MiniMax H3 导演台（ref2va + ref2v turbo 8step + SelfLift）把 qwen_metaphor_gen 的隐喻静帧变成「有镜头运动的动态 B-roll」，让画面从「静态图 + ken burns」升级为「真正的视频镜头」。
 
 ## 职责与分工
