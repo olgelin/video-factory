@@ -278,7 +278,7 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
         visual_hint_guidance = "\n\n📖 script_writer建议的视觉类型：\n" + "\n".join(visual_hints) + "\n请优先考虑这些建议，但可以根据内容调整。"
 
     # 构建system prompt（vox 用专属导演分镜 prompt，含隐喻+镜头语言；其余管线用共享 system.md）
-    if video_style == "vox":
+    if video_style in ("vox", "news"):
         vox_path = Path(__file__).parent.parent.parent / "prompts" / "vox" / "storyboard_system.md"
         if vox_path.exists():
             system_prompt = vox_path.read_text(encoding="utf-8")
@@ -336,7 +336,7 @@ def generate_storyboard(script_data: dict, design_md: str, transcript_data: dict
 
     num_sections = len(sections)
     # 字段列表（vox 加隐喻+镜头语言字段）
-    if video_style == "vox":
+    if video_style in ("vox", "news"):
         fields_desc = "scene_id, metaphor(视觉隐喻对象), shot_size, camera_angle, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组), chart_type, camera_motion"
     else:
         fields_desc = "scene_id, visual_type, concept, mood, choreography(动画动词对象), transition_in, transition_out, depth_layers(前景/中景/背景), density_target(8-10), key_elements(结构化数组)"
