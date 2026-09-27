@@ -2041,12 +2041,11 @@ def run(context: dict) -> dict:
     total = len(scenes)
     print(f"[hf_builder] {total} scenes from {sb_path}")
 
-    topic = context.get("topic") or context.get("topic_data", {}).get("selected_topic") or ""
-    topic_keywords = set(topic.replace("：", " ").replace("，", " ").replace("、", " ").split())
-    # Common off-topic keywords to detect content pollution
-    # 排除当前话题的关键词（避免误判）
-    off_topic_patterns = ["存款", "居民存款", "缩水", "状元", "高分", "乌龙球"]
-    off_topic_patterns = [kw for kw in off_topic_patterns if kw not in topic_keywords]
+    # 🔴 已移除 off_topic_patterns 硬编码词表检测（2026-09-28）：
+    # 写死的 ["存款","居民存款","缩水","状元","高分","乌龙球"] 是历史话题残留词，
+    # 新话题（如「存钱焦虑」）里的"存款"是正常内容却被误判为旧话题污染→强制 fallback 丢隐喻图。
+    # 硬编码词表做"串话检测"违反铁律（点修复换内容失效）；LLM 每场景独立调用、输入是当前场景 JSON，
+    # 串话风险极低，且有 visual_checker 兜底。串话约束应走 prompt，不写死词表。
 
     compositions_dir = hf_dir / "compositions"
     compositions_dir.mkdir(parents=True, exist_ok=True)
@@ -2122,20 +2121,13 @@ def run(context: dict) -> dict:
                     src = "LLM" if len(html) > 3000 else "fallback"
                     print(f"  ✅ [{sid_out}/{total}] {src} {len(html)} chars [{model}]", flush=True)
 
-                    # Content validation
-                    polluted = [kw for kw in off_topic_patterns if kw in html]
-                    if len(polluted) >= 2:
-                        print(f"  ⚠️  [{sid_out}/{total}] 检测到旧话题内容: {polluted}，使用fallback", flush=True)
-                        fallback_html = _generate_fallback_html(scene_map[sid_out], context)
-                        with write_lock:
-                            with open(compositions_dir / f"beat-{sid_out}.html", "w", encoding="utf-8") as f:
-                                f.write(fallback_html)
-                        print(f"  ✅ [{sid_out}/{total}] fallback {len(fallback_html)} chars", flush=True)
                     return sid_out, html
                 except Exception as e:
                     print(f"  ❌ [Scene {sid}] {model} 失败: {e}，尝试模板兜底", flush=True)
                     try:
                         fallback_html = _generate_fallback_html(scene_map[sid], context)
+                        # 异常兜底也要注入背景（隐喻图），否则 fallback 场景丢失隐喻图
+                        fallback_html = _inject_background(fallback_html, sid, scene, context)
                         with write_lock:
                             with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
                                 f.write(fallback_html)
@@ -2172,13 +2164,6 @@ def run(context: dict) -> dict:
                     src = "LLM" if len(html) > 3000 else "fallback"
                     print(f"  ✅ [{sid}/{total}] {src} {len(html)} chars", flush=True)
 
-                    polluted = [kw for kw in off_topic_patterns if kw in html]
-                    if len(polluted) >= 2:
-                        print(f"  ⚠️  [{sid}/{total}] 检测到旧话题内容: {polluted}，使用fallback重新生成", flush=True)
-                        fallback_html = _generate_fallback_html(scene_map[sid], context)
-                        with open(compositions_dir / f"beat-{sid}.html", "w", encoding="utf-8") as f:
-                            f.write(fallback_html)
-                        print(f"  ✅ [{sid}/{total}] fallback {len(fallback_html)} chars", flush=True)
                 except Exception as e:
                     print(f"  ❌ [{sid}/{total}] {e}", flush=True)
 
