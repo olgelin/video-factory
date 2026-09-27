@@ -1635,12 +1635,18 @@ def _ken_burns_anim(camera_motion: dict = None) -> str:
     return kb_map.get(ctype, "")
 
 
-def _inject_metaphor(html: str, scene_id: int, metaphor_dir: str, camera_motion: dict = None) -> str:
+def _inject_metaphor(html: str, scene_id: int, metaphor_dir: str, camera_motion: dict = None, video_style: str = "vox") -> str:
     """VOX 专属：往场景注入具象隐喻静帧（base64 内嵌）+ 轻暗化遮罩 + ken burns 运镜。
 
     隐喻图是具象画面（公章/传送带/骨牌），是画面主体（B-roll 背景层），
     HTML 信息卡叠在上面。轻暗化（比氛围图轻）保证卡片可读，又不糊掉具象内容。
     ken burns：按 camera_motion 让隐喻图背景缓慢推拉摇移，避免死静态。
+
+    穿插式（仅 video_style == vox）：暗化层带 id="metaphor-dim" + 初始 opacity:0，
+    图开场全屏干净露脸，GSAP 在信息卡进来时把 dim 升到 1、收尾降回 0（图→卡→图）。
+    其他 style（如 news 的 short_video）保持静态暗化（无 id、opacity 默认 1），
+    因为它们的 scene_system 没有穿插规范，不会控制 dim——若强改 opacity:0 会让
+    信息卡叠在无暗化图上、可读性变差。
     """
     if not metaphor_dir or not html:
         return html
@@ -1656,12 +1662,21 @@ def _inject_metaphor(html: str, scene_id: int, metaphor_dir: str, camera_motion:
         f'<img class="metaphor-bg" src="data:image/png;base64,{b64}" '
         f'style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;">'
     )
-    # 轻暗化：保留隐喻图具象内容，同时保证叠在上面的 HTML 卡片可读
-    dim_layer = (
-        '<div class="metaphor-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
-        'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
-        'z-index:1;pointer-events:none;"></div>'
-    )
+    # 轻暗化：保留隐喻图具象内容，同时保证叠在上面的 HTML 卡片可读。
+    if video_style == "vox":
+        # 穿插式：初始 opacity:0（图开场全屏干净露脸），GSAP 把 #metaphor-dim 升到 1（图暗化、卡可读）、收尾降回 0（图恢复）。id 供 GSAP 选中。
+        dim_layer = (
+            '<div id="metaphor-dim" class="metaphor-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
+            'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
+            'z-index:1;pointer-events:none;opacity:0;"></div>'
+        )
+    else:
+        # 其他 style（news 等）：静态暗化，无 id，不参与穿插呼吸
+        dim_layer = (
+            '<div class="metaphor-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
+            'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
+            'z-index:1;pointer-events:none;"></div>'
+        )
     m = re.search(r'(<div[^>]*class="scene"[^>]*>)', html)
     if m:
         html = html[:m.end()] + bg_layer + dim_layer + html[m.end():]
@@ -1718,7 +1733,7 @@ def _inject_background(html: str, sid: int, scene: dict, context: dict) -> str:
         html = out  # 视频缺失，继续 fallback
 
     if context.get("metaphor_available") and sid in metaphor_scenes:
-        out = _inject_metaphor(html, sid, context.get("metaphor_dir", ""), scene.get("camera_motion"))
+        out = _inject_metaphor(html, sid, context.get("metaphor_dir", ""), scene.get("camera_motion"), context.get("video_style", "vox"))
         if 'data:image/png;base64' in out:
             return out
         html = out

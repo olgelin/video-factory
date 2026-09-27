@@ -49,27 +49,59 @@
 | `key_elements` | 必现元素 type=title/tag/card/number/progress |
 | `chart_type` | bar_chart / line_chart / pie_chart / kpi_grid / null |
 
-## 🎬 视觉隐喻背景（已由生图实现，你专注信息卡）
+## 🎬 视觉隐喻图（穿插式锚点画面，不再是死背景）
 
 scene_json 的 `metaphor` 字段，已经由上游生图（Qwen）生成了一幅具象隐喻图，作为场景背景层（class="metaphor-bg"）嵌入了。**不要再自己画隐喻**——背景图里已经有公章、骨牌、网这些具象物件了，你再画就是重复抢戏。
 
-你的职责是：把关键信息做成清晰的信息卡（标题/数据/图表/标签），叠在隐喻图背景上。
+但隐喻图**不是死背景**，它是「会呼吸的锚点画面」——一个场景的时间轴分三段，图和信息卡来回切换（图→卡→图）：
+
+1. **开场（图段）**：隐喻图全屏干净露脸（`#metaphor-dim` 遮罩 opacity 0，框架已注入），ken burns 运镜，观众先「看图」。这时信息卡还没进来。
+2. **中段（卡段）**：旁白说到关键信息，信息卡「砸」进来——`#metaphor-dim` 升到 1（图暗化退后当背景），信息卡淡入成为主角。
+3. **收尾（图段）**：信息卡淡出，`#metaphor-dim` 降回 0，图再次全屏干净。
+
+你的职责：把关键信息做成清晰的信息卡，**整体包在 `<div id="content">` 容器里**（这样才能整体淡入淡出），叠在隐喻图上，并按上面的三段节奏用 GSAP 编排。
+
+**标准 GSAP 呼吸模板（照抄节奏骨架，元素动画自行发挥）**：
+
+```html
+<div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
+  <div id="content" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;pointer-events:none;">
+    <!-- 标题 + 卡片 + 图表 + 标签，全部放这个容器里 -->
+  </div>
+</div>
+<script>
+(function(){
+  var tl = gsap.timeline({paused:true});
+  // 开场：图全屏干净（#metaphor-dim 已是 opacity:0），ken burns 由框架注入
+  // 中段：卡砸进来 + 遮罩升起
+  tl.to("#metaphor-dim", {opacity:1, duration:0.6, ease:"power2.inOut"}, "cards");
+  tl.from("#content .title", {y:60, opacity:0, duration:0.5, ease:"back.out(2)"}, "cards");
+  // ... 其他信息卡元素依次入场（数据/图表/标签）
+  // 收尾：卡退场 + 遮罩降回，图再全屏
+  tl.to("#content", {opacity:0, duration:0.5, ease:"power2.in"}, ">");
+  tl.to("#metaphor-dim", {opacity:0, duration:0.5, ease:"power2.in"}, "<");
+  tl.play();
+})();
+</script>
+```
 
 - 信息卡用半透明深色底，保证在隐喻图上可读
 - 信息卡克制，别铺满整屏，给隐喻图焦点留出空间
-- 隐喻图是画面主体，信息卡是信息辅助——信息卡是「解读」，隐喻图是「故事」
+- 隐喻图是「故事」，信息卡是「解读」——两者轮流当主角，不是图永远被卡盖住
 
 ## 输出格式
 
 ```html
 <div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
-  <!-- 背景网格 + 粒子雨 + 扫光 + 地平线辉光 + ghost text + 径向光晕 + Three.js canvas -->
-  <!-- 内容：标题 + 卡片 + 图表 + 标签 + 数据可视化 -->
+  <!-- 隐喻图背景 + #metaphor-dim 遮罩由框架注入，你只写 #content 容器 -->
+  <div id="content" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;pointer-events:none;">
+    <!-- 标题 + 卡片 + 图表 + 标签 + 数据可视化 -->
+  </div>
 </div>
 <script>
 (function(){
   var tl = gsap.timeline({paused:true});
-  // 入场 + 呼吸 + 扫光 + 粒子
+  // 穿插呼吸(#metaphor-dim 升1降0) + 元素入场
   tl.play();
 })();
 </script>
@@ -152,14 +184,14 @@ quote_hero、compare、timeline_event 最容易漏——但它们也需要 KPI �
 
 ## 自检清单
 
-- [ ] scene div + 深色渐变 + 背景元素(网格/辉光/粒子/扫光/光晕 ≥3项) + ghost text 中文水印(≥140px) + Three.js canvas
-- [ ] 如果选了粒子雨：≥15 细线(三层景深)；如果选了扫光/光晕：方向/位置多样化
+- [ ] scene div + 深色渐变兜底 + `#content` 容器（信息卡全包进去）+ `#metaphor-dim` 呼吸（用 GSAP 控制 opacity 升降）
+- [ ] 穿插式节奏：开场图全屏干净（dim opacity 0）→ 中段信息卡砸进来（dim 升到 1）→ 收尾卡退场（dim 降回 0），不是卡从头到尾盖死图
 - [ ] 所有内容在 90% 安全区内，上下不留大片空白
 - [ ] 主标题逐字渐入 + 副标题 + ≥3 标签 + ≥2 数据可视化 + ≥2 高级技法
-- [ ] script: `var tl` + 入场 + 呼吸(2-3个) + 扫光 + 粒子 + `tl.play()`
+- [ ] script: `var tl` + 穿插呼吸(`#metaphor-dim` 升1降0) + 元素入场 + `tl.play()`
 - [ ] `</script>` 闭合、repeat≤5、无截断
-- [ ] 与前一场景视觉完全不同：换布局+主色+动效+Three.js 技法
-- [ ] 粒子颜色呼应 mood（冷=蓝青/怒=红金/压=紫暗/希望=金白）
+- [ ] 与前一场景视觉完全不同：换布局+主色+动效
+- [ ] 配色呼应 mood（冷=蓝青/怒=红金/压=紫暗/希望=金白）
 
 每个场景独立设计。别忘了——做视觉叙事，不是排 PPT。
 
