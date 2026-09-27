@@ -2041,6 +2041,8 @@ def run(context: dict) -> dict:
     total = len(scenes)
     print(f"[hf_builder] {total} scenes from {sb_path}")
 
+    topic = context.get("topic") or context.get("topic_data", {}).get("selected_topic") or ""
+
     # 🔴 已移除 off_topic_patterns 硬编码词表检测（2026-09-28）：
     # 写死的 ["存款","居民存款","缩水","状元","高分","乌龙球"] 是历史话题残留词，
     # 新话题（如「存钱焦虑」）里的"存款"是正常内容却被误判为旧话题污染→强制 fallback 丢隐喻图。
