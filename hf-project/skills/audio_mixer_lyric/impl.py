@@ -140,7 +140,7 @@ def run(context: dict) -> dict:
         
         # 使用 volume 表达式：lt(t,voice_dur) 时压低到 0.2，否则正常 1.0
         # 这比 asplit/atrim/concat 链更简单可靠，避免浮点精度和滤镜链问题
-        cmd = f"ffmpeg -y -i \"{voice_for_mix}\" -i \"{bgm_path}\" -filter_complex \"[0:a]volume=1.5[voice]; [1:a]volume='if(lt(t,{voice_dur}),0.2,1.0)':eval=frame[bgm_vol]; [bgm_vol]afade=t=in:st=0:d=2,afade=t=out:st={bgm_full_dur - 3}:d=3[bgm_env]; [voice][bgm_env]amix=inputs=2:duration=longest:dropout_transition=3[out]\" -map \"[out]\" \"{mixed_audio}\""
+        cmd = f"ffmpeg -y -i \"{voice_for_mix}\" -i \"{bgm_path}\" -filter_complex \"[0:a]volume=1.5,aformat=channel_layouts=stereo[voice]; [1:a]aformat=channel_layouts=stereo,volume='if(lt(t,{voice_dur}),0.2,1.0)':eval=frame[bgm_vol]; [bgm_vol]afade=t=in:st=0:d=2,afade=t=out:st={bgm_full_dur - 3}:d=3[bgm_env]; [voice][bgm_env]amix=inputs=2:duration=longest:dropout_transition=3[out]\" -map \"[out]\" \"{mixed_audio}\""
         print(f"  [audio-mixer_lyric] BGM音量: 配音段(0-{voice_dur:.0f}s)压低 + 纯BGM段({voice_dur:.0f}-{bgm_full_dur:.0f}s)正常")
 
         if not run_ffmpeg(cmd):
