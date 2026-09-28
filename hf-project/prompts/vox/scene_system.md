@@ -65,7 +65,7 @@ scene_json 的 `metaphor` 字段，已经由上游生图（Qwen）生成了一�
 
 ```html
 <div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
-  <div id="content" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;pointer-events:none;">
+  <div id="content" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:3;pointer-events:none;">
     <!-- 标题 + 卡片 + 图表 + 标签，全部放这个容器里 -->
   </div>
 </div>
@@ -94,7 +94,7 @@ scene_json 的 `metaphor` 字段，已经由上游生图（Qwen）生成了一�
 ```html
 <div id="scene" class="scene" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(180deg,#060618,#0A0C26,#0C1030);">
   <!-- 隐喻图背景 + #metaphor-dim 遮罩由框架注入，你只写 #content 容器 -->
-  <div id="content" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;pointer-events:none;">
+  <div id="content" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:3;pointer-events:none;">
     <!-- 标题 + 卡片 + 图表 + 标签 + 数据可视化 -->
   </div>
 </div>
@@ -111,7 +111,7 @@ scene_json 的 `metaphor` 字段，已经由上游生图（Qwen）生成了一�
 
 ## 背景规范
 
-⚠️ VOX 用生图（Qwen）为每个场景生成具象隐喻图作背景层（class="metaphor-bg"），**你不需要画复杂的科技背景**（网格/粒子雨/扫光/ghost text/Three.js canvas）——隐喻图已经是背景了，再画这些会被盖住（白画）或叠乱。
+⚠️ VOX 用生图（Qwen）为每个场景生成具象隐喻图作背景层（class="metaphor-bg"，z-index:0）。隐喻图是锚点主体，但画面**不能只有一张静图**——用**半透明粒子氛围层**（Three.js，z-index:1，opacity 0.3-0.5）叠在图上增加持续动感（粒子/星空/代码雨/银河，详见 scene_threejs.md）。粒子是半透明氛围，隐喻图透出来；**禁止实底背景**（不透明 canvas / 网格 / 扫光铺满屏），那会把隐喻图盖死。
 
 - 背景只需一个深色渐变兜底（#060618 → #0A0C26 → #0C1030），隐喻图加载失败时用
 - 专注信息卡：标题/数据/图表/标签，用半透明深色底（rgba 0.6-0.85）叠在隐喻图上，保证可读
@@ -153,7 +153,7 @@ quote_hero、compare、timeline_event 最容易漏——但它们也需要 KPI �
 - **annotated_map**：Vox 标志性——一张去标签的 SVG 地图（中国/省/市轮廓 path），镜头推近（scale:1→1.3 + translate），目标区域填充强调色（青/金），细白标注线 + 标签文字按旁白 cue 依次弹出。可加"热力扩散"（目标区渐变色向外 bloom）。地图轮廓要简洁，不要真实街道级细节。
 - **quote_hero**：中心大字 80-120px + 底部数据 + 4-6 标签 pill。可用叙事隐喻物体+动画
 - **data_impact**：中心大数字 140px + 3-4 KPI 卡片 + 趋势条（下半屏必须有内容）
-  - 🔥 **已验证高分模板**（LLM 评审 92/100）：核心数字 112-140px 弹入（scale:2.5→1）直给冲击力 → 局部扫光在数据卡上做节奏呼吸 → 进度条 pulse 呼吸做叙事容器 → 标题逐字渐入 + blur 消散做戏剧性出场。GSAP 控制在 20-25 个（不是越多越好）。配色严格蓝紫霓虹。（🔴 不要粒子雨三层景深——那是背景元素，会盖隐喻图）
+  - 🔥 **已验证高分模板**（LLM 评审 92/100）：核心数字 112-140px 弹入（scale:2.5→1）直给冲击力 → 局部扫光在数据卡上做节奏呼吸 → 进度条 pulse 呼吸做叙事容器 → 标题逐字渐入 + blur 消散做戏剧性出场。GSAP 控制在 20-25 个（不是越多越好）。配色严格蓝紫霓虹。（粒子做半透明氛围层 z-index:1 叠在隐喻图上，opacity 0.3-0.5，别做实底盖图）
 - **compare**：左右分裂 + 分割线 + 差值标注 + 隐喻物体（碗/披萨/盾/剑）
 - **flow**：垂直/横向节点链 + 粒子连接 + 进度条。可加分子轨道/探针隐喻层
 - **list_alert**：3-5 项卡片 + 项间连接 + 关键项高亮。卡片间递进关系
@@ -186,6 +186,7 @@ quote_hero、compare、timeline_event 最容易漏——但它们也需要 KPI �
 
 - [ ] scene div + 深色渐变兜底 + `#content` 容器（信息卡全包进去）+ `#metaphor-dim` 呼吸（用 GSAP 控制 opacity 升降）
 - [ ] 穿插式节奏：开场图全屏干净（dim opacity 0）→ 中段信息卡砸进来（dim 升到 1）→ 收尾卡退场（dim 降回 0），不是卡从头到尾盖死图
+- [ ] 半透明粒子氛围层（若用）：z-index:1 + alpha:true + opacity 0.3-0.5，隐喻图透出来，禁止实底 canvas 盖图
 - [ ] 所有内容在 90% 安全区内，上下不留大片空白
 - [ ] 主标题逐字渐入 + 副标题 + ≥3 标签 + ≥2 数据可视化 + ≥2 高级技法
 - [ ] script: `var tl` + 穿插呼吸(`#metaphor-dim` 升1降0) + 元素入场 + `tl.play()`

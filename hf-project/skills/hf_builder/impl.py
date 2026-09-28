@@ -1668,14 +1668,14 @@ def _inject_metaphor(html: str, scene_id: int, metaphor_dir: str, camera_motion:
         dim_layer = (
             '<div id="metaphor-dim" class="metaphor-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
             'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
-            'z-index:1;pointer-events:none;opacity:0;"></div>'
+            'z-index:2;pointer-events:none;opacity:0;"></div>'
         )
     else:
         # 其他 style（news 等）：静态暗化，无 id，不参与穿插呼吸
         dim_layer = (
             '<div class="metaphor-dim" style="position:absolute;left:0;top:0;width:100%;height:100%;'
             'background:radial-gradient(ellipse at center, rgba(0,0,12,0.30) 0%, rgba(0,0,12,0.15) 100%);'
-            'z-index:1;pointer-events:none;"></div>'
+            'z-index:2;pointer-events:none;"></div>'
         )
     m = re.search(r'(<div[^>]*class="scene"[^>]*>)', html)
     if m:
