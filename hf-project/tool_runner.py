@@ -100,7 +100,7 @@ def call_transcriber(input_path: str, output_path: str, srt_path: str = None) ->
 
 
 # ============================================================
-# MiniMax Music3（通过 ComfyUI HTTP API 生成音乐，替换 ACEStep）
+# YuE2（audio.cpp，音乐主力，cot=full 可编辑 ABC 乐谱）+ MiniMax Music3（ComfyUI，备用）
 # ============================================================
 import uuid
 import time

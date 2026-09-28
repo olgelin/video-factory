@@ -12,7 +12,7 @@ BGM_PATH = OUTPUT_DIR / "bgm.wav"
 
 
 def run(context: dict) -> dict:
-    """主入口：MiniMax Music3 生成 BGM（ACEStep 降级兜底）"""
+    """主入口：YuE2 生成 BGM（Music3 降级兜底）"""
 
     # 读取歌词
     lyrics_path = context.get("lyrics_path") or str(OUTPUT_DIR / "lyrics.txt")
