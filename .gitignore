@@ -39,6 +39,14 @@ hf-project/.cache/
 .DS_Store
 Thumbs.db
 
+# Topic selection temp files (cron 选题时 LLM 写的临时文件)
+.topic_today.txt
+_topic.txt
+_validate_topic.py
+_validate_*.py
+_topic*.txt
+.topic_*.txt
+
 # Virtual environments
 .venv/
 venv/
