@@ -53,7 +53,7 @@ def check_tool_venvs():
     """检查3个ML工具独立venv"""
     base = Path(__file__).parent.parent / "tools"
     results = {}
-    for tool in ["voxcpm", "acestep", "transcriber"]:
+    for tool in ["voxcpm", "transcriber"]:
         venv = base / tool / ".venv" / "Scripts" / "python.exe"
         cli = base / tool / "cli.py"
         if venv.exists() and cli.exists():

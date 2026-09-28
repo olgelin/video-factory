@@ -127,7 +127,7 @@ stages:
     skill: bgm_generator
     phase: 3
     parallel_group: group_b
-    description: "ACE-Step BGM（放松学习型）"
+    description: "YuE2 BGM（放松学习型）"
     provider: local
     provider_task: music
     timeout: 1200

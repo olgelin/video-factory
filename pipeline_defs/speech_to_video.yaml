@@ -157,7 +157,7 @@ stages:
     skill: bgm_generator
     phase: 3
     parallel_group: group_b
-    description: "ACE-Step BGM 生成"
+    description: "YuE2 BGM 生成"
     input:
       - output/lyrics.txt
     produces:

@@ -1,6 +1,6 @@
 """
-bgm_generator/impl.py — ACE-Step BGM生成 V4（工具隔离版）
-通过tool_runner调用独立venv中的ACE-Step CLI
+bgm_generator/impl.py — BGM 生成（YuE2 主力 + MiniMax Music3 备用）
+通过 tool_runner 调用 YuE2（audio.cpp CLI）或 Music3（ComfyUI API）
 """
 
 import os
@@ -45,26 +45,25 @@ def run(context: dict) -> dict:
 
     import sys
     sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from tool_runner import call_minimax_music3, call_acestep
+    from tool_runner import call_yue2, call_minimax_music3
 
-    # 首选 MiniMax Music3
-    engine = "minimax_music3"
-    result = call_minimax_music3(
-        caption=caption,
+    # 首选 YuE2（音乐主力：器乐编曲/旋律/情感强于 Music3）
+    engine = "yue2"
+    yue2_caption = context.get("yue2_caption") or caption
+    result = call_yue2(
         lyrics=lyrics_text,
+        caption=yue2_caption,
         output_path=str(BGM_PATH),
-        duration=target_duration,
     )
 
     if result.get("error"):
-        print(f"  ⚠️ [bgm-gen] Music3 失败，降级 ACEStep: {result['error']}")
-        engine = "acestep"
-        captions = context.get("bgm_captions", "electronic, tech, cinematic, 100 BPM")
-        result = call_acestep(
-            lyrics_path=lyrics_path,
+        print(f"  ⚠️ [bgm-gen] YuE2 失败，降级 MiniMax Music3: {result['error']}")
+        engine = "minimax_music3"
+        result = call_minimax_music3(
+            caption=caption,
+            lyrics=lyrics_text,
             output_path=str(BGM_PATH),
             duration=target_duration,
-            captions=captions,
         )
 
     if result.get("error"):

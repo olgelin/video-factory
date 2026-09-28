@@ -18,7 +18,7 @@ def call_tool(tool_name: str, cli_args: list, timeout: int = 600) -> dict:
     调用工具的CLI接口
 
     Args:
-        tool_name: 工具名 (voxcpm, acestep, transcriber)
+        tool_name: 工具名 (voxcpm, transcriber)
         cli_args: CLI参数列表
         timeout: 超时秒数
 
@@ -89,14 +89,6 @@ def call_voxcpm(input_path: str, output_path: str, speed: float = 1.0,
         args += ["--ref-audio", ref_audio]
     # 🔴 voxcpm 生成多段配音实际需 10-20 分钟（每段约 45-60s），600s 超时太短
     return call_tool("voxcpm", args, timeout=1800)
-
-
-def call_acestep(lyrics_path: str, output_path: str, duration: float = 120,
-                 captions: str = "electronic, tech, cinematic, 100 BPM") -> dict:
-    """调用ACE-Step BGM"""
-    args = ["--lyrics", lyrics_path, "--output", output_path,
-            "--duration", str(duration), "--captions", captions]
-    return call_tool("acestep", args, timeout=600)
 
 
 def call_transcriber(input_path: str, output_path: str, srt_path: str = None) -> dict:
@@ -192,3 +184,52 @@ def call_minimax_music3(caption: str, lyrics: str, output_path: str,
         return {"error": f"ComfyUI 超时 ({timeout}s)"}
     except Exception as e:
         return {"error": f"MiniMax Music3 调用异常: {e}"}
+
+
+def call_yue2(lyrics: str, caption: str, output_path: str,
+              duration: float = 300, seed: int = None) -> dict:
+    """通过 audio.cpp CLI 调用 YuE2 生成音乐（cot=full 完整规划，先写 ABC 乐谱再渲染）
+
+    YuE2 是当前音乐主力（器乐编曲/旋律/情感强于 Music3，中文咬字略差）。
+    caption: 风格描述（一段式，YuE2 的 style 参数；不是 Music3 的三段式）
+    duration: 保留参数兼容（YuE2 时长由歌词 + cot=full 结构决定）
+    """
+    import random
+    if seed is None:
+        seed = random.randint(0, 1000000)
+
+    AUDIOCPP_CLI = "E:/YuE2/audio_cpp/audiocpp_cli.exe"
+    YUE2_MODELS = "E:/YuE2/models"
+
+    cmd = [
+        AUDIOCPP_CLI,
+        "--task", "gen", "--family", "yue2",
+        "--model", YUE2_MODELS,
+        "--backend", "cuda", "--threads", "8",
+        "--text", lyrics,
+        "--request-option", f"style={caption}",
+        "--request-option", "cot=full",
+        "--request-option", f"seed={seed}",
+        "--request-option", "num_inference_steps=8",
+        "--session-option", "yue2.model_gguf=yue2-3b-bf16.gguf",
+        "--session-option", "yue2.vae_gguf=yue2-vae-f32.gguf",
+        "--out", output_path,
+    ]
+
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
+        # 成功看产物文件有效性（returncode 不可靠）
+        if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+            dur = duration
+            try:
+                ff = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                     "-of", "default=noprint_wrappers=1:nokey=1", output_path],
+                                    capture_output=True, text=True, timeout=30)
+                if ff.returncode == 0 and ff.stdout.strip():
+                    dur = float(ff.stdout.strip())
+            except Exception:
+                pass
+            return {"success": True, "path": output_path, "duration": dur, "seed": seed}
+        return {"error": f"YuE2 生成失败: {(r.stderr or r.stdout)[-300:]}"}
+    except Exception as e:
+        return {"error": f"YuE2 调用异常: {e}"}

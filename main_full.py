@@ -79,12 +79,6 @@ from checkpoint import CheckpointManager
 from metrics import MetricsCollector
 from topic_validator import validate_topic
 
-# 预导入acestep_package，避免Windows WinError 6714
-try:
-    from acestep_package.handler import AceStepHandler as _AceStepHandler
-except (ImportError, OSError):
-    pass
-
 # 导入反馈系统
 try:
     from quality_tracker import trace_failure, check_skill_quality

@@ -18,7 +18,7 @@ lyrics_writer/impl.py — 歌词生成（深度版）
 - output/topic_selected.json（选题信息）
 - output/style_profile.json（风格指导，可选）
 
-输出：output/lyrics.txt（ACE-Step格式歌词）
+输出：output/lyrics.txt（带结构标签歌词，供 YuE2/Music3 用）
 """
 
 import os
