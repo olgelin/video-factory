@@ -194,7 +194,16 @@ def archive_task(meta: dict) -> bool:
     if video_url:
         fields['视频'] = {'text': '看视频', 'link': video_url}
     if bgm_url:
-        fields['音乐'] = {'text': '背景音乐', 'link': bgm_url}
+        fields['音乐'] = {'text': '听音乐', 'link': bgm_url}
+
+    # 内容元数据（方便后续分析）：歌曲名称/歌词/口播文案
+    song_name = meta.get('song_name') or meta.get('title') or ''
+    if song_name:
+        fields['歌曲名称'] = song_name
+    if meta.get('lyrics_text'):
+        fields['歌词'] = meta['lyrics_text']
+    if meta.get('narration_text'):
+        fields['口播文案'] = meta['narration_text']
 
     # 非视频产出：附一个跳转链接（Obsidian/飞书文件），否则这条记录"看不了东西"
     link = meta.get('link') or video_url

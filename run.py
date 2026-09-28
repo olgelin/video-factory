@@ -124,12 +124,27 @@ def _archive_to_feishu(topic: str = "") -> bool:
 
         bgm_path = output_dir / "bgm.wav"
         lyrics_path = output_dir / "lyrics.txt"
+
+        # 内容元数据（方便后续分析）：歌词全文 + 口播文案全文 + 歌曲名称
+        lyrics_text = ""
+        if lyrics_path.exists():
+            lyrics_text = lyrics_path.read_text(encoding='utf-8', errors='ignore').strip()
+        narration_text = ""
+        _sp = output_dir / "step03_script.json"
+        if _sp.exists():
+            _scr = json.loads(_sp.read_text(encoding='utf-8'))
+            sections = _scr.get('voiceover_sections', [])
+            narration_text = '\n'.join(str(sec.get('content', '')).strip() for sec in sections if sec.get('content'))
+
         return archive_task({
             'topic': topic or title,
             'mode': 'video-factory',
             'title': title or topic,
             'description': description,
             'tags': tags,
+            'song_name': title or topic,
+            'lyrics_text': lyrics_text,
+            'narration_text': narration_text,
             'video': str(video_path),
             'bgm': str(bgm_path) if bgm_path.exists() else None,
             'lyrics': str(lyrics_path) if lyrics_path.exists() else None,
