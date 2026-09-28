@@ -23,6 +23,10 @@ z-index:3  信息卡 #content（你的内容容器）
 
 粒子是「氛围」，隐喻图是「主体」——粒子永远让隐喻图透出来。
 
+### 🔴 canvas 必须配完整 THREE 初始化
+
+`<canvas>` 标签和它的 JS 驱动（`new THREE.WebGLRenderer` + `new THREE.PointsMaterial` + `renderAt` + `hf-seek` 监听）必须**成对完整出现**。禁止只留一个空 `<canvas>` 标签不写 THREE 脚本——空 canvas 不显示任何东西，等于白加。
+
 ### 🔴 Three.js 加载铁律（违反 = 渲染卡死）
 
 框架已内联 `three.min.js`（全局 `THREE` 对象）。**禁止 `<script type="importmap">`、禁止 `<script type="module">`、禁止 `import * as THREE from "three"`**——module 异步执行，HyperFrames 截图时 WebGL 还没跑完，导致渲染卡死。直接写普通 `<script>`，用全局 `THREE`。
