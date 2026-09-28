@@ -1,6 +1,10 @@
-## 🎮 Three.js 3D 技法（每场景必选 1 个）
+## 🎮 Three.js 3D 技法（🔴 VOX 隐喻图时代：禁止做全屏背景）
 
-HyperFrames 通过 Puppeteer+Chromium 渲染，原生支持 WebGL/Three.js。以下模式经过验证，直接复制骨架即可。Three.js 代码放在场景 div 内。
+⚠️ **VOX 已用隐喻图（Qwen 生图）做背景层（`z-index:0`），禁止再生成任何 Three.js 全屏背景 canvas（粒子场/星空/代码雨/银河）——它们的 canvas 是 `z-index:1`，会盖住隐喻图，穿插式的「图段」就废了。** 这是 H3 回退时踩过的 z-index 冲突坑（bg3d z-index:1 盖背景 z-index:0）。
+
+Three.js 只可用于「信息卡内的局部 3D 装饰」（如数据卡片里的小型 3D 元素、数字仪表盘），且必须放在 `#content` 容器内、`z-index ≥ 2`（作为信息卡的一部分，不是全屏背景）。
+
+下面骨架仅供「信息卡内局部装饰」参考，**不要整屏铺**：
 
 🔴 **Three.js 加载铁律（违反=渲染卡死）**：框架已内联 `three.min.js`（全局 `THREE` 对象）。**禁止写 `<script type="importmap">`、禁止 `<script type="module">`、禁止 `import * as THREE from "three"`**——module 异步执行，HyperFrames 截图时 WebGL 还没跑完，会导致渲染卡死。直接写普通 `<script>`，用全局 `THREE` 即可。
 
