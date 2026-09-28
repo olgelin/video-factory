@@ -18,15 +18,12 @@
 ### 6. Ken Burns
 `tl.from(".scene", {scale:1.06, x:-8, duration:8, ease:"none"}, 0);`
 
-### 7. mix-blend-mode 光晕
-`background:radial-gradient(ellipse at 30% 40%, rgba(108,140,255,0.12), transparent 70%); mix-blend-mode:screen;`
-
 | 场景 | 推荐组合 |
 |------|---------|
 | quote_hero | 逐字渐入 + Ken Burns + 双层发光 |
 | data_impact | blur dissolve 卡片 + 毛玻璃 + 遮罩揭示 |
 | compare | 遮罩揭示 + 双层发光数字 |
-| timeline_event | 逐字渐入 + mix-blend-mode 光晕 |
+| timeline_event | 逐字渐入 + 双层发光 |
 | list_alert | blur dissolve 逐项 + 毛玻璃卡片 |
 | flow | 遮罩揭示节点 + Ken Burns |
 
