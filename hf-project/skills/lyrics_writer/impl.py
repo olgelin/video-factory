@@ -117,10 +117,10 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
     response = call_llm(prompt, system_prompt, max_tokens=5000)
     
     if not response:
-        return _generate_fallback_lyrics(topic, sections), ""
-    
-    # 分离歌词 + caption
-    lyrics, caption = _split_lyrics_caption(response)
+        return _generate_fallback_lyrics(topic, sections), "", ""
+
+    # 分离歌词 + caption + style
+    lyrics, caption, style = _split_lyrics_caption(response)
     
     # 清理歌词
     lyrics = re.sub(r'^```\w*\s*', '', lyrics)
@@ -144,15 +144,15 @@ def generate_lyrics(script_data: dict, topic_selected: dict = None,
                                  f"但不要为了凑数硬堆字数，每句都要有意义。）")
         response2 = call_llm(retry_prompt, system_prompt, max_tokens=6000)
         if response2:
-            lyrics2, caption2 = _split_lyrics_caption(response2)
+            lyrics2, caption2, style2 = _split_lyrics_caption(response2)
             lyrics2 = re.sub(r'^```\w*\s*', '', lyrics2)
             lyrics2 = re.sub(r'```\s*$', '', lyrics2).strip()
             chorus2 = len(re.findall(r'\[(?:Final\s*)?Chorus\]', lyrics2, re.IGNORECASE))
             # 接受新歌词：副歌更多 或 字数更多
             if chorus2 > chorus_count or _count_lyrics_chars(lyrics2) > char_count:
-                lyrics, caption = lyrics2, caption2
+                lyrics, caption, style = lyrics2, caption2, style2
     
-    return lyrics, caption
+    return lyrics, caption, style
 
 
 def _count_lyrics_chars(lyrics: str) -> int:
@@ -163,19 +163,29 @@ def _count_lyrics_chars(lyrics: str) -> int:
 
 
 def _split_lyrics_caption(response: str) -> tuple:
-    """把 LLM 输出分离成 (歌词, caption)"""
-    marker = "===CAPTION==="
-    if marker in response:
-        parts = response.split(marker, 1)
+    """把 LLM 输出分离成 (歌词, caption三段式, style一段式)"""
+    marker_caption = "===CAPTION==="
+    marker_style = "===STYLE==="
+    lyrics = response.strip()
+    caption = ""
+    style = ""
+    if marker_caption in response:
+        parts = response.split(marker_caption, 1)
         lyrics = parts[0].strip()
-        caption = parts[1].strip()
-        # 清理 caption 里的代码块标记
+        rest = parts[1]
+        # 再分离 style（YuE2 一段式）
+        if marker_style in rest:
+            cap_part, style_part = rest.split(marker_style, 1)
+            caption = cap_part.strip()
+            style = style_part.strip()
+        else:
+            caption = rest.strip()
+        # 清理代码块标记
         caption = re.sub(r'^```\w*\s*', '', caption)
         caption = re.sub(r'```\s*$', '', caption).strip()
-    else:
-        lyrics = response.strip()
-        caption = ""
-    return lyrics, caption
+        style = re.sub(r'^```\w*\s*', '', style)
+        style = re.sub(r'```\s*$', '', style).strip()
+    return lyrics, caption, style
 
 
 def _generate_fallback_lyrics(topic: str, sections: list) -> str:
@@ -259,15 +269,15 @@ def run(context: dict) -> dict:
     # 目标时长（完整歌曲 210-320 秒，由歌词长度决定，与视频时长无关）
     target_duration = float(context.get("target_duration", 270))
 
-    # 生成歌词 + 音乐风格 caption
-    lyrics, caption = generate_lyrics(script_data, topic_selected, style_profile, target_duration)
+    # 生成歌词 + 音乐风格 caption + style
+    lyrics, caption, style = generate_lyrics(script_data, topic_selected, style_profile, target_duration)
     
     # 保存歌词
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(LYRICS_PATH, "w", encoding="utf-8") as f:
         f.write(lyrics)
     
-    # 保存 caption（供 bgm_generator 使用）
+    # 保存 caption（供 bgm_generator 的 Music3 备用）
     if caption:
         caption_path = OUTPUT_DIR / "music_caption.txt"
         with open(caption_path, "w", encoding="utf-8") as f:
@@ -277,6 +287,17 @@ def run(context: dict) -> dict:
         print(f"  [lyrics-writer] ✅ 音乐风格 caption 已生成")
     else:
         print(f"  [lyrics-writer] ⚠️ 无 caption（LLM 未输出分隔符）")
+    
+    # 保存 style（供 bgm_generator 的 YuE2 主力）
+    if style:
+        style_path = OUTPUT_DIR / "yue2_style.txt"
+        with open(style_path, "w", encoding="utf-8") as f:
+            f.write(style)
+        context["yue2_caption"] = style
+        context["yue2_style_path"] = str(style_path)
+        print(f"  [lyrics-writer] ✅ YuE2 style 已生成")
+    else:
+        print(f"  [lyrics-writer] ⚠️ 无 style（LLM 未输出 ===STYLE=== 分隔符）")
     
     # 统计
     lines = [l for l in lyrics.split('\n') if l.strip() and not l.strip().startswith('[')]
